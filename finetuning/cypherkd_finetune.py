@@ -35,21 +35,9 @@ configure_project_paths()
 from arguments import get_args
 from data_utils.lm_datasets import LMTrainDataset, extract_event_span_offsets, extract_text2cypher_span_offsets
 from distillm import (
-    AKL,
     ReplayBuffer,
     SampleGenerator,
-    ab_div,
-    alphanet,
-    amid,
-    bdkd,
-    csd,
-    forward_kl,
-    js_distance,
-    reverse_kl,
-    skewed_forward_kl,
     skewed_reverse_kl,
-    tv_distance,
-    wsd,
 )
 from peft import PeftModel
 from rouge_metric import compute_metrics
@@ -216,33 +204,9 @@ def get_distil_loss(args, teacher_logits, no_model_batch, logits):
     if args.model_parallel:
         raise NotImplementedError
 
-    if "sfkl" in args.type:
-        return skewed_forward_kl(logits, teacher_logits, no_model_batch, lam=args.skew_alpha)
     if "srkl" in args.type:
         return skewed_reverse_kl(logits, teacher_logits, no_model_batch, lam=args.skew_alpha)
-    if "jsd" in args.type:
-        return js_distance(logits, teacher_logits, no_model_batch)
-    if "tvd" in args.type:
-        return tv_distance(logits, teacher_logits, no_model_batch)
-    if "fkl" in args.type or args.type == "kd":
-        return forward_kl(logits, teacher_logits, no_model_batch)
-    if "rkl" in args.type:
-        return reverse_kl(logits, teacher_logits, no_model_batch)
-    if "csd" in args.type:
-        return csd(logits, teacher_logits, no_model_batch)
-    if "bdkd" in args.type:
-        return bdkd(logits, teacher_logits, no_model_batch)
-    if "akl" in args.type:
-        return AKL(teacher_logits, logits, no_model_batch)
-    if "wsd" in args.type:
-        return wsd(logits, teacher_logits, no_model_batch)
-    if "alphanet" in args.type:
-        return alphanet(logits, teacher_logits, no_model_batch, args.alphanet_alpha, args.alphanet_beta)
-    if "amid" in args.type:
-        return amid(logits, teacher_logits, no_model_batch, args)
-    if "ab" in args.type:
-        return ab_div(logits, teacher_logits, no_model_batch, args.ab_alpha, args.ab_beta)
-    raise NotImplementedError
+    raise NotImplementedError("cypherkd_finetune.py only supports SRKL distillation loss.")
 
 
 def evaluate(args, tokenizer, model, dataset: LMTrainDataset, split, epoch, device, adaptive_threshold=None):
