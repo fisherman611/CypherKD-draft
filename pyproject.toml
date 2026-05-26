@@ -22,7 +22,8 @@ dependencies = [
     "rouge-score",
     "rich",
     "setuptools",
-    "neo4j"
+    "neo4j",
+    "python-dotenv"
 ]
 
 [tool.uv]

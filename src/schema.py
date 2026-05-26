@@ -1,6 +1,10 @@
-from typing import Any, Optional
+import copy
+import json
+import re
+from enum import Enum
+from typing import Optional, Dict, List, Literal, Any, Union
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel
 
 
 class TemplateInfo(BaseModel):
@@ -10,26 +14,22 @@ class TemplateInfo(BaseModel):
     return_cypher: str
 
 
+from pydantic import BaseModel, Field, ConfigDict
+
+
 class Nl2CypherSample(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     qid: str | int
     graph: str
     gold_cypher: str
-    gold_match_cypher: Optional[str] = None
-
-    # accept both "question" and "nl_question"
     nl_question: Optional[str] = Field(default=None, validation_alias="question")
     nl_question_raw: Optional[str] = None
-
     answer_json: Optional[Any] = None
     pred_cypher: Optional[str] = None
-    metrics: dict[str, Any] = Field(default_factory=dict)
-
+    metrics: Dict[str, float] = Field(default_factory=dict)
     from_template: Optional[TemplateInfo] = None
     categories: Optional[str] = None
-
-    # fields from test.json format
     schema: Optional[str] = None
     data_source: Optional[str] = None
     instance_id: Optional[str] = None
