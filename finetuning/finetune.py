@@ -1,7 +1,6 @@
 import time
 import os
 
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -27,9 +26,7 @@ import math
 import datetime
 
 from transformers import (
-    AutoModelForCausalLM,
     AutoTokenizer,
-    AutoConfig,
     GenerationConfig)
 
 from transformers import get_constant_schedule_with_warmup, get_polynomial_decay_schedule_with_warmup, get_cosine_schedule_with_warmup
@@ -51,43 +48,11 @@ from utils import print_rank, get_rank
 from utils import save_rank
 from utils import all_gather
 from utils import load_parallel, save_parallel
-from utils import get_tokenizer, get_model, resolve_hf_path
-
-from distillm import forward_kl, reverse_kl, js_distance, tv_distance
-from distillm import skewed_forward_kl, skewed_reverse_kl, csd
-from distillm import SampleGenerator, ReplayBuffer
+from utils import get_tokenizer, get_model
 
 from rouge_metric import compute_metrics
 
-from peft import PeftModel
-
 torch.set_num_threads(4)
-
-
-def get_teacher_model(args, device):
-    config = AutoConfig.from_pretrained(args.teacher_model_path)
-    if args.model_parallel:
-        raise NotImplementedError
-    else:
-        config.is_model_parallel = False
-        try: model = AutoModelForCausalLM.from_pretrained(args.teacher_model_path, config=config, device_map={"": device}, torch_dtype=torch.bfloat16)
-        except:
-            model = AutoModelForCausalLM.from_pretrained(args.teacher_model_path, config=config, device_map={"": device}, torch_dtype=torch.float32)
-            model = model.half()
-        
-        if args.teacher_peft_path is not None:
-            teacher_peft_path = resolve_hf_path(args.teacher_peft_path)
-            model = PeftModel.from_pretrained(model, teacher_peft_path)
-            model = model.merge_and_unload()
-            print("merge_and_unload")
-
-        if dist.get_rank() == 0:
-            print(' > number of parameters: {}'.format(
-                sum([p.nelement() for p in model.parameters()])), flush=True)
-
-    model.eval()
-    
-    return model
 
 
 def get_optimizer(args, model):
@@ -215,76 +180,7 @@ def pt_loss(args, model, model_batch, no_model_batch):
     return lm_loss
 
 
-def get_distil_loss(args, tokenizer, model, teacher_model, model_batch, no_model_batch, logits):
-    with torch.no_grad():
-        teacher_model.eval()
-        teacher_outputs = teacher_model(**model_batch, use_cache=False)
-        teacher_logits = teacher_outputs.logits
-    if args.model_parallel:
-        raise NotImplementedError
-    else:
-        if "sfkl" in args.type:
-            distil_loss = skewed_forward_kl(logits, teacher_logits, no_model_batch, lam=args.skew_alpha)
-        elif "srkl" in args.type:
-            distil_loss = skewed_reverse_kl(logits, teacher_logits, no_model_batch, lam=args.skew_alpha)
-        elif "jsd" in args.type:
-            distil_loss = js_distance(logits, teacher_logits, no_model_batch)
-        elif "tvd" in args.type:
-            distil_loss = tv_distance(logits, teacher_logits, no_model_batch)
-        elif "fkl" in args.type or args.type == "kd":
-            distil_loss = forward_kl(logits, teacher_logits, no_model_batch)
-        elif "rkl" in args.type:
-            distil_loss = reverse_kl(logits, teacher_logits, no_model_batch)
-        elif "csd" in args.type:
-            distil_loss = csd(logits, teacher_logits, no_model_batch)
-        else:
-            raise NotImplementedError
-    return distil_loss
-
-
-def get_teacher_lm_loss(args, tokenizer, model, teacher_model, model_batch):
-    with torch.no_grad():
-        t_gen_out = teacher_model.generate(
-            **model_batch,
-            pad_token_id=tokenizer.pad_token_id,
-            eos_token_id=tokenizer.eos_token_id,
-            max_length=args.max_length,
-            top_k=0,
-            top_p=1,
-            temperature=1.0,
-            do_sample=True,
-            return_dict_in_generate=True,
-            output_scores=False)
-    
-    full_ids = t_gen_out.sequences
-    
-    input_ids = full_ids[:, :-1]
-    mask = (input_ids != tokenizer.pad_token_id).long()
-    labels = full_ids[:, 1:]    
-    labels = torch.masked_fill(labels, mask==0, -100)
-    labels[:, :model_batch["input_ids"].size(1)-1] = -100
-    loss_mask = (labels != -100).float()
-    
-    new_batch = {
-        "input_ids": input_ids,
-        "attention_mask": mask,
-    }
-    
-    if args.model_type in ["gpt2"]:
-        position_ids = torch.cumsum(mask, dim=-1) - 1
-        position_ids = torch.masked_fill(position_ids, mask==0, 0)    
-        new_batch["position_ids"] = position_ids    
-    
-    loss_fn = nn.CrossEntropyLoss(ignore_index=-100)
-
-    outputs = model(**new_batch, return_dict=True, use_cache=False)
-    logits = outputs.logits
-    lm_loss = loss_fn(logits.view(-1, logits.size(-1)), labels.view(-1))
-
-    return lm_loss
-
-
-def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, optimizer: AdamW, lr_scheduler, dataset, device, teacher_model=None):
+def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, optimizer: AdamW, lr_scheduler, dataset, device):
     print_rank("Start Fine-tuning")
 
     # print_inspect(model, '*')
@@ -306,14 +202,8 @@ def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, o
         dataset['pt_train'], sampler=pt_sampler, batch_size=args.batch_size, num_workers=args.num_workers, collate_fn=dataset["pt_train"].collate)
         pt_train_iter = iter(pt_train_dataloader)
         
-    student_generator = SampleGenerator(args, tokenizer)
-
     step, global_step = 1, 1
-    total_loss, total_distil_loss, total_time = 0.0, 0.0, 0.0
-    
-    adaptive_threshold = args.init_threshold if "adaptive" in args.type else -1.0
-    prev_avg_loss = evaluate(args, tokenizer, model, dataset["dev"], "dev", 0, device, adaptive_threshold)
-    replay_buffer = ReplayBuffer(args)
+    total_loss, total_time = 0.0, 0.0
     
     for epoch in range(args.epochs):
         sampler.set_epoch(epoch)
@@ -336,43 +226,6 @@ def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, o
             torch.cuda.synchronize()
             st_time = time.time()
             
-            # # sampling ratio:
-            samp_threshold = adaptive_threshold * (1 - global_step / args.total_iters)
-            if "adaptive" in args.type:
-                if args.replay_ratio == "constant":
-                    samp_threshold = adaptive_threshold * 0.5
-                elif args.replay_ratio == "increasing":
-                    samp_threshold = adaptive_threshold * global_step / args.total_iters
-                else:
-                    samp_threshold = adaptive_threshold * (1 - global_step / args.total_iters)
-            
-            # data generation
-            if args.student_gen:
-                r = np.random.uniform(0, 1)
-                if "mixed" in args.type and r < args.mixed_alpha:
-                    model_batch = student_generator.run_sample(model, gen_data)
-                    no_model_batch["label"] = model_batch.pop("no_model_batch")
-                    
-                    replay_buffer.move_to_memory(model_batch, no_model_batch)
-                    model_batch, no_model_batch, gen_data = replay_buffer.sample()
-                    model_batch, no_model_batch = replay_buffer.move_to_device(model_batch, no_model_batch, gen_data, device)
-                    
-                elif "adaptive" in args.type and (r < samp_threshold or (r < adaptive_threshold and len(replay_buffer) < args.capacity)):
-
-                    model_batch = student_generator.run_sample(model, gen_data)
-                    no_model_batch["label"] = model_batch.pop("no_model_batch")
-                    
-                    if args.model_type in ["opt"]:
-                        model_batch.pop('position_ids')
-                        
-                    replay_buffer.move_to_memory(model_batch, no_model_batch, gen_data)
-                    
-                elif "adaptive" in args.type and r < adaptive_threshold:
-                    model_batch, no_model_batch, gen_data = replay_buffer.sample()
-                    model_batch, no_model_batch, gen_data = replay_buffer.move_to_device(model_batch, no_model_batch, gen_data, device)
-                    
-                model.train()
-
             outputs = model(**model_batch, use_cache=False)
             
             logits = outputs.logits
@@ -381,11 +234,7 @@ def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, o
             else:
                 lm_loss = loss_func(logits.float().view(-1, logits.shape[-1]), no_model_batch["label"].view(-1))
             
-            if teacher_model is not None:
-                distil_loss = get_distil_loss(args, tokenizer, model, teacher_model, model_batch, no_model_batch, logits)
-                loss = (1 - args.kd_ratio) * lm_loss + args.kd_ratio * distil_loss
-            else:
-                loss = lm_loss
+            loss = lm_loss
                 
             if args.lm_data_dir is not None:
                 assert args.lm_coef is not None
@@ -397,12 +246,6 @@ def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, o
             dist.all_reduce(loss, dist.ReduceOp.SUM, group=dp_group)
             global_loss = loss.item() / dp_world_size
 
-            global_distil_loss = 0
-            if teacher_model is not None:
-                dist.all_reduce(distil_loss, dist.ReduceOp.SUM, group=dp_group)
-                global_distil_loss = distil_loss.item() / dp_world_size
-                total_distil_loss += global_distil_loss
-    
             torch.cuda.synchronize()
             elapsed_time = time.time() - st_time
 
@@ -410,15 +253,14 @@ def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, o
             total_time += elapsed_time
 
             # Logging
-            def get_log(log_loss, log_distil_loss, log_time):
-                return "train | epoch {:3d} | Iter: {:6d}/{:6d} | global iter: {:6d}/{:6d} | loss: {:.4f} | ds_loss: {:.4f} | lr: {:.4e} | scale: {:10.4f} | micro time: {:.3f} | step time: {:.3f}".format(
+            def get_log(log_loss, log_time):
+                return "train | epoch {:3d} | Iter: {:6d}/{:6d} | global iter: {:6d}/{:6d} | loss: {:.4f} | lr: {:.4e} | scale: {:10.4f} | micro time: {:.3f} | step time: {:.3f}".format(
                     epoch,
                     step,
                     args.total_iters * args.gradient_accumulation_steps,
                     global_step,
                     args.total_iters,
                     log_loss,
-                    log_distil_loss,
                     lr_scheduler.get_last_lr()[0],
                     optimizer.cur_scale if hasattr(optimizer, "cur_scale") else 0,
                     elapsed_time,
@@ -429,19 +271,18 @@ def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, o
                 mid_log_step = args.gradient_accumulation_steps // args.mid_log_num
                 mid_log_step = 1 if mid_log_step == 0 else mid_log_step
                 if step % mid_log_step == 0:
-                    print_rank(get_log(global_loss, global_distil_loss, 0))
+                    print_rank(get_log(global_loss, 0))
 
             if global_step % args.log_interval == 0 and step % args.gradient_accumulation_steps == 0:
                 log_str = get_log(
                     total_loss / (args.log_interval * args.gradient_accumulation_steps),
-                    total_distil_loss / (args.log_interval * args.gradient_accumulation_steps),
                     total_time / (args.log_interval))
                 print_rank("*" * 100)
                 print_rank(log_str)
                 print_rank(args.save)
                 print_rank("*" * 100)
                 save_rank(log_str, os.path.join(args.save, "log.txt"))
-                total_loss, total_distil_loss, total_time = 0.0, 0.0, 0.0
+                total_loss, total_time = 0.0, 0.0
             
             # Checkpointing
             if args.save and args.save_interval and global_step % args.save_interval == 0 and step % args.gradient_accumulation_steps == 0:
@@ -458,12 +299,7 @@ def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, o
 
             # Evaluation
             if args.eval_interval and global_step % args.eval_interval == 0 and step % args.gradient_accumulation_steps == 0:
-                curr_avg_loss = evaluate(args, tokenizer, model, dataset["dev"], "dev", epoch, device, adaptive_threshold)
-                if "adaptive" in args.type:
-                    if curr_avg_loss >= prev_avg_loss + args.loss_eps:
-                        adaptive_threshold += 0.1
-                        adaptive_threshold = min(adaptive_threshold, 1.0)
-                        prev_avg_loss = curr_avg_loss
+                evaluate(args, tokenizer, model, dataset["dev"], "dev", epoch, device)
 
                 # evaluate(args, tokenizer, model, dataset["test"], "test", epoch, device)
                     
@@ -479,7 +315,7 @@ def finetune(args, tokenizer: AutoTokenizer, model: deepspeed.DeepSpeedEngine, o
     return model
 
 
-def evaluate(args, tokenizer, model, dataset: LMTrainDataset, split, epoch, device, adaptive_threshold=None):
+def evaluate(args, tokenizer, model, dataset: LMTrainDataset, split, epoch, device):
     
     collate_fn = dataset.collate
 
@@ -580,10 +416,7 @@ def evaluate(args, tokenizer, model, dataset: LMTrainDataset, split, epoch, devi
     
         avg_loss = all_loss / step
         
-        if "adaptive" in args.type:
-            log_str = f"{split} | avg_loss: {avg_loss} | {res} | threshold: {adaptive_threshold}"
-        else:
-            log_str = f"{split} | avg_loss: {avg_loss} | {res}"
+        log_str = f"{split} | avg_loss: {avg_loss} | {res}"
         print_rank(log_str)
         save_rank(log_str, os.path.join(args.save, "log.txt"))
         
@@ -648,16 +481,8 @@ def main():
     
     model, optimizer, lr_scheduler = setup_model_and_optimizer(args, ds_config, device, set_optim=args.do_train)
     
-    if args.teacher_model_type is None:
-        args.teacher_model_type = args.model_type
-    
-    if args.teacher_model_path is not None:
-        teacher_model = get_teacher_model(args, device)
-    else:
-        teacher_model = None
-    
     if args.do_train:
-        model = finetune(args, tokenizer, model, optimizer, lr_scheduler, dataset, device, teacher_model=teacher_model)
+        model = finetune(args, tokenizer, model, optimizer, lr_scheduler, dataset, device)
    
     if args.do_eval:
         # evaluate(args, tokenizer, model, dataset["test"], "test", 0, device)
