@@ -20,7 +20,7 @@ except ImportError:
 configure_project_paths()
 
 from arguments import get_args
-from data_utils.lm_datasets_new import extract_event_span_offsets, extract_text2cypher_span_offsets
+from data_utils.lm_datasets import extract_event_span_offsets, extract_text2cypher_span_offsets
 from distillm import ReplayBuffer, SampleGenerator
 try:
     from .span_finetune import (
