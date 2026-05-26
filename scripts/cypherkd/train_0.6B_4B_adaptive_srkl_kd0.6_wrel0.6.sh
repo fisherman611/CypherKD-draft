@@ -22,11 +22,13 @@ DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE \
 BASE_PATH=.
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}" .sh)"
 SCRIPT_GROUP="$(basename "$(dirname "${BASH_SOURCE[0]}")")"
-SAVE_TAG="updated_span_question_schema_2_update_span_weight_${SCRIPT_GROUP}_${SCRIPT_NAME}"
+SAVE_TAG="cypherkd_${SCRIPT_GROUP}_${SCRIPT_NAME}"
 CKPT_NAME="qwen3-0.6B"
 CKPT="Qwen/Qwen3-0.6B"
 TEACHER_CKPT_NAME="qwen3-4B"
 TEACHER_CKPT="Qwen/Qwen3-4B-Instruct-2507"
+DEFAULT_TEACHER_PEFT_PATH="stf4B/e5-bs2-lr1e-05-G8-N2-NN1-lora-32-64-0.1/1065"
+TEACHER_PEFT_PATH="${TEACHER_PEFT_PATH-${DEFAULT_TEACHER_PEFT_PATH}}"
 DATA_DIR="processed_data/benchmarks/Cypherbench/qwen"
 BATCH_SIZE=2
 LR=0.0001
@@ -48,8 +50,9 @@ OPTS+=" --model-path ${CKPT}"
 OPTS+=" --teacher-model-path ${TEACHER_CKPT}"
 OPTS+=" --ckpt-name ${CKPT_NAME}"
 OPTS+=" --teacher-ckpt-name ${TEACHER_CKPT_NAME}"
-OPTS+=" --teacher-model-fp16"
-OPTS+=" --teacher-peft-path stf4B/e5-bs2-lr1e-05-G8-N2-NN1-lora-32-64-0.1/1065"
+if [[ -n "${TEACHER_PEFT_PATH}" ]]; then
+  OPTS+=" --teacher-peft-path ${TEACHER_PEFT_PATH}"
+fi
 OPTS+=" --model-type qwen"
 OPTS+=" --n-gpu ${GPUS_PER_NODE}"
 OPTS+=" --data-dir ${DATA_DIR}"
@@ -102,10 +105,12 @@ export NCCL_DEBUG=""
 export WANDB_DISABLED=True
 export TF_CPP_MIN_LOG_LEVEL=3
 export PYTHONPATH=${BASE_PATH}
-CMD="torchrun ${DISTRIBUTED_ARGS} ${BASE_PATH}/finetuning/cypherkd_finetune.py ${OPTS} $@"
+EXTRA_ARGS=("$@")
+CMD=(torchrun ${DISTRIBUTED_ARGS} ${BASE_PATH}/finetuning/cypherkd_finetune.py ${OPTS})
+CMD+=("${EXTRA_ARGS[@]}")
 
-echo ${CMD}
+echo "${CMD[@]}"
 echo "PYTHONPATH=${PYTHONPATH}"
 mkdir -p ${SAVE_PATH}
-CODE_BASE=HF ${CMD}
+CODE_BASE=HF "${CMD[@]}"
 
