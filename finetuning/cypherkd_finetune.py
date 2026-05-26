@@ -1,6 +1,8 @@
 import math
 import os
+import random
 import time
+import json
 
 import deepspeed
 import numpy as np
@@ -8,9 +10,20 @@ import torch
 import torch.distributed as dist
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.optim import AdamW
+from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader, DistributedSampler
-from transformers import AutoTokenizer
+from tqdm import tqdm
+from transformers import (
+    AutoConfig,
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    GenerationConfig,
+    get_constant_schedule_with_warmup,
+    get_cosine_schedule_with_warmup,
+    get_polynomial_decay_schedule_with_warmup,
+)
 
 try:
     from ._bootstrap import configure_project_paths
@@ -20,27 +33,39 @@ except ImportError:
 configure_project_paths()
 
 from arguments import get_args
-from data_utils.lm_datasets import extract_event_span_offsets, extract_text2cypher_span_offsets
-from distillm import ReplayBuffer, SampleGenerator
-try:
-    from .span_finetune import (
-        evaluate,
-        get_distil_loss,
-        get_teacher_model,
-        prepare_dataset,
-        pt_loss,
-        setup_model_and_optimizer,
-    )
-except ImportError:
-    from span_finetune import (
-        evaluate,
-        get_distil_loss,
-        get_teacher_model,
-        prepare_dataset,
-        pt_loss,
-        setup_model_and_optimizer,
-    )
-from utils import get_tokenizer, initialize, print_args, print_rank, save_rank
+from data_utils.lm_datasets import LMTrainDataset, extract_event_span_offsets, extract_text2cypher_span_offsets
+from distillm import (
+    AKL,
+    ReplayBuffer,
+    SampleGenerator,
+    ab_div,
+    alphanet,
+    amid,
+    bdkd,
+    csd,
+    forward_kl,
+    js_distance,
+    reverse_kl,
+    skewed_forward_kl,
+    skewed_reverse_kl,
+    tv_distance,
+    wsd,
+)
+from peft import PeftModel
+from rouge_metric import compute_metrics
+from utils import (
+    all_gather,
+    get_model,
+    get_optimizer_params,
+    get_optimizer_params_peft,
+    get_rank,
+    get_tokenizer,
+    initialize,
+    print_args,
+    print_rank,
+    resolve_hf_path,
+    save_rank,
+)
 
 
 torch.set_num_threads(4)
@@ -56,6 +81,275 @@ SCHEMA_END_MARKER_TEXT = (
     "\n\nGenerate a Cypher query that answers the question using only the provided schema.\n"
     "Return only the JSON object in the required format."
 )
+
+
+def get_teacher_model(args, device):
+    config = AutoConfig.from_pretrained(args.teacher_model_path)
+    if args.model_parallel:
+        raise NotImplementedError
+
+    config.is_model_parallel = False
+    try:
+        model = AutoModelForCausalLM.from_pretrained(
+            args.teacher_model_path,
+            config=config,
+            device_map={"": device},
+            torch_dtype=torch.bfloat16,
+        )
+    except Exception:
+        model = AutoModelForCausalLM.from_pretrained(
+            args.teacher_model_path,
+            config=config,
+            device_map={"": device},
+            torch_dtype=torch.float32,
+        )
+        model = model.half()
+
+    if args.teacher_peft_path is not None:
+        teacher_peft_path = resolve_hf_path(args.teacher_peft_path)
+        model = PeftModel.from_pretrained(model, teacher_peft_path)
+        model = model.merge_and_unload()
+        print("merge_and_unload")
+
+    if dist.get_rank() == 0:
+        print(
+            " > number of parameters: {}".format(sum(p.nelement() for p in model.parameters())),
+            flush=True,
+        )
+
+    model.eval()
+    return model
+
+
+def get_optimizer(args, model):
+    while isinstance(model, DDP):
+        model = model.module
+
+    if args.peft is not None:
+        param_groups = get_optimizer_params_peft(args, model)
+    else:
+        param_groups = get_optimizer_params(args, model)
+
+    optimizer = AdamW(param_groups, lr=args.lr, weight_decay=args.weight_decay)
+    print_rank(f"Optimizer = {optimizer.__class__.__name__}")
+    return optimizer
+
+
+def get_learning_rate_scheduler(args, optimizer):
+    if args.total_iters is None:
+        args.total_iters = args.train_iters_per_epoch * args.epochs
+    if args.lr_decay_style == "constant":
+        lr_scheduler = get_constant_schedule_with_warmup(
+            optimizer,
+            num_warmup_steps=args.warmup_iters,
+        )
+    elif args.lr_decay_style == "cosine":
+        lr_scheduler = CosineAnnealingLR(
+            optimizer,
+            T_max=args.total_iters,
+            eta_min=args.lr_min,
+        )
+    elif args.lr_decay_style == "noam":
+        lr_scheduler = get_polynomial_decay_schedule_with_warmup(
+            optimizer,
+            num_warmup_steps=args.warmup_iters,
+            num_training_steps=args.total_iters,
+            power=0.5,
+        )
+    elif args.lr_decay_style == "wrmup_cosine":
+        lr_scheduler = get_cosine_schedule_with_warmup(
+            optimizer,
+            num_warmup_steps=args.warmup_ratio * args.total_iters,
+            num_training_steps=args.total_iters,
+        )
+    else:
+        raise ValueError(f"lr_scheduler of type {args.lr_decay_style} is not supported yet.")
+
+    return lr_scheduler
+
+
+def setup_model_and_optimizer(args, ds_config, device, set_optim=True):
+    model = get_model(args, device)
+    if set_optim:
+        optimizer = get_optimizer(args, model)
+        lr_scheduler = get_learning_rate_scheduler(args, optimizer)
+    else:
+        optimizer, lr_scheduler = None, None
+
+    model, optimizer, _, lr_scheduler = deepspeed.initialize(
+        model=model,
+        optimizer=optimizer,
+        args=args,
+        lr_scheduler=lr_scheduler,
+        mpu=None,
+        config_params=ds_config,
+    )
+
+    print_rank("Model mem\n", torch.cuda.memory_summary())
+    return model, optimizer, lr_scheduler
+
+
+def prepare_dataset(args, tokenizer):
+    data = {}
+    rng_sample = random.Random(args.seed)
+    if args.do_train:
+        data["train"] = LMTrainDataset(args, tokenizer, args.data_dir, "train", args.train_num, args.train_ratio, rng_sample)
+        print_rank("train num", len(data["train"]))
+        data["dev"] = LMTrainDataset(args, tokenizer, args.data_dir, "valid", args.dev_num, args.dev_ratio, rng_sample)
+
+    data["test"] = LMTrainDataset(args, tokenizer, args.data_dir, "test", args.dev_num, args.dev_ratio, rng_sample)
+
+    if args.do_train and args.lm_data_dir is not None:
+        data["pt_train"] = LMTrainDataset(args, tokenizer, args.lm_data_dir, "train", args.train_num, args.train_ratio, rng_sample)
+        print_rank("train num", len(data["pt_train"]))
+    return data
+
+
+def pt_loss(args, model, model_batch, no_model_batch):
+    outputs = model(**model_batch, return_dict=True, use_cache=False)
+    logits = outputs.logits
+    loss_fn = nn.CrossEntropyLoss(ignore_index=-100)
+    return loss_fn(logits.view(-1, logits.size(-1)), no_model_batch["label"].view(-1))
+
+
+def get_distil_loss(args, teacher_logits, no_model_batch, logits):
+    if args.model_parallel:
+        raise NotImplementedError
+
+    if "sfkl" in args.type:
+        return skewed_forward_kl(logits, teacher_logits, no_model_batch, lam=args.skew_alpha)
+    if "srkl" in args.type:
+        return skewed_reverse_kl(logits, teacher_logits, no_model_batch, lam=args.skew_alpha)
+    if "jsd" in args.type:
+        return js_distance(logits, teacher_logits, no_model_batch)
+    if "tvd" in args.type:
+        return tv_distance(logits, teacher_logits, no_model_batch)
+    if "fkl" in args.type or args.type == "kd":
+        return forward_kl(logits, teacher_logits, no_model_batch)
+    if "rkl" in args.type:
+        return reverse_kl(logits, teacher_logits, no_model_batch)
+    if "csd" in args.type:
+        return csd(logits, teacher_logits, no_model_batch)
+    if "bdkd" in args.type:
+        return bdkd(logits, teacher_logits, no_model_batch)
+    if "akl" in args.type:
+        return AKL(teacher_logits, logits, no_model_batch)
+    if "wsd" in args.type:
+        return wsd(logits, teacher_logits, no_model_batch)
+    if "alphanet" in args.type:
+        return alphanet(logits, teacher_logits, no_model_batch, args.alphanet_alpha, args.alphanet_beta)
+    if "amid" in args.type:
+        return amid(logits, teacher_logits, no_model_batch, args)
+    if "ab" in args.type:
+        return ab_div(logits, teacher_logits, no_model_batch, args.ab_alpha, args.ab_beta)
+    raise NotImplementedError
+
+
+def evaluate(args, tokenizer, model, dataset: LMTrainDataset, split, epoch, device, adaptive_threshold=None):
+    collate_fn = dataset.collate
+
+    if args.model_parallel:
+        raise NotImplementedError
+
+    dp_world_size = dist.get_world_size()
+    dp_rank = dist.get_rank()
+    dp_group = None
+    loss_func = nn.CrossEntropyLoss()
+
+    print_rank("dp size", dp_world_size)
+
+    generation_config = GenerationConfig(
+        do_sample=args.do_sample,
+        top_p=args.top_p,
+        top_k=args.top_k,
+        temperature=args.temperature,
+        repetition_penalty=args.repetition_penalty,
+        max_length=args.max_length,
+        min_length=None,
+        eos_token_id=[tokenizer.eos_token_id, 151643],
+        pad_token_id=tokenizer.eos_token_id,
+        return_dict_in_generate=True,
+        output_scores=False,
+    )
+
+    sampler = DistributedSampler(dataset, shuffle=False, drop_last=False, rank=dp_rank, num_replicas=dp_world_size)
+    dataloader = DataLoader(
+        dataset,
+        sampler=sampler,
+        batch_size=args.eval_batch_size,
+        num_workers=args.num_workers,
+        collate_fn=collate_fn,
+    )
+
+    model.eval()
+    all_loss = 0.0
+    step = 0
+    all_response_ids = []
+
+    with torch.no_grad():
+        for it, (model_batch, no_model_batch, gen_data, _, _) in enumerate(
+            tqdm(dataloader, desc="Evaluating", disable=(dist.get_rank() != 0))
+        ):
+            print_rank(f"{it}/{len(dataloader)}")
+            dataset.move_to_device(model_batch, no_model_batch, gen_data, device)
+            logits = model(**model_batch).logits
+            loss = loss_func(logits.view(-1, logits.shape[-1]), no_model_batch["label"].view(-1))
+
+            max_new_tokens = args.max_length - gen_data["input_ids"].size(1)
+
+            if args.eval_gen:
+                gen_out = model.generate(
+                    **gen_data,
+                    generation_config=generation_config,
+                    max_new_tokens=max_new_tokens,
+                )
+
+                full_ids = gen_out.sequences
+                full_ids = F.pad(
+                    full_ids,
+                    (0, args.max_length - full_ids.shape[1]),
+                    value=tokenizer.pad_token_id,
+                )
+
+                response_ids = full_ids[:, gen_data["input_ids"].size(1) :]
+                all_response_ids.append(response_ids)
+
+            dist.all_reduce(loss, dist.ReduceOp.SUM, group=dp_group)
+            loss = loss / dp_world_size
+            all_loss += loss.item()
+            step += 1
+
+    if args.eval_gen:
+        all_response_ids = torch.cat(all_response_ids, dim=0)
+        all_response_ids = all_gather(all_response_ids, dim=1, world_size=dp_world_size, group=dp_group, op="stack")
+        all_response_ids = all_response_ids.view(-1, all_response_ids.size(-1))
+        responses = tokenizer.batch_decode(all_response_ids, skip_special_tokens=True)
+
+    if get_rank() == 0:
+        if args.eval_gen:
+            references = dataset.answers
+            responses = responses[: len(references)]
+            res = compute_metrics(responses, references)
+
+            eval_dir = os.path.join(args.save, "eval", str(epoch))
+            print_rank(eval_dir)
+            os.makedirs(eval_dir, exist_ok=True)
+            with open(os.path.join(eval_dir, "answers.jsonl"), "w") as f:
+                for resp in responses:
+                    f.write(json.dumps({"text": resp}) + "\n")
+        else:
+            res = {}
+
+        avg_loss = all_loss / step
+
+        if "adaptive" in args.type:
+            log_str = f"{split} | avg_loss: {avg_loss} | {res} | threshold: {adaptive_threshold}"
+        else:
+            log_str = f"{split} | avg_loss: {avg_loss} | {res}"
+        print_rank(log_str)
+        save_rank(log_str, os.path.join(args.save, "log.txt"))
+
+    return all_loss / step
 
 
 def get_grounding_loss_config(args):
@@ -766,8 +1060,6 @@ def main():
     if dist.get_rank() == 0:
         print_args(args)
         with open(os.path.join(args.save, "args.json"), "w") as f:
-            import json
-
             json.dump(vars(args), f)
 
     device = torch.cuda.current_device()
@@ -775,8 +1067,6 @@ def main():
     save_rank("\n\n" + "=" * 30 + f" EXP at {cur_time} " + "=" * 30, os.path.join(args.save, "log.txt"))
 
     with open(args.deepspeed_config, "r") as f:
-        import json
-
         ds_config = json.load(f)
 
     ds_config["gradient_accumulation_steps"] = args.gradient_accumulation_steps
