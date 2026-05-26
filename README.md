@@ -22,11 +22,14 @@ Activate the environment:
 source .venv/bin/activate
 ```
 
-## 2. Process Data
+## 2. Datasets:
+Due to the size of the dataset, I just upload some small size dataset, for full dataset link here (https://huggingface.co/datasets/megagonlabs/cypherbench)
+
+### Process Data
 
 There are 2 ways to run data processing.
 
-### Option 1: Run Each Command Manually
+#### Option 1: Run Each Command Manually
 
 Process split `train`:
 
@@ -64,7 +67,7 @@ python3 process_data.py \
     --max-prompt-length 947 --dev-num 1 --split test
 ```
 
-### Option 2: Run the Sequential Script
+#### Option 2: Run the Sequential Script
 
 ```bash
 bash scripts/process_cypherbench_qwen3_0.6B.sh
