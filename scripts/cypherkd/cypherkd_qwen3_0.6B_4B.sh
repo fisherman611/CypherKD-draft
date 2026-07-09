@@ -99,7 +99,7 @@ OPTS+=" --peft lora"
 OPTS+=" --peft-lora-r 32"
 OPTS+=" --peft-lora-alpha 64"
 OPTS+=" --peft-lora-dropout 0.1"
-OPTS+=" --no-span-length-weight"
+OPTS+=" --use-span-length-weight"
 
 export NCCL_DEBUG=""
 export WANDB_DISABLED=True
