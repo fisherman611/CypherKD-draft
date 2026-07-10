@@ -4,6 +4,8 @@
 
 **ANSWER:**
 
+Thank you for the thoughtful comments. We appreciate the opportunity to clarify the mechanism of the proposed loss and provide additional evidence on result variability.
+
 - **I honestly find the result a little unbelievable. The extent of extra supervision from the added loss function is a single scalar per query, and I don't understand the mechanism by which is could have such a large effect.**
 
     Thank you for raising this concern. The added loss is reduced to a scalar only at the final optimization step; it is not a single query-level label. In our implementation, CypherKD extracts multiple Cypher spans, including clauses, triplets, node patterns, and expressions. For each span, it compares the teacher and student span-context relation scores, where the context comes from the question and schema tokens.
