@@ -163,3 +163,14 @@ Thank you for the constructive comments. We agree that the paper should provide 
 <br>
 
 - **I suggest that the authors add a robustness analysis for the rule-based span extraction method. For example, they could discuss when this method may fail under different Cypher structures and how to test its robustness more carefully**
+
+    We sincerely thank the reviewer for this suggestion. Our span extraction is implemented using deterministic rules derived from the Cypher syntax:
+
+    - Clause spans are identified by matching predefined Cypher clause keywords.
+    - Node spans are extracted from parenthesized structures that satisfy Cypher node syntax (e.g., labels, properties, or variables adjacent to relationships).
+    - Triplet spans are extracted using structural patterns that capture relationship chains.
+    - Expression spans are obtained from the expressions following clauses such as WHERE, WITH, RETURN, and ORDER BY.
+
+    These rules are not intended to cover every possible Cypher construct. Failure cases may arise for highly complex queries, such as nested subqueries (EXISTS { ... }), variable-length paths (-[*1..3]-), or other uncommon language constructs, where the extracted span boundaries may be incomplete, missing, or slightly inaccurate.
+
+    Nevertheless, our rule extractor is designed to provide weak structural supervision rather than a complete Cypher parser. Therefore, perfect span extraction is not required for the proposed span-level distillation objective to be effective. While a small number of extracted spans may be noisy or missing, the majority of spans in standard Cypher queries are correctly identified and continue to provide informative structural alignment between the teacher and student. Consequently, occasional extraction errors behave as annotation noise rather than systematic supervision errors, and do not substantially reduce the effectiveness of the proposed span-level distillation.

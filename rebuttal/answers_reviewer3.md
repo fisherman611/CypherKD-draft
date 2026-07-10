@@ -24,6 +24,22 @@
 
 - **Comparison of total training time: Although it is reported that CypherKD's step time increases by approximately 8%, are the total training steps or number of convergence steps the same as other methods? If the convergence speed differs, step time cannot fully reflect the total overhead. Has the additional overhead of generating student queries in the mixed data been accounted for?**
 
+    Thank you for pointing this out. We agree that reporting only time per step is insufficient for characterizing the full training overhead. In our experiments, all compared methods are trained with the same number of epochs, the same batch size, and the same checkpoint-selection protocol. Therefore, we will revise the efficiency analysis to report **Time/epoch** instead of **Time/step**, together with average and peak GPU memory allocation.
+
+    We will also clarify that the additional overhead from generating student queries for the mixed data is included in the reported training cost when the mixed data are generated during training.
+
+    | Method                 | Time/epoch (s) | Avg. alloc. (GB) | Peak alloc. (GB) |
+    |------------------------|---------------:|-----------------:|-----------------:|
+    | RKL                    | [TIME]         | [AVG]            | [PEAK]           |
+    | RKL w/ $\mathcal{L}_{rel}$      | [TIME]         | [AVG]            | [PEAK]           |
+    | SFKL                   | [TIME]         | [AVG]            | [PEAK]           |
+    | SFKL w/ $\mathcal{L}_{rel}$     | [TIME]         | [AVG]            | [PEAK]           |
+    | CSD                    | [TIME]         | [AVG]            | [PEAK]           |
+    | CSD w/ $\mathcal{L}_{rel}$      | [TIME]         | [AVG]            | [PEAK]           |
+    | DistiLLM               | [TIME]         | [AVG]            | [PEAK]           |
+    | DistiLLM w/ $\mathcal{L}_{rel}$ | [TIME]         | [AVG]            | [PEAK]           |
+
+
 <br>
 
 - **The authors specifically ablate triplet spans rather than the other three span types, possibly based on the assumption that triplets (source node-relationship-target node) are the most essential syntactic structure that distinguishes graph queries from relational SQL. The experiments also confirm their critical role (EX drops by 4.43 percentage points after removal). However, for completeness, suggest providing separate ablation results for the other three span types (clause, node pattern, expression) in the appendix or supplementary material, so that readers can understand the contribution of each span type.**
@@ -46,9 +62,9 @@
     |-------------------------------|----------:|----------:|
     | CypherKD                      | **29.93** | **35.95** |
     | CypherKD w/o triplet spans    |     26.92 |     32.10 |
-    | CypherKD w/o node spans       | [RUNNING] | [RUNNING] |
-    | CypherKD w/o clause spans     | [RUNNING] | [RUNNING] |
-    | CypherKD w/o expression spans | [RUNNING] | [RUNNING] |
+    | CypherKD w/o node spans       |     26.28 |     33.55 |
+    | CypherKD w/o clause spans     |     27.17 |     34.43 |
+    | CypherKD w/o expression spans |     27.79 |     34.91 |
 
     This additional ablation will make the role of each span inventory explicit and help verify whether triplets are uniquely important or whether other Cypher span types also provide complementary grounding signals.
 
