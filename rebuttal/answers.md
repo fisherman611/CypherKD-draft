@@ -120,11 +120,37 @@ Thank you for the constructive comments. We agree that the paper should provide 
 
     Therefore, the gold query remains the primary supervision signal, while the teacher provides additional structural guidance. This design reduces the risk that noisy teacher correspondences dominate training.
 
-    To further address this concern, we will add an analysis of teacher-induced noise. Specifically, we will examine cases where the teacher produces incorrect or questionable span-context correspondences and analyze whether the student inherits these errors or whether they are mitigated by the gold cross-entropy objective.
+    To further address this concern, we will add a teacher-noise analysis. Representative examples where the teacher has incorrect execution accuracy but CypherKD recovers the correct execution result are shown below.
 
-    | Teacher error type           |       # Cases | Student copies teacher error | Student recovers / follows gold |
-    | ---------------------------- | ------------: | ---------------------------: | ------------------------------: |
-    | Wrong schema element         | [PLACEHOLDER] |                [PLACEHOLDER] |                   [PLACEHOLDER] |
-    | Wrong relationship direction | [PLACEHOLDER] |                [PLACEHOLDER] |                   [PLACEHOLDER] |
-    | Missing filter condition     | [PLACEHOLDER] |                [PLACEHOLDER] |                   [PLACEHOLDER] |
-    | Wrong aggregation / ordering | [PLACEHOLDER] |                [PLACEHOLDER] |                   [PLACEHOLDER] |
+    **Case 1: company #5**
+
+    Question: Identify the individuals who have served as CEOs of companies that, at some point, had Norman Welsh as their CEO, and specify the number of such companies for each individual.
+
+    Gold Cypher: `MATCH (n:Person)<-[r0:hasCEO]-(m0:Company)-[r1:hasCEO]->(m1:Person {name: 'Norman Welsh'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num`
+
+    | Model | EA | Cypher | Behavior |
+    |-------|---:|--------|----------|
+    | Teacher | 0 | `MATCH (n:Person)-[r0:hasCEO]->(m0:Company)<-[r1:hasCEO]-(m1:Person {name: 'Norman Welsh'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num` | Reverses both `hasCEO` directions, incorrectly treating `Person` as the source of `hasCEO`. |
+    | CypherKD | 1 | `MATCH (n:Person)<-[r0:hasCEO]-(m0:Company)-[r1:hasCEO]->(m1:Person {name: 'Norman Welsh'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num` | Recovers the gold `Company -> Person` CEO relation pattern. |
+
+    **Case 2: fictional_character #38**
+
+    Question: What are the names and occupations of characters who have Azazel as their father and are also the father of Nocturne?
+
+    Gold Cypher: `MATCH (n:Character)-[r0:hasFather]->(m0:Character {name: 'Azazel'}),(n:Character)<-[r1:hasFather]-(m1:Character {name: 'Nocturne'}) WITH DISTINCT n RETURN n.name, n.occupation`
+
+    | Model | EA | Cypher | Behavior |
+    |-------|---:|--------|----------|
+    | Teacher | 0 | `MATCH (n:Character)-[r0:hasFather]->(m0:Character {name: 'Azazel'}),(n:Character)-[r1:hasStudent]->(m1:Character {name: 'Nocturne'}) WITH DISTINCT n RETURN n.name, n.occupation` | Uses the wrong relation `hasStudent` for the Nocturne constraint. |
+    | CypherKD | 1 | `MATCH (n:Character)-[r0:hasFather]->(m0:Character {name: 'Azazel'}),(n:Character)<-[r1:hasFather]-(m1:Character {name: 'Nocturne'}) WITH DISTINCT n RETURN n.name, n.occupation` | Recovers the gold father-child relation and direction. |
+
+    **Case 3: movie #14**
+
+    Question: What are the names of the genres associated with Creed III, and how many movies belong to each of those genres?
+
+    Gold Cypher: `MATCH (n:Genre)<-[r1:hasGenre]-(m1:Movie {name: 'Creed III'}) OPTIONAL MATCH (n:Genre)<-[r0:hasGenre]-(m0:Movie) WITH n, count(DISTINCT m0) AS num RETURN n.name, num`
+
+    | Model | EA | Cypher | Behavior |
+    |-------|---:|--------|----------|
+    | Teacher | 0 | `MATCH (n:Genre)<-[r0:hasGenre]-(m0:Movie {name: 'Creed III'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num` | Finds the genre of `Creed III` but drops the `OPTIONAL MATCH` needed to count all movies in each genre. |
+    | CypherKD | 1 | `MATCH (n:Genre)<-[r1:hasGenre]-(m1:Movie {name: 'Creed III'}) OPTIONAL MATCH (n:Genre)<-[r0:hasGenre]-(m0:Movie) WITH n, count(DISTINCT m0) AS num RETURN n.name, num` | Recovers the full gold query with the optional counting path. |
