@@ -161,6 +161,25 @@ def add_hp_args(parser: argparse.ArgumentParser):
     group.add_argument("--w-span-query-loss", type=float, default=None)
     group.add_argument("--w-span-schema-loss", type=float, default=None)
     group.add_argument("--w-span-schema-linking-loss", type=float, default=None)
+    group.add_argument(
+        "--span-types",
+        nargs="+",
+        default=None,
+        help=(
+            "Text-to-Cypher span types to keep for grounding loss. "
+            "Defaults to all types: clause triplet node_pattern expression. "
+            "Aliases are accepted, e.g. node/nodes for node_pattern."
+        ),
+    )
+    group.add_argument(
+        "--exclude-span-types",
+        nargs="+",
+        default=None,
+        help=(
+            "Text-to-Cypher span types to remove for ablation, e.g. "
+            "triplet, clause, node_pattern, or expression. Aliases are accepted."
+        ),
+    )
     group.add_argument("--w-hard-negative-loss", type=float, default=0.1)
     group.add_argument("--hard-negative-margin", type=float, default=0.2)
     group.add_argument("--alignment-span-widths", nargs="+", type=int, default=[1, 2, 4, 8, 16])

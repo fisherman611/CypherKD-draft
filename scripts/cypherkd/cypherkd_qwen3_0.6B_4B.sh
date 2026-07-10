@@ -23,13 +23,19 @@ BASE_PATH=.
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}" .sh)"
 SCRIPT_GROUP="$(basename "$(dirname "${BASH_SOURCE[0]}")")"
 SAVE_TAG="cypherkd_${SCRIPT_GROUP}_${SCRIPT_NAME}"
+SPAN_ABLATION_TAG="${SPAN_ABLATION_TAG:-}"
+SPAN_TYPES="${SPAN_TYPES:-}"
+EXCLUDE_SPAN_TYPES="${EXCLUDE_SPAN_TYPES:-}"
+if [[ -n "${SPAN_ABLATION_TAG}" ]]; then
+  SAVE_TAG="${SAVE_TAG}_${SPAN_ABLATION_TAG}"
+fi
 CKPT_NAME="qwen3-0.6B"
 CKPT="Qwen/Qwen3-0.6B"
 TEACHER_CKPT_NAME="qwen3-4B"
 TEACHER_CKPT="Qwen/Qwen3-4B-Instruct-2507"
-DEFAULT_TEACHER_PEFT_PATH="stf4B/e5-bs2-lr1e-05-G8-N2-NN1-lora-32-64-0.1/1065"
+DEFAULT_TEACHER_PEFT_PATH="hf://fisherman611/text-to-cypher-models/e5-bs2-lr1e-05-G8-N2-NN1-lora-32-64-0.1/1065"
 TEACHER_PEFT_PATH="${TEACHER_PEFT_PATH-${DEFAULT_TEACHER_PEFT_PATH}}"
-DATA_DIR="processed_data/benchmarks/Cypherbench/qwen"
+DATA_DIR="hf://fisherman611/text-to-cypher-processed-data/Cypherbench/qwen"
 BATCH_SIZE=2
 LR=0.0001
 GRAD_ACC=4
@@ -69,6 +75,12 @@ OPTS+=" --clip-grad 1.0"
 OPTS+=" --epochs ${EPOCHS}"
 OPTS+=" --kd-ratio ${KD_RATIO}"
 OPTS+=" --w-rel-loss ${W_REL_LOSS}"
+if [[ -n "${SPAN_TYPES}" ]]; then
+  OPTS+=" --span-types ${SPAN_TYPES}"
+fi
+if [[ -n "${EXCLUDE_SPAN_TYPES}" ]]; then
+  OPTS+=" --exclude-span-types ${EXCLUDE_SPAN_TYPES}"
+fi
 OPTS+=" --student_layer_mapping ${STUDENT_LAYER_MAPPING[*]}"
 OPTS+=" --teacher_layer_mapping ${TEACHER_LAYER_MAPPING[*]}"
 OPTS+=" --max-length ${MAX_LENGTH}"

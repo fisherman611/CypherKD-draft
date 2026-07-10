@@ -33,7 +33,12 @@ except ImportError:
 configure_project_paths()
 
 from arguments import get_args
-from data_utils.lm_datasets import LMTrainDataset, extract_event_span_offsets, extract_text2cypher_span_offsets
+from data_utils.lm_datasets import (
+    LMTrainDataset,
+    TEXT2CYPHER_SPAN_TYPES,
+    extract_event_span_offsets,
+    extract_text2cypher_span_records,
+)
 from distillm import (
     ReplayBuffer,
     SampleGenerator,
@@ -362,8 +367,23 @@ def build_generated_no_model_batch(tokenizer, args, model_batch, labels):
         )
         offset_mappings.append(encoded["offset_mapping"])
 
-        sample_spans = extract_text2cypher_span_offsets(full_text, response_text)
-        if not sample_spans:
+        all_span_records = extract_text2cypher_span_records(
+            full_text,
+            response_text,
+            include_types=TEXT2CYPHER_SPAN_TYPES,
+            exclude_types=(),
+        )
+        filtered_span_records = extract_text2cypher_span_records(
+            full_text,
+            response_text,
+            include_types=getattr(args, "span_types", None),
+            exclude_types=getattr(args, "exclude_span_types", None),
+        )
+        sample_spans = sorted(
+            {(item["start"], item["end"]) for item in filtered_span_records},
+            key=lambda x: (x[0], x[1]),
+        )
+        if not sample_spans and not all_span_records:
             sample_spans = extract_event_span_offsets(full_text, response_text)
         span_offsets.append(sample_spans)
 

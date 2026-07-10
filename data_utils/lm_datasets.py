@@ -46,6 +46,19 @@ TRIPLET_PATTERN = re.compile(
     r"\([^()]*\)\s*(?:<-\[[^\[\]]*\]-|-\[[^\[\]]*\]->|-\[[^\[\]]*\]-)\s*\([^()]*\)"
     r"))"
 )
+TEXT2CYPHER_SPAN_TYPES = ("clause", "triplet", "node_pattern", "expression")
+TEXT2CYPHER_SPAN_TYPE_ALIASES = {
+    "clause": "clause",
+    "clauses": "clause",
+    "triplet": "triplet",
+    "triplets": "triplet",
+    "node": "node_pattern",
+    "nodes": "node_pattern",
+    "node_pattern": "node_pattern",
+    "node_patterns": "node_pattern",
+    "expression": "expression",
+    "expressions": "expression",
+}
 
 HF_DATA_PATH_ALIASES = {
     "./processed_data/benchmarks/Cypherbench/qwen": "hf://fisherman611/text_to_cypher_distillation/benchmarks/Cypherbench/qwen",
@@ -53,6 +66,52 @@ HF_DATA_PATH_ALIASES = {
     "processed_data/benchmarks/Cypherbench/qwen": "hf://fisherman611/text_to_cypher_distillation/benchmarks/Cypherbench/qwen",
     "processed_data/benchmarks/Cypherbench/qwen/": "hf://fisherman611/text_to_cypher_distillation/benchmarks/Cypherbench/qwen",
 }
+
+
+def normalize_text2cypher_span_types(span_types, default=None):
+    if span_types is None:
+        return default
+
+    normalized = []
+    for span_type in span_types:
+        key = str(span_type).strip().lower().replace("-", "_")
+        if not key:
+            continue
+        canonical = TEXT2CYPHER_SPAN_TYPE_ALIASES.get(key)
+        if canonical is None:
+            valid = ", ".join(TEXT2CYPHER_SPAN_TYPES)
+            aliases = ", ".join(sorted(TEXT2CYPHER_SPAN_TYPE_ALIASES))
+            raise ValueError(
+                f"Unknown Text-to-Cypher span type '{span_type}'. "
+                f"Valid canonical types: {valid}. Accepted aliases: {aliases}."
+            )
+        if canonical not in normalized:
+            normalized.append(canonical)
+
+    return tuple(normalized)
+
+
+def get_text2cypher_span_filter(args):
+    include_types = normalize_text2cypher_span_types(
+        getattr(args, "span_types", None),
+        default=TEXT2CYPHER_SPAN_TYPES,
+    )
+    exclude_types = normalize_text2cypher_span_types(
+        getattr(args, "exclude_span_types", None),
+        default=(),
+    )
+    include_types = tuple(span_type for span_type in include_types if span_type not in set(exclude_types))
+    return include_types, exclude_types
+
+
+def filter_text2cypher_span_items(span_items, include_types=None, exclude_types=None):
+    include_types = set(normalize_text2cypher_span_types(include_types, default=TEXT2CYPHER_SPAN_TYPES))
+    exclude_types = set(normalize_text2cypher_span_types(exclude_types, default=()))
+    return [
+        item
+        for item in span_items
+        if item["type"] in include_types and item["type"] not in exclude_types
+    ]
 
 
 def _ensure_trailing_sep(path):
@@ -258,13 +317,34 @@ def extract_text2cypher_span_items_from_response(response_str):
     return span_items
 
 
-def extract_text2cypher_span_offsets(full_text, response_str):
+def extract_text2cypher_span_records(full_text, response_str, include_types=None, exclude_types=None):
     response_start = _find_response_start(full_text, response_str)
     span_items = extract_text2cypher_span_items_from_response(response_str)
+    span_items = filter_text2cypher_span_items(span_items, include_types, exclude_types)
 
-    offsets = []
+    records = []
     for item in span_items:
-        offsets.append((response_start + item["start"], response_start + item["end"]))
+        records.append(
+            {
+                "type": item["type"],
+                "start": response_start + item["start"],
+                "end": response_start + item["end"],
+                "text": item["text"],
+            }
+        )
+
+    records.sort(key=lambda x: (x["start"], x["end"], x["type"]))
+    return records
+
+
+def extract_text2cypher_span_offsets(full_text, response_str, include_types=None, exclude_types=None):
+    span_records = extract_text2cypher_span_records(
+        full_text,
+        response_str,
+        include_types=include_types,
+        exclude_types=exclude_types,
+    )
+    offsets = [(item["start"], item["end"]) for item in span_records]
 
     offsets = sorted(set(offsets), key=lambda x: (x[0], x[1]))
     return offsets
@@ -342,7 +422,12 @@ class LMTrainDataset(Dataset):
                                                  max_length=self.max_length, padding="max_length",
                                                  add_special_tokens=False, return_tensors="pt")["offset_mapping"]
                                        for text in self.full_texts]
-                
+                self.span_include_types, self.span_exclude_types = get_text2cypher_span_filter(args)
+                print_rank(
+                    "Text-to-Cypher span filter: "
+                    f"include={list(self.span_include_types)}, exclude={list(self.span_exclude_types)}"
+                )
+
                 self.get_span_offsets()
         
         print_rank(len(self.lm_ctx))
@@ -355,12 +440,38 @@ class LMTrainDataset(Dataset):
 
     def get_span_offsets(self):
         self.span_offsets = []
+        raw_type_counts = {span_type: 0 for span_type in TEXT2CYPHER_SPAN_TYPES}
+        kept_type_counts = {span_type: 0 for span_type in TEXT2CYPHER_SPAN_TYPES}
+        include_types = set(self.span_include_types)
+        exclude_types = set(self.span_exclude_types)
         for item, full_text in zip(self.raw, self.full_texts):
             response_str = item["response"]
-            result_tuples = extract_text2cypher_span_offsets(full_text, response_str)
-            if not result_tuples:
+            span_records = extract_text2cypher_span_records(
+                full_text,
+                response_str,
+                include_types=TEXT2CYPHER_SPAN_TYPES,
+                exclude_types=(),
+            )
+            for span_record in span_records:
+                raw_type_counts[span_record["type"]] += 1
+
+            filtered_records = [
+                span_record
+                for span_record in span_records
+                if span_record["type"] in include_types and span_record["type"] not in exclude_types
+            ]
+            for span_record in filtered_records:
+                kept_type_counts[span_record["type"]] += 1
+
+            result_tuples = sorted(
+                {(span_record["start"], span_record["end"]) for span_record in filtered_records},
+                key=lambda x: (x[0], x[1]),
+            )
+            if not result_tuples and not span_records:
                 result_tuples = extract_event_span_offsets(full_text, response_str)
             self.span_offsets.append(result_tuples)
+        print_rank(f"Text-to-Cypher span raw counts: {raw_type_counts}")
+        print_rank(f"Text-to-Cypher span kept counts: {kept_type_counts}")
 
     def __len__(self):
         return self.num
