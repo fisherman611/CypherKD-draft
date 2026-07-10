@@ -218,3 +218,4 @@ __marimo__/
 .streamlit/secrets.toml
 benchmarks/Cypherbench/graphs
 benchmarks/Mind_the_query
+log.txt

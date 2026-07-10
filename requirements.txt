@@ -1,0 +1,22 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+
+torch==2.9.1
+transformers==4.57.3
+peft==0.18.1
+trl==0.21.0
+datasets
+huggingface-hub
+accelerate
+numpy
+tqdm
+pydantic
+nltk
+numerize
+rouge-score
+neo4j
+python-dotenv
+typer>=0.15.2
+wandb
+yq>=3.4.3
+rich
+setuptools

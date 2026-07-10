@@ -36,9 +36,9 @@
     |-------------------------------|----------:|----------:|
     | CypherKD                      | **64.61** | **61.42** |
     | CypherKD w/o triplet spans    |     60.18 |     56.44 |
-    | CypherKD w/o node spans       | [RUNNING] | [RUNNING] |
-    | CypherKD w/o clause spans     | [RUNNING] | [RUNNING] |
-    | CypherKD w/o expression spans | [RUNNING] | [RUNNING] |
+    | CypherKD w/o node spans       |     61.97 |     58.39 |
+    | CypherKD w/o clause spans     |     61.58 |     58.56 |
+    | CypherKD w/o expression spans |     61.29 |     57.72 |
 
     **Mind-the-Query**
 
