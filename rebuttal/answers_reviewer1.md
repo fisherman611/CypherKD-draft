@@ -27,11 +27,11 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
 
 - **From the experimental results, CypherKD improves a lot over standard supervised fine-tuning. The gains over existing knowledge distillation methods are often small. Some metrics are almost tied. Therefore, I am not sure whether these small gaps come from the proposed method itself or could be closed by hyperparameter tuning. I also suggest that the paper include confidence information or results across multiple runs.**
 
-    Although CypherKD shows clear gains over SFT, some improvements over strong KD baselines are relatively small. To separate method effects from run-to-run variance, we will add results across multiple random seeds and report **mean +/- standard deviation**.
+    Although CypherKD shows clear gains over SFT, some improvements over strong KD baselines are relatively small. To separate method effects from run-to-run variance, we will add results across 5 random seeds and report **mean +/- standard deviation**.
 
     **CypherBench**
 
-    | Method                 | EX           | PSJS         | Executable   |
+    | Method                 | EX(%)        | PSJS(%)      | Executable(%)|
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
     | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
@@ -58,7 +58,7 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
 
     **Mind-the-Query**
 
-    | Method                 | EX           | PSJS         | Executable   |
+    | Method                 | EX(%)        | PSJS(%)      | Executable(%)|
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
     | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
@@ -85,7 +85,7 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
 
     **Neo4j-Text2Cypher**
 
-    | Method                 | EX           | PSJS         | Executable   |
+    | Method                 | EX(%)        | PSJS(%)      | Executable(%)|
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
     | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
@@ -166,13 +166,13 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
 
     We compare the gold and predicted Cypher queries on the test set and report the frequency of these two structural error groups.
 
-    | Method | Schema grounding | Graph-pattern construction |
+    | Method | Schema grounding(%)| Graph-pattern construction(%)|
     |---|---:|---:|
-    | Qwen3-4B (Teacher) | 16.31% | 21.76% |
-    | Qwen3-0.6B (SFT) | 43.70% | 24.19% |
-    | CSD | 28.58% | 24.74% |
-    | DistiLLM | 29.43% | 23.94% |
-    | **CypherKD** | **26.83%** | **23.59%** |
+    | Qwen3-4B (Teacher) | 16.31  | 21.76  |
+    | Qwen3-0.6B (SFT) | 43.70  | 24.19  |
+    | CSD | 28.58  | 24.74  |
+    | DistiLLM | 29.43  | 23.94  |
+    | **CypherKD** | **26.83**  | **23.59**  |
 
     The clearest improvement is in schema grounding. Compared with SFT, CypherKD reduces the full-test schema-grounding error rate from 43.70% to 26.83%, a reduction of 16.87 percentage points. It also produces fewer schema-grounding errors than CSD and DistiLLM. This indicates that the additional span-relation objective helps the student associate question and schema spans with the correct Cypher entity types, relationship types, properties, and linked entities.
 
