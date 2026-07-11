@@ -1,0 +1,3212 @@
+{
+  "selection_type": "representative_marginal_match",
+  "seed": 42,
+  "full_n": 2348,
+  "selected_n": 50,
+  "groups": [
+    "schema_grounding",
+    "graph_pattern_construction"
+  ],
+  "samples": [
+    {
+      "global_index": 14,
+      "local_index_zero_based": 14,
+      "graph": "company",
+      "qid": "45f852bc-4ee8-4233-b36e-d3584f6b63a2",
+      "question": "What are the names of industries in which Canadian companies operate, and how many Canadian companies are there in each industry?",
+      "gold_cypher": "MATCH (n:Industry)<-[r0:operatesIn]-(m0:Company)-[r1:basedIn]->(m1:Country {name: 'Canada'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Industry)<-[r0:operatesIn]-(m0:Company)-[r1:basedIn]->(m1:Country {name: 'Canada'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Industry)<-[r0:operatesIn]-(m0:Company {name: 'Canada'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Industry)<-[r0:operatesIn]-(m0:Company)-[r1:basedIn]->(m1:Country {name: 'Canada'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Industry)<-[r0:operatesIn]-(m0:Company)-[r1:basedIn]->(m1:Country {name: 'Canadian'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Industry)<-[r0:operatesIn]-(m0:Company)-[r1:basedIn]->(m1:Country {name: 'Canadian'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 40,
+      "local_index_zero_based": 40,
+      "graph": "company",
+      "qid": "f62f09d8-7e16-4c01-a8a8-ebac7d043c24",
+      "question": "What are the unique countries of citizenship of individuals who have both served as CEO and founded a company?",
+      "gold_cypher": "MATCH (n:Person)<-[r0:hasCEO]-(m0:Company),(n:Person)<-[r1:foundedBy]-(m0:Company) WITH DISTINCT n UNWIND n.country_of_citizenship AS prop RETURN DISTINCT prop",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Person)-[r0:hasCEO]->(m0:Company)-[r1:foundedBy]->(m1:Person) WITH DISTINCT n RETURN n } WITH DISTINCT n RETURN DISTINCT n.country_of_citizenship",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Person)-[r0:hasCEO]->(m0:Person {name: 'CEO'}),(n:Person)-[r1:hasParent]->(m1:Person {name: 'Liga'}) WITH DISTINCT n UNWIND n.country_of_citizenship AS prop RETURN DISTINCT prop",
+        "CSD": "MATCH (n:Person)-[r0:hasCEO]->(m0:Company)-[r1:foundedBy]->(m1:Person) WITH DISTINCT n UNWIND n.country_of_citizenship AS prop RETURN DISTINCT prop",
+        "DistiLLM": "MATCH (n:Person)-[r0:hasCEO]->(m0:Company)<-[r1:hasCEO]-(m1:Person {name: 'Company'}) WITH DISTINCT n UNWIND n.country_of_citizenship AS prop RETURN DISTINCT prop",
+        "CypherKD": "MATCH (n:Person)-[r0:hasCEO]->(m0:Company)<-[r1:hasCEO]-(m1:Person {name: 'company'}) WITH DISTINCT n UNWIND n.country_of_citizenship AS prop RETURN DISTINCT prop"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 45,
+      "local_index_zero_based": 45,
+      "graph": "company",
+      "qid": "6a6299a7-86eb-497e-8f57-958a0f0d7290",
+      "question": "Which country is BFM DICI Haute-Provence based?",
+      "gold_cypher": "MATCH (n:Country)<-[r0:basedIn]-(m0:Company {name: 'BFM DICI Haute-Provence'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Country)<-[r0:basedIn]-(m0:Company {name: 'BFM DICI Haute-Provence'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Country)<-[r0:basedIn]-(m0:Company {name: 'BFM DICI Haute-Provence'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Country)<-[r0:basedIn]-(m0:Company {name: 'BFM DICI Haute-Provence'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Country)<-[r0:basedIn]-(m0:Company {name: 'BFM DICI Haute-Provence'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Country)<-[r0:basedIn]-(m0:Company {name: 'BFM DICI Haute-Provence'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 85,
+      "local_index_zero_based": 85,
+      "graph": "company",
+      "qid": "14c72f2e-097e-4073-9348-3e90e49c1b4a",
+      "question": "What are the names of companies that have shared a CEO with CDP Reti at some point in time?",
+      "gold_cypher": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person)<-[r1:hasCEO]-(m1:Company {name: 'CDP Reti'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person)-[r1:hasCEO]->(m1:Company {name: 'CDP Reti'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person)<-[r1:hasCEO]-(m1:Company {name: 'CDP Reti'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person)<-[r1:hasCEO]-(m1:Company {name: 'CDP Reti'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Company)-[r0:hasCEO]->(m0:Company)<-[r1:subsidiaryOf]-(m1:Company {name: 'CDP Reti'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person)<-[r1:hasCEO]-(m1:Company {name: 'CDP Reti'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 124,
+      "local_index_zero_based": 124,
+      "graph": "company",
+      "qid": "a26fa1a8-6f9a-4f0c-9500-69b2c4d9de8a",
+      "question": "Who are the founders of companies that are subsidiaries of HSBC?",
+      "gold_cypher": "MATCH (n:Person)<-[r0:foundedBy]-(m0:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'HSBC'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Person)<-[r0:foundedBy]-(m0:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'HSBC'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Company)-[r0:subsidiaryOf]->(m0:Company {name: 'HSBC'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Person)<-[r0:hasCEO]-(m0:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'HSBC'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Person)<-[r0:hasCEO]-(m0:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'HSBC'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Company)-[r0:subsidiaryOf]->(m0:Company {name: 'HSBC'}) WITH DISTINCT n RETURN n.name, n.foundedBy.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.1
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.2
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.2
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.1
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 147,
+      "local_index_zero_based": 147,
+      "graph": "company",
+      "qid": "d6aa121b-59b4-4892-a087-d5806cacf86a",
+      "question": "Provide the names of all companies located in Russia, along with the number of individuals who have served on their boards at any time.",
+      "gold_cypher": "MATCH (n:Company)-[r1:basedIn]->(m1:Country {name: 'Russia'}) OPTIONAL MATCH (n:Company)-[r0:hasBoardMember]->(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Company)-[r1:basedIn]->(m1:Country {name: 'Russia'}) OPTIONAL MATCH (n:Company)-[r0:hasBoardMember]->(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Company)-[r1:basedIn]->(m1:Country {name: 'Russia'}) OPTIONAL MATCH (n:Company)<-[r0:hasBoardMember]-(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Company)-[r1:basedIn]->(m1:Country {name: 'Russia'}) OPTIONAL MATCH (n:Company)<-[r0:hasBoardMember]-(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Company)-[r1:basedIn]->(m1:Country {name: 'Russia'}) OPTIONAL MATCH (n:Company)<-[r0:hasBoardMember]-(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Company)-[r1:basedIn]->(m1:Country {name: 'Russia'}) OPTIONAL MATCH (n:Company)<-[r0:hasBoardMember]-(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.9957347809228383
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.9957347809228383
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.9957347809228383
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.9957347809228383
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 216,
+      "local_index_zero_based": 216,
+      "graph": "company",
+      "qid": "14133f73-936a-474a-bcac-f9713b86d64d",
+      "question": "Who are the individuals that Tennman Records was founded by, and where were they born?",
+      "gold_cypher": "MATCH (n:Person)<-[r0:foundedBy]-(m0:Company {name: 'Tennman Records'}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Person)<-[r0:foundedBy]-(m0:Company {name: 'Tennman Records'}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Person)<-[r0:hasCEO]-(m0:Company {name: 'Tennman Records'}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
+        "CSD": "MATCH (n:Person)<-[r0:hasCEO]-(m0:Company {name: 'Tennman Records'}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
+        "DistiLLM": "MATCH (n:Person)<-[r0:hasCEO]-(m0:Company {name: 'Tennman Records'}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
+        "CypherKD": "MATCH (n:Person)<-[r0:hasCEO]-(m0:Company {name: 'Tennman Records'}) WITH DISTINCT n RETURN n.name, n.place_of_birth"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 251,
+      "local_index_zero_based": 251,
+      "graph": "company",
+      "qid": "d5bf7668-3d2c-4177-9519-17c9e41408cb",
+      "question": "Which companies had Hartmut Mehdorn as their CEO during the year 2009?",
+      "gold_cypher": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person {name: 'Hartmut Mehdorn'}) WHERE r0.start_year <= 2009 AND (r0.end_year >= 2009 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person {name: 'Hartmut Mehdorn'}) WHERE r0.start_year <= 2009 AND (r0.end_year >= 2009 OR r0.end_year IS NULL) RETURN DISTINCT n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person {name: 'Hartmut Mehdorn'}) WHERE r0.start_year <= 2009 AND (r0.end_year >= 2009 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person {name: 'Hartmut Mehdorn'}) WHERE r0.start_year <= 2009 AND (r0.end_year >= 2009 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person {name: 'Hartmut Mehdorn'}) WHERE r0.start_year <= 2009 AND (r0.end_year >= 2009 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Company)-[r0:hasCEO]->(m0:Person {name: 'Hartmut Mehdorn'}) WHERE r0.start_year <= 2009 AND (r0.end_year >= 2009 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 263,
+      "local_index_zero_based": 263,
+      "graph": "company",
+      "qid": "a8ed414d-86b8-4f2d-a1ef-2c45df64661c",
+      "question": "What are the names of companies that operate in the hospitality industry and are subsidiaries of Raffles Hotels & Resorts?",
+      "gold_cypher": "MATCH (n:Company)-[r0:operatesIn]->(m0:Industry {name: 'hospitality industry'}),(n:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'Raffles Hotels & Resorts'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Company)-[r0:operatesIn]->(m0:Industry {name: 'hospitality'}),(n:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'Raffles Hotels & Resorts'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Company)-[r0:operatesIn]->(m0:Industry {name: 'hospitalsite'}),(n:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'Raffles Hotels & Resorts'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Company)-[r0:operatesIn]->(m0:Industry {name: 'hospitality'}),(n:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'Raffles Hotels & Resorts'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Company)-[r0:operatesIn]->(m0:Industry {name: 'hospitality'}),(n:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'Raffles Hotels & Resorts'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Company)-[r0:operatesIn]->(m0:Industry {name: 'hospitality'}),(n:Company)-[r1:subsidiaryOf]->(m1:Company {name: 'Raffles Hotels & Resorts'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 496,
+      "local_index_zero_based": 149,
+      "graph": "fictional_character",
+      "qid": "de10f3bb-755e-465f-9f03-cf84d0c36d55",
+      "question": "What are the names of organizations that have members born in Asgard, and how many such members does each organization have?",
+      "gold_cypher": "MATCH (n:Organization)<-[r0:memberOf]-(m0:Character)-[r1:bornIn]->(m1:Location {name: 'Asgard'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Organization)<-[r0:memberOf]-(m0:Character)-[r1:bornIn]->(m1:Location {name: 'Asgard'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Organization)<-[r0:memberOf]-(m0:Character)-[r1:hasBornIn]->(m1:Location {name: 'Asgard'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Organization)<-[r0:memberOf]-(m0:Character)-[r1:bornIn]->(m1:Location {name: 'Asgard'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Organization)<-[r0:memberOf]-(m0:Character)-[r1:bornIn]->(m1:Location {name: 'Asgard'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Organization)<-[r0:memberOf]-(m0:Character)-[r1:bornIn]->(m1:Location {name: 'Asgard'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 543,
+      "local_index_zero_based": 196,
+      "graph": "fictional_character",
+      "qid": "0f9a6d6e-e581-449a-9380-17a330274f35",
+      "question": "Provide the names of all children of Joanna Lannister, along with the count of characters each of them have killed.",
+      "gold_cypher": "MATCH (n:Character)-[r1:hasMother]->(m1:Character {name: 'Joanna Lannister'}) OPTIONAL MATCH (n:Character)<-[r0:killedBy]-(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Character)-[r1:hasMother]->(m1:Character {name: 'Joanna Lannister'}) OPTIONAL MATCH (n:Character)-[r0:killedBy]->(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Character)<-[r1:hasParent]-(m1:Character {name: 'Joanna Lannister'}) OPTIONAL MATCH (n:Character)-[r0:killedBy]->(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Character)<-[r0:hasMother]-(m0:Character {name: 'Joanna Lannister'}) OPTIONAL MATCH (n:Character)-[r1:killedBy]->(m1:Character) WITH n, count(DISTINCT m1) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Character)<-[r0:hasMother]-(m0:Character {name: 'Joanna Lannister'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Character)<-[r1:hasMother]-(m1:Character {name: 'Joanna Lannister'}) OPTIONAL MATCH (n:Character)-[r0:killedBy]->(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.25
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 602,
+      "local_index_zero_based": 255,
+      "graph": "fictional_character",
+      "qid": "8672e6ed-73e8-4ff6-bd7c-262f194a623d",
+      "question": "What are the names of characters whose father is the Grandfather of the Troublemaker Street children and whose mother is the Grandmother of the Troublemaker Street children?",
+      "gold_cypher": "MATCH (n:Character)-[r0:hasFather]->(m0:Character {name: 'Grandfather of the Troublemaker Street children'}),(n:Character)-[r1:hasMother]->(m1:Character {name: 'Grandmother of the Troublemaker Street children'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Character)-[r0:hasFather]->(m0:Character)-[r1:hasFather]->(m1:Character {name: 'Troublemaker Street'}),(n:Character)-[r2:hasMother]->(m2:Character)-[r3:hasMother]->(m3:Character {name: 'Troublemaker Street'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Character)-[r0:hasParent]->(m0:Character)<-[r1:hasParent]-(m1:Character {name: 'Troublemaker Street'}) WITH DISTINCT n WHERE n.name = 'Grandmother of the Troublemaker Street' RETURN n.name",
+        "CSD": "MATCH (n:Character)-[r0:hasFather]->(m0:Character)<-[r1:hasFather]-(m1:Character {name: 'Grandfather of the Troublemaker Street'}) OPTIONAL MATCH (n:Character)-[r2:hasMother]->(m2:Character {name: 'Grandmother of the Troublemaker Street'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Character)-[r0:hasFather]->(m0:Character)<-[r1:hasFather]-(m1:Character {name: 'Troublemaker Street'}) WITH DISTINCT n WHERE n.hasMother = (m2:Character {name: 'Grandmother of Troublemaker Street'}) RETURN n.name",
+        "CypherKD": "MATCH (n:Character)-[r0:hasFather]->(m0:Character)<-[r1:hasFather]-(m1:Character {name: 'Troublemaker Street'}) WITH DISTINCT n WHERE n.hasMother = (m2:Character {name: 'Grandmother of the Troublemaker Street'}) RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 0.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 0.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 608,
+      "local_index_zero_based": 261,
+      "graph": "fictional_character",
+      "qid": "39583118-e09c-4862-8712-fa44983386e5",
+      "question": "What are the names of individuals who are fathers and are citizens of the United States of America?",
+      "gold_cypher": "MATCH (n:Character)<-[r0:hasFather]-(m0:Character) WITH DISTINCT n WHERE 'United States of America' IN n.country_of_citizenship RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Character)-[r0:hasFather]->(m0:Character) WITH DISTINCT n WHERE 'father' IN n.occupation AND 'United States of America' IN n.country_of_citizenship RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Person)<-[r0:hasParent]-(m0:Character {name: 'mossy'}) WITH DISTINCT n WHERE 'United States of America' IN n.country_of_citizenship RETURN n.name",
+        "CSD": "MATCH (n:Character)-[r0:hasFather]->(m0:Character)-[r1:bornIn]->(m1:Location {name: 'United States of America'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Character)-[r0:hasFather]->(m0:Character)-[r1:hasMother]->(m1:Character {name: 'United States of America'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Character)-[r0:hasFather]->(m0:Character)-[r1:hasMother]->(m1:Character {name: 'father'}),(n:Character)-[r2:hasSpouse]->(m2:Character {name: 'US'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 611,
+      "local_index_zero_based": 264,
+      "graph": "fictional_character",
+      "qid": "dd71c7fc-c4a9-46a6-a262-b531b016baff",
+      "question": "Provide the names of all characters from the Futuramaverse and, for each, the number of organizations each of them belongs to.",
+      "gold_cypher": "MATCH (n:Character)-[r1:fromUniverse]->(m1:FictionalUniverse {name: 'Futuramaverse'}) OPTIONAL MATCH (n:Character)-[r0:memberOf]->(m0:Organization) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Character)-[r1:fromUniverse]->(m1:FictionalUniverse {name: 'Futuramaverse'}) OPTIONAL MATCH (n:Character)-[r0:memberOf]->(m0:Organization) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Character)-[r1:fromUniverse]->(m1:FictionalUniverse {name: 'Futuramaverse'}) OPTIONAL MATCH (n:Character)-[r0:memberOf]->(m0:Organization) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Character)-[r1:fromUniverse]->(m1:FictionalUniverse {name: 'Futuramaverse'}) OPTIONAL MATCH (n:Character)-[r0:memberOf]->(m0:Organization) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Character)-[r1:fromUniverse]->(m1:FictionalUniverse {name: 'Futuramaverse'}) OPTIONAL MATCH (n:Character)-[r0:memberOf]->(m0:Organization) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Character)-[r1:fromUniverse]->(m1:FictionalUniverse {name: 'Futuramaverse'}) OPTIONAL MATCH (n:Character)-[r0:memberOf]->(m0:Organization) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 655,
+      "local_index_zero_based": 308,
+      "graph": "fictional_character",
+      "qid": "e17375b6-af03-4866-8d42-6e824098acbd",
+      "question": "What are the names of characters from Earth-167 who were born on Krypton and are not murderers by occupation?",
+      "gold_cypher": "MATCH (n:Character)-[r0:fromUniverse]->(m0:FictionalUniverse {name: 'Earth-167'}),(n:Character)-[r1:bornIn]->(m1:Location {name: 'Krypton'}) WITH DISTINCT n WHERE NOT 'murderer' IN n.occupation RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Character)-[r0:fromUniverse]->(m0:FictionalUniverse {name: 'Earth-167'}),(n:Character)-[r1:bornIn]->(m1:Location {name: 'Krypton'}) WITH DISTINCT n WHERE 'murderer' NOT IN n.occupation RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Character)-[r0:hasParent]->(m0:Character {name: 'Krypton'}),(n:Character)-[r1:hasOccupation]->(m1:Character {name: 'murder'}) WITH DISTINCT n WHERE NOT 'murder' IN n.occupation RETURN n.name",
+        "CSD": "MATCH (n:Character)-[r0:fromUniverse]->(m0:FictionalUniverse {name: 'Earth-167'}),(n:Character)-[r1:killedBy]->(m1:Character {name: 'murderer'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Character)-[r0:fromUniverse]->(m0:FictionalUniverse {name: 'Earth-167'}),(n:Character)-[r1:bornIn]->(m1:Location {name: 'Krypton'}) WITH DISTINCT n WHERE NOT 'murderer' IN n.occupation RETURN n.name",
+        "CypherKD": "MATCH (n:Character)-[r0:fromUniverse]->(m0:FictionalUniverse {name: 'Earth-167'}) WITH DISTINCT n WHERE n.occupation <> 'murderer' RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 0.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 694,
+      "local_index_zero_based": 347,
+      "graph": "fictional_character",
+      "qid": "0035a8ec-c55b-47a5-9429-ca74b117f86f",
+      "question": "Provide the names of all characters whose mother is Downy O'Drake, along with the count of characters for whom each is the father.",
+      "gold_cypher": "MATCH (n:Character)-[r1:hasMother]->(m1:Character {name: 'Downy O\\'Drake'}) OPTIONAL MATCH (n:Character)<-[r0:hasFather]-(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Character)-[r1:hasMother]->(m1:Character {name: 'Downy O\\'Drake'}) OPTIONAL MATCH (n:Character)-[r0:hasFather]->(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Character)-[r1:hasParent]->(m1:Character {name: 'Downy O\\'Drake'}) OPTIONAL MATCH (n:Character)<-[r0:hasParent]-(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Character)-[r0:hasMother]->(m0:Character {name: 'Downy OÜ Drake'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Character)-[r1:hasMother]->(m1:Character {name: 'Downy O\\'Drake'}) OPTIONAL MATCH (n:Character)<-[r0:hasFather]-(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Character)-[r1:hasMother]->(m1:Character {name: 'Downy O\\'Drake'}) OPTIONAL MATCH (n:Character)<-[r0:hasFather]-(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.7142857142857143
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 715,
+      "local_index_zero_based": 368,
+      "graph": "fictional_character",
+      "qid": "54ebd630-30f2-4da4-997c-02a9d37ad463",
+      "question": "How many characters are either the father of Zhao Guang or killed Su Yong?",
+      "gold_cypher": "CALL { MATCH (n:Character)<-[r0:hasFather]-(m0:Character {name: 'Zhao Guang'}) RETURN n, m0 as m UNION MATCH (n:Character)<-[r1:killedBy]-(m1:Character {name: 'Su Yong'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Character)-[r0:hasFather]->(m0:Character {name: 'Zhao Guang'}) RETURN n, m0 as m UNION MATCH (n:Character)-[r1:killedBy]->(m1:Character {name: 'Su Yong'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "Qwen3-0.6B (SFT)": "CALL { MATCH (n:Character)<-[r0:hasParent]-(m0:Character {name: 'Zhao Guang'}) RETURN n, m0 as m UNION MATCH (n:Character)<-[r1:killBy]-(m1:Character {name: 'Su Yong'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "CSD": "CALL { MATCH (n:Character)-[r0:hasFather]->(m0:Character {name: 'Zhao Guang'}) RETURN n, m0 as m UNION MATCH (n:Character)-[r1:killedBy]->(m1:Character {name: 'Su Yong'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "DistiLLM": "CALL { MATCH (n:Character)-[r0:hasFather]->(m0:Character {name: 'Zhao Guang'}) RETURN n, m0 as m UNION MATCH (n:Character)-[r1:killedBy]->(m1:Character {name: 'Su Yong'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "CypherKD": "CALL { MATCH (n:Character)-[r0:hasFather]->(m0:Character {name: 'Zhao Guang'}) RETURN n, m0 as m UNION MATCH (n:Character)<-[r1:hasFather]-(m1:Character {name: 'Su Yong'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 819,
+      "local_index_zero_based": 87,
+      "graph": "flight_accident",
+      "qid": "7b450f61-fad7-4ca7-b408-1a6ebdfc098a",
+      "question": "What is the ICAO code for Iwakuni Air Base?",
+      "gold_cypher": "MATCH (n:Airport {name: 'Iwakuni Air Base'}) WITH DISTINCT n RETURN n.icao_code",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Airport {name: 'Iwakuni Air Base'}) WITH DISTINCT n RETURN n.icao_code",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Airfield {name: 'Iwakuni Air Base'}) WITH DISTINCT n RETURN n.icao_code",
+        "CSD": "MATCH (n:Airport {name: 'Iwakuni Air Base'}) WITH DISTINCT n RETURN n.icao_code",
+        "DistiLLM": "MATCH (n:Airport {name: 'Iwakuni Air Base'}) WITH DISTINCT n RETURN n.icao_code",
+        "CypherKD": "MATCH (n:Airport {name: 'Iwakuni Air Base'}) WITH DISTINCT n RETURN n.icao_code"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 916,
+      "local_index_zero_based": 184,
+      "graph": "flight_accident",
+      "qid": "c54b9f25-1d3b-4df6-88e8-bd37b9eb305e",
+      "question": "What year was the Ulan-Ude Aviation Plant launched?",
+      "gold_cypher": "MATCH (n:AircraftManufacturer {name: 'Ulan-Ude Aviation Plant'}) WITH DISTINCT n RETURN n.launch_year",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:AircraftManufacturer {name: 'Ulan-Ude Aviation Plant'}) WITH DISTINCT n RETURN n.launch_year",
+        "Qwen3-0.6B (SFT)": "MATCH (n:AircraftModel {name: 'Ulan-Ude Aviation Plant'}) WITH DISTINCT n RETURN n.launch_year",
+        "CSD": "MATCH (n:AircraftManufacturer {name: 'Ulan-Ude Aviation Plant'}) WITH DISTINCT n RETURN n.launch_year",
+        "DistiLLM": "MATCH (n:AircraftManufacturer {name: 'Ulan-Ude Aviation Plant'}) WITH DISTINCT n RETURN n.launch_year",
+        "CypherKD": "MATCH (n:Operator {name: 'Ulan-Ude Aviation Plant'}) WITH DISTINCT n RETURN n.launch_year"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 963,
+      "local_index_zero_based": 42,
+      "graph": "geography",
+      "qid": "5f2d6d46-ba37-494b-b0f0-636b5d4f780d",
+      "question": "What are the names of countries where lakes that the Yuan River flows into are located?",
+      "gold_cypher": "MATCH (n:Country)<-[r0:locatedIn]-(m0:Lake)<-[r1:flowsInto]-(m1:River {name: 'Yuan River'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Country)<-[r0:locatedIn]-(m0:Lake)<-[r1:flowsInto]-(m1:River {name: 'Yuan River'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Country)<-[r0:locatedIn]-(m0:Lake)<-[r1:flowsInto]-(m1:River {name: 'Yuan River'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Country)<-[r0:locatedIn]-(m0:Lake)<-[r1:flowsInto]-(m1:River {name: 'Yuan River'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Country)<-[r0:flowsInto]-(m0:River)-[r1:flowsInto]->(m1:Lake {name: 'Yuan River'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Country)<-[r0:flowsInto]-(m0:River)-[r1:flowsInto]->(m1:Lake {name: 'Yuan River'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 975,
+      "local_index_zero_based": 54,
+      "graph": "geography",
+      "qid": "1ab6cb26-4424-433d-82df-978caf0eed5b",
+      "question": "What are the names of countries where either Lac la Ronge or the Rivière du Lièvre basin is located?",
+      "gold_cypher": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:Lake {name: 'Lac la Ronge'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Rivière du Lièvre basin'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin) WHERE m0.name = 'Lac la Ronge' OR m0.name = 'Rivière du Lièvre' RETURN n.name as name, m0.name as basin } WITH DISTINCT n RETURN name",
+        "Qwen3-0.6B (SFT)": "CALL { MATCH (n:Country)<-[r0:locationIn]-(m0:River {name: 'Lac la Ronge'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locationIn]-(m1:River {name: 'Rivière du Lièvre basin'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "CSD": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin {name: 'Lac la Ronge'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Riviere du Lièvre basin'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin {name: 'Lac la Ronge'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Riviere du Lièvre basin'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "CypherKD": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin {name: 'Lac la Ronge'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Riviere du Lièvre basin'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 0.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 977,
+      "local_index_zero_based": 56,
+      "graph": "geography",
+      "qid": "7926da80-d841-48ba-944d-051b221bf21d",
+      "question": "What are the names of countries through which both the Bolshoy Kunyak and Katiss rivers flow?",
+      "gold_cypher": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River {name: 'Bolshoy Kunyak'}),(n:Country)<-[r1:flowsThrough]-(m1:River {name: 'Katiss'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River {name: 'Bolshoy Kunyak'}),(n:Country)<-[r1:flowsThrough]-(m1:River {name: 'Katiss'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River {name: 'Bolshoy Kunyak'}),(n:Country)<-[r1:flowsThrough]-(m1:River {name: 'Katiss'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River {name: 'Bolshoy Kunyak'}),(n:Country)<-[r1:flowsThrough]-(m1:River {name: 'Katiss'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River {name: 'Bolshoy Kunyak'}),(n:Country)<-[r1:flowsThrough]-(m1:River {name: 'Katiss'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River {name: 'Bolshoy Kunyak'}),(n:Country)<-[r1:flowsThrough]-(m1:River {name: 'Katiss'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 991,
+      "local_index_zero_based": 70,
+      "graph": "geography",
+      "qid": "4d4a75cb-6449-424e-aaba-1ff7057f0dd9",
+      "question": "What are the names of countries through which a river flowing through Cameroon also passes, sorted by their area from largest to smallest?",
+      "gold_cypher": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River)-[r1:flowsThrough]->(m1:Country {name: 'Cameroon'}) WITH DISTINCT n RETURN n.name ORDER BY n.area_km2 DESC",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River)-[r1:flowsThrough]->(m1:Country {name: 'Cameroon'}) WITH DISTINCT n RETURN n.name ORDER BY n.area_km2 DESC",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Country)<-[r0:locaIn]-(m0:River)-[r1:locaIn]->(m1:Country {name: 'Cameroon'}) WITH DISTINCT n RETURN n.name ORDER BY n.area_km2 DESC",
+        "CSD": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River)-[r1:flowsThrough]->(m1:Country {name: 'Cameroon'}) WITH DISTINCT n RETURN n.name ORDER BY n.area_km2 DESC",
+        "DistiLLM": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River)-[r1:flowsThrough]->(m1:Country {name: 'Cameroon'}) WITH DISTINCT n RETURN n.name ORDER BY n.area_km2 DESC",
+        "CypherKD": "MATCH (n:Country)<-[r0:flowsThrough]-(m0:River)-[r1:flowsThrough]->(m1:Country {name: 'Cameroon'}) WITH DISTINCT n RETURN n.name ORDER BY n.area_km2 DESC"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1015,
+      "local_index_zero_based": 94,
+      "graph": "geography",
+      "qid": "8b14ae44-657a-4aab-881c-050bebd2351f",
+      "question": "What are the names of lakes located in the Democratic Republic of the Congo, and how many drainage basins is each one part of?",
+      "gold_cypher": "MATCH (n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Democratic Republic of the Congo'}) OPTIONAL MATCH (n:Lake)-[r0:partOf]->(m0:DrainageBasin) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Democratic Republic of the Congo'}) OPTIONAL MATCH (n)<-[r0:partOf]-(m0:DrainageBasin) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Democratic Republic of the Congo'}) OPTIONAL MATCH (n:Lake)-[r0:partOf]->(m0:DrainageBasin) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Democratic Republic of the Congo'}) OPTIONAL MATCH (n:Lake)-[r0:partOf]->(m0:DrainageBasin) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Democratic Republic of the Congo'}) OPTIONAL MATCH (n:Lake)-[r0:partOf]->(m0:DrainageBasin) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Democratic Republic of the Congo'}) OPTIONAL MATCH (n:Lake)-[r0:partOf]->(m0:DrainageBasin) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1041,
+      "local_index_zero_based": 120,
+      "graph": "geography",
+      "qid": "aa6a132d-f296-4e20-8471-728ff27e28bc",
+      "question": "What are the names of countries in which either the Saint Lawrence River basin or Batiscanie is located?",
+      "gold_cypher": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin {name: 'Saint Lawrence River basin'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Batiscanie'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin {name: 'Saint Lawrence River basin'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Batiscanie'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:River {name: 'Saint Lawrence River basin'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:River {name: 'Batiscanie'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "CSD": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin {name: 'Saint Lawrence River basin'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Batiscanie'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin {name: 'Saint Lawrence River basin'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Batiscanie'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "CypherKD": "CALL { MATCH (n:Country)<-[r0:locatedIn]-(m0:DrainageBasin {name: 'Saint Lawrence River basin'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Batiscanie'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1068,
+      "local_index_zero_based": 147,
+      "graph": "geography",
+      "qid": "634b1a5c-2951-4285-8b1a-2fb757d2c4af",
+      "question": "What are the names of drainage basins that are located in the same countries as the Vorskla River Basin, and how many of those countries does each basin span?",
+      "gold_cypher": "MATCH (n:DrainageBasin)-[r0:locatedIn]->(m0:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Vorskla River Basin'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:DrainageBasin)-[r1:locatedIn]->(m1:Country)<-[r2:locatedIn]-(m2:DrainageBasin {name: 'Vorskla River Basin'}) WITH n, count(DISTINCT m1) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:DrainageBasin)-[r0:locatedIn]->(m0:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Vorskla River Basin'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:DrainageBasin)-[r0:locatedIn]->(m0:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Vorskla River Basin'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:DrainageBasin)-[r0:locatedIn]->(m0:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Vorskla River Basin'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:DrainageBasin)-[r0:locatedIn]->(m0:Country)<-[r1:locatedIn]-(m1:DrainageBasin {name: 'Vorskla River Basin'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1088,
+      "local_index_zero_based": 167,
+      "graph": "geography",
+      "qid": "937960b0-405e-4b46-ae54-7e64dc90eb03",
+      "question": "What are the names of the mountain ranges that include Uja Tirche?",
+      "gold_cypher": "MATCH (n:MountainRange)<-[r0:partOf]-(m0:Mountain {name: 'Uja Tirche'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:MountainRange)<-[r0:partOf]-(m0:Mountain) WHERE m0.name = 'Uja Tirche' WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:MountainRange)<-[r0:partOf]-(m0:MountainRange {name: 'Uja Tirche'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:MountainRange)<-[r0:partOf]-(m0:Mountain {name: 'Uja Tirche'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:MountainRange)<-[r0:partOf]-(m0:Mountain {name: 'Uja Tirche'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:MountainRange)<-[r0:partOf]-(m0:Mountain {name: 'Uja Tirche'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1104,
+      "local_index_zero_based": 183,
+      "graph": "geography",
+      "qid": "36142220-fe13-46d9-820a-612571ec0ed9",
+      "question": "What are the names of lakes that are situated in both Turkmenistan and Kazakhstan?",
+      "gold_cypher": "MATCH (n:Lake)-[r0:locatedIn]->(m0:Country {name: 'Turkmenistan'}),(n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Kazakhstan'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Lake)-[r0:locatedIn]->(m0:Country {name: 'Turkmenistan'}),(n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Kazakhstan'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Lake)-[r0:locatedIn]->(m0:Country {name: 'Turkmenistan'}),(n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Kazakhstan'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Lake)-[r0:locatedIn]->(m0:Country {name: 'Turkmenistan'}),(n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Kazakhstan'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Lake)-[r0:locatedIn]->(m0:Country {name: 'Turkmenistan'}),(n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Kazakhstan'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Lake)-[r0:locatedIn]->(m0:Country {name: 'Turkmenistan'}),(n:Lake)-[r1:locatedIn]->(m1:Country {name: 'Kazakhstan'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1302,
+      "local_index_zero_based": 15,
+      "graph": "movie",
+      "qid": "8163f80b-8323-4300-9697-1910ded21b18",
+      "question": "What are the names and original languages of action films produced by Relativity Media?",
+      "gold_cypher": "MATCH (n:Movie)-[r0:hasGenre]->(m0:Genre {name: 'action film'}),(n:Movie)-[r1:producedBy]->(m1:ProductionCompany {name: 'Relativity Media'}) WITH DISTINCT n RETURN n.name, n.original_language",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Movie)-[r0:hasGenre]->(m0:Genre {name: 'action'}),(n:Movie)-[r1:producedBy]->(m1:ProductionCompany {name: 'Relativity Media'}) WITH DISTINCT n RETURN n.name, n.original_language",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Movie)-[r0:producedBy]->(m0:Person {name: 'Relativity Media'}),(n:Movie)-[r1:hasGenre]->(m1:Genre {name: 'action film'}) WITH DISTINCT n RETURN n.name, n.original_language",
+        "CSD": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Relativity Media'}),(n:Movie)-[r1:hasGenre]->(m1:Genre {name: 'action'}) WITH DISTINCT n RETURN n.name, n.original_language",
+        "DistiLLM": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Relativity Media'}),(n:Movie)-[r1:hasGenre]->(m1:Genre {name: 'action'}) WITH DISTINCT n RETURN n.name, n.original_language",
+        "CypherKD": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Relativity Media'}) WITH DISTINCT n RETURN n.name, n.original_language"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.28
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 1339,
+      "local_index_zero_based": 52,
+      "graph": "movie",
+      "qid": "861aace7-0d68-466a-91f3-73d3818318f6",
+      "question": "How many movies were either released in Australia or produced by Bazmark?",
+      "gold_cypher": "CALL { MATCH (n:Movie)-[r0:releasedIn]->(m0:Country {name: 'Australia'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:producedBy]->(m1:ProductionCompany {name: 'Bazmark'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Movie)-[r0:releasedIn]->(m0:Country {name: 'Australia'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:producedBy]->(m1:ProductionCompany {name: 'Bazmark'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "Qwen3-0.6B (SFT)": "CALL { MATCH (n:Movie)-[r0:releasedIn]->(m0:Country {name: 'Australia'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:producedBy]->(m1:ProductionCompany {name: 'Bazmark'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "CSD": "CALL { MATCH (n:Movie)-[r0:originatesFrom]->(m0:Country {name: 'Australia'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:producedBy]->(m1:ProductionCompany {name: 'Bazmark'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "DistiLLM": "CALL { MATCH (n:Movie)-[r0:originatesFrom]->(m0:Country {name: 'Australia'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:producedBy]->(m1:ProductionCompany {name: 'Bazmark'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "CypherKD": "CALL { MATCH (n:Movie)-[r0:releasedIn]->(m0:Country {name: 'Australia'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:producedBy]->(m1:ProductionCompany {name: 'Bazmark'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.010847178360565701
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.010847178360565701
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1364,
+      "local_index_zero_based": 77,
+      "graph": "movie",
+      "qid": "baec6063-e583-406a-929f-55ed823113cd",
+      "question": "What is the difference in runtime, in minutes, between The Long Way Home and The Father?",
+      "gold_cypher": "MATCH (n:Movie {name: 'The Long Way Home'}), (m0:Movie {name: 'The Father'}) RETURN n.runtime_minute - m0.runtime_minute AS answer",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Movie {name: 'The Long Way Home'}), (m0:Movie {name: 'The Father'}) RETURN n.runtime_minute - m0.runtime_minute AS answer",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Movie {name: 'The Long Way Home'}), (m0:Movie {name: 'The Father'}) RETURN n.runtime_minute - m0.runtime_minute AS answer",
+        "CSD": "MATCH (n:Movie {name: 'The Long Way Home'}), (m0:Movie {name: 'The Father'}) RETURN n.runtime_minute - m0.runtime_minute AS answer",
+        "DistiLLM": "MATCH (n:Movie {name: 'The Long Way Home'}), (m0:Movie {name: 'The Father'}) RETURN n.runtime_minute - m0.runtime_minute AS answer",
+        "CypherKD": "MATCH (n:Movie {name: 'The Long Way Home'}), (m0:Movie {name: 'The Father'}) RETURN n.runtime_minute - m0.runtime_minute AS answer"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1436,
+      "local_index_zero_based": 149,
+      "graph": "movie",
+      "qid": "c6cf9227-8fcf-4cbf-a318-040316af1671",
+      "question": "What are the names of movies featuring either Jon Favreau or Martha Kelly?",
+      "gold_cypher": "CALL { MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person {name: 'Jon Favreau'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:hasCastMember]->(m1:Person {name: 'Martha Kelly'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person {name: 'Jon Favreau'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:hasCastMember]->(m1:Person {name: 'Martha Kelly'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "CALL { MATCH (n:Movie)<-[r0:hasCastMember]-(m0:Person {name: 'Jon Favreau'}) RETURN n, m0 as m UNION MATCH (n:Movie)<-[r1:hasCastMember]-(m1:Person {name: 'Martha Kelly'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "CSD": "CALL { MATCH (n:Movie)-[r0:directedBy]->(m0:Person {name: 'Jon Favreau'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:directedBy]->(m1:Person {name: 'Martha Kelly'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "CALL { MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person {name: 'Jon Favreau'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:hasCastMember]->(m1:Person {name: 'Martha Kelly'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "CypherKD": "CALL { MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person {name: 'Jon Favreau'}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:hasCastMember]->(m1:Person {name: 'Martha Kelly'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.13043478260869565
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1539,
+      "local_index_zero_based": 252,
+      "graph": "movie",
+      "qid": "f63c99e3-a10c-4ede-8563-4fa684e94e12",
+      "question": "What are the names of all movies that are part of the Alien series, and how many cast members does each have?",
+      "gold_cypher": "MATCH (n:Movie)-[r1:partOfSeries]->(m1:FilmSeries {name: 'Alien'}) OPTIONAL MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Movie)-[r1:partOfSeries]->(m1:FilmSeries {name: 'Alien'}) OPTIONAL MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Movie)-[r1:partOfSeries]->(m1:FilmSeries {name: 'Alien series'}) OPTIONAL MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Movie)-[r1:partOfSeries]->(m1:FilmSeries {name: 'Alien'}) OPTIONAL MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Movie)-[r1:partOfSeries]->(m1:FilmSeries {name: 'Alien'}) OPTIONAL MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Movie)-[r1:partOfSeries]->(m1:FilmSeries {name: 'Alien'}) OPTIONAL MATCH (n:Movie)-[r0:hasCastMember]->(m0:Person) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1550,
+      "local_index_zero_based": 263,
+      "graph": "movie",
+      "qid": "b4f0b743-7317-4d45-b8cf-1db0b0c51d29",
+      "question": "How many production companies have produced movies that received the Satellite Award for Best Original Screenplay?",
+      "gold_cypher": "MATCH (n:ProductionCompany)<-[r0:producedBy]-(m0:Movie)-[r1:receivesAward]->(m1:Award {name: 'Satellite Award for Best Original Screenplay'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:ProductionCompany)<-[r0:producedBy]-(m0:Movie)-[r1:receivesAward]->(m1:Award {name: 'Satellite Award for Best Original Screenplay'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "Qwen3-0.6B (SFT)": "MATCH (n:ProductionCompany)<-[r0:producedBy]-(m0:Movie)-[r1:receivesAward]->(m1:Award {name: 'Satellite Award for Best Original Screenplay'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "CSD": "MATCH (n:ProductionCompany)<-[r0:producedBy]-(m0:Movie)-[r1:receivesAward]->(m1:Award {name: 'Satellite Award for Best Original Screenplay'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "DistiLLM": "MATCH (n:ProductionCompany)<-[r0:producedBy]-(m0:Movie)-[r1:receivesAward]->(m1:Award {name: 'Satellite Award for Best Original Screenplay'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "CypherKD": "MATCH (n:ProductionCompany)<-[r0:producedBy]-(m0:Movie)-[r1:receivesAward]->(m1:Award {name: 'Satellite Award for Best Original Screenplay'}) WITH DISTINCT n RETURN count(DISTINCT n)"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1565,
+      "local_index_zero_based": 278,
+      "graph": "movie",
+      "qid": "2816b588-b849-4c46-9c4a-26d483f162bc",
+      "question": "Who are the directors of movies featuring Minae Noji?",
+      "gold_cypher": "MATCH (n:Person)<-[r0:directedBy]-(m0:Movie)-[r1:hasCastMember]->(m1:Person {name: 'Minae Noji'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Person)<-[r0:directedBy]-(m0:Movie)-[r1:hasCastMember]->(m1:Movie {name: 'Minae Noji'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Person)<-[r0:directedBy]-(m0:Movie)-[r1:hasCastMember]->(m1:Person {name: 'Minae Noji'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Person)<-[r0:directedBy]-(m0:Movie)-[r1:hasCastMember]->(m1:Person {name: 'Minae Noji'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Person)<-[r0:directedBy]-(m0:Movie)-[r1:directedBy]->(m1:Person {name: 'Minae Noji'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Person)<-[r0:directedBy]-(m0:Movie)-[r1:hasCastMember]->(m1:Person {name: 'Minae Noji'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1577,
+      "local_index_zero_based": 290,
+      "graph": "movie",
+      "qid": "0f254d81-0d68-4df5-bfa4-0d8ea58c9503",
+      "question": "What are the awards received by the movie Caché?",
+      "gold_cypher": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Movie {name: 'Caché'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Movie {name: 'Caché'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Movie {name: 'Caché'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Movie {name: 'Caché'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Movie {name: 'Caché'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Movie {name: 'Caché'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1684,
+      "local_index_zero_based": 397,
+      "graph": "movie",
+      "qid": "5af3bdd8-4ab8-4cb5-9e0c-6dfff3268844",
+      "question": "What are the names of movies produced by Media Cooperation One, along with their global box office earnings in USD?",
+      "gold_cypher": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Media Cooperation One'}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Media Cooperation One'}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Media Cooperation One'}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
+        "CSD": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Media Cooperation One'}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
+        "DistiLLM": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Media Cooperation One'}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
+        "CypherKD": "MATCH (n:Movie)-[r0:producedBy]->(m0:ProductionCompany {name: 'Media Cooperation One'}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1721,
+      "local_index_zero_based": 33,
+      "graph": "nba",
+      "qid": "047e97cb-44fb-4148-b36e-c539e0340d16",
+      "question": "What are the names of awards received by players who play the small forward position?",
+      "gold_cypher": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Player)-[r1:playsPosition]->(m1:Position {name: 'small forward'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Player)-[r1:playsPosition]->(m1:Position {name: 'small forward'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Player)-[r1:playsPosition]->(m1:Position {name: 'small forward'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Player)-[r1:playsPosition]->(m1:Position {name: 'small forward'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Player)-[r1:playsPosition]->(m1:Position {name: 'small forward'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Award)<-[r0:receivesAward]-(m0:Player)-[r1:playsPosition]->(m1:Position {name: 'small forward'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1786,
+      "local_index_zero_based": 98,
+      "graph": "nba",
+      "qid": "6ca84420-ea44-44aa-b31f-d373bf45f0ae",
+      "question": "Who are the players who have been on the same teams as Aron Baynes, and how many of those teams has each player been a part of?",
+      "gold_cypher": "MATCH (n:Player)-[r0:playsFor]->(m0:Team)<-[r1:playsFor]-(m1:Player {name: 'Aron Baynes'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Player)-[r0:playsFor]->(m0:Team)<-[r1:playsFor]-(m1:Player {name: 'Aron Baynes'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Player)-[r0:playsFor]->(m0:Team)<-[r1:playsFor]-(m1:Player {name: 'Aron Baynes'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Player)-[r0:playsFor]->(m0:Team)<-[r1:playsFor]-(m1:Player {name: 'Aron Baynes'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Player)-[r0:playsFor]->(m0:Team)<-[r1:playsFor]-(m1:Player {name: 'Aron Baynes'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Player)-[r0:playsFor]->(m0:Team)<-[r1:playsFor]-(m1:Player {name: 'Aron Baynes'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1839,
+      "local_index_zero_based": 151,
+      "graph": "nba",
+      "qid": "c21c5900-7028-4de2-a792-1459cf645449",
+      "question": "What are the names and owners of teams that drafted Kent Benson and have Jabari Parker as a player, either currently or in the past?",
+      "gold_cypher": "MATCH (n:Team)<-[r0:draftedBy]-(m0:Player {name: 'Kent Benson'}),(n:Team)<-[r1:playsFor]-(m1:Player {name: 'Jabari Parker'}) WITH DISTINCT n RETURN n.name, n.owners",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Team)<-[r0:playsFor]-(m0:Player {name: 'Kent Benson'}),(n:Team)<-[r1:playsFor]-(m1:Player {name: 'Jabari Parker'}) WITH DISTINCT n RETURN n.name, n.owners",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Team)<-[r0:playsFor]-(m0:Player {name: 'Kent Benson'}),(n:Team)<-[r1:playsFor]-(m1:Player {name: 'Jabari Parker'}) WITH DISTINCT n RETURN n.name, n.owners",
+        "CSD": "MATCH (n:Team)<-[r0:playsFor]-(m0:Player {name: 'Kent Benson'}),(n:Team)<-[r1:playsFor]-(m1:Player {name: 'Jabari Parker'}) WITH DISTINCT n RETURN n.name, n.owners",
+        "DistiLLM": "MATCH (n:Team)<-[r0:draftedBy]-(m0:Player {name: 'Kent Benson'}),(n:Team)<-[r1:playsFor]-(m1:Player {name: 'Jabari Parker'}) WITH DISTINCT n RETURN n.name, n.owners",
+        "CypherKD": "MATCH (n:Team)<-[r0:playsFor]-(m0:Player {name: 'Kent Benson'}),(n:Team)<-[r1:draftedBy]-(m1:Player {name: 'Jabari Parker'}) WITH DISTINCT n RETURN n.name, n.owners"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1883,
+      "local_index_zero_based": 195,
+      "graph": "nba",
+      "qid": "f29c01d9-fb9f-4384-b5fa-77a0538d9943",
+      "question": "What are the names of divisions that are part of the Western Conference and include the Sacramento Kings?",
+      "gold_cypher": "MATCH (n:Division)-[r0:partOfConference]->(m0:Conference {name: 'Western Conference'}),(n:Division)<-[r1:partOfDivision]-(m1:Team {name: 'Sacramento Kings'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Division)-[r0:partOfConference]->(m0:Conference {name: 'Western Conference'}) WITH DISTINCT n MATCH (n:Division)<-[r1:partOfDivision]-(m1:Team {name: 'Sacramento Kings'}) RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Division)-[r0:partOfDivision]->(m0:Division {name: 'Western Conference'}),(n:Division)<-[r1:partOfDivision]-(m1:Team {name: 'Sacramento Kings'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Division)<-[r0:partOfDivision]-(m0:Team {name: 'Sacramento Kings'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Division)<-[r0:partOfDivision]-(m0:Team {name: 'Sacramento Kings'}),(n:Division)<-[r1:partOfConference]-(m1:Conference {name: 'Western Conference'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Division)-[r0:partOfConference]->(m0:Conference {name: 'Western Conference'}),(n:Division)<-[r1:partOfDivision]-(m1:Team {name: 'Sacramento Kings'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.6666666666666666
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 1893,
+      "local_index_zero_based": 205,
+      "graph": "nba",
+      "qid": "df3389b0-1ba2-4dea-9216-b1c5eabd79e8",
+      "question": "What are the names of teams that are in the same division as the New Orleans Pelicans?",
+      "gold_cypher": "MATCH (n:Team)-[r0:partOfDivision]->(m0:Division)<-[r1:partOfDivision]-(m1:Team {name: 'New Orleans Pelicans'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Team)-[r0:partOfDivision]->(m0:Division)<-[r1:partOfDivision]-(m1:Team {name: 'New Orleans Pelicans'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Team)-[r0:partOfDivision]->(m0:Division)<-[r1:partOfDivision]-(m1:Team {name: 'New Orleans Pelicans'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:Team)-[r0:partOfDivision]->(m0:Division)<-[r1:partOfDivision]-(m1:Team {name: 'New Orleans Pelicans'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:Team)-[r0:partOfDivision]->(m0:Division)<-[r1:partOfDivision]-(m1:Team {name: 'New Orleans Pelicans'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:Team)-[r0:partOfDivision]->(m0:Division)<-[r1:partOfDivision]-(m1:Team {name: 'New Orleans Pelicans'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 2001,
+      "local_index_zero_based": 43,
+      "graph": "politics",
+      "qid": "8ecf34fe-ee65-4c97-9f12-980ed78ef03c",
+      "question": "How many countries does the Federal Reserve System belong to, or have diplomatic relations with South Korea?",
+      "gold_cypher": "CALL { MATCH (n:Country)<-[r0:belongsTo]-(m0:GovernmentOrganization {name: 'Federal Reserve System'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:hasDiplomaticRelationWith]-(m1:Country {name: 'South Korea'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Country)-[r0:memberOf]->(m0:InternationalOrganization {name: 'Federal Reserve System'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:hasDiplomaticRelationWith]-(m1:Country {name: 'South Korea'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Country)<-[r0:hasCountry]-(m0:Painting {name: 'Federal Reserve System'}) OR MATCH (n:Country)<-[r1:hasCountry]-(m1:Painting {name: 'South Korea'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "CSD": "MATCH (n:Country)<-[r0:belongsTo]-(m0:GovernmentOrganization {name: 'Federal Reserve System'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "DistiLLM": "MATCH (n:Country)<-[r0:belongsTo]-(m0:InternationalOrganization {name: 'Federal Reserve System'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "CypherKD": "CALL { MATCH (n:Country)<-[r0:belongsTo]-(m0:GovernmentOrganization {name: 'Federal Reserve System'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:hasDiplomaticRelationWith]-(m1:Country {name: 'South Korea'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.9767441860465116
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 0.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.046511627906976744
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 2030,
+      "local_index_zero_based": 72,
+      "graph": "politics",
+      "qid": "0df01cfe-6dc3-47c7-8ed1-540d0ce23de0",
+      "question": "Which country, having had the same politician serve as both head of government and head of state at some point, was founded the earliest?",
+      "gold_cypher": "MATCH (n:Country)-[r0:hasHeadOfGovernment]->(m0:Politician),(n:Country)-[r1:hasHeadOfState]->(m0:Politician) WITH DISTINCT n RETURN n.name ORDER BY n.founding_date ASC LIMIT 1",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Country)-[r0:hasHeadOfState]->(m0:Politician)<-[r1:hasHeadOfGovernment]-(m1:Country) WITH DISTINCT n RETURN n.name ORDER BY n.founding_date ASC LIMIT 1",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Country)<-[r0:hasParentOf]-(m0:Politician)-[r1:hasHeadOfGovernment]->(m1:Country {name: 'France'}) WITH DISTINCT n RETURN n.name ORDER BY n.founding_date ASC LIMIT 1",
+        "CSD": "MATCH (n:Country)<-[r0:belongsTo]-(m0:Politician)-[r1:hasHeadOfGovernment]->(m1:Country)<-[r2:belongsTo]-(m2:Politician) WITH DISTINCT n RETURN n.name ORDER BY n.founding_date ASC LIMIT 1",
+        "DistiLLM": "MATCH (n:Country)<-[r0:hasHeadOfGovernment]-(m0:Politician)-[r1:hasHeadOfState]->(m1:Country) WITH DISTINCT n RETURN n.name ORDER BY n.founding_date ASC LIMIT 1",
+        "CypherKD": "MATCH (n:Country)<-[r0:hasHeadOfGovernment]-(m0:Politician)-[r1:hasHeadOfState]->(m1:Country) WITH DISTINCT n RETURN n.name ORDER BY n.founding_date ASC LIMIT 1"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 2044,
+      "local_index_zero_based": 86,
+      "graph": "politics",
+      "qid": "93105d1f-0e28-4303-830b-acdcbf668ef7",
+      "question": "How many countries have either had Walter Scheel as their head of state at some point or have diplomatic relations with East Timor?",
+      "gold_cypher": "CALL { MATCH (n:Country)-[r0:hasHeadOfState]->(m0:Politician {name: 'Walter Scheel'}) RETURN n, m0 as m UNION MATCH (n:Country)-[r1:hasDiplomaticRelationWith]->(m1:Country {name: 'East Timor'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Country)-[r0:hasHeadOfState]->(m0:Politician {name: 'Walter Scheel'}) RETURN n, m0 as m UNION MATCH (n:Country)-[r1:hasDiplomaticRelationWith]->(m1:Country {name: 'East Timor'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "Qwen3-0.6B (SFT)": "CALL { MATCH (n:Country)<-[r0:hasHeadOfState]-(m0:Politician {name: 'Walter Scheel'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:hasDiplomaticRelationWith]-(m1:Country {name: 'East Timor'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "CSD": "CALL { MATCH (n:Country)<-[r0:hasHeadOfState]-(m0:Politician {name: 'Walter Scheel'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:hasDiplomaticRelationWith]-(m1:Country {name: 'East Timor'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "DistiLLM": "CALL { MATCH (n:Country)<-[r0:hasHeadOfState]-(m0:Politician {name: 'Walter Scheel'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:hasDiplomaticRelationWith]-(m1:Country {name: 'East Timor'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "CypherKD": "CALL { MATCH (n:Country)<-[r0:hasHeadOfState]-(m0:Politician {name: 'Walter Scheel'}) RETURN n, m0 as m UNION MATCH (n:Country)<-[r1:hasDiplomaticRelationWith]-(m1:Country {name: 'East Timor'}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.8235294117647058
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.8235294117647058
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.8235294117647058
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.8235294117647058
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 2046,
+      "local_index_zero_based": 88,
+      "graph": "politics",
+      "qid": "a3d7c6c3-11bc-446b-819b-bb42a573a4df",
+      "question": "What are the names of political parties that include members who were founders of The Patriots?",
+      "gold_cypher": "MATCH (n:PoliticalParty)<-[r0:memberOf]-(m0:Politician)<-[r1:foundedBy]-(m1:PoliticalParty {name: 'The Patriots'}) WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:PoliticalParty)<-[r0:memberOf]-(m0:Politician)-[r1:foundedBy]->(m1:PoliticalParty {name: 'The Patriots'}) WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "MATCH (n:PoliticalParty)<-[r0:hasParentOf]-(m0:Politician)-[r1:hasParentOf]->(m1:PoliticalParty {name: 'The Patriots'}) WITH DISTINCT n RETURN n.name",
+        "CSD": "MATCH (n:PoliticalParty)<-[r0:memberOf]-(m0:Politician)-[r1:foundedBy]->(m1:PoliticalParty {name: 'The Patriots'}) WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "MATCH (n:PoliticalParty)<-[r0:memberOf]-(m0:Politician)-[r1:foundedBy]->(m1:PoliticalParty {name: 'The Patriots'}) WITH DISTINCT n RETURN n.name",
+        "CypherKD": "MATCH (n:PoliticalParty)<-[r0:memberOf]-(m0:Politician)-[r1:foundedBy]->(m1:Politician {name: 'The Patriots'}) WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 2074,
+      "local_index_zero_based": 116,
+      "graph": "politics",
+      "qid": "0a6ef5c9-1bac-44bd-82c7-8ae01f5f88c6",
+      "question": "Who are the politicians who have held any of the same positions as Ivan Konev, and how many of those positions has each of them held?",
+      "gold_cypher": "MATCH (n:Politician)-[r0:holdsPosition]->(m0:Position)<-[r1:holdsPosition]-(m1:Politician {name: 'Ivan Konev'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Politician)-[r0:holdsPosition]->(m0:Position)<-[r1:holdsPosition]-(m1:Politician {name: 'Ivan Konev'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Politician)-[r0:hasPosition]->(m0:Position)<-[r1:hasPosition]-(m1:Politician {name: 'Ivan Konev'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CSD": "MATCH (n:Politician)-[r0:holdsPosition]->(m0:Position)<-[r1:holdsPosition]-(m1:Politician {name: 'Ivan Konev'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "DistiLLM": "MATCH (n:Politician)-[r0:holdsPosition]->(m0:Position)<-[r1:holdsPosition]-(m1:Politician {name: 'Ivan Konev'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "CypherKD": "MATCH (n:Politician)-[r0:holdsPosition]->(m0:Position)<-[r1:holdsPosition]-(m1:Politician {name: 'Ivan Konev'}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 1.0,
+          "psjs": 1.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": false
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": false
+        }
+      }
+    },
+    {
+      "global_index": 2206,
+      "local_index_zero_based": 248,
+      "graph": "politics",
+      "qid": "82d404e2-5b52-47af-8247-6074d9992ae6",
+      "question": "What are the names of politicians who have served as both head of government and head of state for a country, sorted by their date of death from earliest to latest?",
+      "gold_cypher": "MATCH (n:Politician)<-[r0:hasHeadOfGovernment]-(m0:Country),(n:Politician)<-[r1:hasHeadOfState]-(m0:Country) WITH DISTINCT n RETURN n.name ORDER BY n.date_of_death ASC",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Politician)-[r1:hasHeadOfState]->(m1:Country),(n:Politician)-[r2:hasHeadOfGovernment]->(m2:Country) WITH DISTINCT n RETURN n.name ORDER BY n.date_of_death ASC",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Politician)-[r0:hasHeadOfGovernment]->(m0:Country {name: 'Japan'}),(n:Politician)-[r1:hasHeadOfState]->(m1:Country {name: 'Europe'}) WITH DISTINCT n RETURN n.name ORDER BY n.date_of_death ASC",
+        "CSD": "MATCH (n:Politician)-[r0:hasHeadOfGovernment]->(m0:Country)<-[r1:hasHeadOfState]-(m1:Politician) WITH DISTINCT n RETURN n.name ORDER BY n.date_of_death ASC",
+        "DistiLLM": "MATCH (n:Politician)-[r0:hasHeadOfGovernment]->(m0:Country)-[r1:hasHeadOfState]->(m1:Country) WITH DISTINCT n RETURN n.name ORDER BY n.date_of_death ASC",
+        "CypherKD": "MATCH (n:Politician)-[r0:hasHeadOfGovernment]->(m0:Country)-[r1:hasHeadOfState]->(m1:Country) WITH DISTINCT n RETURN n.name ORDER BY n.date_of_death ASC"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 2208,
+      "local_index_zero_based": 250,
+      "graph": "politics",
+      "qid": "68f81304-b81d-4981-8640-e7940503624c",
+      "question": "What are the names of politicians who have served as either the head of state or head of government of Germany, at any time?",
+      "gold_cypher": "CALL { MATCH (n:Politician)<-[r0:hasHeadOfState]-(m0:Country {name: 'Germany'}) RETURN n, m0 as m UNION MATCH (n:Politician)<-[r1:hasHeadOfGovernment]-(m1:Country {name: 'Germany'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "CALL { MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country {name: 'Germany'}) RETURN n, m0 as m UNION MATCH (n:Politician)-[r1:hasHeadOfGovernment]->(m1:Country {name: 'Germany'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "Qwen3-0.6B (SFT)": "CALL { MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country {name: 'Germany'}) RETURN n, m0 as m UNION MATCH (n:Politician)-[r1:hasHeadOfGovernment]->(m1:Country {name: 'Germany'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "CSD": "CALL { MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country {name: 'Germany'}) RETURN n, m0 as m UNION MATCH (n:Politician)-[r1:hasHeadOfGovernment]->(m1:Country {name: 'Germany'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "DistiLLM": "CALL { MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country {name: 'Germany'}) RETURN n, m0 as m UNION MATCH (n:Politician)-[r1:hasHeadOfGovernment]->(m1:Country {name: 'Germany'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "CypherKD": "CALL { MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country {name: 'Germany'}) RETURN n, m0 as m UNION MATCH (n:Politician)-[r1:hasHeadOfGovernment]->(m1:Country {name: 'Germany'}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        }
+      }
+    },
+    {
+      "global_index": 2303,
+      "local_index_zero_based": 345,
+      "graph": "politics",
+      "qid": "bdbe3528-5bb6-4e06-ac69-821a1b0bc9e3",
+      "question": "What are the names and schools attended by politicians who have served as the head of state of a country to which the Ministry of National Defence belongs?",
+      "gold_cypher": "MATCH (n:Politician)<-[r0:hasHeadOfState]-(m0:Country)<-[r1:belongsTo]-(m1:GovernmentOrganization {name: 'Ministry of National Defence'}) WITH DISTINCT n RETURN n.name, n.schools_attended",
+      "predicted_cyphers": {
+        "Qwen3-4B (Teacher)": "MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country)-[r1:memberOf]->(m1:GovernmentOrganization {name: 'Ministry of National Defence'}) WITH DISTINCT n RETURN n.name, n.schools_attended",
+        "Qwen3-0.6B (SFT)": "MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country)<-[r1:hasHeadOfGovernment]-(m1:Country {name: 'Ministry of National Defence'}) WITH DISTINCT n RETURN n.name, n.schools_attended",
+        "CSD": "MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country)<-[r1:belongsTo]-(m1:InternationalOrganization {name: 'Ministry of National Defence'}) WITH DISTINCT n RETURN n.name, n.schools_attended",
+        "DistiLLM": "MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country)<-[r1:belongsTo]-(m1:GovernmentOrganization {name: 'Ministry of National Defence'}) WITH DISTINCT n RETURN n.name, n.schools_attended",
+        "CypherKD": "MATCH (n:Politician)-[r0:hasHeadOfState]->(m0:Country)<-[r1:belongsTo]-(m1:Country {name: 'Ministry of National Defence'}) WITH DISTINCT n RETURN n.name, n.schools_attended"
+      },
+      "metrics": {
+        "Qwen3-4B (Teacher)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "Qwen3-0.6B (SFT)": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CSD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "DistiLLM": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        },
+        "CypherKD": {
+          "executable": 1.0,
+          "execution_accuracy": 0.0,
+          "psjs": 0.0
+        }
+      },
+      "labels": {
+        "Qwen3-4B (Teacher)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "Qwen3-0.6B (SFT)": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "CSD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        },
+        "DistiLLM": {
+          "schema_grounding": false,
+          "graph_pattern_construction": true
+        },
+        "CypherKD": {
+          "schema_grounding": true,
+          "graph_pattern_construction": true
+        }
+      }
+    }
+  ]
+}

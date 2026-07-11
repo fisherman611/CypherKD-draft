@@ -4,11 +4,11 @@
 
 **ANSWER:**
 
-Thank you for the constructive comments. We agree that the paper should provide clearer baseline implementation details and stronger analysis of the proposed supervision signal.
+We thank the reviewer for the constructive comments. Below, we provide additional baseline implementation details, multi-seed confidence information, and analyses of the proposed supervision signal.
 
 - **The paper lacks some experimental details, especially for baseline implementation. The paper compares with many existing knowledge distillation methods. It does not explain whether these methods use official implementations or the authors' own reimplementations. If the baselines are reimplemented, the paper should provide the implementation details and report whether enough hyperparameter tuning was done.**
 
-    Thank you for pointing this out. We agree that the current version does not provide sufficient details about baseline implementation. In the revised version, we will include a detailed Baseline Implementation Details table. This table will explicitly clarify whether each baseline relies on the official codebase or our own reimplementation, alongside the core hyperparameters, tuning ranges, and checkpoint selection strategies.
+    We agree that more baseline implementation details are needed. The Baseline Implementation Details table below explicitly states whether each baseline uses the official codebase or our reimplementation, together with the core hyperparameters, tuning ranges, and checkpoint selection strategy.
 
     | Method    | Source code                           | Key hyperparameters                      | Tuning range                 | Checkpoint |
     |-----------|---------------------------------------|------------------------------------------|------------------------------|------------|
@@ -27,94 +27,94 @@ Thank you for the constructive comments. We agree that the paper should provide 
 
 - **From the experimental results, CypherKD improves a lot over standard supervised fine-tuning. The gains over existing knowledge distillation methods are often small. Some metrics are almost tied. Therefore, I am not sure whether these small gaps come from the proposed method itself or could be closed by hyperparameter tuning. I also suggest that the paper include confidence information or results across multiple runs.**
 
-    We agree with this concern. Although CypherKD shows clear gains over SFT, some improvements over strong KD baselines are relatively small. To make the comparison more reliable, we will add results across multiple random seeds and report **mean ± standard deviation**.
+    Although CypherKD shows clear gains over SFT, some improvements over strong KD baselines are relatively small. To separate method effects from run-to-run variance, we will add results across multiple random seeds and report **mean +/- standard deviation**.
 
     **CypherBench**
 
     | Method                 | EX           | PSJS         | Executable   |
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
-    | Qwen3-4B (Teacher)     | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | Qwen3-0.6B (SFT)       | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | RKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | SFKL                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | DistiLLM               | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FDD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | CSD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | AMiD                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | **CypherKD**           | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
+    | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | Qwen3-0.6B (SFT)       | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
     | **Llama-3.2 family**   |              |              |              |
-    | Llama-3.2-8B (Teacher) | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | Llama-3.2-1B (SFT)     | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | RKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | SFKL                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | DistiLLM               | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FDD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | CSD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | AMiD                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | **CypherKD**           | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
+    | Llama-3.2-8B (Teacher) | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | Llama-3.2-1B (SFT)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
 
     **Mind-the-Query**
 
     | Method                 | EX           | PSJS         | Executable   |
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
-    | Qwen3-4B (Teacher)     | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | Qwen3-0.6B (SFT)       | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | RKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | SFKL                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | DistiLLM               | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FDD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | CSD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | AMiD                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | **CypherKD**           | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
+    | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | Qwen3-0.6B (SFT)       | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
     | **Llama-3.2 family**   |              |              |              |
-    | Llama-3.2-8B (Teacher) | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | Llama-3.2-1B (SFT)     | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | RKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | SFKL                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | DistiLLM               | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FDD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | CSD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | AMiD                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | **CypherKD**           | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
+    | Llama-3.2-8B (Teacher) | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | Llama-3.2-1B (SFT)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
 
     **Neo4j-Text2Cypher**
 
     | Method                 | EX           | PSJS         | Executable   |
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
-    | Qwen3-4B (Teacher)     | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | Qwen3-0.6B (SFT)       | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | RKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | SFKL                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | DistiLLM               | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FDD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | CSD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | AMiD                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | **CypherKD**           | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
+    | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | Qwen3-0.6B (SFT)       | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
     | **Llama-3.2 family**   |              |              |              |
-    | Llama-3.2-8B (Teacher) | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | Llama-3.2-1B (SFT)     | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | RKL                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | SFKL                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | DistiLLM               | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | FDD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | CSD                    | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | AMiD                   | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
-    | **CypherKD**           | [MEAN ± STD] | [MEAN ± STD] | [MEAN ± STD] |
+    | Llama-3.2-8B (Teacher) | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | Llama-3.2-1B (SFT)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
 
 <br>
 
 - **The supervision signal in CypherKD comes entirely from the teacher model, without any additional correction or checking mechanism. If the teacher model makes mistakes in these correspondence relations, the extra supervision may transfer this noise to the student model.**
 
-    Thank you for raising this important point. We would like to clarify that CypherKD does **not** rely entirely on the teacher signal. The student is still trained with the standard cross-entropy loss on the gold Cypher query. The teacher-derived span-relation signal is only used as an auxiliary objective:
+    This is an important concern, but CypherKD does **not** rely entirely on the teacher signal. The student is still trained with the standard cross-entropy loss on the gold Cypher query. The teacher-derived span-relation signal is only used as an auxiliary objective:
 
     $$\mathcal{L}_{\text{total}} = (1-\beta)\mathcal{L}_{\text{CE}}+ \beta\left(\mathcal{L}_{\text{logit}} + \lambda_{\text{rel}}\mathcal{L}_{\text{rel}}\right)$$
 
@@ -159,12 +159,30 @@ Thank you for the constructive comments. We agree that the paper should provide 
 
 - **The main problem addressed by this method is that student models may fail to learn detailed structural correspondences between the input and output in Text-to-Cypher. The paper does not provide detailed analysis of this specific problem. It is still unclear whether the extra loss term and the corresponding supervision signal actually alleviate this learning difficulty.**
 
+    We thank the reviewer for this important suggestion. To directly examine structural correspondence errors, we add an error analysis using two grouped categories from the CypherBench taxonomy that are most closely related to span-context grounding:
+
+    - **Schema grounding:** wrong entity, relationship, or property type; entity-linking errors; and schema violations.
+    - **Graph-pattern construction:** reversed relationship directions and graph patterns that do not align with the question.
+
+    We compare the gold and predicted Cypher queries on the full test set and report the frequency of these two structural error groups.
+
+    | Method | Schema grounding | Graph-pattern construction |
+    |---|---:|---:|
+    | Qwen3-4B (Teacher) | 16.31% | 21.76% |
+    | Qwen3-0.6B (SFT) | 43.70% | 24.19% |
+    | CSD | 28.58% | 24.74% |
+    | DistiLLM | 29.43% | 23.94% |
+    | **CypherKD** | **26.83%** | **23.59%** |
+
+    The clearest improvement is in schema grounding. Compared with SFT, CypherKD reduces the full-test schema-grounding error rate from 43.70% to 26.83%, a reduction of 16.87 percentage points. It also produces fewer schema-grounding errors than CSD and DistiLLM. This indicates that the additional span-relation objective helps the student associate question and schema spans with the correct Cypher entity types, relationship types, properties, and linked entities.
+
+    The graph-pattern improvements are smaller: CypherKD obtains the lowest error rate among the student/KD methods (23.59%), compared with 24.19% for SFT, 24.74% for CSD, and 23.94% for DistiLLM. We therefore interpret the evidence as strongest for improved schema grounding, with a more modest benefit for graph-pattern construction, rather than claiming a uniformly large reduction across every structural error type.
 
 <br>
 
 - **I suggest that the authors add a robustness analysis for the rule-based span extraction method. For example, they could discuss when this method may fail under different Cypher structures and how to test its robustness more carefully**
 
-    We sincerely thank the reviewer for this suggestion. Our span extraction is implemented using deterministic rules derived from the Cypher syntax:
+     We sincerely thank the reviewer for this suggestion. Our span extraction is implemented using deterministic rules derived from the Cypher syntax:
 
     - Clause spans are identified by matching predefined Cypher clause keywords.
     - Node spans are extracted from parenthesized structures that satisfy Cypher node syntax (e.g., labels, properties, or variables adjacent to relationships).
