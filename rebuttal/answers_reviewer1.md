@@ -159,24 +159,26 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
 
 - **The main problem addressed by this method is that student models may fail to learn detailed structural correspondences between the input and output in Text-to-Cypher. The paper does not provide detailed analysis of this specific problem. It is still unclear whether the extra loss term and the corresponding supervision signal actually alleviate this learning difficulty.**
 
-    We thank the reviewer for this important suggestion. To directly examine structural correspondence errors, we add an error analysis using two grouped categories from the CypherBench [1] taxonomy that are most closely related to span-context grounding:
+    To examine this issue more directly, we add a rule-based error analysis based on two grouped categories from the CypherBench [1] taxonomy that are closely related to span–context grounding:
 
-    - **Schema grounding:** wrong entity, relationship, or property type; entity-linking errors; and schema violations.
-    - **Graph-pattern construction:** reversed relationship directions and graph patterns that do not align with the question.
+    * **Schema grounding:** incorrect entity labels, relationship types, properties, entity linking, or other schema violations.
+    * **Graph-pattern construction:** incorrect relationship directions or graph patterns that do not align with the question.
 
-    We compare the gold and predicted Cypher queries on the test set and report the frequency of these two structural error groups.
+    Specifically, we implement a rule-based analysis script that compares each predicted Cypher query with the corresponding gold query. The script extracts schema elements and graph patterns from both queries and detects mismatches associated with the two error groups above. We then report the percentage of test examples containing each type of error.
 
-    | Method | Schema grounding(%)| Graph-pattern construction(%)|
-    |---|---:|---:|
-    | Qwen3-4B (Teacher) | 16.31  | 21.76  |
-    | Qwen3-0.6B (SFT) | 43.70  | 24.19  |
-    | CSD | 28.58  | 24.74  |
-    | DistiLLM | 29.43  | 23.94  |
-    | **CypherKD** | **26.83**  | **23.59**  |
+    | Method             | Schema grounding (%) | Graph-pattern construction (%) |
+    | ------------------ | -------------------: | -----------------------------: |
+    | Qwen3-4B (Teacher) |                10.99 |                          20.40 |
+    | Qwen3-0.6B (SFT)   |                43.44 |                          40.84 |
+    | CSD                |                26.62 |                          32.45 |
+    | DistiLLM           |                27.13 |                          31.60 |
+    | **CypherKD**       |            **24.23** |                      **29.22** |
 
-    The clearest improvement is in schema grounding. Compared with SFT, CypherKD reduces the full-test schema-grounding error rate from 43.70% to 26.83%, a reduction of 16.87 percentage points. It also produces fewer schema-grounding errors than CSD and DistiLLM. This indicates that the additional span-relation objective helps the student associate question and schema spans with the correct Cypher entity types, relationship types, properties, and linked entities.
+    CypherKD has the lowest error rates among the student and distillation methods in both categories. Compared with SFT, its schema-grounding error rate decreases from **43.44% to 24.23%**, while its graph-pattern construction error rate decreases from **40.84% to 29.22%**. CypherKD also shows moderately lower error rates than CSD and DistiLLM.
 
-    The graph-pattern improvements are smaller: CypherKD obtains the lowest error rate among the student/KD methods (23.59%), compared with 24.19% for SFT, 24.74% for CSD, and 23.94% for DistiLLM. We therefore interpret the evidence as strongest for improved schema grounding, with a more modest benefit for graph-pattern construction, rather than claiming a uniformly large reduction across every structural error type.
+    These results are consistent with the intended effect of the proposed span-relation objective: encouraging the student to better preserve the teacher’s correspondence between Cypher spans and the question-schema context. In particular, the larger difference in schema-grounding errors suggests that the objective may help the student identify the entity labels, relationship types, and properties associated with each output span.
+
+    However, because this analysis relies on rule-based matching, it may not capture all semantic equivalences or structurally different but execution-equivalent queries. We therefore treat these results as supporting evidence that CypherKD alleviates structural correspondence errors, rather than as a definitive measurement of every grounding or graph-construction error.
 
 [1] Yanlin Feng, Simone Papicchio, and Sajjadur Rahman. 2025. Cypherbench: Towards precise retrieval over full-scale modern knowledge graphs in the LLM era. In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), ACL 2025, Vienna, Austria, July 27 - August 1, 2025, pages 8934–8958. Association for Computational Linguistics. 
 
