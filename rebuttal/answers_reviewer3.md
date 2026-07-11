@@ -14,10 +14,10 @@
 
     | Method               | EX           | EM           |
     |----------------------|-------------:|-------------:|
-    | Qwen3-4B (Teacher)   | [MEAN ± STD] | [MEAN ± STD] |
-    | Qwen3-0.6B (SFT)     | [MEAN ± STD] | [MEAN ± STD] |
-    | SRKL                 | [MEAN ± STD] | [MEAN ± STD] |
-    | SRKL + Proposed loss | [MEAN ± STD] | [MEAN ± STD] |
+    | Qwen3-4B (Teacher)   | 77.4         | 69.0         |
+    | Qwen3-0.6B (SFT)     | 62.5         | 57.9         |
+    | SRKL                 | 65.2         | 58.7         |
+    | SRKL + Proposed loss | 66.6         | 59.9         |
 
 
 <br>
