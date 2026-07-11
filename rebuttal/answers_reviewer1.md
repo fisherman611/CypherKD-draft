@@ -8,7 +8,7 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
 
 - **The paper lacks some experimental details, especially for baseline implementation. The paper compares with many existing knowledge distillation methods. It does not explain whether these methods use official implementations or the authors' own reimplementations. If the baselines are reimplemented, the paper should provide the implementation details and report whether enough hyperparameter tuning was done.**
 
-    We agree that more baseline implementation details are needed. The Baseline Implementation Details table below explicitly states whether each baseline uses the official codebase or our reimplementation, together with the core hyperparameters, tuning ranges, and checkpoint selection strategy.
+    The Baseline Implementation Details table below explicitly states whether each baseline uses the official codebase or our reimplementation, together with the core hyperparameters, tuning ranges, and checkpoint selection strategy.
 
     | Method    | Source code                           | Key hyperparameters                      | Tuning range                 | Checkpoint |
     |-----------|---------------------------------------|------------------------------------------|------------------------------|------------|
@@ -164,7 +164,7 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
     - **Schema grounding:** wrong entity, relationship, or property type; entity-linking errors; and schema violations.
     - **Graph-pattern construction:** reversed relationship directions and graph patterns that do not align with the question.
 
-    We compare the gold and predicted Cypher queries on the full test set and report the frequency of these two structural error groups.
+    We compare the gold and predicted Cypher queries on the test set and report the frequency of these two structural error groups.
 
     | Method | Schema grounding | Graph-pattern construction |
     |---|---:|---:|
@@ -192,3 +192,6 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
     These rules are not intended to cover every possible Cypher construct. Failure cases may arise for highly complex queries, such as nested subqueries (EXISTS { ... }), variable-length paths (-[*1..3]-), or other uncommon language constructs, where the extracted span boundaries may be incomplete, missing, or slightly inaccurate.
 
     Nevertheless, our rule extractor is designed to provide weak structural supervision rather than a complete Cypher parser. Therefore, perfect span extraction is not required for the proposed span-level distillation objective to be effective. While a small number of extracted spans may be noisy or missing, the majority of spans in standard Cypher queries are correctly identified and continue to provide informative structural alignment between the teacher and student. Consequently, occasional extraction errors behave as annotation noise rather than systematic supervision errors, and do not substantially reduce the effectiveness of the proposed span-level distillation.
+
+
+
