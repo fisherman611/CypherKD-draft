@@ -159,7 +159,7 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
 
 - **The main problem addressed by this method is that student models may fail to learn detailed structural correspondences between the input and output in Text-to-Cypher. The paper does not provide detailed analysis of this specific problem. It is still unclear whether the extra loss term and the corresponding supervision signal actually alleviate this learning difficulty.**
 
-    We thank the reviewer for this important suggestion. To directly examine structural correspondence errors, we add an error analysis using two grouped categories from the CypherBench taxonomy that are most closely related to span-context grounding:
+    We thank the reviewer for this important suggestion. To directly examine structural correspondence errors, we add an error analysis using two grouped categories from the CypherBench [1] taxonomy that are most closely related to span-context grounding:
 
     - **Schema grounding:** wrong entity, relationship, or property type; entity-linking errors; and schema violations.
     - **Graph-pattern construction:** reversed relationship directions and graph patterns that do not align with the question.
@@ -177,6 +177,8 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
     The clearest improvement is in schema grounding. Compared with SFT, CypherKD reduces the full-test schema-grounding error rate from 43.70% to 26.83%, a reduction of 16.87 percentage points. It also produces fewer schema-grounding errors than CSD and DistiLLM. This indicates that the additional span-relation objective helps the student associate question and schema spans with the correct Cypher entity types, relationship types, properties, and linked entities.
 
     The graph-pattern improvements are smaller: CypherKD obtains the lowest error rate among the student/KD methods (23.59%), compared with 24.19% for SFT, 24.74% for CSD, and 23.94% for DistiLLM. We therefore interpret the evidence as strongest for improved schema grounding, with a more modest benefit for graph-pattern construction, rather than claiming a uniformly large reduction across every structural error type.
+
+[1] Yanlin Feng, Simone Papicchio, and Sajjadur Rahman. 2025. Cypherbench: Towards precise retrieval over full-scale modern knowledge graphs in the LLM era. In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), ACL 2025, Vienna, Austria, July 27 - August 1, 2025, pages 8934–8958. Association for Computational Linguistics. 
 
 <br>
 
