@@ -1,0 +1,1258 @@
+[
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q.title, q.score ORDER BY q.score ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.text ORDER BY n.score ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (targetQuestion:Question {id: 62220505}) WITH targetQuestion.favorites AS targetFavorites MATCH (question:Question) WHERE question.favorites = targetFavorites RETURN question.id, question.text",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag)<-[r1:TAGGED]-(m1:Question {id: 62220505}) WITH n, n.favorites AS num RETURN n.title WHERE num = n.favorites",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 9.998000399920016e-05,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.createdAt = datetime('2020-06-05T21:49:16Z') RETURN q",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.createdAt = '2020-06-05T21:49:16Z' RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'graphql'}) WHERE q.createdAt >= datetime('2020-06-05T00:00:00Z') RETURN count(q) AS NumberOfQuestions",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphql'}) WITH DISTINCT n WHERE n.createdAt >= '2020-06-05T16:57:19Z' RETURN count(n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question {answered: true}) RETURN q ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.text LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.5158,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 1000 WITH u, COUNT(q) AS question_count ORDER BY question_count DESC LIMIT 1 RETURN u.display_name AS user, u.reputation AS reputation, question_count",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'playground'}) WITH DISTINCT n RETURN n.display_name ORDER BY n.reputation DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 100000 AND q.answered = true RETURN u",
+    "pred_cypher": "MATCH (n:User)-[r0:ASKED]->(m0:Question) WITH DISTINCT n WHERE n.reputation > 100000 RETURN n.display_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.score < 0 RETURN q.title, q.score, q.link ORDER BY q.score ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.text ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0342,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.upVotes > 0 AND q.downVotes > 0 RETURN u.display_name, u.id, u.link",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:UPVOTES]->(m1:Question {name: 'question with upVote and downVote'}) WITH DISTINCT n RETURN n.display_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) WHERE u.reputation > 5000 RETURN DISTINCT t.name",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)<-[r1:ASKED]-(m1:User) WITH DISTINCT n WHERE m1.reputation > 5000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question {upVotes: 2}) RETURN q LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.upVotes = 2 RETURN n.title LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.createdAt >= '2019-01-01T00:00:00Z' AND q.createdAt <= '2019-12-31T23:59:59Z' AND q.answered = true RETURN q",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.createdAt.year = 2019 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.link IS NOT NULL RETURN q.title, q.createdAt, u.display_name ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:LINK]-(m0:Question) WITH DISTINCT n RETURN n.display_name, n.Question ORDER BY n.display_name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answered = true RETURN count(q) AS AnsweredQuestionsCount",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN count(n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5158,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answered = true RETURN q.title, q.downVotes ORDER BY q.downVotes DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.downVotes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5158,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answered = true AND q.score >= 1 RETURN q",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.score >= 1 RETURN n.text AS answer",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.6240963855421687,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WHERE q.score < 0 RETURN t.name, count(q) AS usage ORDER BY usage DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)-[r1:score]->(m1:Score {value: -1}) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) RETURN u, q ORDER BY u.reputation DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.display_name ORDER BY n.reputation DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE NOT exists{ (q)-[:TAGGED]->(:Tag) WHERE q.downVotes > 0 } RETURN u LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.id ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WHERE q.score = 0 RETURN DISTINCT t.name AS tag",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)-[r1:score]->(m1:score {0}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t1:Tag {name: 'apollo'}) WHERE q.score = 0 MATCH (q)-[:TAGGED]->(t2) RETURN DISTINCT t2.name AS tag",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)-[r1:score]->(m1:score {0}) WITH DISTINCT n WHERE n.name = 'apollo' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(tag1:Tag {name: 'graphql'}) MATCH (q)-[:TAGGED]->(tag2:Tag {name: 'apollo'}) RETURN count(DISTINCT q)",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphql'}),(n:Question)-[r1:TAGGED]->(m1:Tag {name: 'apollo'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.display_name ENDS WITH 'Le' RETURN q.title AS question_title, q.link AS question_link, q.createdAt AS created_at",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.display_name END WITH n RETURN n.display_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 100000 RETURN q ORDER BY q.createdAt ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:ASKED]->(m0:Question) WITH DISTINCT n WHERE n.reputation > 100000 RETURN n.display_name, n.reputation, n.id ORDER BY n.reputation ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'graphql'}) WHERE q.createdAt >= '2018-01-01T00:00:00Z' AND q.createdAt <= '2018-12-31T23:59:59Z' RETURN q",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphql'}) WITH DISTINCT n WHERE n.createdAt.year = 2018 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag {name: 'graphql-js'}) WHERE u.reputation < 5000 RETURN u",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'graphql-js'}) WITH DISTINCT n WHERE n.reputation < 5000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) WHERE t.name = 'graphql-subscriptions' RETURN u.display_name, u.id, u.link",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'GraphQL subscriptions'}) WITH DISTINCT n RETURN n.display_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answered = true AND q.favorites >= 1 RETURN q ORDER BY q.createdAt ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question)<-[r0:TAGGED]-(m0:Tag {name: 'answered'}) WITH DISTINCT n RETURN n.title ORDER BY n.answered DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.upVotes = q.downVotes RETURN q.title",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.upVotes DESC, n.downVotes DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5093,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.upVotes = 0 AND q.downVotes = 0 RETURN u.display_name, u.id, u.link",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.upVotes = 0 OR n.downVotes = 0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WITH q, COUNT(t) AS tagCount ORDER BY tagCount DESC LIMIT 1 MATCH (u:User)-[:ASKED]->(q) RETURN u.display_name AS userName, q.title AS questionTitle, tagCount",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'aws-lambda'}) WHERE q.score > -1 RETURN q.text",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'aws-lambda'}) WITH DISTINCT n WHERE n.score > -1 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) RETURN u, q.createdAt AS QuestionDate ORDER BY q.createdAt DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.display_name ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.score < 0 RETURN q.title, q.score, q.link ORDER BY q.score ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.text ORDER BY n.score ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0342,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation < 50000 RETURN q ORDER BY q.favorites DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:ASKED]->(m0:Question) WITH DISTINCT n WHERE n.reputation < 50000 RETURN n.name, n.favorites, m0.title ORDER BY n.favorites DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.upVotes = 0 RETURN u LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:UPVOTES]->(m1:Question {upVotes: 0}) WITH DISTINCT n RETURN n.display_name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.score < 0 WITH u, count(q) AS numNegativeScoreQuestions ORDER BY numNegativeScoreQuestions DESC LIMIT 5 RETURN u.display_name, numNegativeScoreQuestions",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.display_name ORDER BY n.score ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(:Question) RETURN u ORDER BY u.reputation ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n RETURN n.name ORDER BY n.reputation ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.4113571766935102,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation = 420137 RETURN q",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.reputation = 420137 RETURN n.name, n.reputation AS answer",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.display_name STARTS WITH 'A' RETURN q.title, q.createdAt ORDER BY q.createdAt DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.display_name STARTS WITH 'A' ORDER BY m0.createdAt DESC LIMIT 3 RETURN n.name, m0.text",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 50000 AND q.text CONTAINS 'error' RETURN q.title AS question_title, q.text AS question_text, q.link AS question_link, u.display_name AS user_name, u.reputation AS user_reputation",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User)-[r1:TAGGED]->(m1:Tag {name: 'error'}) WITH DISTINCT n WHERE n.reputation > 50000 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.link IS NOT NULL RETURN q ORDER BY q.link DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.8655011251514627,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WITH u, AVG(q.favorites) AS avgFavorites ORDER BY avgFavorites DESC LIMIT 3 RETURN u.display_name AS UserName, avgFavorites",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.favorites DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q ORDER BY q.downVotes DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.downVotes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WHERE q.score = 0 RETURN q.title AS question_title, q.text AS question_text, q.link AS question_link, q.createdAt AS created_at, collect(t.name) AS tags",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: '0'}) WITH DISTINCT n RETURN n.text, n.score",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'graphql-subscriptions'}) RETURN q.title AS title, q.text AS text, q.link AS link, q.createdAt AS createdAt, q.id AS id, q.upVotes AS upVotes, q.downVotes AS downVotes, q.score AS score, q.favorites AS favorites, q.answered AS answered",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphql-subscriptions'}) WITH DISTINCT n RETURN n.text",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) WHERE t.name = 'apollo' WITH u, count(q) AS questionsAsked ORDER BY questionsAsked DESC LIMIT 3 RETURN u.display_name, questionsAsked",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'apollo'}) WITH DISTINCT n RETURN n.display_name ORDER BY n.reputation DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q ORDER BY q.createdAt DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.createdAt DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (t:Tag {name: 'aws-lambda'})<-[:TAGGED]-(q:Question) WITH avg(q.score) AS average_score MATCH (q:Question) WHERE q.score > average_score WITH q ORDER BY q.upVotes ASC RETURN q LIMIT 1",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'aws-lambda'}) WITH DISTINCT n RETURN n.title ORDER BY n.upVotes ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'react-apollo'}) WHERE q.score < 0 RETURN q",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'react-apollo'}) WITH DISTINCT n WHERE n.score < 0 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.createdAt >= datetime('2020-01-01T00:00:00Z') AND q.createdAt < datetime('2021-01-01T00:00:00Z')   AND q.favorites = 0 RETURN q.title, q.createdAt, q.favorites",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.createdAt.year = 2020 AND n.favorites = 0 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.image CONTAINS 'googleusercontent' RETURN q ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'googleusercontent'}) WITH DISTINCT n RETURN n.name, n.id, n.image ORDER BY n.id ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q ORDER BY q.createdAt ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.createdAt ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.score = 0 RETURN q ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.score = 0 RETURN n.title LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (firstQuestion:Question)-[:TAGGED]->(:Tag {name: 'graphql'}) WITH firstQuestion ORDER BY firstQuestion.createdAt ASC LIMIT 1 MATCH (lastQuestion:Question)-[:TAGGED]->(:Tag {name: 'apollo'}) WITH firstQuestion, lastQuestion ORDER BY lastQuestion.createdAt DESC LIMIT 1 RETURN duration.between(firstQuestion.createdAt, lastQuestion.createdAt) AS timeDifference",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphql'}) OPTIONAL MATCH (n:Question)-[r1:TAGGED]->(m1:Tag {name: 'apollo'}) WITH DISTINCT n RETURN n.createdAt - n.createdAt",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9999000199960008,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answered = true RETURN q ORDER BY q.upVotes DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.upVotes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.5158,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag {name: 'aws-lambda'}) RETURN u.display_name AS userName, u.reputation AS reputation, u.link AS userLink ORDER BY u.reputation DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'aws-lambda'}) WITH DISTINCT n RETURN n.display_name, n.reputation ORDER BY n.reputation DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.title CONTAINS 'error' OR q.title CONTAINS 'issue' RETURN q.title, q.link, q.createdAt ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.title LIKE '%error%' OR n.title LIKE '%issue' RETURN n.title LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag {name: 'graphql-subscriptions'}) RETURN u.display_name, u.reputation ORDER BY u.reputation DESC",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'graphql-subscriptions'}) WITH DISTINCT n RETURN n.name ORDER BY n.reputation ASC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q ORDER BY q.score DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User) WITH u ORDER BY u.reputation DESC LIMIT 1 MATCH (u)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) RETURN t.name",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)<-[r1:ASKED]-(m1:User) WITH DISTINCT n RETURN n.name ORDER BY n.reputation DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.37671492869150264,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) RETURN t.name AS tag, COUNT(q) AS frequency ORDER BY frequency DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WITH u, COUNT(q) AS questionCount WHERE questionCount > 20 MATCH (u)-[:ASKED]->(q:Question) RETURN q.title AS questionTitle, q.id AS questionId, u.display_name AS userName",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User) WITH DISTINCT n WHERE n.answered = true AND (n.answered <= 20) RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'apollo'}) WHERE q.answered = true RETURN q ORDER BY q.createdAt ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'apollo'}) WITH DISTINCT n RETURN n.title LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.5195467422096317,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.score = 0 WITH u, COUNT(q) AS question_count ORDER BY question_count DESC LIMIT 5 RETURN u.display_name AS user, question_count",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:score]->(m1:Question {score: 0}) WITH DISTINCT n RETURN n.display_name ORDER BY n.reputation DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.score < 0 RETURN u.link",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:score]->(m1:Question {score: -1}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WITH u, count(DISTINCT q.favorites) AS favVariations ORDER BY favVariations DESC LIMIT 3 RETURN u.display_name, favVariations",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.name, n.favorites, count(DISTINCT m0.favorites) AS num ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answered = false RETURN q.title, q.link, q.createdAt ORDER BY q.createdAt DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.text ORDER BY n.answered ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.4842,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.link CONTAINS 'apollo' AND q.answered = true RETURN q",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'apollo'}) WITH DISTINCT n WHERE n.answered = true RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.390279823269514,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'aws-lambda'}) WHERE q.score = 0 RETURN q.title AS title, q.link AS link, q.createdAt AS createdAt, q.id AS id",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'aws-lambda'}) WITH DISTINCT n WHERE n.score = 0 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 2000 RETURN q.title, q.link, q.createdAt ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.reputation > 2000 RETURN n.display_name, n.id, m0.title LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User {id: 10251021})-[ :ASKED ]->(q:Question) RETURN q.title, q.id",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User {id: 10251021}) WITH DISTINCT n RETURN n.text",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation = 65 RETURN q.title, q.createdAt ORDER BY q.createdAt ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.reputation = 65 RETURN n.display_name, n.question ORDER BY n.question ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q ORDER BY q.favorites DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.favorites DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answered = true AND q.favorites > 3 RETURN q",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.answered AND n.favorites > 3 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'graphql'}) WITH avg(q.favorites) AS average_favorites RETURN average_favorites",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphql'}) WITH DISTINCT n RETURN avg(n.favorites)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) RETURN u.display_name, u.reputation ORDER BY u.reputation ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n RETURN n.display_name ORDER BY n.reputation ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.4113571766935102,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.createdAt >= datetime('2020-06-01T00:00:00Z') RETURN u ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.id ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE date(q.createdAt).dayOfWeek IN [6, 7] RETURN q ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.createdAt.weekday IN [0,6] RETURN n.title ORDER BY n.createdAt ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.49156118143459915,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag {name: 'graphql'}) RETURN u",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'graphql'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.answered = FALSE AND q.score < -1 RETURN u",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.score < -1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.score < -3 RETURN q.title, q.text, q.link, q.createdAt ORDER BY q.createdAt DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0005,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WITH sum(q.upVotes) AS totalUpvotes RETURN totalUpvotes",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.upVotes AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q ORDER BY q.downVotes DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.downVotes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q.title, q.createdAt ORDER BY q.createdAt DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.createdAt DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'aws-lambda'}) WITH q, max(q.downVotes) AS maxDownvotes WHERE q.downVotes = maxDownvotes RETURN q.title",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'aws-lambda'}) WITH DISTINCT n RETURN n.title ORDER BY n.downVotes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User {display_name: 'Christopher'})-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) WITH q, t ORDER BY q.createdAt LIMIT 3 RETURN t.name AS tag",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)<-[r1:ASKED]-(m1:User {name: 'Christopher'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'graphql'}) WITH q ORDER BY q.score DESC LIMIT 5 RETURN q",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphql'}) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answered = true AND q.score > 10 RETURN q.createdAt",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.answered = true AND n.score > 10 RETURN n.createdAt",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WITH q, q.downVotes AS num_downvotes ORDER BY num_downvotes DESC LIMIT 1 RETURN q.title",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.downVotes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WHERE t.name = 'react-apollo' WITH min(q.downVotes) AS minDownvotes MATCH (q:Question)-[:TAGGED]->(t:Tag) WHERE t.name = 'react-apollo' AND q.downVotes = minDownvotes RETURN q",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'react-apollo'}) WITH DISTINCT n RETURN n.name ORDER BY n.downVotes ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 2000 AND q.score < 0 RETURN q.title AS question_title, q.link AS question_link, q.score AS question_score, u.display_name AS user_name, u.reputation AS user_reputation",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User) WITH DISTINCT n WHERE n.score < 0 AND n.reputation > 2000 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (:Question)-[:TAGGED]->(tag:Tag) RETURN DISTINCT tag.name",
+    "pred_cypher": "MATCH (n:Tag) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.13449887484853731,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User {display_name: 'Christopher'})-[:ASKED]->(q:Question) RETURN q ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:User {name: 'Christopher'}) WITH DISTINCT n RETURN n.question ORDER BY n.question.createdAt ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) WHERE u.display_name CONTAINS 'Le' RETURN t.name AS tag, COUNT(*) AS tag_count ORDER BY tag_count DESC LIMIT 10",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)-[r1:ASKED]->(m1:User {display_name: 'Le'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.createdAt < datetime(\"2020-06-01T00:00:00Z\") RETURN q.title, q.link, q.createdAt",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.createdAt < '2020-06-20' RETURN n.id, n.text",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.link ENDS WITH 'alexandre' RETURN q ORDER BY q.score DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'alexandre'}) WITH DISTINCT n RETURN n.display_name ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag {name: 'angular'}) RETURN u",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'angular'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE q.link CONTAINS 'stackoverflow.com/questions' RETURN q.title AS title, q.link AS link",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'stackoverflow.com/questions'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User) WITH avg(u.reputation) AS averageReputation MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > averageReputation RETURN count(DISTINCT q) AS questionCount",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User) WITH DISTINCT n WHERE n.reputation > (SELECT AVG(n.reputation) AS avg RETURN avg} RETURN count(n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE date(q.createdAt) = date('2020-06-05') RETURN u.display_name, u.id, u.link ORDER BY q.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: '2020-06-05'}) WITH DISTINCT n RETURN n.name ORDER BY n.id ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'aws-lambda'}) WHERE q.createdAt > datetime('2019-01-01T00:00:00Z') AND q.downVotes > 0 RETURN q.title AS title, q.link AS link, q.createdAt AS createdAt, q.downVotes AS downVotes",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'aws-lambda'}) WITH DISTINCT n WHERE n.createdAt > '2019-01-01' RETURN n.title, n.downVotes",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'aws-lambda'}) RETURN q.title, q.link, q.score ORDER BY q.score DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'aws-lambda'}) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) WHERE size(q.text) > 500 RETURN q.title AS title, q.text AS text, q.link AS link, q.createdAt AS createdAt",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.text.length > 500 AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8694,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.answered = true WITH u, count(q) AS answeredQuestions ORDER BY answeredQuestions DESC LIMIT 3 RETURN u.display_name, answeredQuestions",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.answered DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.score > 5 WITH DISTINCT u RETURN count(u)",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.score > 5 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 100000 AND q.downVotes > 0 RETURN u",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:DOWNVOTED]->(m1:Question) WITH DISTINCT n WHERE n.reputation > 100000 RETURN n.display_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'apollo'}) WHERE q.downVotes > 0 RETURN q ORDER BY q.createdAt LIMIT 5",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'apollo'}) WITH DISTINCT n RETURN n.title LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.06968838526912181,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'aws-lambda'}) RETURN q ORDER BY q.createdAt LIMIT 5",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'aws-lambda'}) WITH DISTINCT n RETURN n.title LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WHERE q.createdAt >= datetime('2020-06-05T00:00:00Z') AND t.name = 'graphql' RETURN count(q) AS numberOfQuestions",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphql'}) WITH DISTINCT n WHERE n.createdAt >= '2020-06-05T16:57:19Z' RETURN count(n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 10000 RETURN AVG(q.score) AS average_score",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User)-[r1:ASKED]->(m1:Question) WITH DISTINCT n WHERE n.reputation > 10000 RETURN avg(n.score)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation > 50000 AND q.answered = true RETURN u.display_name, u.reputation, q.title, q.link",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.reputation > 50000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q.title, q.favorites ORDER BY q.favorites DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.favorites DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation < 1000 RETURN q ORDER BY q.createdAt DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User)-[r1:REPUTATION]->(m1:REPUTATION {value < 1000}) WITH DISTINCT n RETURN n.title ORDER BY n.createdAt DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (u:User) WITH avg(u.reputation) AS averageReputation MATCH (u:User)-[:ASKED]->(q:Question) WHERE u.reputation < averageReputation RETURN q.title",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n WHERE n.reputation < (SELECT AVG(n.reputation) AS avg RETURN avg}",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q ORDER BY q.upVotes DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.upVotes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "buzzoverflow",
+    "gold_cypher": "MATCH (q:Question) RETURN q.title, q.downVotes ORDER BY q.downVotes DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.downVotes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  }
+]

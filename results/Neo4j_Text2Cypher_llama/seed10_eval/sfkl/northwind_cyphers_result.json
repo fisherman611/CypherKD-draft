@@ -1,0 +1,1972 @@
+[
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WITH s, avg(p.unitPrice) AS avgUnitPrice ORDER BY avgUnitPrice DESC LIMIT 5 RETURN s.companyName AS Supplier, avgUnitPrice AS AverageUnitPrice",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN n.supplierID, n.unitPrice ORDER BY n.unitPrice DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[orders:ORDERS]->(p:Product) WITH c, o, sum(toFloat(orders.unitPrice) * orders.quantity) AS totalOrderValue WITH c, max(totalOrderValue) AS maxTotalOrderValue, collect(o.shipCity) AS shipCities WHERE size(shipCities) > 0 RETURN c.customerID, shipCities[0] AS shipCity ORDER BY maxTotalOrderValue DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order) WITH DISTINCT n RETURN n.customerID, n.shipCity",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[rel:ORDERS]->(p:Product) WHERE rel.quantity > 10 WITH avg(toFloat(rel.unitPrice)) AS avgPrice RETURN avgPrice",
+    "pred_cypher": "MATCH (n:Product)-[r0:ORDERED]->(m0:Order) WITH DISTINCT n WHERE n.quantityPerUnit > 10 RETURN avg(n.unitPrice)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product) WITH c, COUNT(DISTINCT p.productID) AS distinctProducts ORDER BY distinctProducts DESC LIMIT 3 RETURN c.companyName AS customerName, distinctProducts",
+    "pred_cypher": "MATCH (n:Customer)-[r0:PURCHASED]->(m0:Order) WITH DISTINCT n RETURN n.customerID, count(DISTINCT n:Product) ORDER BY count(DISTINCT n) DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9226907630522089,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order {shipCountry: 'Denmark'})-[:ORDERS]->(p:Product) WITH avg(toFloat(o.discount)) AS averageDiscount RETURN averageDiscount",
+    "pred_cypher": "MATCH (n:Order)-[r0:SHIPPED_TO]->(m0:Supplier {name: 'Denmark'}) WITH DISTINCT n RETURN avg(n.unitPrice * n.quantity)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[oi:ORDERS]->(p:Product) WHERE c.country = 'USA' WITH avg(toFloat(oi.unitPrice)) AS avgPrice RETURN avgPrice",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'USA'}) WITH DISTINCT n RETURN avg(n.unitPrice)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WHERE p.unitsInStock > 80 RETURN s",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n WHERE n.unitsInStock > 80 RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.unitPrice < 10 RETURN DISTINCT c.categoryName",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n WHERE n.unitPrice < 10 RETURN n.categoryName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product {discontinued: true}) WITH s, count(p) AS discontinuedProducts ORDER BY discontinuedProducts DESC LIMIT 3 RETURN s.companyName, discontinuedProducts",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product)-[r1:DISCONTINUED]->(m1:Product) WITH DISTINCT n RETURN n.supplierID ORDER BY n.supplierID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WITH p ORDER BY p.unitPrice DESC LIMIT 3 WITH collect(p.productID) AS topProducts MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE p.productID IN topProducts MATCH (c:Customer)-[:PURCHASED]->(o) RETURN DISTINCT c.customerID, c.companyName",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.companyName ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.unitsOnOrder IS NOT NULL RETURN p.productName, p.unitsOnOrder ORDER BY p.unitsOnOrder DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Soft drinks, coffees, teas, beers, and ales'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitsOnOrder DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WITH s, size(collect(DISTINCT c.categoryID)) AS categoryCount ORDER BY categoryCount ASC LIMIT 1 RETURN s.companyName",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN n.supplierID ORDER BY count(DISTINCT n.categoryID) ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WITH c, avg(p.reorderLevel) AS avgReorderLevel MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.reorderLevel > avgReorderLevel RETURN p.productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category) WITH DISTINCT n WHERE n.reorderLevel > (SELECT avg(n2.reorderLevel) FROM n:Product AS n2 WHERE n2.categoryID = n.categoryID) RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.reorderLevel > 20 RETURN p.productName, p.reorderLevel ORDER BY p.productName LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.reorderLevel > 20 RETURN n.productName ORDER BY n.reorderLevel ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[oi:ORDERS]->(p:Product) WITH o, sum(oi.quantity) AS totalQuantityPerOrder WITH max(totalQuantityPerOrder) AS maxQuantity MATCH (o:Order)-[oi:ORDERS]->(p:Product) WITH o, sum(oi.quantity) AS totalQuantityPerOrder, maxQuantity MATCH (c:Customer)-[:PURCHASED]->(o) WHERE totalQuantityPerOrder = maxQuantity RETURN c.customerID, c.companyName",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order) WITH DISTINCT n RETURN n.customerID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE o.shipCountry = 'France' RETURN p.productName, COUNT(*) AS shipmentCount ORDER BY shipmentCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[o:ORDERS]->(:Order) WITH p.productName AS productName, COUNT(DISTINCT o.unitPrice) AS priceVariations ORDER BY priceVariations DESC LIMIT 3 RETURN productName, priceVariations",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}),(n:Product)-[r1:PART_OF]->(m1:Category {name: 'Condiments'}) WITH DISTINCT n RETURN count(DISTINCT n.unitPrice) ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WHERE o.shipCountry = 'France' RETURN c.customerID, c.companyName, c.contactName LIMIT 3",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order)-[r1:shipAddress]->(m1:Address {name: 'France'}) WITH DISTINCT n RETURN n.customerID ORDER BY n.customerID LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WITH c, count(*) AS orderCount ORDER BY orderCount DESC RETURN c.companyName, orderCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Customer) WITH DISTINCT n RETURN n.customerID ORDER BY n.orderCount DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09663409337676439,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (:Order)-[o:ORDERS]->(p:Product) RETURN p.productName, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:ORDERED]->(m0:Order) WITH DISTINCT n RETURN n.productName ORDER BY n.quantity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category {categoryName: 'Dairy Products'}) RETURN s.companyName",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Dairy Products'}) WITH DISTINCT n RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {companyName: 'Exotic Liquids'})-[:SUPPLIES]->(p:Product) RETURN p.productName, p.unitPrice ORDER BY p.unitPrice DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier {name: 'Exotic Liquids'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitPrice DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WHERE o.shippedDate > o.requiredDate RETURN o.orderID",
+    "pred_cypher": "MATCH (n:Order)-[r0:shipDate]->(m0:shippedDate) WITH DISTINCT n WHERE n.shipDate > n.requiredDate RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category) RETURN c.categoryName, c.description LIMIT 3",
+    "pred_cypher": "MATCH (n:Category) WITH DISTINCT n RETURN n.categoryName, n.description LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WHERE s.country = 'UK' RETURN p.productName, p.unitPrice ORDER BY p.unitPrice DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier)-[r1:SUPPLIES]->(m1:Product {name: 'UK'}) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.productName ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.unitsOnOrder = 0 AND p.discontinued = false RETURN p.productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:NOT ON ORDER]->(m0:Order) WITH DISTINCT n WHERE n.unitsOnOrder = 0 AND n.discontinued = false RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier) WHERE s.country IN ['Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Belgium', 'Sweden', 'Denmark', 'Finland', 'Norway', 'Switzerland', 'Austria', 'Ireland', 'Portugal', 'Greece'] AND s.country <> 'UK' RETURN s.companyName AS SupplierName, s.country AS Country",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.country <> 'UK' RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WITH s, count(DISTINCT c) AS categoryCount ORDER BY categoryCount DESC LIMIT 3 RETURN s.companyName, categoryCount",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.supplierID ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {categoryName: 'Produce'}) MATCH (o:Order)-[r:ORDERS]->(p) RETURN p.productName, COUNT(r) AS orderCount ORDER BY orderCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Produce'}) WITH DISTINCT n RETURN n.productName ORDER BY n.quantityPerUnit DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WHERE toFloat(o.freight) > 100 RETURN o.orderID, o.freight ORDER BY toFloat(o.freight) DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Order)-[r0:ORDERED_WITH-FREIGHT]->(m0:Product {name: 'Chai'}) WITH DISTINCT n WHERE n.freight > 100 RETURN n.name ORDER BY n.orderID ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WITH o ORDER BY o.orderDate DESC LIMIT 3 RETURN o.orderID, o.orderDate, o.customerID, o.shipName, o.shipCity, o.shipCountry",
+    "pred_cypher": "MATCH (n:Order) WITH DISTINCT n RETURN n.orderDate ORDER BY n.orderDate DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product {productName: 'Aniseed Syrup'})-[:ORDERS]->(o:Order) WITH p, o, toFloat(o.unitPrice) * o.quantity AS revenue RETURN sum(revenue) AS totalRevenue",
+    "pred_cypher": "MATCH (n:Product {name: 'Aniseed Syrup'}) WITH DISTINCT n RETURN n.unitPrice",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[o:ORDERS]->(:Order) WITH p, AVG(toFloat(o.discount)) AS avgDiscount ORDER BY avgDiscount DESC LIMIT 3 RETURN p.productName, avgDiscount",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WHERE s.country = 'Germany' AND c.categoryName = 'Beverages' RETURN s",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.country = 'Germany' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (customer:Customer)-[:PURCHASED]->(order:Order) WITH customer, count(order) AS orderCount ORDER BY orderCount DESC LIMIT 3 RETURN customer.customerID, orderCount",
+    "pred_cypher": "MATCH (n:Customer) WITH DISTINCT n RETURN n.customerID ORDER BY n.customerID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09663409337676439,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.unitsOnOrder > 30 RETURN p",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.unitsOnOrder > 30 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {categoryName: 'Beverages'}) WITH p, count{(p)<-[:ORDERS]-()} AS ordersCount ORDER BY ordersCount DESC LIMIT 5 RETURN p.productName, ordersCount",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.quantityPerUnit DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WITH o.shipAddress AS address, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 3 RETURN address, orderCount",
+    "pred_cypher": "MATCH (n:Order)-[r0:SHIP_ADDRESS]->(m0:Address) WITH DISTINCT n RETURN count(DISTINCT n) ORDER BY n.count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WITH s, count(p) AS productCount WHERE productCount = 1 RETURN s.companyName, productCount",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.companyName, num",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WITH s, COUNT(p) AS productCount ORDER BY productCount DESC LIMIT 5 RETURN s.companyName AS supplierName, productCount",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN count(DISTINCT n) ORDER BY n.quantityPerUnit DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order { shipCountry: 'France' }) WITH avg(toFloat(o.freight)) AS averageFreight RETURN averageFreight",
+    "pred_cypher": "MATCH (n:Order)-[r0:shipTo]->(m0:Supplier {name: 'France'}) WITH DISTINCT n RETURN avg(n.freight)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product {productName: 'Chai'})-[:SUPPLIES]-(s:Supplier) MATCH (s)-[:SUPPLIES]-(otherProducts:Product) RETURN DISTINCT otherProducts.productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier)<-[r1:SUPPLIES]-(m1:Product {name: 'Chai'}) WITH DISTINCT n RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WITH s, COUNT(p) AS productCount ORDER BY productCount DESC LIMIT 3 RETURN s.companyName AS supplierName, productCount",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN n.supplierID ORDER BY n.supplierID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product)-[:PART_OF]->(cat:Category) WITH c, COUNT(DISTINCT cat.categoryID) AS diversity ORDER BY diversity DESC LIMIT 3 RETURN c.companyName, diversity",
+    "pred_cypher": "MATCH (n:Customer)-[r0:PURCHASED]->(m0:Order)-[r1:PART_OF]->(m1:Category) WITH DISTINCT n RETURN n.customerID, count(DISTINCT m0) AS num",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {categoryName: 'Condiments'}) RETURN p.productName, p.quantityPerUnit ORDER BY p.quantityPerUnit DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Condiments'}) WITH DISTINCT n RETURN n.productName ORDER BY n.quantityPerUnit DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WITH c, count(p) AS productCount ORDER BY productCount DESC LIMIT 5 RETURN c.categoryName, productCount",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n RETURN count(DISTINCT n) ORDER BY n.categoryName DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.unitsOnOrder > 20 RETURN p",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.unitsOnOrder > 20 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[r:ORDERS]->(p:Product) WITH o, sum(r.quantity) AS totalQuantityPerOrder RETURN avg(totalQuantityPerOrder) AS averageQuantityPerOrder",
+    "pred_cypher": "MATCH (n:Product)-[r0:ORDERED]->(m0:Order) WITH DISTINCT n RETURN avg(n.quantityPerUnit)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WHERE o.orderDate STARTS WITH '1996' RETURN o.orderID AS orderID, o.orderDate AS orderDate",
+    "pred_cypher": "MATCH (n:Order) WITH DISTINCT n WHERE n.orderDate.year = 1996 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (:Order)-[o:ORDERS]->(p:Product)-[:PART_OF]->(c:Category) WITH c.categoryName as categoryName, sum(o.quantity) as totalQuantity RETURN categoryName, max(totalQuantity) AS maxTotalQuantity",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n RETURN n.categoryName ORDER BY n.quantity DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09289617486338798,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product)-[:PART_OF]->(cat:Category {categoryName: \"Seafood\"}) WITH c, count(p) AS products_ordered ORDER BY products_ordered DESC LIMIT 3 RETURN c.companyName, products_ordered",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order)-[r1:ORDERED]->(m1:Product)-[r1:PART_OF]->(m1:Category {name: 'Seafood'}) WITH DISTINCT n RETURN n.customerID ORDER BY n.customerID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.quantityPerUnit = '10 boxes x 20 bags' RETURN p.productName AS productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.quantityPerUnit = '10 boxes x 20 bags' RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product {productName: 'Chang'})<-[:SUPPLIES]-(s:Supplier) RETURN s.contactName",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product {name: 'Chang'}) WITH DISTINCT n RETURN n.contactName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.discontinued = true RETURN p.productName, p.unitPrice ORDER BY p.unitPrice DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitPrice DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WITH min(o.orderDate) AS earliestOrderDate MATCH (o:Order {orderDate: earliestOrderDate})-[p:PURCHASED]-(c:Customer) RETURN c.customerID, c.companyName",
+    "pred_cypher": "MATCH (n:Customer) WITH DISTINCT n RETURN n.customerID ORDER BY n.orderDate ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {categoryName: 'Confections'}) RETURN MAX(p.unitsOnOrder) AS MaxUnitsOnOrder",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Confections'}) WITH DISTINCT n RETURN max(n.unitsOnOrder)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {categoryName: 'Confections'}), (o:Order)-[:ORDERS]->(p) WITH collect(DISTINCT o.orderID) AS confectionOrders MATCH (s:Supplier {country: 'Sweden'})-[:SUPPLIES]->(p:Product), (o:Order)-[:ORDERS]->(p) WITH confectionOrders, collect(DISTINCT o.orderID) AS swedishOrders WITH [orderId IN confectionOrders WHERE orderId IN swedishOrders] AS commonOrders UNWIND commonOrders AS orderId MATCH (cust:Customer)-[:PURCHASED]->(o:Order {orderID: orderId}) RETURN DISTINCT cust.companyName",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order)-[r1:PART_OF]->(m1:Category {name: 'Confections'}),(n:Customer)<-[r1:PURCHASED]-(m1:Order)-[r2:SUPPLIES]->(m2:Product {name: 'Sweden'}) WITH DISTINCT n RETURN n.customerID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WITH c, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 3 RETURN c.companyName AS customerName, orderCount",
+    "pred_cypher": "MATCH (n:Customer) WITH DISTINCT n RETURN n.customerID ORDER BY n.orderCount DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09663409337676439,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WHERE c.categoryName = 'Beverages' WITH collect(DISTINCT s.companyName) AS beverageSuppliers MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WHERE c.categoryName = 'Seafood' WITH beverageSuppliers, collect(DISTINCT s.companyName) AS seafoodSuppliers RETURN apoc.coll.intersection(beverageSuppliers, seafoodSuppliers) AS suppliersInBothCategories",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}),(n:Supplier)<-[r1:SUPPLIES]-(m1:Product)-[r2:PART_OF]->(m2:Category {name: 'Seafood'}) WITH DISTINCT n RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order {shipRegion: 'NULL'}) RETURN o.orderID",
+    "pred_cypher": "MATCH (n:Order)-[r0:shipRegion]->(m0:Category {name: 'NULL'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) RETURN c.companyName, count(o) AS NumberOfOrders ORDER BY NumberOfOrders DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Customer) WITH DISTINCT n RETURN n.customerID ORDER BY n.orderCount DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09663409337676439,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WITH p ORDER BY p.unitPrice DESC LIMIT 1 MATCH (s:Supplier)-[:SUPPLIES]->(p) RETURN s.companyName",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN n.supplierID ORDER BY n.unitPrice DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[rel:ORDERS]->(p:Product) WITH o, sum(toFloat(rel.unitPrice) * rel.quantity * toFloat(rel.discount)) AS totalDiscount RETURN o.orderID, totalDiscount",
+    "pred_cypher": "MATCH (n:Order)-[r0:ORDERED]->(m0:Product) WITH n, n.orderID, n.discount RETURN n.orderID, n.discount",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WITH o.employeeID AS employeeID, COUNT(o) AS orderCount RETURN employeeID, orderCount ORDER BY orderCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Employee)<-[r0:ORDERED]-(m0:Order) WITH DISTINCT n RETURN n.name ORDER BY n.orderID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE toFloat(o.freight) > 250 RETURN p.productName AS productName, o.freight AS freight LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)<-[r0:PART_OF]-(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.freight > 250 RETURN n.productName ORDER BY n.freight ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WITH o.shipCountry AS shipCountry, avg(toFloat(o.freight)) AS averageFreight ORDER BY averageFreight DESC LIMIT 5 RETURN shipCountry, averageFreight",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.shipCountry, n.freight AS freight ORDER BY n.freight DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier) RETURN s.contactTitle, COUNT(*) AS titleCount ORDER BY titleCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product) WITH DISTINCT n RETURN count(DISTINCT n.contactTitle) ORDER BY count(DISTINCT n.contactTitle) DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.27358490566037735,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier) WHERE s.homePage CONTAINS 'http' RETURN s.companyName LIMIT 3",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:HOME_PAGE]->(m0:homePage {name: 'http'}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category) WHERE NOT EXISTS {     MATCH (c)<-[:PART_OF]-(p:Product)     WHERE p.discontinued = TRUE } RETURN c.categoryName",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n WHERE n.discontinued = TRUE RETURN n.categoryName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {companyName: 'Exotic Liquids'})-[:SUPPLIES]->(p:Product) RETURN p.productName AS productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier {name: 'Exotic Liquids'}) WITH DISTINCT n RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE o.shipCountry = 'France' AND toFloat(o.freight) > 50 RETURN o.orderID, o.shipName, o.shipCity, o.shipPostalCode, o.shipAddress, o.shipCountry, o.freight",
+    "pred_cypher": "MATCH (n:Order)-[r0:shipAddress]->(m0:Address {name: 'France'}) WITH DISTINCT n WHERE n.freight > 50 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WITH c, count(DISTINCT s) AS supplierCount ORDER BY supplierCount DESC LIMIT 3 RETURN c.categoryName, supplierCount",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7456140350877193,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WITH s, avg(p.unitPrice) AS avgUnitPrice ORDER BY avgUnitPrice DESC LIMIT 3 RETURN s.companyName AS Supplier, avgUnitPrice AS AverageUnitPrice",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN n.supplierID ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) RETURN o.shipCity AS City, count(o) AS NumberOfShipments ORDER BY NumberOfShipments DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.name ORDER BY n.quantityPerUnit DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WITH c.categoryName AS category, SUM(p.unitsInStock) AS totalUnitsInStock ORDER BY totalUnitsInStock DESC LIMIT 5 RETURN category, totalUnitsInStock",
+    "pred_cypher": "MATCH (n:Category) WITH DISTINCT n RETURN n.categoryName ORDER BY n.unitsInStock DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09411764705882353,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WITH p, p.reorderLevel AS reorderLevel ORDER BY reorderLevel DESCENDING RETURN p.productName LIMIT 1",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.reorderLevel DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier) WHERE s.homePage IS NULL RETURN s",
+    "pred_cypher": "MATCH (n:Supplier) WITH DISTINCT n WHERE n.homePage = 'NULL' RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[o:ORDERS]->() WITH p, sum(o.quantity) AS totalQuantity ORDER BY totalQuantity DESC LIMIT 5 RETURN p.productName, totalQuantity",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.quantityPerUnit DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WHERE o.shipCountry = 'France' RETURN c LIMIT 3",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order)-[r1:SHIPPED_TO]->(m1:Location {name: 'France'}) WITH DISTINCT n RETURN n.customerID ORDER BY n.customerID LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WITH max(p.unitPrice) AS maxPrice MATCH (p:Product {unitPrice: maxPrice}) MATCH (s:Supplier)-[:SUPPLIES]->(p) RETURN s.companyName",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN n.supplierID ORDER BY n.unitPrice DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier) WHERE s.homePage IS NULL RETURN s",
+    "pred_cypher": "MATCH (n:Supplier) WITH DISTINCT n WHERE n.homePage = NULL RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer) WHERE c.contactTitle = 'Sales Representative' AND c.city = 'Berlin' RETURN c",
+    "pred_cypher": "MATCH (n:Customer)-[r0:contactTitle]->(m0:ContactTitle {name: 'Sales Representative'}),(n:Customer)-[r1:location]->(m1:Location {name: 'Berlin'}) WITH DISTINCT n RETURN n.customerID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.unitsOnOrder = 0 RETURN DISTINCT c.categoryName LIMIT 3",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product)-[r1:ON_ORDER]->(m1:Order) WITH DISTINCT n WHERE n.unitsOnOrder = 0 RETURN n.categoryName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category {categoryName: 'Beverages'}) WITH s, count(p) as productCount ORDER BY productCount DESC LIMIT 3 RETURN s.companyName AS supplierName, productCount",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.supplierID ORDER BY n.supplierID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WHERE o.shipCountry = 'France' AND o.shipVia = '1' RETURN o.orderID, o.shipName, o.shipCity, o.shipPostalCode, o.shipAddress, o.shipCountry, o.shipVia",
+    "pred_cypher": "MATCH (n:Order)-[r0:shipVia]->(m0:shipVia {name: '1'}) WITH DISTINCT n WHERE n.shipCountry = 'France' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer {country: 'USA'})-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product) RETURN p.productName, count(o) AS ordersCount ORDER BY ordersCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.productName ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:SUPPLIES]-(s:Supplier) RETURN s.supplierID, p.productName, p.unitPrice ORDER BY p.unitPrice DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN n.supplierID ORDER BY n.unitPrice DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.discontinued = true AND p.reorderLevel > 15 RETURN p LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:discontinued]->(m0:Category {name: 'discontinued'}),(n:Product)-[r1:reorderLevel>=(15]->(m1:Product) WITH DISTINCT n RETURN n.productName ORDER BY n.reorderLevel ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product {productName: 'Chai'})<-[:ORDERS]-(o:Order) RETURN DISTINCT o.shipCity AS shipCity",
+    "pred_cypher": "MATCH (n:Order)-[r0:has_product]->(m0:Product {name: 'Chai'}) WITH DISTINCT n RETURN n.shipCity",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product) WHERE c.country = 'Austria' WITH avg(toFloat(o.unitPrice)) AS averagePrice RETURN averagePrice",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN avg(n.unitPrice)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WITH c, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 3 RETURN c.companyName AS customerName, orderCount",
+    "pred_cypher": "MATCH (n:Customer)-[r0:PURCHASED]->(m0:Order) WITH DISTINCT n RETURN n.customerID, n.customerName ORDER BY n.customerID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (order:Order)-[orderLine:ORDERS]->(product:Product) WITH min(toFloat(orderLine.unitPrice)) AS minPrice MATCH (order:Order)-[orderLine:ORDERS]->(product:Product) WHERE toFloat(orderLine.unitPrice) = minPrice RETURN product.productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitPrice ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WHERE p.discontinued = false AND p.unitsInStock < 20 RETURN s LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier) WITH DISTINCT n WHERE n.discontinued = TRUE AND n.unitsInStock < 20 RETURN n.productName ORDER BY n.productName LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH ()-[:ORDERS]->(p:Product) WITH p.productID AS productID, count(*) AS orderCount RETURN productID, orderCount",
+    "pred_cypher": "MATCH (n:Order)-[r0:ORDERED_FOR]->(m0:Product) WITH n, count(DISTINCT m0) AS num RETURN n.productName, num",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category {categoryName: 'Beverages'})<-[:PART_OF]-(p:Product)<-[:SUPPLIES]-(s:Supplier) RETURN DISTINCT s.companyName LIMIT 3",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WHERE o.orderDate STARTS WITH '1996' RETURN o.orderID, o.orderDate ORDER BY o.orderDate LIMIT 5",
+    "pred_cypher": "MATCH (n:Order) WITH DISTINCT n WHERE n.orderDate.year = 1996 RETURN n.name ORDER BY n.orderDate ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer {companyName: 'Lonesome Pine Restaurant'}) RETURN c.city",
+    "pred_cypher": "MATCH (n:Customer {companyName: 'Lonesome Pine Restaurant'}) WITH DISTINCT n RETURN n.city",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.discontinued = TRUE WITH c.categoryName AS categoryName, count(p) AS discontinuedCount ORDER BY discontinuedCount DESC RETURN categoryName, discontinuedCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n RETURN n.categoryName ORDER BY n.discontinued DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.15294117647058825,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {categoryName: 'Dairy Products'}) RETURN p.productName, p.unitsInStock ORDER BY p.unitsInStock DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Dairy Products'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitsInStock DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (:Order)-[o:ORDERS]->(p:Product) RETURN p.productName, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.quantityPerUnit DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.unitsOnOrder > 50 RETURN p",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'beverages'}) WITH DISTINCT n WHERE n.unitsOnOrder > 50 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WHERE o.shipCountry = 'Brazil' WITH duration.inDays(date(o.orderDate), date(o.shippedDate)) AS daysDifference RETURN avg(daysDifference) AS averageShippingTime",
+    "pred_cypher": "MATCH (n:Order)-[r0:shippedDate]->(m0:shippedDate {name: 'Brazil'}) WITH DISTINCT n RETURN avg(n.orderDate - n.shippedDate)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category {categoryName: 'Beverages'}) RETURN s.companyName",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) RETURN o.orderID, o.freight ORDER BY toFloat(o.freight) DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Order)-[r0:ORDERS]->(m0:Product) WITH DISTINCT n RETURN n.orderID, n.freight ORDER BY n.freight DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9151047409040793,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)<-[:ORDERS]-(o:Order) WITH p, o ORDER BY o.discount DESC LIMIT 3 RETURN p.productName AS productName, o.discount AS discount",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category {categoryName: 'Dairy Products'})-[:PART_OF]->(p:Product) WITH avg(p.unitsOnOrder) AS averageQuantity RETURN averageQuantity",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Dairy Products'}) WITH DISTINCT n RETURN avg(n.quantity)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WITH AVG(p.reorderLevel) AS avgReorderLevel MATCH (p2:Product) WHERE p2.reorderLevel > avgReorderLevel RETURN p2.productName AS ProductName",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.reorderLevel > (SELECT avg(n.reorderLevel) FROM n:Product) RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {description: 'Desserts, candies, and sweet breads'}) WHERE p.unitsOnOrder > 5 RETURN p.productName, p.unitsOnOrder",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Desserts, candies, and sweet breads'}) WITH DISTINCT n WHERE n.unitsOnOrder > 5 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WITH max(toFloat(o.freight)) AS maxFreight MATCH (o:Order) WHERE toFloat(o.freight) = maxFreight RETURN o.employeeID",
+    "pred_cypher": "MATCH (n:Order) WITH DISTINCT n RETURN n.employeeID ORDER BY n.freight DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WHERE p.discontinued = true RETURN s.companyName",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product)-[r1:DISCONTINUED]->(m1:Product) WITH DISTINCT n RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE NOT exists{ (p)-[:ORDERS]->(:Order) } RETURN p.productName LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.discontinued = true RETURN n.productName ORDER BY n.productID LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)<-[:ORDERS]-(o:Order) WITH s, o.freight AS freight WHERE freight IS NOT NULL WITH s, avg(toFloat(freight)) AS avgFreight ORDER BY avgFreight DESC LIMIT 3 RETURN s.companyName AS supplierName, avgFreight",
+    "pred_cypher": "MATCH (n:Supplier) WITH DISTINCT n RETURN n.name ORDER BY n.freight DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.030982905982905984,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer {customerID: 'VINET'})-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product) RETURN p.productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'VINET'}) WITH DISTINCT n RETURN n.productName ORDER BY n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.unitsOnOrder IS NOT NULL AND p.discontinued = false RETURN p ORDER BY p.unitsOnOrder ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitsOnOrder ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WITH c.categoryName AS category, avg(p.unitPrice) AS avgUnitPrice ORDER BY avgUnitPrice DESC LIMIT 3 RETURN category, avgUnitPrice",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n RETURN n.categoryName ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {country: 'Germany'})-[:SUPPLIES]->(p:Product) RETURN p.productName, p.productID, p.unitPrice LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.supplierID = '1' RETURN n.productName ORDER BY n.productID LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WITH c.categoryName AS category, COUNT(p) AS productCount ORDER BY productCount ASC LIMIT 3 RETURN category, productCount",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WITH c, size(collect(o.orderID)) AS orderCount WHERE orderCount = 1 RETURN c.customerID, c.contactName",
+    "pred_cypher": "MATCH (n:Customer)-[r0:PURCHASED]->(m0:Order) WITH DISTINCT n WHERE n.customerID = 'ALFKI' AND n.contactName = 'Maria Anders' RETURN n.customerID, n.contactName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.007616974972796518,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.reorderLevel < 10 RETURN c LIMIT 5",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n WHERE n.reorderLevel < 10 RETURN n.categoryName ORDER BY n.reorderLevel ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.reorderLevel > 20 AND p.discontinued = false RETURN p.productName, p.productID, p.unitsInStock, p.unitPrice",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}),(n:Product)-[r1:NOT_DISCONTINUED]->() WITH DISTINCT n WHERE n.reorderLevel > 20 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WHERE c.categoryName IN ['Beverages', 'Seafood'] WITH s, c.categoryName AS categoryName ORDER BY s.supplierID, categoryName WITH s, collect(categoryName) AS categories WHERE 'Beverages' IN categories AND 'Seafood' IN categories RETURN s.companyName AS supplierName",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}),(n:Supplier)<-[r1:SUPPLIES]-(m1:Product)-[r0:PART_OF]->(m0:Category {name: 'Seafood'}) WITH DISTINCT n RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WITH s, count(DISTINCT c) AS numCategories WHERE numCategories > 1 RETURN s LIMIT 3",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product)-[r1:PART_OF]->(m1:Category) WITH DISTINCT n, count(DISTINCT m0) > 1 RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.unitsInStock < 10 RETURN DISTINCT c",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product)-[r1:has_unitsInStock]->(m1:unitsOnOrder {name: 'less than 10'}) WITH DISTINCT n RETURN n.categoryName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (choco:Product {productName: 'Chocolade'})-[:ORDERS]-(chocoOrder:Order)-[:ORDERS]-(otherProduct:Product) WHERE choco.productID <> otherProduct.productID WITH chocoOrder, COUNT(DISTINCT otherProduct) AS CrossSellingCount ORDER BY CrossSellingCount DESC LIMIT 1 MATCH (chocoOrder)-[:PURCHASED]-(customer:Customer)-[:PURCHASED]-(otherOrder:Order)-[:ORDERS]-(otherProduct) WHERE chocoOrder <> otherOrder RETURN otherOrder.employeeID AS EmployeeID, COUNT(DISTINCT otherProduct) AS TotalCrossSelling ORDER BY TotalCrossSelling DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Employee)<-[r0:PURCHASED]-(m0:Order)-[r1:ORDERS]->(m1:Product {name: 'Chocolade'}) WITH DISTINCT n RETURN n.name ORDER BY n.quantityPerUnit DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.discontinued = false WITH p ORDER BY p.unitsOnOrder DESC LIMIT 1 RETURN p.productName, p.categoryID",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.unitsOnOrder > 0 AND not n.discontinued RETURN n.productName, n.categoryID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[r:ORDERS]->(p:Product) WHERE r.discount = \"0\" WITH c, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 5 RETURN c.customerID, c.companyName, orderCount",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order)-[r1:ORDERS]->(m1:Product {name: 'Chai'}) WITH DISTINCT n RETURN n.customerID ORDER BY n.customerID DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WITH c.categoryName AS CategoryName, AVG(p.unitPrice) AS AvgUnitPrice ORDER BY AvgUnitPrice DESC RETURN CategoryName, AvgUnitPrice LIMIT 3",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n RETURN n.categoryName ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.unitsOnOrder > 50 RETURN DISTINCT c.categoryName",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n WHERE n.unitsOnOrder > 50 RETURN n.categoryName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category {categoryName: 'Seafood'})<-[:PART_OF]-(p:Product) RETURN MIN(p.reorderLevel) AS minReorderLevel",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Seafood'}) WITH DISTINCT n RETURN min(n.reorderLevel)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[r:ORDERS]->(p:Product) RETURN o.orderID AS orderID, SUM(r.quantity) AS totalUnitsOrdered ORDER BY totalUnitsOrdered DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Order) WITH DISTINCT n RETURN n.orderID, n.unitsOnOrder ORDER BY n.unitsOnOrder DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9151047409040793,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WHERE o.shipCountry = 'USA' WITH collect(DISTINCT o.shipRegion) AS shipRegions RETURN size(shipRegions) AS distinctShipRegions",
+    "pred_cypher": "MATCH (n:Order)-[r0:shipAddress]->(m0:Address {name: 'USA'}) WITH DISTINCT n RETURN count(DISTINCT n.shipRegion)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) RETURN o ORDER BY o.freight DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Order) WITH DISTINCT n RETURN n.orderID, n.freight ORDER BY n.freight DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WITH c.categoryID AS categoryID, avg(p.reorderLevel) AS avgReorderLevel MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE c.categoryID = categoryID AND p.reorderLevel = avgReorderLevel RETURN p.productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category) WITH DISTINCT n RETURN n.productName ORDER BY n.reorderLevel ASC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {description: 'Desserts, candies, and sweet breads'}) WHERE p.reorderLevel > 15 RETURN p",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Desserts, candies, and sweet breads'}) WITH DISTINCT n WHERE n.reorderLevel > 15 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE o.shipCountry = 'France' AND o.shipVia = '1' RETURN o.orderID, o.shippedDate, o.shipName ORDER BY o.shippedDate LIMIT 3",
+    "pred_cypher": "MATCH (n:Order)-[r0:SHIPPED_TO]->(m0:Supplier {name: 'France'}) WITH DISTINCT n WHERE n.shipVia = '1' RETURN n.name ORDER BY n.orderDate ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.discontinued = false AND p.unitPrice > 35 RETURN p.productName, p.unitPrice",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.discontinued = FALSE AND n.unitPrice > 35 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.reorderLevel > 20 RETURN p.productName, p.reorderLevel ORDER BY p.reorderLevel DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.reorderLevel > 20 RETURN n.productName ORDER BY n.reorderLevel DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product)-[:PART_OF]->(cat:Category {categoryName: 'Seafood'}) WITH c, SUM(o.quantity) AS totalProducts ORDER BY totalProducts DESC LIMIT 3 RETURN c.companyName AS customerName, totalProducts",
+    "pred_cypher": "MATCH (n:Customer)-[r0:PURCHASED]->(m0:Order)-[r1:ORDERS]->(m1:Product)-[r1:PART_OF]->(m1:Category {name: 'Seafood'}) WITH DISTINCT n RETURN n.customerID ORDER BY n.customerID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category) WHERE c.categoryName = \"Dairy Products\" MATCH (c)<-[:PART_OF]-(p:Product) WITH p LIMIT 3 RETURN p.productName, p.unitsInStock",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Dairy Products'}) WITH DISTINCT n RETURN n.productName, n.unitsInStock",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier) WHERE s.country = 'UK' RETURN s.companyName, s.contactName, s.contactTitle, s.phone, s.fax, s.address, s.city, s.postalCode, s.region, s.homePage",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product {name: 'UK'}) WITH DISTINCT n RETURN n.contactName, n.contactEmail, n.phone, n.address, n.country, n.city",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category)<-[:PART_OF]-(p:Product) WHERE p.unitsOnOrder > 0 RETURN c.categoryName, COUNT(p) AS productCount ORDER BY productCount ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product) WITH DISTINCT n RETURN n.categoryName ORDER BY n.quantityPerUnit ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2823529411764706,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WITH c, count(o) AS orderCount ORDER BY orderCount DESC WITH collect(c.country) AS countries LIMIT 1 UNWIND countries AS country MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WHERE s.country = country RETURN DISTINCT p.productName",
+    "pred_cypher": "MATCH (n:Product)<-[r0:SUPPLIES]-(m0:Supplier)<-[r1:SUPPLIES]-(m1:Product {name: 'customer'}) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.productName ORDER BY num DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WITH c.categoryName AS categoryName, avg(p.unitsInStock) AS averageUnitsInStock RETURN categoryName, averageUnitsInStock",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category) WITH DISTINCT n RETURN avg(n.unitsInStock)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order) WITH o.shippedDate AS shippedDate, collect(o) AS orders WHERE size(orders) > 1 UNWIND orders AS order RETURN order.orderID, order.shipName",
+    "pred_cypher": "MATCH (n:Order)-[r0:shipAddress]->(m0:Address) WITH DISTINCT n, n.shipName RETURN n.orderID, n.shipName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product) WHERE o.shipCountry = 'France' RETURN DISTINCT c.companyName AS CustomerName, c.contactName AS ContactName, c.contactTitle AS ContactTitle, c.city AS City, c.country AS Country",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order)-[r1:SHIPTO]->(m1:Address {name: 'France'}) WITH DISTINCT n RETURN n.customerID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WHERE p.unitsInStock > 50 RETURN s.companyName LIMIT 3",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n WHERE n.unitsInStock > 50 RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {companyName: \"Exotic Liquids\"})-[:SUPPLIES]->(p:Product) RETURN p",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier {name: 'Exotic Liquids'}) WITH DISTINCT n RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.reorderLevel = 30 RETURN p LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.reorderLevel = 30 RETURN n.productName ORDER BY n.reorderLevel ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.unitsOnOrder > 0 WITH c.categoryName AS category, COUNT(p) AS productCount ORDER BY productCount ASC LIMIT 3 RETURN category, productCount",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product)-[r1:ORDERED]->(m1:Order) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product) WITH s, AVG(p.unitsInStock) AS avgUnitsInStock ORDER BY avgUnitsInStock DESC LIMIT 3 RETURN s.companyName, avgUnitsInStock",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product) WITH DISTINCT n RETURN n.supplierID, n.unitsInStock ORDER BY n.unitsInStock DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:ORDERS]->(o:Order) RETURN p.productName, count(o) AS reorderCount ORDER BY reorderCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.reorderLevel DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH ()-[:ORDERS]->(p:Product) WHERE p.unitsOnOrder > 100 RETURN avg(p.reorderLevel)",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n WHERE n.reorderLevel > 100 RETURN avg(n.reorderLevel)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[rel:ORDERS]->(p:Product) WHERE rel.discount > 0 WITH o, sum(toFloat(rel.unitPrice) * rel.quantity * (1 - toFloat(rel.discount))) AS orderRevenue RETURN sum(orderRevenue) AS totalRevenue",
+    "pred_cypher": "MATCH (n:Order)-[r0:HAS_PRODUCT]->(m0:Product)-[r1:HAS_discount]->(m1:Discount) WITH DISTINCT n RETURN n.unitPrice * count(DISTINCT m0) AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WHERE p.quantityPerUnit CONTAINS 'bottles' RETURN p.productName AS productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'bottles'}) WITH DISTINCT n RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer) WHERE c.region = 'NULL' RETURN c.contactName AS customerName, c.companyName AS companyName",
+    "pred_cypher": "MATCH (n:Customer)-[r0:PURCHASED]->(m0:Order) WITH DISTINCT n WHERE n.region = 'NULL' RETURN n.customerID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.1,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product) WHERE c.city = 'Berlin' AND o.shippedDate STARTS WITH '1997' RETURN o.orderID AS orderID, o.shippedDate AS shippedDate, c.companyName AS customerName, p.productName AS productName",
+    "pred_cypher": "MATCH (n:Order)-[r0:ORDERD BY customerID]->(m0:Customer)-[r1:PURCHASED]->(m1:Order) WITH DISTINCT n WHERE n.shippedDate >= date('1997-07-01') RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[:ORDERS]->(p:Product)-[:PART_OF]->(c:Category) WITH o, COUNT(DISTINCT c.categoryID) AS categoryCount WHERE categoryCount >= 3 RETURN o.orderID, o.orderDate, o.shipName, o.shipCity, o.shipCountry ORDER BY o.orderDate LIMIT 5",
+    "pred_cypher": "MATCH (n:Order)-[r0:PART_OF]->(m0:Category)<-[r1:PART_OF]-(m1:Product) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[orders:ORDERS]->(p:Product) WHERE o.shippedDate STARTS WITH '1996' WITH o, toFloat(orders.unitPrice) * orders.quantity AS revenue RETURN sum(revenue) AS totalRevenue",
+    "pred_cypher": "MATCH (n:Order)-[r0:ORDERS]->(m0:Product) WITH DISTINCT n WHERE n.shipDate.year = 1996 RETURN n.unitPrice",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product {productName: 'Chai'})<-[:ORDERS]-(o:Order)<-[:PURCHASED]-(c:Customer) RETURN c.companyName, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order)-[r1:PRODUCT]->(m1:Product {name: 'Chai'}) WITH DISTINCT n RETURN n.customerID ORDER BY n.customerID DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)<-[:ORDERS]-(o:Order) WITH s, COLLECT(DISTINCT o.shipCity) AS cities RETURN s.companyName AS supplier, SIZE(cities) AS cityCount ORDER BY cityCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.supplierID, n.city ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.11324786324786325,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE o.orderDate > '1997-01-01' RETURN p.productName AS productName, o.orderDate AS orderDate",
+    "pred_cypher": "MATCH (n:Product)-[r0:ORDERED] WITH DISTINCT n WHERE n.orderDate > '1997-01-01' RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WITH c, count(o) AS orderCount WHERE orderCount > 5 MATCH (c)-[:PURCHASED]->(:Order)-[:ORDERS]->(p:Product) RETURN avg(toFloat(p.unitPrice)) AS averageUnitPrice",
+    "pred_cypher": "MATCH (n:Product)<-[r0:PART_OF]-(m0:Category {name: 'Beverages'}) WITH DISTINCT n, count(DISTINCT m0) AS num WHERE n.unitPrice > 5 RETURN avg(n.unitPrice)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {categoryName: 'Confections'}) WHERE p.unitPrice > 75 RETURN p.productName, p.unitPrice",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Confections'}) WITH DISTINCT n WHERE n.unitPrice > 75 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {supplierID: '1'})-[:SUPPLIES]->(p:Product) WITH avg(p.unitPrice) AS averageUnitPrice MATCH (p:Product) WHERE p.unitPrice > averageUnitPrice RETURN p.productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}),(n:Product)-[r1:SUPPLIES]->(m1:Product {name: '1'}) WITH DISTINCT n WHERE n.unitPrice > (SELECT avg(n.unitPrice) FROM n WHERE n.supplierID = '1') RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[rel:ORDERS]->(p:Product) WHERE o.shipVia = '1' WITH o, rel, p, toFloat(rel.unitPrice) * rel.quantity AS revenue RETURN sum(revenue) AS totalRevenue",
+    "pred_cypher": "MATCH (n:Order)-[r0:SHIPPED VIA]->(m0:Supplier {name: 'Speedy Express'}) WITH DISTINCT n RETURN n.unitPrice",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category {categoryName: 'Dairy Products'}) RETURN p.productName, p.unitPrice ORDER BY p.unitPrice DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Dairy Products'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[orders:ORDERS]->(p:Product)<-[:SUPPLIES]-(s:Supplier) WHERE o.shipCity = s.city WITH avg(toFloat(orders.unitPrice)) AS averageUnitPrice RETURN averageUnitPrice",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category)<-[r1:PART_OF]-(m1:Product {name:'supplier'}) WITH DISTINCT n, n.unitPrice RETURN avg(n.unitPrice)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:SUPPLIES]->(s:Supplier) WHERE p.reorderLevel > 0 AND s.country = 'Germany' RETURN p.productName, p.productID, s.companyName, s.country",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}),(n:Product)-[r1:SUPPLIES]->(m1:Supplier {name: 'Exotic Liquids'}) WITH DISTINCT n WHERE n.reorderLevel > 0 RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {country: 'UK'})-[:SUPPLIES]->(p:Product) RETURN p.productName AS productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier)-[r1:SUPPLIES]->(m1:Product {name: 'UK'}) WITH DISTINCT n RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category {categoryName: 'Seafood'})<-[:PART_OF]-(p:Product)<-[:ORDERS]-(o:Order) RETURN p.productName, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Seafood'}) WITH DISTINCT n RETURN n.productName ORDER BY n.quantityPerUnit DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (:Order)-[o:ORDERS]->(p:Product) RETURN p.productName AS productName, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category) WITH DISTINCT n RETURN count(DISTINCT n) ORDER BY n.quantityPerUnit DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.08415300546448087,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[rel:ORDERS]->(p:Product) WHERE c.companyName STARTS WITH 'A' WITH o, sum(toFloat(rel.unitPrice) * rel.quantity) AS revenuePerOrder WITH sum(revenuePerOrder) AS totalRevenue RETURN totalRevenue",
+    "pred_cypher": "MATCH (n:Order)-[r0:ORDERD BY customerName]->(m0:Customer {companyName: 'A'}) WITH DISTINCT n RETURN sum(n.unitPrice)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product {discontinued: true}) WITH s, count(p) AS discontinuedProducts ORDER BY discontinuedProducts DESC LIMIT 3 RETURN s.companyName, discontinuedProducts",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.14150943396226415,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE o.shipCountry = 'France' RETURN o.orderID, o.shipName, o.shipCity, o.shipPostalCode, o.shipAddress, o.shipCountry, o.shipRegion, o.shipVia, o.shippedDate ORDER BY o.shippedDate LIMIT 3",
+    "pred_cypher": "MATCH (n:Order)-[r0:SHIPPED_TO]->(m0:Country {name: 'France'}) WITH DISTINCT n RETURN n.name ORDER BY n.shipDate LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)<-[:ORDERS]-(o:Order) WITH s.supplierID AS supplierID, COUNT(DISTINCT o.shipCity) AS cityCount WHERE cityCount > 3 RETURN supplierID",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}) WITH DISTINCT n WHERE count(DISTINCT m0) > 3 RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[or:ORDERS]->(p:Product) WITH c.customerID AS customerID, toFloat(or.quantity) * toFloat(or.unitPrice) AS orderRevenue WITH customerID, sum(orderRevenue) AS totalRevenue RETURN customerID, totalRevenue",
+    "pred_cypher": "MATCH (n:Customer) WITH DISTINCT n RETURN n.customerID, n.unitPrice AS revenue",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.08917835671342686,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {companyName: \"Exotic Liquids\"})-[:SUPPLIES]->(p:Product) RETURN p.productName, count(p) AS supplyCount ORDER BY supplyCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Exotic Liquids'}) WITH DISTINCT n RETURN n.productName ORDER BY n.quantityPerUnit DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[r:ORDERS]->(p:Product) RETURN c.companyName AS customer, SUM(r.quantity) AS totalQuantity ORDER BY totalQuantity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order) WITH DISTINCT n RETURN n.customerID, n.customerName ORDER BY n.quantity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product)-[:PART_OF]->(cat:Category) WHERE cat.categoryName = 'Beverages' OR cat.categoryName = 'Seafood' WITH c, o, count(DISTINCT cat.categoryName) AS distinctCategories WHERE distinctCategories = 2 RETURN DISTINCT c.companyName",
+    "pred_cypher": "MATCH (n:Customer)<-[r0:PURCHASED]-(m0:Order)-[r1:PART_OF]->(m1:Category {name: 'Beverages'}),(n:Customer)<-[r1:PURCHASED]-(m1:Order)-[r2:PART_OF]->(m2:Category {name: 'Seafood'}) WITH DISTINCT n RETURN n.customerID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product) WHERE p.discontinued = false WITH c, COUNT(DISTINCT p) AS productCount MATCH (c)-[:PURCHASED]->(o)-[:ORDERS]->(p) WITH c, productCount, COUNT(DISTINCT p) AS totalProductCount WHERE productCount = totalProductCount RETURN c.companyName AS customerName, c.contactName AS contactName, c.customerID AS customerID LIMIT 3",
+    "pred_cypher": "MATCH (n:Customer)-[r0:PURCHASED]->(m0:Order)-[r1:ORDERS]->(m1:Product {name: 'discontinued'}) WITH DISTINCT n RETURN n.customerID, n.customerName ORDER BY n.customerID ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category {categoryName: 'Dairy Products'}) RETURN DISTINCT s.companyName LIMIT 3",
+    "pred_cypher": "MATCH (n:Supplier)-[r0:SUPPLIES]->(m0:Product)-[r1:PART_OF]->(m1:Category {name: 'Dairy Products'}) WITH DISTINCT n RETURN n.supplierID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WITH s, collect(DISTINCT c.categoryID) AS categories WHERE size(categories) > 1 RETURN s.companyName AS Supplier, categories",
+    "pred_cypher": "MATCH (n:Supplier)<-[r0:SUPPLIES]-(m0:Product)-[r1:PART_OF]->(m1:Category) WITH DISTINCT n, count(DISTINCT m0) AS num RETURN n.supplierID, n.supplierName ORDER BY num DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WITH p, abs(p.unitsInStock - p.reorderLevel) AS stockDifference WITH max(stockDifference) AS maxDifference MATCH (p:Product) WHERE abs(p.unitsInStock - p.reorderLevel) = maxDifference RETURN p.productName",
+    "pred_cypher": "MATCH (n:Product) WITH DISTINCT n RETURN n.productName ORDER BY n.unitsInStock - n.reorderLevel DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) RETURN p.productName, p.unitsInStock ORDER BY p.unitsInStock ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}) WITH DISTINCT n RETURN n.productName ORDER BY n.unitsInStock ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product) WITH p, toFloat(p.unitPrice) as price ORDER BY price DESC LIMIT 3 WITH collect(p.productID) as productIds MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE p.productID IN productIds RETURN DISTINCT o.orderID",
+    "pred_cypher": "MATCH (n:Order)-[r0:ORDERS]->(m0:Product) WITH DISTINCT n RETURN n.productName ORDER BY n.unitPrice DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.08489525909592062,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product {discontinued: true}) RETURN p.productName, p.productID ORDER BY p.productID LIMIT 5",
+    "pred_cypher": "MATCH (n:Product)-[r0:DISCONTAINED]->(m0:Category {name: 'top 5'}) WITH DISTINCT n RETURN n.productName ORDER BY n.discontinued DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:ORDERS]->(o:Order) WHERE o.orderDate >= date({month: 10, day: 1}) AND o.orderDate <= date({month: 12, day: 31}) RETURN p",
+    "pred_cypher": "MATCH (n:Product)-[r0:ORDERED]-(m0:Order) WITH DISTINCT n WHERE n.orderDate >= date('2023 Q1') RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier)-[:SUPPLIES]->(p:Product)-[:PART_OF]->(c:Category) WITH c.categoryName AS categoryName, COUNT(DISTINCT s.supplierID) AS supplierCount ORDER BY supplierCount DESC LIMIT 3 RETURN categoryName, supplierCount",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product)-[r1:SUPPLIES]->(m1:Supplier) WITH DISTINCT n RETURN n.categoryName ORDER BY n.categoryID DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (p:Product)-[:PART_OF]->(c:Category) WHERE p.unitsOnOrder IS NOT NULL WITH c, count(p) AS productCount ORDER BY productCount ASC LIMIT 3 RETURN c.categoryName, productCount",
+    "pred_cypher": "MATCH (n:Category)<-[r0:PART_OF]-(m0:Product)-[r1:ONORDER]->(m1:Order) WITH DISTINCT n RETURN n.categoryName ORDER BY n.quantityPerUnit ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer) WHERE c.country = 'Germany' RETURN c.companyName",
+    "pred_cypher": "MATCH (n:Customer)-[r0:PURCHASED]->(m0:Order) WITH DISTINCT n WHERE n.country = 'Germany' RETURN n.companyName",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.08270676691729323,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Category {categoryName: 'Seafood'})<-[:PART_OF]-(p:Product) WITH c, sum(p.unitsInStock * p.unitPrice) AS totalRevenue RETURN totalRevenue",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Seafood'}) WITH DISTINCT n RETURN n.productName, n.unitPrice AS revenue",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer {companyName: 'Ernst Handel'})-[:PURCHASED]->(o:Order)-[:ORDERS]->(p:Product) WITH avg(toFloat(p.unitPrice)) AS averageUnitPrice RETURN averageUnitPrice",
+    "pred_cypher": "MATCH (n:Product)-[r0:ORDERED BY 'Ernst Handel'] WITH DISTINCT n RETURN avg(n.unitPrice)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (:Order)-[o:ORDERS]->(:Product) RETURN avg(toFloat(o.discount)) AS averageDiscount",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'discount'}) WITH DISTINCT n RETURN avg(n.unitPrice)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (c:Customer)-[:PURCHASED]->(o:Order) WITH c, COUNT(o) AS orderCount ORDER BY orderCount DESC LIMIT 5 RETURN c.companyName AS customerName, orderCount",
+    "pred_cypher": "MATCH (n:Customer) WITH DISTINCT n RETURN n.customerID ORDER BY n.orderCount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09663409337676439,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (o:Order)-[:ORDERS]->(p:Product) WHERE o.requiredDate < '1997-01-01' RETURN DISTINCT p.productName AS ProductName, p.productID AS ProductID",
+    "pred_cypher": "MATCH (n:Product)-[r0:PART_OF]->(m0:Category {name: 'Beverages'}),(n:Product)-[r1:PART_OF]->(m1:Category {name: 'Condiments'}) WITH DISTINCT n RETURN n.productName ORDER BY n.shipDate ASC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {supplierID: '1'})-[:SUPPLIES]->(p:Product) RETURN p.productName",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier {name: '1'}) WITH DISTINCT n RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "northwind",
+    "gold_cypher": "MATCH (s:Supplier {city: 'London'})-[:SUPPLIES]->(p:Product) RETURN p.productName AS ProductName, p.productID AS ProductID",
+    "pred_cypher": "MATCH (n:Product)-[r0:SUPPLIES]->(m0:Supplier {name: 'Exotic Liquids'}) WITH DISTINCT n WHERE n.supplierID = '1' RETURN n.productName",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  }
+]

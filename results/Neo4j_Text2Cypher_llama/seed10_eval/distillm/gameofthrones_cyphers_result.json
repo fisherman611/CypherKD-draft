@@ -1,0 +1,1484 @@
+[
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[i:INTERACTS45]->(c2:Character) WHERE i.weight > 50 RETURN c1.name AS character1, c2.name AS character2, i.weight AS weight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'INTERACTS45'}) WITH DISTINCT n WHERE n.degree > 50 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS1]->(c2:Character) WHERE r.weight > 150 RETURN c1.name AS character1, c2.name AS character2, r.weight AS weight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'book 1'}) WITH DISTINCT n WHERE n.centrality > 1.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE 0.5 <= c.pagerank <= 1.0 RETURN c.name AS character_name, c.book45PageRank ORDER BY c.book45PageRank DESC",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.pagerank BETWEEN 0.5 AND 1.0 RETURN n.name ORDER BY n.book45PageRank DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS1 {weight: 291, book: 1}]->(:Character) RETURN c LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS1]->(m1:Character {name: 'book1'}) WITH DISTINCT n WHERE n.centrality = 0.291 RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1BetweennessCentrality IS NOT NULL RETURN c.name AS character, c.book1BetweennessCentrality AS centrality ORDER BY centrality LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1BetweennessCentrality DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book45PageRank < 0.7 RETURN c LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book45PageRank < 0.7 RETURN n.name, n.book45PageRank",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {name: \"Cersei-Lannister\"})-[:INTERACTS45 {book: 45}]->(other:Character) WITH other ORDER BY other.book45PageRank DESC LIMIT 3 RETURN other.name AS character_name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'Cersei-Lannister'}),(n:Character)-[r1:INTERACTS]->(m1:Character {book: 45}) WITH DISTINCT n RETURN n.name ORDER BY n.book45PageRank DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.book1BetweennessCentrality ORDER BY c.book1BetweennessCentrality DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1BetweennessCentrality DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree > 0 RETURN c.name, c.book1PageRank ORDER BY c.book1PageRank LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree > 0 AND n.book1PageRank < 8 RETURN n.name ORDER BY n.book1PageRank ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9983633387888707,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality > 0.5 AND c.book1PageRank < 1 RETURN c.name AS character",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality > 0.5 AND n.book1PageRank < 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree IS NOT NULL RETURN c.name, c.degree ORDER BY c.degree DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.degree DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.fastrf_embedding[0] < 0 RETURN c.name, c.fastrf_embedding LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:fastrf_embedding]->(m0:LIST {name: 'fastrf_embedding'}) WITH DISTINCT n WHERE n.fastrf_embedding <> [] AND n.fastrf_embedding[0] < 0 RETURN n.name ORDER LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[:INTERACTS1]->(c2:Character) RETURN c1.community AS Community, count(*) AS Frequency ORDER BY Frequency DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character {name: 'INTERACTS1'}) WITH DISTINCT n RETURN DISTINCT n.name ORDER BY n.bookRank DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[i:INTERACTS3]->(other:Character) RETURN c.name, min(i.weight) AS minWeight ORDER BY minWeight LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS3]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.weight ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN max(c.degree) AS max_degree, c.book1BetweennessCentrality ORDER BY max_degree DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.degree DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (cersei:Character {name: \"Cersei-Lannister\"}) MATCH (other:Character) WHERE other.degree > 10 AND (     (cersei)-[:INTERACTS]->(other) OR      (cersei)-[:INTERACTS1]->(other) OR      (cersei)-[:INTERACTS2]->(other) OR      (cersei)-[:INTERACTS3]->(other) OR      (cersei)-[:INTERACTS45]->(other) ) RETURN DISTINCT other.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Cersei-Lannister'}) WITH DISTINCT n WHERE n.degree > 10 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.019230769230769232,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.fastrf_embedding[0] AS embedding_value ORDER BY embedding_value DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.fastrf_embedding DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1PageRank IS NOT NULL RETURN c.name, c.book1PageRank ORDER BY c.book1PageRank DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character {community: 578}), (c2:Character {community: 579}) WHERE c1.name = c2.name RETURN c1.name AS CharacterName LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'community 578'}),(n:Character)-[r1:INTERACTS]->(m1:Character {name: 'community 579'}) WITH DISTINCT n RETURN n.name LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[i:INTERACTS45]->(c2:Character) RETURN c1.name, c2.name, i.weight AS weight ORDER BY i.weight DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)<-[r0:INTERACTS45]-(m0:Character {name: 'top 3 heaviest INTERACTS45'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree < 5 AND c.degree > 0 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree < 5 AND n.degree > 0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {name: 'Ryman-Frey'}) RETURN c.centrality",
+    "pred_cypher": "MATCH (n:Character {name: 'Ryman-Frey'}) WITH DISTINCT n RETURN n.centrality",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.pagerank ORDER BY c.pagerank LIMIT 1",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.pagerank ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[:INTERACTS]-(c2:Character) WHERE c1.community = c2.community RETURN c1.name AS Character1, c2.name AS Character2, c1.community AS SharedCommunity",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7115384615384616,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name AS character, c.book1PageRank AS pageRank ORDER BY pageRank DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1PageRank IS NOT NULL RETURN c.name AS character, c.book1PageRank AS pageRank ORDER BY pageRank LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {name: 'Jaime-Lannister'}) RETURN c.fastrf_embedding",
+    "pred_cypher": "MATCH (n:Character {name: 'Jaime-Lannister'}) WITH DISTINCT n RETURN n.fastrf_embedding",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS2]->(:Character) WHERE r.weight < 20 RETURN c",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS2]->(m0:Character {name: 'INTERACTS2'}) WITH DISTINCT n WHERE n.centrality < 20 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community = 579 RETURN max(c.book1BetweennessCentrality)",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'book1'}) WITH DISTINCT n RETURN max(n.book1BetweennessCentrality)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS2]->(c2:Character) RETURN c1, c2, r.weight AS weight ORDER BY r.weight DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS2]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (target:Character {name: \"Stevron-Frey\"}) MATCH (target)-[:INTERACTS*1..5]-(other) WITH other, other.book1PageRank AS pageRank RETURN other.name, pageRank ORDER BY pageRank ASC LIMIT 10",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Stevron-Frey'}) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.006321112515802781,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS3]->(c2:Character) WHERE r.weight = 95 RETURN c1.name AS Character1, c2.name AS Character2",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS3]->(m0:Character {name: 'book 3'}) WITH DISTINCT n WHERE n.centrality = 95 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community = 584 RETURN avg(c.louvain)",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'community 584'}) WITH DISTINCT n RETURN avg(n.louvain)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r]->(c2:Character) WHERE c1.community = 735 AND c2.community = 735 WITH max(r.weight) AS maxWeight RETURN maxWeight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character) WITH DISTINCT n RETURN max(n.weight)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.005326231691078562,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) UNWIND c.fastrf_embedding AS embedding WITH c, embedding WHERE embedding > 1.0 RETURN DISTINCT c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.fastrf_embedding CONTAINS '1.0' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[:INTERACTS45]->(target:Character {name: 'Walder-Rivers'}) RETURN c.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)<-[r0:INTERACTS45]-(m0:Character {name: 'Walder-Rivers'}),(n:Character)<-[r1:INTERACTS]-(m1:Character {name: 'book 45'}) WITH DISTINCT n RETURN n.first 3 characters",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (jaime:Character { name: 'Jaime-Lannister' })-[:INTERACTS45]->(other) RETURN other.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'Jaime-Lannister'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.014705882352941176,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {name: 'Aegon-V-Targaryen'}) RETURN c.community",
+    "pred_cypher": "MATCH (n:Character {name: 'Aegon-V-Targaryen'}) WITH DISTINCT n RETURN n.community",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (target:Character {name: \"Aemon-Targaryen-(Maester-Aemon)\"}) MATCH (target)-[:INTERACTS45]->(other:Character) WITH other ORDER BY other.book45PageRank ASC LIMIT 10 RETURN other.name AS character_name, other.book45PageRank AS page_rank",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'Aemon-Targaryen-(Maemon')}) WITH DISTINCT n WHERE n.book45PageRank < npagerank RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.name STARTS WITH 'A' RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.name STARTS WITH 'A' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS1]->(c2:Character) WHERE r.weight > 200 RETURN c1.name, c2.name, r.weight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character {name: 'question'}),(n:Character)-[r1:INTERACTS]->(m1:Character {name: 'answer'}) WITH DISTINCT n WHERE n.degree > 200 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {name: \"Walder-Rivers\"}) RETURN c.community",
+    "pred_cypher": "MATCH (n:Character {name: 'Walder-Rivers'}) WITH DISTINCT n RETURN n.community",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS]->(c2:Character) WHERE c1.louvain = 0 AND c2.louvain = 0 RETURN max(r.weight)",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {louvain: 0}) WITH DISTINCT n RETURN max(n.weight)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5836909871244635,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community = 795 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.community = 795 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.book1BetweennessCentrality ORDER BY c.book1BetweennessCentrality DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1BetweennessCentrality DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[i:INTERACTS3]->(other:Character) RETURN c.name AS character, sum(i.weight) AS total_interactions ORDER BY total_interactions DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS3]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'book 3'}) WITH DISTINCT n RETURN n.name ORDER BY n.interactions DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS1 {weight: 291}]->(c2:Character) RETURN c1.name, c2.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character {name: 'book1'}) WITH DISTINCT n WHERE n.weight = 291 RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.louvain = 0 AND c.pagerank > 8 RETURN c.name, c.pagerank",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.louvain = 0 AND n.pagerank > 8 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.centrality ORDER BY c.centrality DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.fastrf_embedding[3] > 1.0 AND c.centrality < 0.5 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'fastrf_embedding': [1.0]}),(n:Character)-[r1:INTERACTS]->(m1:Character {name: 'centrality': <0.5}) WITH DISTINCT n WHERE n.position = 4 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality IS NOT NULL AND c.degree > 30 RETURN c ORDER BY c.centrality ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality < 0.3 AND n.centrality > 30 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (wr:Character {name: \"Walder-Rivers\"})-[r]-(c:Character) WITH min(c.book45PageRank) AS min_page_rank MATCH (wr:Character {name: \"Walder-Rivers\"})-[r]-(c:Character) WHERE c.book45PageRank = min_page_rank RETURN c.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'Walder-Rivers'}) WITH DISTINCT n RETURN n.name ORDER BY n.book45PageRank ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6666666666666666,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book45PageRank < 1 RETURN c.name AS character",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book45PageRank < 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS2]->(c2:Character) WHERE r.weight < 20 RETURN c1.name AS character1, c2.name AS character2, r.weight AS weight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS2]->(m0:Character {name: 'INTERACTS2'}) WITH DISTINCT n WHERE n.centrality < 20 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (aegon:Character {name: 'Aegon-I-Targaryen'}) CALL {   WITH aegon   MATCH (aegon)-[:INTERACTS]->(other)   RETURN other   UNION   WITH aegon   MATCH (aegon)-[:INTERACTS1]->(other)   RETURN other   UNION   WITH aegon   MATCH (aegon)-[:INTERACTS2]->(other)   RETURN other   UNION   WITH aegon   MATCH (aegon)-[:INTERACTS3]->(other)   RETURN other   UNION   WITH aegon   MATCH (aegon)-[:INTERACTS45]->(other)   RETURN other } WITH other WHERE other.centrality = 0.0 RETURN DISTINCT other.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Aegon-I-Targaryen'}) WITH DISTINCT n WHERE n.centrality = 0.0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (stevron:Character {name: 'Stevron-Frey'})-[r]->(other:Character) WITH min(other.degree) AS min_degree MATCH (stevron:Character {name: 'Stevron-Frey'})-[r]->(other:Character) WHERE other.degree = min_degree RETURN other.name, other.degree",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Stevron-Frey'}) WITH DISTINCT n WHERE n.degree < n.degree RETURN n.name ORDER BY n.degree ASC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1BetweennessCentrality > 1000 RETURN c.name, c.book1BetweennessCentrality",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book1BetweennessCentrality > 1000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.book1PageRank ORDER BY c.book1PageRank ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS]->(c2:Character) RETURN c1.name, c2.name, r.weight ORDER BY r.weight DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1BetweennessCentrality > 1000 RETURN c.name AS character",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book1BetweennessCentrality > 1000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS2]->(c2:Character) WHERE r.weight > 50 RETURN c1.name AS Character1, c2.name AS Character2, r.weight AS Weight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS2]->(m0:Character {name: 'INTERACTS2'}) WITH DISTINCT n WHERE n.degree > 50 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.fastrf_embedding[0] > 0.5 RETURN c LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:fastrf_embedding]->(m0:LIST {name: 'fastrf_embedding'}) WITH DISTINCT n WHERE n.fastrf_embedding < 0.5 RETURN n.name, n.fastrf_embedding",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (rf:Character {name: \"Ryman-Frey\"})-[:INTERACTS45]-(other) WITH avg(other.degree) AS avg_degree RETURN avg_degree",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'Ryman-Frey'}),(n:Character)-[r1:INTERACTS]->(m1:Character {book: 45}) WITH DISTINCT n RETURN avg(n.degree)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[i:INTERACTS]->(c2:Character) RETURN c1.community, count(*) AS frequency ORDER BY frequency DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.bookRank DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree < 10 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree < 10 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[i:INTERACTS2]->(other:Character) WHERE i.book = 2 AND i.weight > 50 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS2]->(m0:Character {name: '2'}) WITH DISTINCT n WHERE n.weight > 50 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.fastrf_embedding[9] < -0.5 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.fastrf_embedding tenth element < -0.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree = 0.0 RETURN count(c)",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree = 0.0 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS1]->(:Character) WHERE r.weight > 250 RETURN c",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character {name: 'INTERACTS1'}) WITH DISTINCT n WHERE n.degree > 250 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality = 1.0 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality = 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {name: \"Cersei-Lannister\"})-[:INTERACTS45 {book: 45}]-(other) RETURN other.name AS character_name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'Cersei-Lannister'}),(n:Character)-[r1:INTERACTS]->(m1:Character) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2777777777777778,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality = 0.0 AND c.degree > 20 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality = 0.0 AND n.degree > 20 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {community: 712}) WITH c.degree AS degrees RETURN min(degrees)",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'community 712'}) WITH DISTINCT n RETURN min(n.degree)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.book1BetweennessCentrality ORDER BY c.book1BetweennessCentrality DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1BetweennessCentrality DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality >= 0.2 AND c.centrality <= 0.5 RETURN c.name, c.centrality",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality BETWEEN 0.2 AND 0.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1BetweennessCentrality = 0.0 RETURN c.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book1BetweennessCentrality = 0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WITH c, (c.book1PageRank + c.book45PageRank) AS totalPageRank RETURN c.name AS characterName, totalPageRank ORDER BY totalPageRank DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank + n.book45PageRank DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality > 0.5 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality > 0.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1PageRank < 0.4 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book1PageRank < 0.4 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community = 579 RETURN c",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'community 579'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (bt:Character {name: \"Brynden-Tully\"}) WITH bt MATCH (bt)-[:INTERACTS*1..5]->(other) RETURN other.name, other.centrality  ORDER BY other.centrality ASC",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Brynden-Tully'}) WITH DISTINCT n RETURN n.name ORDER BY n.centrality ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0026455026455026454,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality < 0.2 AND c.book45PageRank > 3 RETURN c.name, c.centrality, c.book45PageRank",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality < 0.2 AND n.book45PageRank > 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character { name: 'Jaime-Lannister' })-[:INTERACTS3]->(other:Character) RETURN other.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS3]->(m0:Character {name: 'Jaime-Lannister'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.021739130434782608,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.centrality ORDER BY c.centrality ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality = 0.0 AND EXISTS ((c)-[:INTERACTS3]->()) RETURN c.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS3]->(m0:Character) WITH DISTINCT n WHERE n.centrality = 0.0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.6162361623616236,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH p=shortestPath((c1:Character {name: \"Addam-Marbrand\"})-[*]-(c2:Character {name: \"Cersei-Lannister\"})) RETURN p",
+    "pred_cypher": "MATCH (n:Character {name: 'Addam-Marbrand'})-[r0:INTERACTS]->(m0:Character {name: 'Cersei-Lannister'}) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: '<' not supported between instances of 'str' and 'tuple'"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.louvain >= 0 AND c.louvain <= 5 AND c.pagerank > 0.5 RETURN c",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]-(m1:Character {name: 'louvain'}) WITH DISTINCT n WHERE n.pagerank > 0.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality IS NOT NULL RETURN c.name, c.centrality ORDER BY c.centrality DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community = 795 AND c.pagerank > 0.2 RETURN c.name, c.pagerank",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS45]->(m1:Character {name: 'pagerank'}),(n:Character)-[r2:INTERACTS]->(m2:Character) WITH DISTINCT n WHERE n.pagerank > 0.2 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r1:INTERACTS1]->(c1:Character) MATCH (c)-[r2:INTERACTS2]->(c2:Character) WITH c, SUM(r1.weight + r2.weight) AS totalWeight RETURN c.name AS characterName, totalWeight ORDER BY totalWeight DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character {name: 'name'}),(n:Character)-[r1:INTERACTS2]->(m1:Character {name: 'name'}) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[i:INTERACTS2]->(c2:Character) RETURN c1.name, c2.name, i.weight AS weight ORDER BY i.weight DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS2]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree = 0 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree = 0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) OPTIONAL MATCH (c)-[i1:INTERACTS1]->(other1) OPTIONAL MATCH (c)-[i2:INTERACTS2]->(other2) WITH c, sum(i1.weight) AS weight1, sum(i2.weight) AS weight2 RETURN c.name AS character, weight1 + weight2 AS totalWeight ORDER BY totalWeight DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character {name: 'name'}),(n:Character)-[r1:INTERACTS2]->(m1:Character {name: 'name'}) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[:INTERACTS|INTERACTS1|INTERACTS2|INTERACTS3|INTERACTS45]->(theon:Character {name: 'Theon-Greyjoy'}) RETURN DISTINCT c.name AS CharacterName",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Theon-Greyjoy'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (catelyn:Character {name: \"Catelyn-Stark\"})-[:INTERACTS]->(catelyn_interaction) WITH catelyn, count(DISTINCT catelyn_interaction) AS catelyn_interactions MATCH (cersei:Character {name: \"Cersei-Lannister\"})-[:INTERACTS]->(cersei_interaction) WITH catelyn, cersei,  catelyn_interactions, count(DISTINCT cersei_interaction) AS cersei_interactions MATCH (catelyn)-[:INTERACTS]->(common_interaction)<-[:INTERACTS]-(cersei) RETURN DISTINCT common_interaction.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Catelyn-Stark'}),(n:Character)-[r1:INTERACTS]->(m1:Character {name: 'Cersei-Lannister'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.028169014084507043,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS1]->(c2:Character) RETURN c1.name AS Character, r.weight AS Weight ORDER BY r.weight DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN min(c.book1BetweennessCentrality) AS min_centrality",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN min(n.book1BetweennessCentrality)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[:INTERACTS2]->(c2:Character) WHERE c.louvain > 3 RETURN DISTINCT c.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'book 2'}),(n:Character)-[r2:INTERACTS]->(m2:Character) WITH DISTINCT n WHERE n.louvain > 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS]->(:Character) RETURN c.name, SUM(r.weight) as totalInteractions ORDER BY totalInteractions DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.bookRank DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[:INTERACTS]-(c2:Character) WHERE c1.community = c2.community RETURN c1.name AS character1, c2.name AS character2",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]-(m1:Character) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7371794871794872,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree > 100 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree > 100 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community = 579 MATCH (c)-[r:INTERACTS]->() WITH avg(r.weight) AS average_weight RETURN average_weight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:community]->(m1:INTEGER {name: '579'}) WITH DISTINCT n RETURN avg(n.weight)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1PageRank > 0.5 RETURN c.name, c.degree ORDER BY c.degree DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree > 0.5 AND n.book1PageRank > 0.5 RETURN n.name ORDER BY n.degree DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9357798165137615,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[i:INTERACTS45]->(c2:Character) WHERE i.weight > 90 RETURN c1.name AS character1, c2.name AS character2, i.weight AS weight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'book45'}) WITH DISTINCT n WHERE n.weight > 90 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree = 300.0 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree = 300 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.pagerank ORDER BY c.pagerank DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.pagerank DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS3]->(c2:Character) RETURN c.name AS character, r.weight AS weight ORDER BY r.weight ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS3]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.weight ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS3]->(:Character) WHERE r.weight > 90 RETURN c",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS3]->(m0:Character {name: 'INTERACTS3'}) WITH DISTINCT n WHERE n.degree > 90 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS1]->(c2:Character) WHERE r.weight > 200 RETURN c1.name AS Character1, c2.name AS Character2, r.weight AS Weight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character {name: 'INTERACTS1'}) WITH DISTINCT n WHERE n.degree > 200 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality < 0.1 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality < 0.1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.louvain = 5 AND c.pagerank < 2 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.louvain = 5 AND n.pagerank < 2 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1PageRank = 0.15 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book1PageRank = 0.15 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.pagerank > 0.5 AND EXISTS {   (c)-[i:INTERACTS]->(other:Character)   WHERE i.weight > 200 } RETURN c.name AS character, c.pagerank AS pagerank",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.pagerank > 0.5 AND n INTERACTS weight > 200 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS1]->() WHERE c.community = 579 RETURN max(r.weight) AS maxWeight",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character)-[r1:community]->(m1:INTEGER {name: '579'}) WITH DISTINCT n RETURN max(n.weight)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (cersei:Character {name: \"Cersei-Lannister\"})-[:INTERACTS1]->(other:Character) RETURN other.name, other.book1PageRank ORDER BY other.book1PageRank DESC",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Cersei-Lannister'}),(n:Character)-[r1:INTERACTS]->(m1:Character {name: 'book1'}) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (b:Character {name: 'Benerro'}) MATCH (b)--(c:Character) WHERE c.degree < 5 RETURN DISTINCT c.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Benerro'}),(n:Character)-[r1:INTERACTS]->(m1:Character) WITH DISTINCT n WHERE n.degree < 5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.book45PageRank ORDER BY c.book45PageRank DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book45PageRank DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name, c.book1PageRank ORDER BY c.book1PageRank DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1PageRank > 5 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book1PageRank > 5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree > 100 RETURN count(c)",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree > 100 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN avg(c.centrality)",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN avg(n.centrality)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality = 0 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality = 0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS]->(c2:Character) WHERE r.weight = 334 RETURN c1.name AS Character1, c2.name AS Character2",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'weight:334'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.degree > 100 RETURN c.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.degree > 100 RETURN n.name, n.degree",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS2 {weight: 92}]->(c2:Character) RETURN c1.name AS Character1, c2.name AS Character2",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: '92'}) WITH DISTINCT n WHERE n.book2 = 2 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {community: 579}) RETURN avg(c.degree) AS average_degree",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'community 579'}) WITH DISTINCT n RETURN avg(n.degree)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE any(element IN c.fastrf_embedding WHERE element < -0.5) RETURN c.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:fastrf_embedding]->(m0:LIST {name: 'number'} WITH DISTINCT n WHERE n.fastrf_embedding < -0.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.fastrf_embedding[9] < -0.5 RETURN c.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.fastrf_embedding LIMIT 3 AND n.fastrf_embedding < -0.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.12939698492462312,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character {name: 'Aemon-Targaryen-(Dragonknight)'})-[r:INTERACTS]-(other) RETURN other.name AS character_name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'Aemon-Targaryen-(Dragonknight)'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[:INTERACTS45]->(c2:Character)-[:INTERACTS45]->(c3:Character) RETURN c1.name, c2.name, c3.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character {name: 'name'}),(n:Character)-[r1:INTERACTS]->(m1:Character {name: 'name'}) WITH DISTINCT n RETURN n.name, n.book45PageRank, n.louvain",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS1]->(:Character) RETURN c.name, sum(r.weight) AS totalWeight ORDER BY totalWeight DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS1]->(m0:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community = 759 AND c.pagerank > 0.4 RETURN c.name, c.pagerank",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'community 759'}) WITH DISTINCT n WHERE n.pagerank > 0.4 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community > 700 RETURN count(c)",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.community > 700 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS|INTERACTS1|INTERACTS2|INTERACTS3|INTERACTS45]->(c2:Character) WHERE r.weight > 200 RETURN c1.name, r, c2.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character) WITH DISTINCT n WHERE n.centrality > 0.2 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.02617801047120419,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.pagerank = 0.15000000000000002 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.pagerank = 0.15000000000000002 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS2]->(:Character) WHERE r.weight > 50 RETURN c",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS2]->(m0:Character {name: 'INTERACTS2'}) WITH DISTINCT n WHERE n.degree > 50 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character) WHERE c1.community = 759 MATCH (c1)-[:INTERACTS1]-(c2:Character) WITH c2 ORDER BY c2.book1PageRank LIMIT 1 RETURN c2.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:community]->(m1:INTEGER {name: '759'}) WITH DISTINCT n RETURN n.name ORDER BY n.book1PageRank ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.community = 795 RETURN c.name ORDER BY c.pagerank DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: '795'}) WITH DISTINCT n RETURN n.name ORDER BY n.community DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character)-[r:INTERACTS2]->(:Character) WHERE r.book = 2 AND r.weight > 50 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS2]->(m0:Character {name: '2'}) WITH DISTINCT n WHERE n.weight > 50 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1BetweennessCentrality = 0.0 RETURN c.name",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.book1BetweennessCentrality = 0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality > 0.5 AND c.book1BetweennessCentrality > 3000 RETURN c",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n WHERE n.centrality > 0.5 AND n.book1BetweennessCentrality > 3000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality IS NOT NULL   AND exists {(c)-[:INTERACTS1]->()}   AND exists {(c)-[:INTERACTS2]->()}   AND exists {(c)-[:INTERACTS3]->()}   AND exists {(c)-[:INTERACTS45]->()} WITH c,    (coalesce(c.book1PageRank, 0) +     coalesce(c.book45PageRank, 0) +    coalesce(c.pagerank, 0)) / 3 AS avgCentrality RETURN c.name AS character, avgCentrality ORDER BY avgCentrality DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.06909547738693467,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.pagerank > 8.0 AND c.degree > 250.0 RETURN c.name, c.pagerank, c.degree ORDER BY c.pagerank DESC, c.degree DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character) WITH DISTINCT n WHERE n.pagerank > 0.5 AND n.degree > 0.5 RETURN n.name ORDER BY n.degree DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.005952380952380952,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) RETURN c.name AS character_name, c.community ORDER BY c.community DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.community DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.centrality IS NOT NULL RETURN c.name, c.centrality ORDER BY c.centrality ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Character) WITH DISTINCT n RETURN n.name ORDER BY n.centrality ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS1 {weight: 291}]->(c2:Character) RETURN c1.name AS Character1, c2.name AS Character2",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS]->(m0:Character {name: 'book1'}) WITH DISTINCT n WHERE n.weight = 291 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c1:Character)-[r:INTERACTS3]->(c2:Character) WHERE c1.book1BetweennessCentrality > 400 RETURN min(r.weight)",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS3]->(m0:Character) WITH DISTINCT n WHERE n.book1BetweennessCentrality > 400 RETURN min(n.weight)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "gameofthrones",
+    "gold_cypher": "MATCH (c:Character) WHERE c.book1BetweennessCentrality IS NOT NULL AND c.community = 579 RETURN c ORDER BY c.book1BetweennessCentrality ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Character)-[r0:INTERACTS45]->(m0:Character)-[r1:INTERACTS]->(m1:Character {name: 'community 579'}) WITH DISTINCT n WHERE n.book1BetweennessCentrality < 4638.53495125504 RETURN n.name ORDER BY n.book1BetweennessCentrality ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  }
+]

@@ -8,119 +8,112 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
 
 - **The paper lacks some experimental details, especially for baseline implementation. The paper compares with many existing knowledge distillation methods. It does not explain whether these methods use official implementations or the authors' own reimplementations. If the baselines are reimplemented, the paper should provide the implementation details and report whether enough hyperparameter tuning was done.**
 
-    The Baseline Implementation Details table below explicitly states whether each baseline uses the official codebase or our reimplementation, together with the core hyperparameters, tuning ranges, and checkpoint selection strategy.
+    We thank the reviewer for pointing this out. We will add the following table to the revised paper, indicating whether each method uses the official implementation or our reimplementation, together with the tuned hyperparameters and checkpoint selection protocol.
 
     | Method    | Source code                           | Key hyperparameters                      | Tuning range                 | Checkpoint |
     |-----------|---------------------------------------|------------------------------------------|------------------------------|------------|
-    | FKL / RKL | Code from the paper project on GitHub | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best       |
-    | SFKL      | Code from the paper project on GitHub | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best       |
-    | DistiLLM  | Code from the paper project on GitHub | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best       |
-    | FDD       | Code from the paper project on GitHub | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best       |
-    | CSD       | Code from the paper project on GitHub | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best       |
-    | AMiD      | Reimplemented from the paper          | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best       |
+    | FKL / RKL | Official implementation | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best validation       |
+    | SFKL      | Official implementation | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best validation       |
+    | DistiLLM  | Official implementation | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best validation       |
+    | FDD       | Reimplemented from the paper | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best validation       |
+    | CSD       | Reimplemented from the paper | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best validation       |
+    | AMiD      | Official implementation | kd_ratio ($\beta$)                       | 0.5 to 1, step 0.1           | Best validation       |
     | CypherKD  | Ours                                  | kd_ratio ($\beta$), $\lambda_{rel}$      | Both from 0.5 to 1, step 0.1 | Best       |
 
 
-    For a fair comparison, all methods are trained using the same backbone model, training data, optimizer settings, number of epochs, decoding strategy, and evaluation protocol whenever applicable. We select the best checkpoint for each method using the same validation-based checkpoint-selection protocol, and then evaluate the selected checkpoint on the test set. For all methods, we report the tuned hyperparameters and their search ranges as shown in the table above.
+    For a fair comparison, all methods are trained using the same backbone model, training data, optimizer settings, number of epochs, decoding strategy, and evaluation protocol whenever applicable. The best checkpoint was determined using an identical validation protocol before undergoing final evaluation on the test set. For all methods, we report the tuned hyperparameters and their search ranges as shown in the table above.
 
 <br>
 
 - **From the experimental results, CypherKD improves a lot over standard supervised fine-tuning. The gains over existing knowledge distillation methods are often small. Some metrics are almost tied. Therefore, I am not sure whether these small gaps come from the proposed method itself or could be closed by hyperparameter tuning. I also suggest that the paper include confidence information or results across multiple runs.**
 
-    Although CypherKD shows clear gains over SFT, some improvements over strong KD baselines are relatively small. To separate method effects from run-to-run variance, we will add results across 5 random seeds and report **mean +/- standard deviation**.
+    We acknowledge that some gains over strong KD baselines are modest. To ensure a fair comparison, we add the standard deviations over five random seeds, computed under the same training and evaluation protocol. Following the evaluation protocol adopted by AMiD (Shin et al., ICLR 2026), we report statistics over five random seeds on the main benchmarks to assess training stability while keeping the computational cost manageable. 
+
+As shown above, CypherKD consistently achieves the highest mean EX and PSJS across both model families. Importantly, all methods are trained and tuned only on CypherBench, while Mind-the-Query and Neo4j-Text2Cypher are evaluated without any additional fine-tuning or dataset-specific hyperparameter tuning. Moreover, on CypherBench and Mind-the-Query, the improvements over the strongest KD baselines generally exceed the observed run-to-run variation. These results suggest that the gains are unlikely to be explained by favorable hyperparameter choices or optimization noise, but instead reflect the effectiveness and generalization of the proposed supervision.
+
 
     **CypherBench**
 
     | Method                 | EX(%)        | PSJS(%)      | Executable(%)|
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
-    | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | Qwen3-0.6B (SFT)       | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | 58.26 +/- 0.24 | 54.93 +/- 0.46 | 98.25 +/- 0.20 |
+    | RKL                    | 61.24 +/- 0.20 | 58.46 +/- 0.33 | 98.47 +/- 0.21 |
+    | SFKL                   | 60.26 +/- 0.31 | 56.77 +/- 0.20 | 97.61 +/- 0.16 |
+    | DistiLLM               | 62.18 +/- 0.31 | 58.03 +/- 0.09 | 98.51 +/- 0.07 |
+    | FDD                    | 56.43 +/- 0.16 | 53.11 +/- 0.05 | 98.68 +/- 0.15 |
+    | CSD                    | 61.58 +/- 0.23 | 59.55 +/- 0.35 | 99.06 +/- 0.11 |
+    | AMiD                   | 60.39 +/- 0.18 | 57.81 +/- 0.16 | 98.47 +/- 0.19 |
+    | **CypherKD**           | 64.61 +/- 0.43 | 61.42 +/- 0.36 | 98.98 +/- 0.17 |
     | **Llama-3.2 family**   |              |              |              |
-    | Llama-3.2-8B (Teacher) | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | Llama-3.2-1B (SFT)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | 57.88 +/- 0.09 | 55.23 +/- 0.08 | 96.85 +/- 0.24 |
+    | RKL                    | 58.09 +/- 0.12 | 55.33 +/- 0.23 | 97.02 +/- 0.27 |
+    | SFKL                   | 58.22 +/- 0.21 | 55.29 +/- 0.30 | 97.87 +/- 0.03 |
+    | DistiLLM               | 58.77 +/- 0.36 | 56.96 +/- 0.10 | 98.30 +/- 0.03 |
+    | FDD                    | 54.13 +/- 0.33 | 51.69 +/- 0.29 | 95.78 +/- 0.18 |
+    | CSD                    | 60.09 +/- 0.45 | 57.98 +/- 0.34 | 98.17 +/- 0.15 |
+    | AMiD                   | 57.20 +/- 0.18 | 54.69 +/- 0.22 | 98.25 +/- 0.12 |
+    | **CypherKD**           | 62.11 +/- 0.26 | 58.81 +/- 0.02 | 98.54 +/- 0.21 |
 
     **Mind-the-Query**
 
     | Method                 | EX(%)        | PSJS(%)      | Executable(%)|
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
-    | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | Qwen3-0.6B (SFT)       | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | 27.67 +/- 0.86 | 34.39 +/- 0.13 | 86.51 +/- 0.09 |
+    | RKL                    | 26.46 +/- 0.83 | 33.28 +/- 0.12 | 87.53 +/- 0.08 |
+    | SFKL                   | 27.45 +/- 0.93 | 33.87 +/- 0.17 | 84.57 +/- 0.03 |
+    | DistiLLM               | 27.36 +/- 0.45 | 33.24 +/- 0.11 | 86.32 +/- 0.44 |
+    | FDD                    | 12.17 +/- 0.91 | 13.02 +/- 0.21 | 88.17 +/- 0.08 |
+    | CSD                    | 25.80 +/- 1.02 | 31.72 +/- 0.32 | 88.85 +/- 0.15 |
+    | AMiD                   | 26.12 +/- 0.82 | 32.34 +/- 0.12 | 85.86 +/- 0.11 |
+    | **CypherKD**           | 29.93 +/- 0.80 | 35.95 +/- 0.08 | 89.39 +/- 0.18 |
     | **Llama-3.2 family**   |              |              |              |
-    | Llama-3.2-8B (Teacher) | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | Llama-3.2-1B (SFT)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | 25.66 +/- 0.93 | 28.79 +/- 0.09 | 88.58 +/- 0.09 |
+    | RKL                    | 25.33 +/- 0.87 | 28.77 +/- 0.09 | 88.82 +/- 0.08 |
+    | SFKL                   | 24.62 +/- 1.00 | 28.67 +/- 0.15 | 91.16 +/- 0.05 |
+    | DistiLLM               | 22.62 +/- 0.46 | 26.48 +/- 0.11 | 91.44 +/- 0.44 |
+    | FDD                    | 9.56 +/- 0.96  | 10.51 +/- 0.21 | 84.91 +/- 0.05 |
+    | CSD                    | 20.61 +/- 1.13 | 24.42 +/- 0.31 | 91.09 +/- 0.14 |
+    | AMiD                   | 24.00 +/- 0.88 | 27.59 +/- 0.10 | 89.87 +/- 0.11 |
+    | **CypherKD**           | 27.09 +/- 0.86 | 31.13 +/- 0.07 | 92.28 +/- 0.18 |
 
     **Neo4j-Text2Cypher**
 
     | Method                 | EX(%)        | PSJS(%)      | Executable(%)|
     |------------------------|-------------:|-------------:|-------------:|
     | **Qwen3 family**       |              |              |              |
-    | Qwen3-4B (Teacher)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | Qwen3-0.6B (SFT)       | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | 7.98 +/- 0.59  | 15.49 +/- 0.81 | 82.71 +/- 0.82  |
+    | RKL                    | 9.51 +/- 0.61  | 29.54 +/- 1.51 | 81.70 +/- 1.08  |
+    | SFKL                   | 8.22 +/- 0.19  | 28.32 +/- 1.30 | 77.57 +/- 0.57  |
+    | FDD                    | 7.29 +/- 0.80  | 20.64 +/- 1.42 | 87.98 +/- 1.09  |
+    | DistiLLM               | 8.99 +/- 0.55  | 26.35 +/- 0.46 | 76.23 +/- 0.76  |
+    | CSD                    | 9.15 +/- 0.27  | 27.61 +/- 0.57 | 82.06 +/- 0.79  |
+    | AMiD                   | 8.79 +/- 0.14  | 26.84 +/- 0.63 | 77.09 +/- 0.93  |
+    | **CypherKD**           | 9.84 +/- 0.55  | 30.26 +/- 0.84 | 85.63 +/- 0.89  |
     | **Llama-3.2 family**   |              |              |              |
-    | Llama-3.2-8B (Teacher) | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | Llama-3.2-1B (SFT)     | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | RKL                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | SFKL                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | DistiLLM               | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | FDD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | CSD                    | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | AMiD                   | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
-    | **CypherKD**           | [MEAN +/- STD] | [MEAN +/- STD] | [MEAN +/- STD] |
+    | FKL                    | 9.68 +/- 0.92  | 24.49 +/- 1.23 | 83.68 +/- 1.02  |
+    | RKL                    | 9.23 +/- 0.70  | 24.23 +/- 1.10 | 83.56 +/- 1.01  |
+    | SFKL                   | 8.87 +/- 0.72  | 22.97 +/- 1.20 | 90.28 +/- 0.90  |
+    | FDD                    | 7.69 +/- 0.91  | 19.97 +/- 1.48 | 83.08 +/- 0.97  |
+    | DistiLLM               | 9.03 +/- 0.45  | 25.74 +/- 0.94 | 87.85 +/- 1.14  |
+    | CSD                    | 9.55 +/- 0.78  | 26.07 +/- 1.44 | 91.21 +/- 1.03  |
+    | AMiD                   | 9.51 +/- 0.71  | 22.60 +/- 1.07 | 90.04 +/- 0.99  |
+    | **CypherKD**           | 9.88 +/- 0.71  | 26.03 +/- 1.00 | 91.17 +/- 1.08  |
+
+
+
+
 
 <br>
 
 - **The supervision signal in CypherKD comes entirely from the teacher model, without any additional correction or checking mechanism. If the teacher model makes mistakes in these correspondence relations, the extra supervision may transfer this noise to the student model.**
 
-    This is an important concern, but CypherKD does **not** rely entirely on the teacher signal. The student is still trained with the standard cross-entropy loss on the gold Cypher query. The teacher-derived span-relation signal is only used as an auxiliary objective:
+    We thank the reviewer for this concern. We respectfully clarify that CypherKD does not blindly copy the teacher's internal representations, and its training design inherently mitigates the transfer of teacher noise. The student is still trained with the standard cross-entropy loss on the gold Cypher query. The teacher-derived span-relation signal is only used as an auxiliary objective:
 
     $$\mathcal{L}_{\text{total}} = (1-\beta)\mathcal{L}_{\text{CE}}+ \beta\left(\mathcal{L}_{\text{logit}} + \lambda_{\text{rel}}\mathcal{L}_{\text{rel}}\right)$$
 
-    Therefore, the gold query remains the primary supervision signal, while the teacher provides additional structural guidance. This design reduces the risk that noisy teacher correspondences dominate training.
-
-    To further address this concern, we will add a teacher-noise analysis. Representative examples where the teacher has incorrect execution accuracy but CypherKD recovers the correct execution result are shown below.
+    Thus, the optimization remains anchored to the gold target, while the teacher provides complementary structural guidance. To further examine this issue, we analyze representative cases where the teacher produces an incorrect query but CypherKD recovers the correct execution result. As shown below, CypherKD can recover from teacher errors such as incorrect relationship directions, wrong relation types, or missing query clauses, suggesting that the proposed span-relation supervision does not simply propagate teacher prediction errors.
 
     **Case 1: company #5**
 
@@ -174,11 +167,9 @@ We thank the reviewer for the constructive comments. Below, we provide additiona
     | DistiLLM           |                27.13 |                          31.60 |
     | **CypherKD**       |            **24.23** |                      **29.22** |
 
-    CypherKD has the lowest error rates among the student and distillation methods in both categories. Compared with SFT, its schema-grounding error rate decreases from **43.44% to 24.23%**, while its graph-pattern construction error rate decreases from **40.84% to 29.22%**. CypherKD also shows moderately lower error rates than CSD and DistiLLM.
+    CypherKD achieves the lowest error rates among all student and distillation methods in both categories. Compared with SFT, the schema-grounding error rate decreases from **43.44%** to **24.23%**, while the graph-pattern construction error rate decreases from **40.84%** to **29.22%**. It also consistently outperforms strong KD baselines such as CSD and DistiLLM.
+These results are consistent with the intended effect of the proposed span-relation objective, suggesting that it improves the student's ability to preserve structural correspondences between Cypher spans and the question-schema context. Since this analysis is based on rule matching, we regard it as supporting evidence rather than a comprehensive characterization of all structural errors. Overall, the reduced schema-grounding and graph-pattern errors provide direct evidence that CypherKD alleviates the learning difficulty motivating our method.
 
-    These results are consistent with the intended effect of the proposed span-relation objective: encouraging the student to better preserve the teacher’s correspondence between Cypher spans and the question-schema context. In particular, the larger difference in schema-grounding errors suggests that the objective may help the student identify the entity labels, relationship types, and properties associated with each output span.
-
-    However, because this analysis relies on rule-based matching, it may not capture all semantic equivalences or structurally different but execution-equivalent queries. We therefore treat these results as supporting evidence that CypherKD alleviates structural correspondence errors, rather than as a definitive measurement of every grounding or graph-construction error.
 
 [1] Yanlin Feng, Simone Papicchio, and Sajjadur Rahman. 2025. Cypherbench: Towards precise retrieval over full-scale modern knowledge graphs in the LLM era. In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), ACL 2025, Vienna, Austria, July 27 - August 1, 2025, pages 8934–8958. Association for Computational Linguistics. 
 

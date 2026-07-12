@@ -1,0 +1,2726 @@
+[
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization {name: 'New Energy Group'}) RETURN a",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'New Energy Group'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment < 0 WITH o, min(o.revenue) AS minRevenue RETURN o.name AS Organization, minRevenue ORDER BY minRevenue ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Article)-[r1:HAS_CHUNK]->(m1:Article) WITH DISTINCT n RETURN n.name ORDER BY n.revenue ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization {isPublic: true})-[:HAS_CEO]->(ceo:Person) MATCH (ceo)-[:HAS_CHILD]->(child:Person) RETURN ceo.name AS CEO, child.name AS Child",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_PARENT]-(m0:Person)-[r1:HAS_CEO]->(m1:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article {title: 'Funds for Consumer Behavior Specialist Infinite An'})-[:MENTIONS]->(o:Organization) RETURN o LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Article {name: 'Funds for Consumer Behavior Specialist Infinite An'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)<-[:HAS_CEO]-(o:Organization) WHERE o.revenue IS NOT NULL RETURN p.name AS ceo, o.name AS company, o.revenue AS revenue ORDER BY o.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_CEO]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.20372836218375498,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment < 0 AND exists {   (a)-[:HAS_CHUNK]->(c:Chunk)   WHERE c.text CONTAINS 'revenue decrease' OR c.text CONTAINS 'revenue declined' } RETURN DISTINCT o.name AS organization",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.00033256161983090523,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isDissolved = true AND o.revenue > 10000000 RETURN o.name ORDER BY o.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:INVESTMENT]-(m0:INVESTOR) WITH DISTINCT n WHERE n.revenue > 10000000 RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WHERE o.nbrEmployees > 300 RETURN DISTINCT c.name AS cityName",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n WHERE n.nbrEmployees > 300 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ceo:Person)<-[:HAS_CEO]-(org:Organization {isPublic: true}),       (ceo)-[:HAS_CHILD]->(child:Person) RETURN ceo.name AS CEO, org.name AS Organization, child.name AS Child",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_PARENT]-(m0:Person)-[r1:HAS_CEO]->(m1:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {isDissolved: true})<-[:MENTIONS]-(a:Article) RETURN a.title AS articleTitle, a.siteName AS articleSiteName",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTS]->(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Boston and Mumbai'}) WITH DISTINCT n RETURN n.name, n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"New Energy Group\"})<-[:MENTIONS]-(a:Article) RETURN a ORDER BY a.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'New Energy Group'}) WITH DISTINCT n RETURN n.name ORDER BY n.date DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) WHERE country.name <> \"United States of America\" RETURN DISTINCT o",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n WHERE n.country <> 'United States of America' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE datetime(a.date).year = 2019 RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:MATCH]->(m1:City {name: 'Seattle'}) WHERE r1.date.year = 2019 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)-[:HAS_PARENT]->(parent:Person) WHERE EXISTS {(p)-[:HAS_CHILD]->(:Person)} RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:HAS_PARENT]->(m0:Person) OPTIONAL MATCH (n:Person)-[r1:HAS_CHILD]->(m1:Person) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.43529411764705883,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WITH avg(o.revenue) AS averageRevenue MATCH (o:Organization) WHERE o.revenue > averageRevenue MATCH (article:Article)-[:MENTIONS]->(o) RETURN DISTINCT article.title",
+    "pred_cypher": "MATCH (n:Article)<-[r0:MENTS]-(m0:Organization) WITH DISTINCT n WHERE n.revenue > avg(n.revenue) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (parent:Organization {name: \"Accenture\"})-[:HAS_SUBSIDIARY]->(subsidiary:Organization) RETURN subsidiary.name AS subsidiaryName",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_PARENT]->(m0:Person {name: 'Accenture'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City {name: \"Seattle\"}) WHERE o.revenue > 10000000 RETURN o LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'Seattle'}) WITH DISTINCT n WHERE n.revenue > 1000000 RETURN n.name ORDER LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8444444444444444,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (investor:Organization)-[:HAS_INVESTOR]->(company:Organization)-[:HAS_CEO]->(ceo:Person) RETURN ceo.name AS ceoName, company.name AS companyName, investor.name AS investorName LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_CEO]-(m0:Organization)<-[r1:INVESTMENT]-(m1:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment < 0.5 WITH o, count(*) as mentions RETURN o.name as organization, mentions ORDER BY mentions DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.4693723538967268,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: 'Accenture'})<-[:HAS_SUBSIDIARY*1..3]-(parent:Organization) RETURN parent.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.96,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article) WITH count(*) AS totalArticles MATCH (c:Chunk) WITH totalArticles, count(*) AS totalChunks RETURN toFloat(totalChunks) / toFloat(totalArticles) AS averageChunksPerArticle",
+    "pred_cypher": "MATCH (n:Article)-[r0:HAS_CHUNK]->(m0:Chunk) WITH DISTINCT n RETURN avg(n.nbrChunks)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.375007196729806,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization)-[:IN_CITY]->(c:City {name: \"Seattle\"}) RETURN a.id AS ArticleID, a.title AS ArticleTitle, a.date AS ArticleDate",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Seattle'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE EXISTS {(o)-[:HAS_CEO]->(:Person)}   AND EXISTS {(o)-[:HAS_BOARD_MEMBER]->(:Person)}   AND o.summary IS NOT NULL RETURN o.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person)-[r1:HAS_BOARD_MEMBER]->(m1:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person {name: 'Julie Spellman Sweet'})-[r]-(o:Organization) WHERE p.name IS NOT NULL AND o.name IS NOT NULL RETURN p, r, o",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n RETURN n.name, n.parent",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article) RETURN a ORDER BY a.sentiment DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Article) WITH DISTINCT n RETURN n.name ORDER BY n.sentiment DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City)-[:IN_COUNTRY]->(c:Country) WHERE o.revenue > 1E8 RETURN DISTINCT c.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Country)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.motto IS NOT NULL AND o.isPublic = true RETURN o.name, o.motto LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0038470597471932165,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment < 0.5 RETURN o LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n WHERE n.sentiment < 0.5 RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (kr:Organization {name: \"Knowledge Rules\"})-[:IN_CITY]->(krCity:City) WITH krCity MATCH (otherOrg:Organization)-[:IN_CITY]->(krCity) WITH otherOrg MATCH (otherOrg)<-[:MENTIONS]-(article:Article) RETURN avg(article.sentiment)",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Boston and Mumbai'}) WITH DISTINCT n RETURN avg(n.sentiment)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"Accenture\"})<-[:MENTIONS]-(a:Article) RETURN a ORDER BY a.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'Accenture'}) WITH DISTINCT n LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)<-[:MENTIONS]-(a:Article) WHERE o.name CONTAINS 'Solutions' WITH avg(a.sentiment) AS averageSentiment RETURN averageSentiment",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'Solutions'}) WITH DISTINCT n RETURN avg(n.sentiment)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization)-[:IN_CITY]->(ci:City) WHERE a.sentiment < 0.5 RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City)<-[r1:IN_CITY]-(m1:Article) WITH DISTINCT n WHERE n.sentiment < 0.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_CATEGORY]->(cat:IndustryCategory {name: \"Electronic Products Manufacturers\"}) MATCH (org)-[:HAS_CEO]->(ceo:Person) RETURN ceo.name AS CEOName, org.name AS OrganizationName",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_CATEGORY]->(m0:IndustryCategory {name: 'Electronic Products Manufacturers'}) WITH DISTINCT n RETURN n.name, n.nerv",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.41064638783269963,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City)-[:IN_COUNTRY]->(c:Country) WHERE c.summary CONTAINS 'North America' RETURN o.name AS organization, c.name AS country",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City)-[r1:IN_COUNTRY]->(m1:Country {name: 'North America'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City {name: 'Rome'}) MATCH (o)-[:HAS_CATEGORY]->(c:IndustryCategory) RETURN c.name AS category LIMIT 3",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Rome'}) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person {summary: \"CEO at Accenture\"})<-[:HAS_CEO]-(o:Organization) RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'CEO at Accenture'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_INVESTOR]->(i:Person) WITH o, COUNT(i) AS investorCount WHERE investorCount > 1 RETURN o.name AS organizationName LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_INVESTOR]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_CEO]->(ceo:Person), (org)-[:IN_CITY]->(city:City)-[:IN_COUNTRY]->(country:Country {name: \"USA\"}) RETURN ceo.name AS CEOName, org.name AS OrganizationName, org.revenue AS Revenue ORDER BY org.revenue DESC",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_CEO]-(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'USA'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) WHERE o.revenue > 50000000 RETURN DISTINCT country.name AS Country",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_COUNTRY]->(m0:Country) WITH DISTINCT n WHERE n.revenue > 50000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(p:Person {name: \"Julie Spellman Sweet\"}), (o)-[:IN_CITY]->(c:City {name: \"Seattle\"}) RETURN o LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n WHERE n.city = 'Seattle' RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUBSIDIARY]->(s:Organization) WITH o, COUNT(s) AS numSubsidiaries ORDER BY numSubsidiaries DESC LIMIT 1 RETURN o.name AS organizationName, numSubsidiaries",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WITH c, count(o) AS orgCount ORDER BY orgCount DESC RETURN c.name, orgCount LIMIT 1",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article {id: \"ART166907382137\"}) RETURN a.author",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_PARENT]-(m0:Article {name: 'ART166907382137'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ic:IndustryCategory)<-[:HAS_CATEGORY]-(o:Organization) WITH ic, avg(o.nbrEmployees) AS avgEmployees RETURN ic.name AS industryCategoryName, avgEmployees ORDER BY avgEmployees DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)<-[:MENTIONS]-(a:Article) WHERE a.sentiment < 0 WITH o, COUNT(a) AS articleCount ORDER BY articleCount DESC LIMIT 3 RETURN o.name AS organizationName, articleCount",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:MENTING]->(m1:Article {name: 'negative sentiment'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (parentOrg:Organization)-[:HAS_SUBSIDIARY]->(subOrg:Organization) WHERE subOrg.nbrEmployees IS NOT NULL RETURN parentOrg.name AS ParentOrganization, subOrg.name AS Subsidiary, subOrg.nbrEmployees AS NumberOfEmployees ORDER BY subOrg.nbrEmployees DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.03344980566134035,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o1:Organization)-[:HAS_SUPPLIER]->(o2:Organization) WHERE (o1)-[:HAS_COMPETITOR]->(o2) RETURN o1.name AS org1, o2.name AS org2",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUPPLY]-(m0:Organization)-[r1:COMPTITITING]->(m1:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_SUPPLIER]->(supplier:Organization),       (org)-[:IN_CITY]->(city:City)<-[:IN_CITY]-(supplier),       (city)-[:IN_COUNTRY]->(country:Country) WITH country, count(DISTINCT org) AS orgCount ORDER BY orgCount DESC LIMIT 3 RETURN country.name AS countryName, orgCount",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUPPLIER]-(m0:Organization)-[r1:IN_COUNTRY]->(m1:Country {name: 'United States of America'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(p:Person) WHERE EXISTS {   MATCH (a:Article)-[:MENTIONS]->(o)   WITH p, COUNT(a) AS articlesCount   WHERE articlesCount > 1   RETURN p } RETURN o LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.nbrEmployees > 1000 WITH o MATCH (a:Article)-[:MENTIONS]->(o) WITH a LIMIT 3 RETURN a.title",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization) WITH DISTINCT n WHERE n.nbrEmployees > 1000 RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[r:HAS_CATEGORY]->(ic:IndustryCategory) WITH ic.name AS industryCategoryName, count(*) AS orgCount ORDER BY orgCount DESC LIMIT 3 RETURN industryCategoryName, orgCount",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_SUBSIDIARY]->(:Organization) MATCH (org)-[:HAS_CEO]->(ceo:Person) RETURN ceo.name AS CEOName, org.name AS OrganizationName",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name, n.HAS_CEO",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.805129370761829,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (parent:Organization)-[:HAS_SUBSIDIARY]->(subsidiary:Organization) MATCH (parent)-[:HAS_CATEGORY]->(parentIndustry:IndustryCategory) MATCH (subsidiary)-[:HAS_CATEGORY]->(subsidiaryIndustry:IndustryCategory) WHERE parentIndustry = subsidiaryIndustry MATCH (parent)-[:IN_CITY]->(parentCity:City)-[:IN_COUNTRY]->(parentCountry:Country) MATCH (subsidiary)-[:IN_CITY]->(subsidiaryCity:City)-[:IN_COUNTRY]->(subsidiaryCountry:Country) WHERE parentCountry <> subsidiaryCountry RETURN DISTINCT subsidiary.name AS subsidiaryName",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_PARENT]->(m0:Person)<-[r1:HAS_SUBSIDIARY]-(m1:Organization) WITH DISTINCT n WHERE n.operates_in_country <> n.operates_in_country RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (investor:Organization)-[:HAS_INVESTOR]->(investee:Organization) WITH investor, COUNT(investee) AS investeeCount WHERE investeeCount > 3 RETURN investor.name AS InvestorName, investeeCount ORDER BY investeeCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:INVESTOR]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (accenture:Organization {name: 'Accenture'})-[:HAS_SUBSIDIARY]->(subsidiary:Organization) RETURN subsidiary.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUBSIDIARY]-(m0:Organization {name: 'Accenture'}) WITH DISTINCT n LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article {siteName: \"MrWeb\"})-[:MENTIONS]->(o:Organization) RETURN o.name AS OrganizationName LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article {name: 'MrWeb'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City {name: 'Seattle'}) MATCH (o)-[:HAS_CATEGORY]->(c:IndustryCategory) RETURN DISTINCT c.name",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Seattle'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE o.name CONTAINS \"New Energy\" RETURN a.title, a.date, a.author, a.summary ORDER BY a.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'new energy technologies'}) WITH DISTINCT n RETURN n.name ORDER BY n.date ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City)-[:IN_COUNTRY]->(c:Country {name: 'United States of America'}) WHERE o.nbrEmployees > 10000 RETURN o.name AS organization, o.nbrEmployees AS numberOfEmployees",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'United States of America'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article {id: \"ART166907382137\"}) RETURN a.date",
+    "pred_cypher": "MATCH (n:Article {name: 'ART166907382137'}) WITH DISTINCT n RETURN n.date",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.nbrEmployees > 100 RETURN o",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN CASE WHEN n.nbrEmployees > 100 THEN n.name ELSE 'Unknown' END AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.011195972921367817,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isPublic = true AND o.nbrEmployees > 500 RETURN o.name AS organization, o.nbrEmployees AS employeeCount ORDER BY o.nbrEmployees DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)-[r0:isPublic]->(m0:Organization {name: 'New Energy Group'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)<-[:MENTIONS]-(article:Article) WHERE org.revenue > 1E9 RETURN article.title",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization) WITH DISTINCT n WHERE n.revenue > 1000000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:Country)<-[:IN_COUNTRY]-(city:City)<-[:IN_CITY]-(o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory {name: 'Electronic Products Manufacturers'}) RETURN c.name AS country, count(o) AS num_orgs ORDER BY num_orgs DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_COMPETITOR]-(m0:IndustryCategory {name: 'electronics'}) WITH DISTINCT n RETURN DISTINCT n.COUNTRY ORDER BY n.COUNTRY DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE o.nbrEmployees > 50 RETURN a LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:HAS_SUBSIDIARY]->(m0:Organization) WITH n, m0 RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WHERE o.revenue > 1000000 WITH c, count(o) AS orgCount ORDER BY orgCount DESC RETURN c.name AS cityName, orgCount LIMIT 1",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.24840323201231243,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article) RETURN a.title, a.sentiment ORDER BY a.sentiment DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Article) WITH DISTINCT n RETURN n.name ORDER BY n.sentiment DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City)-[:IN_COUNTRY]->(c:Country {name: 'Italy'}) MATCH (o)-[:HAS_BOARD_MEMBER]->(p:Person) RETURN p.name AS boardMember LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_BOARD_MEMBER]-(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Italy'}) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(ceo:Person), (o)-[:HAS_BOARD_MEMBER]->(bm:Person) WHERE ceo.name = bm.name RETURN o LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person)-[r1:HAS_BOARD_MEMBER]->(m1:Person) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization {isPublic: true}) RETURN a.title AS article, o.name AS organization ORDER BY a.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:HAS_CATEGORY]->(m0:IndustryCategory {name: 'organization'}) WITH DISTINCT n RETURN n.name ORDER BY n.date ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.nbrEmployees > 100 AND o.isDissolved = false RETURN o.name, o.nbrEmployees ORDER BY o.nbrEmployees DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Person) WITH DISTINCT n WHERE n.nbrEmployees > 100 AND NOT n.isDissolved RETURN n.name ORDER LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"Neo4j\"})-[:HAS_CEO]->(p:Person) RETURN p.name AS CEOName",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_CEO]-(m0:Organization {name: 'Neo4j'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_BOARD_MEMBER]->(p:Person) WITH o, COUNT(p) AS boardMemberCount WHERE boardMemberCount >= 2 RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_BOARD_MEMBER]-(m0:Person) WITH DISTINCT n WHERE n.nbrEmployees >= 2 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City {name: \"New York City\"}) RETURN o.name AS OrganizationName, o.revenue AS Revenue ORDER BY o.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'new york city'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isDissolved = true RETURN o.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)-[r0:isDissolved]->(m0:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (supplier:Organization)-[:HAS_SUPPLIER]->(org1:Organization),       (competitor:Organization)-[:HAS_COMPETITOR]->(org2:Organization) WHERE supplier = competitor RETURN DISTINCT supplier.name AS organizationName",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUPPLY]-(m0:Organization)-[r1:COMPETITOR]->(m1:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)-[:HAS_INVESTOR]->(o:Organization) WITH p, count(o) AS numOrgs WHERE numOrgs > 1 RETURN p LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)-[r0:INVESTOR]->(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ceo:Person)<-[:HAS_CEO]-(org:Organization) WHERE org.isPublic = true WITH ceo MATCH (ceo)-[:HAS_CHILD]->(child:Person) RETURN child.name AS ChildName, ceo.name AS CEOName LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_PARENT]-(m0:Person)-[r1:HAS_CEO]->(m1:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article {author: \"David Correa\"})-[:MENTIONS]->(o:Organization) RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:author]->(m1:Person {name: 'David Correa'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_SUBSIDIARY]->(parent:Organization) WHERE (parent)-[:HAS_SUBSIDIARY]->(:Organization) RETURN DISTINCT org.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_SUBSIDIARY]->(m0:Organization)-[r1:HAS_SUBSIDIARY]->(m1:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.08384413309982487,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isPublic IS NOT NULL AND o.isPublic = true WITH o ORDER BY o.name LIMIT 3 MATCH (o)-[:HAS_BOARD_MEMBER]->(p:Person) RETURN o.name AS organization, collect(p.name) AS board_members",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_BOARD_MEMBER]-(m0:Person) WITH DISTINCT n RETURN n.name, n.nbrEmployees",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(p:Person {name: 'Julie Spellman Sweet'}) RETURN o.name AS organization",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City)-[:IN_COUNTRY]->(c:Country) WHERE c.name CONTAINS 'America' RETURN o.name AS organization, o.nbrEmployees AS numberOfEmployees ORDER BY o.nbrEmployees DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'America'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUPPLIER]->(supplier:Organization {name: \"Accenture\"}) RETURN o.name AS OrganizationName",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUPPLY]-(m0:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_INVESTOR]->(i) WITH o, COUNT(i) AS investorCount ORDER BY investorCount DESC RETURN o.name AS organizationName, investorCount LIMIT 10",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_INVESTOR]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_INVESTOR]->(p:Person) WHERE o.revenue > 500000000 RETURN p.name AS InvestorName, o.name AS OrganizationName LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_INVESTOR]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.02622950819672131,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization)-[:IN_CITY]->(c:City) WITH c, avg(a.sentiment) AS avgSentiment ORDER BY avgSentiment DESC LIMIT 1 RETURN c.name",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.sentiment DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.28015956822715005,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:IN_CITY]->(city:City) WITH city, avg(org.nbrEmployees) AS average_employees WHERE average_employees > 1000000 RETURN avg(average_employees) AS avg_employees_in_large_cities",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n WHERE n.nbrEmployees > 100000 RETURN avg(n.nbrEmployees)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.050173143516737205,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person {name: \"Julie Spellman Sweet\"})-[:HAS_CHILD]->(child:Person) RETURN child LIMIT 3",
+    "pred_cypher": "MATCH (n:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.summary CONTAINS 'based in San Francisco' AND o.isDissolved = false RETURN o",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:IN_CITY]-(m0:City {name: 'San Francisco'}) WITH DISTINCT n WHERE n.isDissolved = false RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ceo:Person {name: \"Julie Spellman Sweet\"})<-[:HAS_CEO]-(org:Organization)<-[:MENTIONS]-(article:Article) WHERE article.sentiment > 0.75 RETURN article.title, article.date, article.sentiment ORDER BY article.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTS]->(m0:Organization)<-[r1:HAS_CEO]-(m1:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n WHERE n.sentiment > 0.75 RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(:Person) WHERE count{(o)-[:HAS_SUPPLIER]->(:Organization)} > 10 RETURN o",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUPPLIER]-(m0:Suppliers) WITH DISTINCT n WHERE n.nbrEmployees > 10 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)-[:HAS_BOARD_MEMBER]->(o:Organization) WHERE o.nbrEmployees > 1000 RETURN p",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_BOARD_MEMBER]-(m0:Organization) WITH DISTINCT n WHERE m0.nbrEmployees > 1000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WITH c, count(o) as orgCount ORDER BY orgCount DESC LIMIT 5 RETURN c.name as cityName, orgCount",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person {name: \"Julie Spellman Sweet\"}) MATCH (p)<-[:HAS_CEO]-(o:Organization) RETURN o.id",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(c:IndustryCategory) WITH o, COUNT(c) AS categoryCount WHERE categoryCount > 1 RETURN o.name AS organizationName LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_CATEGORY]->(m0:IndustryCategory) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {isPublic: true})-[:IN_CITY]->(c:City) RETURN DISTINCT c.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n WHERE n.isPublic IS TRUE RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (i:IndustryCategory)<-[:HAS_CATEGORY]-(o:Organization) WITH i, count(o) AS orgCount WHERE orgCount >= 3 RETURN i.name AS IndustryCategoryName",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization) WITH DISTINCT n WHERE n.nbrEmployees >= 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.summary CONTAINS 'financial crisis' WITH o, count(*) as mentions ORDER BY mentions DESC LIMIT 3 RETURN o.name as organization, mentions",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:MATCH]->(m1:Organization {name: 'financial crisis'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org1:Organization {id: \"E0ZU8eCc5OaqS1LU9qE3n3w\"})-[:IN_CITY]->(city:City) MATCH (org2:Organization)-[:IN_CITY]->(city) WHERE org1 <> org2 RETURN DISTINCT org2.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City)<-[r1:IN_CITY]-(m1:Organization {name: 'E0ZU8eCc5OaqS1LU9qE3n3w'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization {isPublic: true})-[:IN_CITY]->(city:City)-[:IN_COUNTRY]->(country:Country {name: \"United States of America\"}) RETURN org.name AS organizationName",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City)-[r1:IN_COUNTRY]->(m1:Country {name: 'United States of America'}) WITH DISTINCT n WHERE n.isPublic = true RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org1)<-[:HAS_SUPPLIER]-(supplier)-[:HAS_CEO]->(ceo) WITH DISTINCT ceo, org1 MATCH (org1)-[:HAS_COMPETITOR]->(competitor)-[:HAS_CEO]->(ceo) RETURN DISTINCT ceo.name",
+    "pred_cypher": "MATCH (p:Person)-[r0:HAS_CEO]->(o0:Organization)-[r1:HAS_SUPPLIER]->(o1:Organization)-[r2:HAS_COMPETITOR]->(o2:Organization) WITH DISTINCT p RETURN p.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"Accenture\"})-[:HAS_COMPETITOR]->(competitor:Organization) RETURN competitor.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:COMPTITOR]-(m0:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.summary CONTAINS \"environmental\" OR a.title CONTAINS \"environmental\" RETURN DISTINCT o.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:HAS_CATEGORY]->(m1:IndustryCategory {name: 'Environmental Issues'}) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)<-[:HAS_BOARD_MEMBER]-(o:Organization) WHERE o.motto IS NOT NULL RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_BOARD_MEMBER]-(m0:Organization)-[r1:HAS_LAYOUT]->(m1:Organization {name: 'Motto: \"A single goal of creating a beautiful and meaningful artifact\"'}) WITH DISTINCT n RETURN n.name, n.nbrEmployees",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment IS NOT NULL WITH o, min(a.sentiment) AS minSentiment, count(a) AS numMentions RETURN o.name AS organization, minSentiment, numMentions ORDER BY minSentiment LIMIT 10",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.nbrEmployees IS NOT NULL RETURN o.name AS organization, o.nbrEmployees AS numberOfEmployees ORDER BY o.nbrEmployees DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.026145634438465543,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (accenture:Organization {name: 'Accenture'})-[:HAS_SUBSIDIARY]->(subsidiary:Organization) RETURN subsidiary.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"Accenture\"})-[:HAS_SUBSIDIARY]->(s:Organization) RETURN s.name AS subsidiaryName ORDER BY s.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) MATCH (o)<-[:HAS_INVESTOR]-(p)-[:HAS_SUPPLIER]->(o) RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_INVESTOR]-(m0:Person)<-[r1:HAS_SUPPLIER]-(m1:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.nbrEmployees > 1000 AND o.isPublic = false RETURN o.name AS organization, o.nbrEmployees AS numberOfEmployees",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n WHERE n.nbrEmployees > 1000 AND NOT n.isPublic RETURN n.name, n.nbrEmployees",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"Wipro\"}) OPTIONAL MATCH (o)-[:IN_CITY]->(c:City) OPTIONAL MATCH (o)-[:HAS_CEO]->(ceo:Person) OPTIONAL MATCH (o)-[:HAS_CATEGORY]->(ic:IndustryCategory) OPTIONAL MATCH (o)-[:HAS_SUBSIDIARY]->(subsidiary:Organization) OPTIONAL MATCH (o)-[:HAS_SUPPLIER]->(supplier:Organization) OPTIONAL MATCH (o)-[:HAS_INVESTOR]->(investor) OPTIONAL MATCH (o)-[:HAS_BOARD_MEMBER]->(board_member:Person) OPTIONAL MATCH (o)-[:HAS_COMPETITOR]->(competitor:Organization) RETURN o.name AS OrganizationName, o.revenue AS Revenue, o.motto AS Motto, o.isDissolved AS IsDissolved, o.nbrEmployees AS NumberOfEmployees, o.summary AS Summary, o.isPublic AS IsPublic, c.name AS CityName, ceo.name AS CEOName, ic.name AS IndustryCategory, collect(distinct subsidiary.name) AS Subsidiaries, collect(distinct supplier.name) AS Suppliers, collect(distinct investor.name) AS Investors, collect(distinct board_member.name) AS BoardMembers, collect(distinct competitor.name) AS Competitors",
+    "pred_cypher": "MATCH (n:Organization {name: 'Wipro'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 25N14} {gql_status_description: error: invalid transaction state - transaction termination client error. The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. Reason: The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout.}"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {isPublic: false})-[:HAS_CEO]->(ceo:Person) RETURN ceo.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person) WITH DISTINCT n WHERE n.isPublic = false RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:HAS_CHUNK]->(c:Chunk) WHERE c.text CONTAINS 'cybersecurity' WITH a MATCH (a)-[:MENTIONS]->(o:Organization) RETURN o.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:MATCH]->(m1:Organization {name: 'cybersecurity'}) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country {name: \"Italy\"}) WHERE o.isPublic = true RETURN o ORDER BY o.revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)-[r0:isPublic]->(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Italy'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(c:IndustryCategory {name: \"Technology\"}) RETURN o LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_CATEGORY]->(m0:IndustryCategory {name: 'Technology'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (targetOrg:Organization {name: \"Deja vu Security\"})-[:HAS_CATEGORY]->(category:IndustryCategory)<-[:HAS_CATEGORY]-(sameCategoryOrg:Organization) WITH DISTINCT sameCategoryOrg MATCH (sameCategoryOrg)<-[:HAS_SUPPLIER]-(supplierOrg:Organization) WITH avg(supplierOrg.nbrEmployees) AS averageEmployees RETURN averageEmployees",
+    "pred_cypher": "MATCH (n:Organization)-[r0:SUPPLY]->(m0:Organization)-[r1:HAS_CATEGORY]->(m1:IndustryCategory {name: 'Software company'}) WITH DISTINCT n RETURN avg(n.nbrEmployees)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:IN_CITY]->(city:City {name: \"Seattle\"}) MATCH (article:Article)-[:MENTIONS]->(org) RETURN article.title, article.date, article.sentiment ORDER BY article.sentiment DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Seattle'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City)-[:IN_COUNTRY]->(c:Country {name: 'Italy'}) WHERE o.isPublic IS NOT NULL AND o.isPublic = true RETURN o.name AS organization, o.summary AS summary ORDER BY o.revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)-[r0:isPublic]->(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Italy'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City {name: \"Seattle\"}) RETURN o.name AS Organization, o.nbrEmployees AS Employees ORDER BY o.nbrEmployees DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'Seattle'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isDissolved = false RETURN o.name, o.revenue ORDER BY o.revenue ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'Boston and Mumbai-based consumer behavior analyses'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory) WITH ic, avg(o.revenue) AS avgRevenue MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE o.revenue > avgRevenue RETURN DISTINCT a",
+    "pred_cypher": "MATCH (n:Article)<-[r0:MENTS]-(m0:Organization)-[r1:HAS_CATEGORY]->(m1:IndustryCategory {name: 'Software company'}) WITH DISTINCT n WHERE n.revenue > avg(n.revenue) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) WHERE o.revenue > 50000000 RETURN DISTINCT country.name AS Country",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_COUNTRY]->(m0:Country) WITH DISTINCT m0 WHERE n.revenue > 50000000 RETURN n.name, m0.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.motto <> \"\" RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:hasMotto]->(m0:Article {name: 'motto'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WHERE o.isPublic = true RETURN c.name AS city, count(*) AS numPublicOrgs ORDER BY numPublicOrgs DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization)-[r1:HAS_SUBSIDIARY]->(m1:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.042139279366618196,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment < 0 RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:SENTIMENT]->(m1:FLOAT {name: 'negative'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.date > datetime('2022-01-01T00:00:00Z') WITH sum(o.revenue) AS totalRevenue RETURN totalRevenue",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CHUNK]-(m0:Article) WHERE m0.date > date('2022-01-01') WITH DISTINCT n RETURN sum(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment > 0.8 RETURN o.name AS OrganizationName",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTSING]-(m0:Article) WITH DISTINCT n WHERE n.sentiment > 0.8 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(:City {name: 'Seattle'}) MATCH (o)-[:HAS_CEO]->(ceo:Person) RETURN o.name AS organization, ceo.name AS ceo",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'Seattle'}) WITH DISTINCT n RETURN n.name, n.has_CEO",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.40773809523809523,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory {name: \"Electronic Products Manufacturers\"}) RETURN o",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CATEGORY]-(m0:IndustryCategory {name: 'Electronic Products Manufacturers'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (parentOrg:Organization)-[:HAS_SUBSIDIARY]->(subOrg:Organization) WITH parentOrg, COUNT(subOrg) AS numSubsidiaries WHERE numSubsidiaries > 1 RETURN parentOrg.name AS OrganizationName, numSubsidiaries",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:City)<-[:IN_CITY]-(o:Organization) WHERE o.revenue > 5e8 RETURN c.name AS city",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n WHERE n.revenue > 500e6 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WITH sum(o.revenue) AS totalRevenue RETURN totalRevenue",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN sum(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization)-[:IN_CITY]->(:City)-[:IN_COUNTRY]->(c:Country {name: 'Belgium'}) WHERE a.sentiment > 0.5 RETURN DISTINCT o",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MATCH]-(m0:Article)-[r1:MATCH]->(m1:City {name: 'Belgium'}) WITH DISTINCT n WHERE n.sentiment > 0.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUPPLIER]->(s:Organization) RETURN o.name AS organization, count(s) AS supplierCount ORDER BY supplierCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUPPLIER] WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_BOARD_MEMBER]->(p:Person) WHERE EXISTS {(p)-[:HAS_CEO]-(:Organization)} RETURN o.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_BOARD_MEMBER]-(m0:Person)-[r1:HAS_CEO]->(m1:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (country:Country)<-[:IN_COUNTRY]-(city:City) RETURN country.name AS country, count(city) AS numCities ORDER BY numCities DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Country)<-[r0:IN_COUNTRY]-(m0:City) WITH DISTINCT n RETURN n.name ORDER BY n.nbrCities DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (deis:Organization {name: 'Deis'})-[:IN_CITY]->(deisCity:City) MATCH (otherOrg:Organization)-[:IN_CITY]->(deisCity) MATCH (supplierOrg:Organization)-[:HAS_SUPPLIER]->(otherOrg) RETURN DISTINCT supplierOrg.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUPPLY]-(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Deis'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person {name: 'Julie Spellman Sweet'})<-[:HAS_BOARD_MEMBER]-(o:Organization) RETURN o",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_BOARD_MEMBER]-(m0:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"Accenture\"})<-[:MENTIONS]-(a:Article) RETURN a.title, a.sentiment ORDER BY a.sentiment DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name ORDER BY n.sentiment DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(c:IndustryCategory) WITH o, count(c) AS categoryCount WHERE categoryCount > 1 RETURN o.name AS organization, categoryCount",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_CATEGORY]->(m0:IndustryCategory) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory) WHERE o.isPublic = true WITH ic, count(o) as orgCount ORDER BY orgCount DESC LIMIT 3 RETURN ic.name as IndustryCategory, orgCount",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization)-WITH DISTINCT m0 RETURN DISTINCT n ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)<-[:MENTIONS]-(a:Article) WHERE a.sentiment < 0.3 WITH o, COUNT(a) AS articleCount ORDER BY articleCount DESC LIMIT 3 RETURN o.name AS organizationName, articleCount",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.35186298461262966,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_CEO]->(ceo:Person) WHERE EXISTS {     MATCH (ceo)-[:HAS_BOARD_MEMBER]->(otherOrg:Organization)     WHERE org <> otherOrg } RETURN org.name AS OrganizationName, ceo.name AS CEOName",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person)-[r1:HAS_BOARD_MEMBER]->(m1:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (childOrg:Organization)-[:IN_CITY]->(childCity:City) MATCH (childOrg)<-[:HAS_SUBSIDIARY]-(parentOrg:Organization)-[:IN_CITY]->(parentCity:City) WHERE childCity.id <> parentCity.id WITH childCity, count(DISTINCT parentOrg) AS parentOrgCount ORDER BY parentOrgCount DESC RETURN childCity.name AS cityName, parentOrgCount LIMIT 1",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization)-[r1:HAS_PARENT]->(m1:Person) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUBSIDIARY]->(sub:Organization {name: 'SuccessFactors'}) RETURN o.name AS organization, sub.name AS subsidiary",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization {name: 'SuccessFactors'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2222222222222222,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.summary CONTAINS 'Software' WITH o MATCH (o)-[:HAS_CATEGORY]->(ic:IndustryCategory) WITH ic MATCH (ic)<-[:HAS_CATEGORY]-(o2:Organization) WITH ic, count(o2) AS orgCount RETURN sum(orgCount)",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_CATEGORY]->(m0:IndustryCategory)<-[r1:HAS_CATEGORY]-(m1:Organization {name: 'Software'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6675503711558854,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) WHERE c.name <> country.name RETURN o.name AS organization, c.name AS city, country.name AS country",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n WHERE NOT 'Seattle' IN n.country RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.motto CONTAINS 'technology' RETURN o.name, o.motto",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization {name: 'technology'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (article:Article)-[:MENTIONS]->(mentionedOrg:Organization) WHERE article.sentiment > 0.8 WITH distinct mentionedOrg MATCH (mentionedOrg)<-[:HAS_COMPETITOR]-(org:Organization)-[:HAS_SUPPLIER]->(mentionedOrg) RETURN DISTINCT org.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:COMPTETITOR]-(m0:Organization)<-[r1:SUPPLY]-(m1:Article)-[r2:SENTIMENT]->(m3:FLOAT {name: 0.856}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ic:IndustryCategory)<-[:HAS_CATEGORY]-(o:Organization) WITH ic, count(o) AS orgCount WHERE orgCount > 5 RETURN ic.name AS industry, orgCount ORDER BY orgCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory) WITH o, count(ic) AS numCategories WHERE numCategories > 1 RETURN o LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CATEGORY]-(m0:IndustryCategory) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE o.revenue < 5000000 RETURN a.title, a.summary, a.date LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTS]->(m0:Organization) WITH DISTINCT n WHERE n.revenue < 5000000 RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:IN_CITY]->(city:City)-[:IN_COUNTRY]->(country:Country {name: \"United States of America\"}) WHERE org.isPublic = true AND org.nbrEmployees > 1000 RETURN org.name, org.nbrEmployees",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'United States of America'}) WITH DISTINCT n WHERE n.isPublic = true AND n.nbrEmployees > 1000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) WHERE country.name <> 'United States of America' RETURN o",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n WHERE NOT 'United States of America' IN m0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment < 0 WITH o, avg(a.sentiment) AS avgSentiment ORDER BY avgSentiment LIMIT 3 RETURN o.name AS organization, avgSentiment",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CHUNK]-(m0:Article) WITH DISTINCT n RETURN n.name ORDER BY n.sentiment DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City), (o)-[:HAS_CEO]->(ceo:Person) WHERE c.name STARTS WITH 'S' RETURN ceo.name AS CEO_Name, o.name AS Organization_Name, c.name AS City_Name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (parent:Organization)-[:HAS_SUBSIDIARY]->(subsidiary:Organization) WITH parent, COUNT(subsidiary) AS subsidiaryCount RETURN parent.name AS organizationName, subsidiaryCount ORDER BY subsidiaryCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_SUBSIDIARY]->(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article {author: \"David Correa\"})-[:MENTIONS]->(o:Organization) RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:author]->(m1:Person {name: 'David Correa'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE NOT EXISTS {   MATCH (:Article)-[:MENTIONS]->(o) } RETURN o.name AS organizationName",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7265448706821732,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)<-[:MENTIONS]-(a:Article) WHERE a.sentiment < 0.3 WITH o, count(a) AS negArticleCount ORDER BY negArticleCount DESC LIMIT 3 RETURN o.name AS organization, negArticleCount",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.35186298461262966,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_COMPETITOR]->(c:Organization) WITH o, count(c) AS numCompetitors ORDER BY numCompetitors DESC LIMIT 3 RETURN o.name AS organization, numCompetitors",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:competitor]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o1:Organization)-[:HAS_SUBSIDIARY]->(o2:Organization) WHERE EXISTS { MATCH (o1)-[:HAS_COMPETITOR]->(o2) } WITH o1 MATCH (a:Article)-[:MENTIONS]->(o1) RETURN a",
+    "pred_cypher": "MATCH (n:Article)<-[r0:MENTIONS]-(m0:Organization)-[r1:HAS_SUBSIDIARY]->(m1:Organization {name: 'Blackstone'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) RETURN o, count{(o)-[:HAS_SUPPLIER]->(:Organization)} AS supplierCount ORDER BY supplierCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUPPLIER] WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(p:Person) WHERE o.motto CONTAINS 'innovation' RETURN o.name AS organizationName, p.name AS ceoName, o.motto AS motto",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'Innovation'}) WITH DISTINCT n RETURN n.name, n.motto",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(p:Person) WHERE o.nbrEmployees IS NOT NULL RETURN o.name AS Organization, p.name AS CEO ORDER BY o.nbrEmployees DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) RETURN o.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:HAS_CHUNK]->(c:Chunk) WHERE c.text CONTAINS 'technology' AND c.text CONTAINS 'education' WITH a, count(c) AS relevance ORDER BY relevance DESC LIMIT 3 RETURN a.title AS article, a.summary AS summary",
+    "pred_cypher": "MATCH (n:Article)-[r0:HAS_CATEGORY]->(m0:IndustryCategory {name: 'impact of technology on education'}) WITH DISTINCT n RETURN n.name ORDER BY n.date DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (sap:Organization {name: 'SAP'})-[:HAS_COMPETITOR]->(competitor:Organization) <-[:HAS_SUPPLIER]-(supplier:Organization) RETURN DISTINCT supplier.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUPPLY]-(m0:Organization)-[r1:COMPTITOR]->(m1:Organization {name: 'SAP'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUBSIDIARY]->(:Organization), (o)-[:HAS_CEO]->(ceo:Person) RETURN o.name AS organization, ceo.name AS ceo",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name, n.HAS_CEO",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.805129370761829,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)-[:HAS_BOARD_MEMBER]->(o:Organization) WITH p, count(o) AS orgCount WHERE orgCount > 3 RETURN p.name AS BoardMember, orgCount",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_BOARD_MEMBER]-(m0:Organization) WITH n.count(DISTINCT m0) > 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WITH max(o.revenue) AS maxRevenue MATCH (org:Organization { revenue: maxRevenue }) MATCH (org)-[:IN_CITY]->(city:City)-[:IN_COUNTRY]->(country:Country) RETURN country.name",
+    "pred_cypher": "MATCH (n:Country)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)<-[:HAS_CEO]-(o:Organization) WHERE o.isPublic = true RETURN p.name AS name, p.id AS id LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:HAS_BOARD_MEMBER]->(m0:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN n.name, n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(cat:IndustryCategory) WITH cat, avg(o.revenue) AS avg_revenue ORDER BY avg_revenue DESC RETURN cat.name, avg_revenue LIMIT 1",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WITH max(o.revenue) AS maxRevenue MATCH (o:Organization) WHERE o.revenue = maxRevenue RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CHUNK]-(m0:Article)-[r1:IN_CITY]->(m1:City {name: 'Seattle'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)<-[:MENTIONS]-(a:Article) WHERE a.sentiment > 0.5 RETURN o.name AS Organization, c.name AS City, a.title AS ArticleTitle, a.sentiment AS SentimentScore",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:IN_CITY]-(m0:Article) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WHERE o.nbrEmployees > 500 RETURN DISTINCT c.name",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n WHERE n.nbrEmployees > 500 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.10274270787984327,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.revenue > 1.0E9 RETURN o.name, o.revenue",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n WHERE n.revenue > 1000000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ceo:Person {name: \"Julie Spellman Sweet\"})<-[:HAS_CEO]-(org:Organization)<-[:MENTIONS]-(article:Article) WHERE article.sentiment < 0.5 RETURN article.title, article.date, article.sentiment ORDER BY article.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTS]->(m0:Organization)<-[r1:HAS_CEO]-(m1:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n WHERE n.sentiment < 0.5 RETURN n.title ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_COMPETITOR]->(c:Organization {name: 'Apple'}) RETURN o.name AS organization ORDER BY o.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:COMPTITOR]-(m0:Organization {name: 'Apple'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.date >= datetime('2022-01-01T00:00:00Z') RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n WHERE n.date > date('2021-01-01') RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(ceo:Person) WHERE ceo.summary CONTAINS 'Accenture' RETURN o.name AS organization, ceo.name AS ceo ORDER BY o.revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'Accenture'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isDissolved = true AND o.revenue IS NOT NULL RETURN o.name AS organization, o.revenue AS revenue ORDER BY o.revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)-[r0:isDissolved]->(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:HAS_CHUNK]->(c:Chunk), (a)-[:MENTIONS]->(o:Organization)-[:IN_CITY]->(city:City) WHERE a.date >= datetime() - duration('P30D') RETURN city.name AS city, count(*) AS mentions ORDER BY mentions DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Article)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n RETURN DISTINCT n.name ORDER BY n.date DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory) WITH ic, count(o) AS orgCount ORDER BY orgCount ASC LIMIT 1 RETURN ic.name AS industryName",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.nbrEmployees > 1000 AND o.isPublic = false RETURN o.name, o.nbrEmployees",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:INVESTMENT]-(m0:Person) WITH DISTINCT n WHERE n.nbrEmployees > 1000 AND NOT n.isPublic RETURN n.name, n.nbrEmployees",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUBSIDIARY]->(s:Organization) WHERE o.isDissolved = false RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization) WITH DISTINCT n WHERE n.isDissolved = false RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.06717276282493674,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:City)<-[:IN_CITY]-(o:Organization) WITH c, count(o) AS orgCount ORDER BY orgCount DESC LIMIT 5 RETURN c.name AS city, orgCount",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (parentOrg:Organization)-[:HAS_SUBSIDIARY]->(subsidiary:Organization) WHERE subsidiary.isDissolved = true RETURN parentOrg.name AS ParentOrganization, subsidiary.name AS DissolvedSubsidiary",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization)-[r1:IS_DISSOLVED]->(m1:Organization {name: 'Blackstone'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(:Person {name: \"Julie Spellman Sweet\"})<-[:MENTIONS]-(a:Article) RETURN a LIMIT 5",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTS]->(m0:Organization)<-[r1:HAS_CEO]-(m1:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n RETURN n.name ORDER LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE EXISTS { (o)<-[:HAS_INVESTOR]-() } AND NOT EXISTS { (o)-[:HAS_SUBSIDIARY]->() } RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:INVESTOR]-(m0:Person) WITH DISTINCT n WHERE NOT 'subidiaries' IN (n)-[r1:HAS_SUBSIDIARY]->(m1:Organization) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (city:City {name: \"Seattle\"})<-[:IN_CITY]-(org:Organization)<-[:MENTIONS]-(article:Article) WITH article ORDER BY article.date ASC LIMIT 5 RETURN article.author",
+    "pred_cypher": "MATCH (p:Person)<-[r0:HAS_PARENT]-(o0:Organization)-[r1:IN_CITY]->(o1:City {name: 'Seattle'}) WITH DISTINCT p RETURN p.name ORDER BY p.name ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)<-[:HAS_INVESTOR]-(investor:Organization {name: \"Apple\"}) WITH o MATCH (o)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) RETURN DISTINCT country.name",
+    "pred_cypher": "MATCH (n:Country)<-[r0:IN_COUNTRY]-(m0:City)-[r1:HAS_INVESTOR]->(m1:Organization {name: 'Apple'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {isDissolved: true})<-[:MENTIONS]-(a:Article) RETURN a.title",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTS]->(m0:Organization)-[r1:ISDISSOLVED]->(m1:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_COMPETITOR]->(:Organization {name: \"Apple\"}) RETURN o.name AS OrganizationName LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:COMPTITOR]-(m0:Organization {name: 'Apple'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:HAS_CHUNK]->(c:Chunk) WHERE c.text CONTAINS \"corporate social responsibility\" MATCH (a)-[:MENTIONS]->(o:Organization) RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:HAS_CATEGORY]->(p1:IndustryCategory {name: 'corporate social responsibility'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:Country {name: \"United States of America\"}) MATCH (o:Organization)-[:IN_CITY]->(city:City)-[:IN_COUNTRY]->(c) WITH o ORDER BY o.revenue DESC LIMIT 3 RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'United States of America'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUBSIDIARY]->(sub:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) WITH o, count(DISTINCT country) AS countriesCount WHERE countriesCount > 3 RETURN o.name AS Organization, countriesCount",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory) WITH ic, count(o) as orgCount ORDER BY orgCount DESC LIMIT 3 RETURN ic.name",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)-[:HAS_BOARD_MEMBER]-(o:Organization)-[:IN_CITY]->(:City {name: 'Houston'}) RETURN p.name AS person, o.name AS organization",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_BOARD_MEMBER]-(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Houston'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:IN_CITY]->(city:City) WITH org, city, org.nbrEmployees AS numEmployees ORDER BY numEmployees DESC RETURN org.name AS organizationName, numEmployees LIMIT 1",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n WHERE n.nbrEmployees < 500000 RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.313120430934975,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment > 0.8 RETURN DISTINCT o",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n WHERE n.sentiment > 0.8 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isPublic = true AND o.nbrEmployees > 300 RETURN o.name, o.nbrEmployees",
+    "pred_cypher": "MATCH (n:Organization)-[r0:isPublic]->(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ceo:Person)<-[:HAS_CEO]-(org:Organization {isPublic: true})-[:HAS_SUBSIDIARY*0..3]->(:Organization),       (ceo)-[:HAS_CHILD]->(child:Person) RETURN child.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_CHILD]-(m0:Organization)-[r1:HAS_CEO]->(m1:Person {name: 'CEO'}) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)-[:HAS_BOARD_MEMBER]->(o:Organization) WITH p, count(o) AS orgCount WHERE orgCount > 1 RETURN p.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)<-[r0:BOARD_MEMBER]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {isPublic: true})-[:IN_CITY]->(c:City) RETURN c.name AS City, count(o) AS NumberOfPublicOrganizations ORDER BY NumberOfPublicOrganizations DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.10073105040400154,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WHERE o.isPublic = true RETURN DISTINCT c.name",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization)-[r1:isPublic]->(m1:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE a.sentiment > 0.8 RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n WHERE n.sentiment > 0.8 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country {name: \"United States of America\"}) RETURN o.name AS BusinessName, o.revenue AS Revenue ORDER BY o.revenue DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'United States of America'}) WITH DISTINCT n RETURN max(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"Accenture\"})<-[:MENTIONS]-(a:Article) WITH avg(a.sentiment) AS averageSentiment RETURN averageSentiment",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'Accenture'}) WITH DISTINCT n RETURN avg(n.sentiment)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (buyer:Organization)-[:HAS_SUPPLIER]->(supplier:Organization) MATCH (buyer)-[:IN_CITY]->(city:City)<-[:IN_CITY]->(supplier) RETURN DISTINCT buyer.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City)<-[r1:HAS_SUPPLIER]-(m1:Organization) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(:IndustryCategory),       (o)-[:IN_CITY]->(c:City) WHERE c.name CONTAINS 'Rome' RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City)<-[r1:IN_CITY]-(m1:Organization {name: 'Rome'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isPublic IS NOT NULL AND NOT o.isPublic   AND EXISTS {     (o)-[:HAS_SUBSIDIARY]->(:Organization)   } RETURN o",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_SUBSIDIARY]->(m0:Organization) WITH DISTINCT n WHERE n.isPublic = false RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.1467248908296943,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City {name: \"Seattle\"}) MATCH (o)-[:HAS_CEO]->(p:Person) RETURN o.name AS Organization, p.name AS CEO",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:IN_CITY]-(m0:City {name: 'Seattle'}) WITH DISTINCT n RETURN n.name, n.HAS_CEO",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(p:Person {name: 'Julie Spellman Sweet'}) WHERE p.summary IS NOT NULL AND p.summary CONTAINS 'Accenture' RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'Accenture'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_BOARD_MEMBER]->(p:Person) WHERE o.nbrEmployees > 1000 RETURN o.name AS organization, p.name AS board_member",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_BOARD_MEMBER]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.10710667245621652,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (parent:Organization)-[:HAS_SUBSIDIARY]->(subsidiary:Organization) WITH subsidiary ORDER BY subsidiary.revenue DESC LIMIT 1 RETURN subsidiary.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUPPLIER]->(s:Organization) WITH o, COUNT(s) AS supplierCount ORDER BY supplierCount DESC LIMIT 1 MATCH (o)-[:IN_CITY]->(c:City) RETURN c.name AS city, supplierCount",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.10126070496563384,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ceo:Person)-[:HAS_CEO]-(org:Organization) WHERE ceo.summary CONTAINS 'Accenture' RETURN org.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'Accenture'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:City)-[:IN_COUNTRY]->(country:Country) WITH country, count(c) AS cityCount WHERE cityCount > 1 RETURN country LIMIT 3",
+    "pred_cypher": "MATCH (n:Country)<-[r0:IN_COUNTRY]-(m0:City) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) WHERE o.nbrEmployees > 500 RETURN DISTINCT country.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n WHERE n.nbrEmployees > 500 RETURN DISTINCT n.country ORDER BY n.country ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9436026936026936,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_COMPETITOR]->(competitor:Organization) WHERE EXISTS {   (competitor)-[:HAS_INVESTOR]->(:Organization) } RETURN DISTINCT org.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:COMPTITOR]-(m0:INVESTOR) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (ceo:Person {name: \"Julie Spellman Sweet\"})<-[:HAS_CEO]-(org:Organization)<-[:MENTIONS]-(article:Article) RETURN article.title, article.date, article.summary ORDER BY article.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization)<-[r1:HAS_CEO]-(m1:Person {name: 'Julie Spellman Sweet'}) WITH DISTINCT n RETURN n.name ORDER BY n.date DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_SUBSIDIARY]->(subsidiary:Organization) WITH o.name AS CompanyName, COUNT(subsidiary) AS NumberOfSubsidiaries RETURN CompanyName ORDER BY NumberOfSubsidiaries DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_SUBSIDIARY]->(sub:Organization) WITH org, sub MATCH (sub)-[:IN_CITY]->(city:City)-[:IN_COUNTRY]->(country:Country) WITH org, collect(DISTINCT country.name) AS subsidiary_countries WHERE size(subsidiary_countries) > 1 RETURN org.name AS organization_name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:SUBSIDIARY]-(m0:Organization)-[r1:IN_COUNTRY]->(m1:Country) WITH DISTINCT n WHERE (m1.country.rarity IS 'Rarity') RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)-[:HAS_INVESTOR]->(o:Organization) WITH p, count(o) AS numOrgs WHERE numOrgs > 1 RETURN p.name, numOrgs ORDER BY numOrgs DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:INVESTOR]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WHERE c.summary CONTAINS 'capital' RETURN o.name AS organization, c.name AS city",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.06140823393612928,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.motto IS NOT NULL WITH o MATCH (a:Article)-[:MENTIONS]->(o) RETURN DISTINCT a.title",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'with a motto'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:City)<-[:IN_CITY]-(o:Organization) WITH c, count(o) AS orgCount WHERE orgCount > 10 RETURN c.name AS city, orgCount",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(c:IndustryCategory) WITH o, COUNT(c) AS categoryCount WHERE categoryCount >= 3 RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_CATEGORY]->(m0:IndustryCategory) WITH DISTINCT n RETURN n.name WHERE count(DISTINCT m0) >= 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_CEO]->(ceo:Person),        (org)-[:IN_CITY]->(city:City)-[:IN_COUNTRY]->(country:Country) WHERE ceo.summary CONTAINS 'executive'    AND country.name = 'United States of America' RETURN org.name AS OrganizationName, ceo.name AS CEOName, ceo.summary AS CEOSummary, country.name AS CountryName",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'Emil Eifrem'}) WITH DISTINCT n WHERE n.country = 'United States of America' RETURN n.name, n.summary",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:Country {name: \"United States of America\"})<-[:IN_COUNTRY]-(ci:City)<-[:IN_CITY]-(o:Organization) WITH sum(o.revenue) AS totalRevenue RETURN totalRevenue",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'United States'}) WITH DISTINCT n RETURN sum(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(ceo:Person) MATCH (a:Article)-[:MENTIONS]->(o) WITH o, a ORDER BY a.date DESC WITH o, collect(a)[0] AS latest_article RETURN o.name AS organization, latest_article.title AS latest_article_title, latest_article.date AS latest_article_date ORDER BY latest_article_date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Article) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(co:Country) WITH co, COUNT(DISTINCT c) AS cityCount ORDER BY cityCount DESC LIMIT 3 RETURN co.name AS country, cityCount",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_COUNTRY]->(m0:Country)<-[r1:IN_CITY]-(m1:City) WITH DISTINCT n RETURN DISTINCT n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:MENTIONS]->(a:Article) WHERE o.nbrEmployees > 500 AND a.sentiment > 0.5 RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_SUBSIDIARY]-(m0:Article) WITH DISTINCT n WHERE n.nbrEmployees > 500 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City {name: \"Seattle\"}) WHERE o.revenue > 10000000 RETURN o.name, o.revenue LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'Seattle'}) WITH DISTINCT n WHERE n.revenue > 1000000 RETURN n.name ORDER LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8444444444444444,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_CEO]->(ceo:Person) WITH org, ceo MATCH (a1:Article)-[:MENTIONS]->(org1:Organization)-[:HAS_CEO]->(ceo) MATCH (a2:Article)-[:MENTIONS]->(org2:Organization)-[:HAS_CEO]->(ceo) WHERE a1.id <> a2.id RETURN DISTINCT org.name AS organization_name LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.isDissolved = true RETURN o.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:INVESTMENT]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (d:Organization {name: 'Deis'})-[:HAS_CATEGORY]->(ic:IndustryCategory) WITH d, ic MATCH (other:Organization)-[:HAS_CATEGORY]->(ic) WHERE other <> d WITH other MATCH (other)-[:HAS_COMPETITOR]->(competitor) WITH other, count(competitor) AS numCompetitors RETURN avg(numCompetitors) AS averageCompetitors",
+    "pred_cypher": "MATCH (n:Organization)-[r0:HAS_CATEGORY]->(m0:IndustryCategory)<-[r1:HAS_CATEGORY]-(m1:Organization {name: 'Deis'}) WITH DISTINCT n RETURN avg(n.nbrEmployees)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.16379655586704045,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:City)<-[:IN_CITY]-(o:Organization) WITH c, COUNT(o) AS orgCount WHERE orgCount > 3 MATCH (c)-[:IN_COUNTRY]->(country:Country) RETURN country.name AS Country, COUNT(c) AS CityCount",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN DISTINCT n.country ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization)-[:IN_CITY]->(:City {name: 'Seattle'}) RETURN a.title AS article, a.siteName AS site, a.date AS published ORDER BY a.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Seattle'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.revenue IS NOT NULL RETURN o.name AS organization, o.revenue AS revenue ORDER BY o.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.021762714806457212,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WITH o, max(a.date) AS maxDate ORDER BY maxDate DESC LIMIT 5 RETURN o.name AS organization, maxDate AS latestMentionDate",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article) WITH DISTINCT n RETURN n.name ORDER BY n.date DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (person:Person {name: \"Specific Person's Name\"})-[:HAS_PARENT]->(parent:Person)-[:HAS_PARENT]->(grandparent:Person)-[:HAS_PARENT]->(greatGrandparent:Person) RETURN person.name AS Person, parent.name AS Parent, grandparent.name AS Grandparent, greatGrandparent.name AS GreatGrandparent",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_PARENT]-(m0:Person)-[r1:HAS_PARENT]->(m1:Person) WITH DISTINCT n RETURN n.name, n.parent, n.parent.parent",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) RETURN o.name AS organization_name, o.revenue AS organization_revenue ORDER BY o.revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_CATEGORY]->(cat:IndustryCategory {name: \"Electronic Products Manufacturers\"}) MATCH (org)-[:IN_CITY]->(city:City)-[:IN_COUNTRY]->(country:Country) WITH country, COUNT(org) AS orgCount ORDER BY orgCount DESC LIMIT 3 RETURN country.name AS Country, orgCount AS NumberOfOrganizations",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_COUNTRY]->(m0:Country)<-[r1:HAS_CATEGORY]-(m1:IndustryCategory {name: 'Electronic Products Manufacturers'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {isPublic: true})<-[:MENTIONS]-(a:Article) WHERE a.sentiment > 0.5 RETURN DISTINCT o.name AS organization, a.title AS article, a.sentiment AS sentiment",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'Boston and Mumbai-based consumer behavior analyses'}) WITH DISTINCT n WHERE n.isPublic AND n.sentiment = 'positive' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization {name: \"New Energy Group\"})<-[:MENTIONS]-(a:Article) RETURN a",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTIONS]->(m0:Organization {name: 'New Energy Group'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org1:Organization) WHERE org1.nbrEmployees > 1000 MATCH (org1)<-[:MENTIONS]-(article:Article)-[:MENTIONS]->(org2:Organization) RETURN DISTINCT org2.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:MENTIONS]->(m1:Organization {nbrEmployees: 1000}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.006341958396752917,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article)-[:MENTIONS]->(o:Organization) WHERE o.summary CONTAINS 'financial services' RETURN a.title AS article, a.siteName AS site, a.date AS published ORDER BY a.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Article)-[r0:MENTS]->(m0:Organization)-[r1:HAS_CATEGORY]->(m1:IndustryCategory {name: 'financial services'}) WITH DISTINCT n RETURN n.name ORDER BY n.summary DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory) WITH ic, count(o) AS numOrganizations ORDER BY numOrganizations DESC RETURN ic.name, numOrganizations",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CATEGORY]->(ic:IndustryCategory) WHERE o.summary CONTAINS 'technology' RETURN DISTINCT ic.name LIMIT 5",
+    "pred_cypher": "MATCH (n:IndustryCategory)<-[r0:HAS_CATEGORY]-(m0:Organization)-[r1:HAS_CATEGORY]->(m1:IndustryCategory {name: 'technology'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WHERE o.isPublic = true RETURN c.name AS city, COUNT(o) AS publicOrganizations ORDER BY publicOrganizations DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization)-[r1:HAS_SUBSIDIARY]->(m1:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.042139279366618196,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article) WHERE a.sentiment > 0.8 RETURN a ORDER BY a.sentiment DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Article)-[r0:HAS_CHUNK]->(m0:Person {name: 'Emil Eifrem'}) WITH DISTINCT n RETURN n.name ORDER BY n.sentiment DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(p:Person) WHERE p.summary CONTAINS 'CEO at Accenture' RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_CEO]-(m0:Person {name: 'CEO at Accenture'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.nbrEmployees IS NOT NULL RETURN o.name, o.nbrEmployees ORDER BY o.nbrEmployees DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.026145634438465543,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.motto CONTAINS 'innovation' RETURN o.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:MENTION]->(m0:Article {name: 'innovation'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (org:Organization)-[:HAS_CATEGORY]->(cat:IndustryCategory {name: \"Healthcare\"}) MATCH (org)-[:HAS_BOARD_MEMBER]->(person:Person) RETURN org.name AS Organization, person.name AS BoardMember",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_CITY]->(m0:City {name: 'Boston and Mumbai-based consumer behavior analyses'}) WITH DISTINCT n RETURN n.name, n.board_member",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WITH c, count(*) AS orgCount ORDER BY orgCount DESC LIMIT 5 RETURN c.name AS cityName, orgCount",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.06997591408754233,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.motto IS NOT NULL RETURN o",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_MOTTO] WITH DISTINCT n RETURN n.name, n.motto",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) WHERE o.nbrEmployees > 1000 MATCH (o)-[:HAS_BOARD_MEMBER]->(p:Person) RETURN o.name AS Organization, p.name AS BoardMember",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:HAS_BOARD_MEMBER]-(m0:Person) WITH DISTINCT n WHERE n.nbrEmployees > 1000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization) RETURN o.name, o.nbrEmployees ORDER BY o.nbrEmployees DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (a:Article {author: \"David Correa\"})-[:MENTIONS]->(o:Organization) RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Organization)<-[r0:MENTIONS]-(m0:Article)-[r1:author]->(m1:Person {name: 'David Correa'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City) WHERE o.nbrEmployees > 500 RETURN c.name, count(o) AS numberOfOrganizations ORDER BY numberOfOrganizations DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Organization) WITH DISTINCT n RETURN DISTINCT n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.004902673619045641,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:City)<-[:IN_CITY]-(o:Organization) WITH c, count(*) AS orgCount ORDER BY orgCount ASC LIMIT 1 RETURN c.name",
+    "pred_cypher": "MATCH (n:City)<-[r0:IN_CITY]-(m0:Organization) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (c:City)-[:IN_COUNTRY]->(co:Country {name: \"United States of America\"}) RETURN c.name LIMIT 3",
+    "pred_cypher": "MATCH (n:City)-[r0:IN_CITY]->(m0:Country {name: 'United States of America'}) WITH DISTINCT n LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (p:Person)<-[:HAS_CEO]-(o:Organization)-[:HAS_CATEGORY]->(c:IndustryCategory) WHERE c.name CONTAINS 'Technology' RETURN p.name AS name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_BOARD_MEMBER]-(m0:Organization)-[r1:HAS_CATEGORY]->(m1:IndustryCategory {name: 'technology industry'}) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:IN_CITY]->(c:City)-[:IN_COUNTRY]->(country:Country) WHERE o.revenue < 10000000 RETURN DISTINCT country.name",
+    "pred_cypher": "MATCH (n:Organization)-[r0:IN_COUNTRY]->(m0:Country) WITH DISTINCT n WHERE n.revenue < 10e6 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "companies",
+    "gold_cypher": "MATCH (o:Organization)-[:HAS_CEO]->(p:Person) WHERE o.isDissolved = true RETURN p.name AS CEO, o.name AS Organization ORDER BY o.revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:HAS_CEO]-(m0:Organization)-[r1:IN_CITY]->(m1:City {name: 'Boston'}) WITH DISTINCT n RETURN n.name ORDER BY n.nbrEmployees DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.02077922077922078,
+      "executable": 1.0
+    }
+  }
+]

@@ -1,0 +1,1514 @@
+[
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e1:Entity {name: \"Deutsche Bank AG\"}) MATCH (e1)-[:COUNTRY]->(c:Country) MATCH (c)<-[:COUNTRY]-(e2:Entity) MATCH (e2)-[:ORIGINATOR]->(f:Filing) WITH avg(f.amount) AS averageAmount RETURN averageAmount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'Deutsche Bank AG'}) WITH DISTINCT n RETURN avg(n.amount)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(c:Country) WITH c.name AS country, COUNT(DISTINCT e.id) AS originator_count ORDER BY originator_count DESC LIMIT 3 RETURN country, originator_count",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.originator_bank_country DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:COUNTRY]->(c:Country) WHERE c.code = 'CHN' WITH e MATCH (e)-[:FILED]->(f:Filing) RETURN avg(f.amount)",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing) WITH DISTINCT n WHERE n.country = 'CHN' RETURN avg(n.amount) AS answer",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS|:CONCERNS|:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(c:Country) WHERE f.amount < 500000 WITH c, count(f) AS num_filings ORDER BY num_filings DESC LIMIT 5 RETURN c.name AS country_name, num_filings",
+    "pred_cypher": "MATCH (n:Country)<-[r0:FILED]-(m0:Filing)-[r1:CONCERNS]->(m1:Entity {name: 'transaction'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.originator_bank = 'CIMB Bank Berhad' AND f.amount > 500000 RETURN e.name AS originator_entity_name ORDER BY f.begin LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)-[r0:ORIGINATOR]->(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {originator_bank: 'CIMB Bank Berhad'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'Singapore' RETURN f ORDER BY f.amount ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH DISTINCT n WHERE n.originator_bank_country = 'Singapore' RETURN n ORDER BY n.amount ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity {name: 'Barclays Bank Plc'}) RETURN f.id AS FilingID, f.amount AS Amount ORDER BY f.amount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity {name: 'Barclays Bank Plc'}) WITH DISTINCT n RETURN n.amount ORDER BY n.amount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country)<-[:COUNTRY]-(e:Entity)-[:ORIGINATOR]->(f:Filing) RETURN c.name AS Country, count(f) AS NumberOfFilings ORDER BY NumberOfFilings DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Country)<-[r0:ORIGINATOR]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WITH f ORDER BY f.end DESC LIMIT 1 MATCH (f)-[:BENEFITS]->(e:Entity) RETURN e.name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:benefited_from]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY m0.end_date DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE e.country = 'CHN' WITH avg(f.amount) AS average_amount RETURN average_amount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:FILED]->(m1:Entity {name: 'CHN'}) WITH DISTINCT n RETURN avg(n.amount)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_iso = \"SGP\" MATCH (f)-[:BENEFITS]->(be:Entity)-[:COUNTRY]->(bc:Country) WITH bc.name AS beneficiary_country, count(f) AS filing_count ORDER BY filing_count DESC RETURN beneficiary_country, filing_count LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity {name: 'originator entities located in Singapore'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) RETURN f ORDER BY f.amount ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.amount ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:CONCERNS]->(e:Entity) WHERE f.beneficiary_bank_country = 'United Kingdom' AND f.amount > 1000000 RETURN e LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:CONCERNS]->(m1:Entity {beneficiary_bank_country: 'United Kingdom'}) WITH DISTINCT n WHERE n.amount > 1000000 RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE date(f.begin) >= date('2010-01-01') AND date(f.begin) <= date('2015-12-31') WITH f.filer_org_name_id AS filer_org_name_id, sum(f.amount) AS total_amount WHERE total_amount > 1000000 MATCH (e:Entity {id: filer_org_name_id})-[:COUNTRY]->(c:Country) RETURN DISTINCT c.name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing) WITH DISTINCT n WHERE n.country IN ['CHN', 'SGP', 'GBR'] AND r0.amount > 1000000 AND r0.begin_date <= '2015-03-25' AND r0.end_date >= '2015-03-25' RETURN n.country",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WHERE f.beneficiary_bank_country = 'United States' WITH e, count(f) AS filingsCount ORDER BY filingsCount DESC RETURN e, filingsCount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:CONCERNS]->(m1:Entity {name: 'beneficiary bank from United States'}) WITH n RETURN n.name ORDER BY n.number DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WITH e, count(f) AS filings_count ORDER BY filings_count DESC LIMIT 3 RETURN e.name AS BankName, filings_count",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:ORIGINATOR]->(f:Filing) WITH e, count(f) AS filingsCount ORDER BY filingsCount DESC LIMIT 3 MATCH (e)-[:COUNTRY]->(c:Country) RETURN c.name AS CountryName, count(e) AS NumberOfEntities ORDER BY NumberOfEntities DESC",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.country DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity) WHERE NOT EXISTS {   MATCH (e)<-[:BENEFITS]-(:Filing) } RETURN count(e) AS numberOfEntities",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing) WITH DISTINCT n WHERE NOT 'beneficiary_bank' IN [n.beneficiary_bank] RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.begin >= datetime(\"2015-01-01T00:00:00Z\") AND f.end <= datetime(\"2015-12-31T23:59:59Z\") RETURN f ORDER BY f.amount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n WHERE n.begin_date >= '2015-01-01' AND n.end_date <= '2015-12-31' RETURN n.amount ORDER BY n.amount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (filing:Filing)-[:ORIGINATOR]->(originator:Entity), (filing2:Filing)-[:BENEFITS]->(beneficiary:Entity)-[:COUNTRY]->(country:Country) WHERE originator.name CONTAINS 'Bank' AND country.code = 'GBR' RETURN DISTINCT filing",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity {name: 'Bank'}),(n:Filing)-[r1:BENEFITS]->(m1:Entity {name: 'beneficiary bank'}) WITH DISTINCT n RETURN n.id",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WITH f ORDER BY f.amount ASC LIMIT 1 MATCH (e:Entity)-[:FILED]->(f) RETURN e",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.amount ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.amount < 100 WITH e, count(f) AS benefitCount ORDER BY benefitCount DESC RETURN e.name, benefitCount LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.amount ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.originator_bank = 'CIMB Bank Berhad' RETURN e LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:benefits]-(m0:Filing)-[r1:originator]->(m1:Entity {originator_bank: 'CIMB Bank Berhad'}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:CONCERNS|:ORIGINATOR|:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country) WHERE f.amount >= 100000 AND f.amount <= 1000000 RETURN c.name AS Country, count(f) AS FilingsCount ORDER BY FilingsCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Country)<-[r0:FILED]-(m0:Filing {amount between 100000 and 1000000}) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:ORIGINATOR]->(f:Filing) RETURN e, f.amount ORDER BY f.amount DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.amount DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[]->(e:Entity) WHERE f.originator_iso = 'DEU' AND f.beneficiary_iso = 'AFG' RETURN avg(f.amount) AS average_amount",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity {originator_iso: 'DEU'}),(n:Filing)-[r1:BENEFITS]->(m1:Entity {beneficiary_iso: 'AFG'}) WITH DISTINCT n RETURN avg(n.amount)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.end >= datetime('2012-01-01T00:00:00Z') AND f.end <= datetime('2012-12-31T23:59:59Z') RETURN e.name AS OriginatorBank, count(f) AS NumberOfFilings ORDER BY NumberOfFilings DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:FILED]->(m1:Filing {end_date: date('2012')}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WHERE e.country = 'CHN' RETURN f.amount AS Amount ORDER BY f.amount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing)-[r1:CONCERNS]->(m1:Entity {name: 'China'}) WITH DISTINCT n RETURN n.name ORDER BY n.amount DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WITH e, count(f) AS numberOfFilings RETURN e.name AS entityName, numberOfFilings ORDER BY numberOfFilings DESC",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity) WITH n, count(DISTINCT m0) AS num RETURN num, n.name ORDER BY num DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'Singapore' AND f.amount > 200000 RETURN f LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH DISTINCT n WHERE n.amount > 200000 RETURN n ORDER BY n.amount ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country {name: 'United Kingdom'}) RETURN e.name AS BeneficiaryBank LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)-[r0:Filing]->(m0:Entity)-[r1:CONCERNS]->(m1:Entity {name: 'beneficiary bank'}) WITH DISTINCT n WHERE n.beneficiary_bank_country = 'United Kingdom' RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) MATCH (f)-[:ORIGINATOR]->(originator:Entity)-[:COUNTRY]->(originatorCountry:Country) MATCH (f)<-[:FILED]-(filer:Entity)-[:COUNTRY]->(filerCountry:Country) WHERE originatorCountry.code = filerCountry.code RETURN sum(f.amount) AS totalAmount",
+    "pred_cypher": "MATCH (n:Filing)<-[r0:ORIGINATOR]-(m0:Entity)<-[r1:FILED]-(m1:Filing) WITH DISTINCT n RETURN n.amount",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WITH e.name AS originator_bank, SUM(f.amount) AS total_amount ORDER BY total_amount DESC LIMIT 3 RETURN originator_bank, total_amount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.amount DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country)<-[:COUNTRY]-(e:Entity)<-[:ORIGINATOR]-(f:Filing) WITH c.name AS country, COUNT(DISTINCT e.id) AS originator_count ORDER BY originator_count DESC LIMIT 3 RETURN country, originator_count",
+    "pred_cypher": "MATCH (n:Country)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH DISTINCT n RETURN n.name ORDER BY n.number ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(c:Country {name: 'Singapore'}) RETURN f ORDER BY f.amount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity) WITH DISTINCT n WHERE n.originator_bank_country = 'Singapore' RETURN n.name ORDER BY n.number DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.44038929440389296,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)<-[:FILED]-(e:Entity) WHERE f.originator_bank_country = e.country WITH count(*) AS totalFilings RETURN totalFilings",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)<-[r1:ORIGINATOR]-(m1:Entity)-[r2:ORIGINATOR_BANK]->(m2:Country)<-[r3:ORIGINATOR_BANK]-(m4:Entity) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(c:Country) WITH c, count(DISTINCT e) AS originator_count ORDER BY originator_count DESC LIMIT 3 RETURN c.name AS country_name, originator_count",
+    "pred_cypher": "MATCH (n:Entity)-[r0:ORIGINATOR]->(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.originator_bank_country DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'United Kingdom' AND f.amount > 1000000 RETURN f",
+    "pred_cypher": "MATCH (n:Filing)-[r0:benefits]->(m0:Entity {name: 'United Kingdom'}) WITH DISTINCT n WHERE n.amount > 1000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank_country = 'Singapore' AND f.beneficiary_bank_country = 'United Kingdom' RETURN count(f) AS number_of_filings",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity {name: 'Singapore'}),(n:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'United Kingdom'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.originator_bank_country = 'Angola' RETURN e.name AS beneficiary",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'Angola'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country {name: 'China'})<-[:COUNTRY]-(e:Entity)-[:FILED]->(f:Filing) RETURN SUM(f.amount) AS total_amount",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing) WITH DISTINCT n WHERE n.country = 'China' RETURN sum(n.amount)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'United Kingdom' AND f.beneficiary_iso = 'GBR' RETURN f ORDER BY f.begin LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity {beneficiary_bank_country: 'United Kingdom'}) WITH DISTINCT n RETURN n ORDER BY n.begin_date ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.originator_bank = 'Barclays Bank Plc' WITH e, count(f) AS filingsCount ORDER BY filingsCount DESC LIMIT 3 RETURN e.name, filingsCount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'Barclays Bank Plc'}) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:CONCERNS|:ORIGINATOR|:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country {code: 'CHN'}) RETURN f",
+    "pred_cypher": "MATCH (n:Filing)<-[r0:ORIGINATOR]-(m0:Entity)-[r1:FILED]->(m1:Filing {name: 'CHN'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_id = \"azizi-bank-kabul-afghanistan-afg\" RETURN DISTINCT f.originator_bank_id",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)<-[r1:beneficiary_bank_id]-(m1:Entity {name: 'azizi-bank-kabul-afghanistan-afg'}) WITH DISTINCT n RETURN DISTINCT n.originator_bank_id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WHERE f.amount > 1000000 RETURN e.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:CONCERNS]->(m1:Entity) WITH DISTINCT n WHERE n.amount > 1000000 RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.beneficiary_bank_country = 'United Kingdom' WITH e, count(f) AS filingsCount ORDER BY filingsCount DESC LIMIT 5 RETURN e, filingsCount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:beneficiary_bank]->(m1:Entity {name: 'United Kingdom'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WITH f, duration.between(f.begin, f.end) AS duration ORDER BY duration ASC LIMIT 5 RETURN f.sar_id AS SAR_ID, f.begin AS BeginDate, f.end AS EndDate, duration AS Duration",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.duration ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank = \"Deutsche Bank AG\" WITH max(f.number) AS max_number RETURN max_number",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n WHERE n.originator_bank = 'Deutsche Bank AG' RETURN max(n.number)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.begin >= datetime('2015-01-01T00:00:00Z') AND f.end <= datetime('2015-12-31T23:59:59Z') RETURN f ORDER BY f.amount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n WHERE n.begin_date <= '2015-01-01' AND n.end_date >= '2015-12-31' RETURN n.name ORDER BY n.amount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (filing:Filing) WITH filing MATCH (filing)-[:ORIGINATOR]->(:Entity)-[:COUNTRY]->(originatorCountry:Country) MATCH (filing)-[:CONCERNS]->(:Entity)-[:COUNTRY]->(beneficiaryCountry:Country) MATCH (filing)-[:FILED]->(:Entity)-[:COUNTRY]->(filerCountry:Country) WHERE originatorCountry.code <> beneficiaryCountry.code AND originatorCountry.code <> filerCountry.code AND beneficiaryCountry.code <> filerCountry.code RETURN count(DISTINCT filing) AS totalFilings",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity)-[r2:ORIGINATOR]->(m2:Entity) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.beneficiary_bank_country = 'United Kingdom' WITH e, count(f) AS filingsCount RETURN e, filingsCount ORDER BY filingsCount DESC",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity {name: 'United Kingdom'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.end_date_format CONTAINS \"2012\" RETURN f.originator_bank AS OriginatorBank, COUNT(f) AS NumberOfFilings ORDER BY NumberOfFilings DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:FILED]->(m1:Filing {end_date: DATE_TIME}) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:ORIGINATOR]->(f:Filing) WITH e, count(f) AS filingsCount ORDER BY filingsCount DESC LIMIT 5 RETURN e, filingsCount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank_country = f.beneficiary_bank_country RETURN f",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity) WITH DISTINCT n WHERE n.beneficiary_bank_country = n.originator_bank_country RETURN n.id",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank_country = 'United Kingdom' AND f.amount > 200000 RETURN f LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity) WITH DISTINCT n WHERE n.originator_bank_country = 'United Kingdom' AND n.amount > 200000 RETURN n ORDER BY n.number LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7668711656441718,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country {name: \"Singapore\"})<-[:COUNTRY]-(e:Entity)-[:FILED]->(f:Filing) WITH min(f.amount) AS minAmount RETURN minAmount",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing) WITH DISTINCT n WHERE n.originator_bank_country = 'Singapore' RETURN min(n.amount)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_iso ENDS WITH 'M' WITH f MATCH (e:Entity)-[:FILED]->(f) RETURN DISTINCT e.name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:CONCERNS]->(m1:Entity {name: 'beneficiary bank'}) WITH DISTINCT n WHERE m1.beneficiary_bank_country.code IN ['M'] RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(o:Entity)-[:COUNTRY]->(oc:Country),       (f)-[:BENEFITS]->(b:Entity)-[:COUNTRY]->(bc:Country) WHERE oc.code = bc.code RETURN f ORDER BY f.amount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (filing:Filing) WITH min(filing.amount) AS lowestAmount MATCH (filing:Filing) WHERE filing.amount = lowestAmount MATCH (filing)-[:ORIGINATOR]->(entity:Entity) MATCH (entity)-[:COUNTRY]->(country:Country) RETURN country.code",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:FILED]->(m1:Filing) WITH DISTINCT n RETURN n.originator_bank_country ORDER BY n.originator_bank_country ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) RETURN DISTINCT f.originator_iso",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n RETURN DISTINCT n.originator_iso",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.beneficiary_bank = 'Barclays Bank Plc' RETURN e.name ORDER BY f.begin LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity {beneficiary_bank: 'Barclays Bank Plc'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(c:Country) WITH c.name AS CountryName, SUM(f.amount) AS TotalAmount RETURN CountryName, TotalAmount ORDER BY TotalAmount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Country)<-[r0:ORIGINATOR]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.amount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.beneficiary_bank_country = 'United Kingdom' AND f.amount < 500000 RETURN e.name AS OriginatorEntity ORDER BY e.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)-[r0:ORIGINATOR]->(m0:Filing)-[r1:FILED]->(m1:Entity {beneficiary_bank_country: 'United Kingdom'}) WITH DISTINCT n WHERE n.amount < 500000 RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank IS NOT NULL AND f.beneficiary_bank IS NOT NULL MATCH (f)-[:ORIGINATOR]->(originator:Entity {name: f.originator_bank}) MATCH (f)-[:CONCERNS]->(beneficiary:Entity {name: f.beneficiary_bank}) WHERE originator.location = beneficiary.location RETURN f.id",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity) WITH DISTINCT n WHERE n.originator_bank_id = 'CIMB Bank Berhad' AND n.beneficiary_bank = 'Barclays Bank Plc' RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'United States' RETURN f",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity {name: 'beneficiary bank country is United States'}) WITH DISTINCT n RETURN n.id",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) RETURN e.name AS Beneficiary, sum(f.amount) AS TotalAmountReceived ORDER BY TotalAmountReceived DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:beneficiary_bank_id]-(m0:Filing)-[r1:benefits]->(m1:Entity) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:COUNTRY]->(c:Country) WHERE exists{(e)-[:ORIGINATOR]->(:Filing)} WITH c, count(e) AS originator_count ORDER BY originator_count DESC LIMIT 5 RETURN c.name AS country_name, originator_count",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Entity) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.originator_bank_country = 'United Arab Emirates' RETURN e.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:benefits]-(m0:Filing)-[r1:originator]->(m1:Entity {name: 'United Arab Emirates'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WHERE f.originator_bank_country = 'United Kingdom' RETURN e.name AS entity, COUNT(f) AS filings_count ORDER BY filings_count DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'The Bank of New York Mellon Corp.'}) WITH n RETURN n.name ORDER BY n.number DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)<-[:BENEFITS]-(f:Filing) WITH e, SUM(f.amount) AS total_received ORDER BY total_received DESC LIMIT 5 RETURN e.name AS entity_name, total_received",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.amount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WITH e, count(f) AS filingsCount WHERE filingsCount > 30 MATCH (e)-[:COUNTRY]->(c:Country) RETURN c.name, count(DISTINCT e) AS entityCount ORDER BY entityCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country {name: 'China'})<-[:COUNTRY]-(e:Entity)<-[:CONCERNS]-(f:Filing) RETURN f ORDER BY f.end DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)-[r0:ORIGINATOR]->(m0:Filing)-[r1:CONCERNS]->(m1:Entity {name: 'China'}) WITH DISTINCT n RETURN n.name ORDER BY n.end_date DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing)-[:BENEFITS]->(b:Entity) WHERE b.country = 'China' WITH e, count(f) AS transactions ORDER BY transactions DESC LIMIT 3 RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing)-[r1:BENEFITS]->(m1:Entity {name: 'China'}) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.begin_date CONTAINS \"Jun\" RETURN count(f)",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n RETURN count(DISTINCT n) WHERE n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z' AND n.begin_date_format = '2015-03-25T00:00:00Z'}",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0736631905924118,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:CONCERNS]->(e:Entity) WHERE f.amount > 1000000 RETURN e LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:CONCERNS]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.4134116833736606,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank = \"CIMB Bank Berhad\" AND f.beneficiary_bank = \"Barclays Bank Plc\" RETURN f.sar_id",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity {name: 'CIMB Bank Berhad'}),(n:Filing)-[r1:beneficiary_bank]->(m1:Entity {name: 'Barclays Bank Plc'}) WITH DISTINCT n RETURN n.sar_id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(c:Country) WITH c.code AS country_code, sum(f.amount) AS total_amount ORDER BY total_amount DESC RETURN country_code, total_amount LIMIT 5",
+    "pred_cypher": "MATCH (n:Country)<-[r0:FILED]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.amount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[r:BENEFITS]->(e:Entity) MATCH (e:Entity)-[c:COUNTRY]->(country:Country) WHERE NOT country.name CONTAINS 'a' RETURN f.sar_id",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity) WITH DISTINCT n WHERE n.beneficiary_bank_country <> 'United Kingdom' RETURN n.sar_id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.1272984441301273,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'United Kingdom' RETURN f",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity {name: 'beneficiary bank country is United Kingdom'}) WITH DISTINCT n RETURN n.id",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:COUNTRY]->(c:Country) RETURN e, count(c) AS connections ORDER BY connections DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)-[r0:CONCERNS]->(m0:Entity)-[r1:FILED]->(m1:Filing)-[r2:CONCERNS]->(m2:Entity)-[r3:FILED]->(m3:Country) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity)<-[:BENEFITS]-(f) RETURN f.sar_id",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)<-[r1:ORIGINATOR]-(m1:Entity) WITH DISTINCT n RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank <> f.beneficiary_bank RETURN f",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n WHERE n.originator_bank <> n.beneficiary_bank RETURN n.id, n.originator_bank, n.beneficiary_bank",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WHERE f.beneficiary_bank_country = f.originator_bank_country WITH e, COUNT(f) AS num_filings ORDER BY num_filings DESC LIMIT 3 RETURN e.name AS entity_name, num_filings",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'Singapore' RETURN f ORDER BY f.amount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity {name: 'beneficiary bank country': 'Singapore'}) WITH DISTINCT n RETURN n ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:CONCERNS]->(f:Filing) RETURN e.name, count(f) AS filings_count ORDER BY filings_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:CONCERNS]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.origin_lat = f.beneficiary_lat RETURN f ORDER BY f.amount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)<-[r1:ORIGINATOR]-(m1:Entity)-[r2:FILED]->(m2:Filing {beneficiary_bank: 'Barclays Bank Plc'}) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country) WHERE c.name = 'Singapore' RETURN f ORDER BY f.amount ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH DISTINCT n WHERE n.originator_bank_country = 'Singapore' ORDER BY n.amount ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.originator_bank = 'CIMB Bank Berhad' RETURN f.beneficiary_bank, COUNT(*) AS transaction_count ORDER BY transaction_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:Filing]-(m0:Filing {originator_bank: 'CIMB Bank Berhad'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:CONCERNS]->(e:Entity) WHERE f.beneficiary_bank_country = 'United Kingdom' AND f.amount > 1000000 RETURN e.name AS entity_name ORDER BY e.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:CONCERNS]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity {beneficiary_bank_country: 'United Kingdom'}) WITH DISTINCT n WHERE n.amount > 1000000 RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WITH f ORDER BY f.amount ASC LIMIT 1 MATCH (f)-[:BENEFITS]->(b:Entity) RETURN b.name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:benefits]-(m0:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.amount ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.originator_bank_country = 'United Kingdom' WITH e, count(f) AS filingsCount ORDER BY filingsCount DESC LIMIT 3 RETURN e",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {originator_bank_country: 'United Kingdom'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing {sar_id: \"3297\"})-[:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(c:Country) RETURN c.code",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing {sar_id: '3297'}) WITH DISTINCT n RETURN n.country.code",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.875,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WITH f.filer_org_name AS filer_org_name, avg(f.number) AS average_number ORDER BY average_number DESC LIMIT 3 RETURN filer_org_name, average_number",
+    "pred_cypher": "MATCH (n:Filing)<-[r0:FILED]-(m0:Entity)-[r1:filer_org_name]->(m1:FilerOrgName) WITH n, r0.number AS num RETURN n.filer_org_name, num ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.end >= datetime('2015-10-01T00:00:00Z') RETURN f",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n WHERE n.end_date_format <> '2015-09-25T00:00:00Z' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.16681494661921709,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_country = 'Singapore' AND f.amount > 1000000 RETURN count(f) AS count",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity {name: 'The Bank of New York Mellon Corp.'}) WITH DISTINCT n WHERE n.originator_bank_country = 'Singapore' AND n.amount > 1000000 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank = 'CIMB Bank Berhad' AND f.beneficiary_bank_country = 'United Kingdom' RETURN f.sar_id",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n WHERE n.originator_bank = 'CIMB Bank Berhad' AND n.beneficiary_country = 'United Kingdom' RETURN n.sar_id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(originator:Entity)-[:COUNTRY]->(originatorCountry:Country),       (f)-[:BENEFITS]->(beneficiary:Entity)-[:COUNTRY]->(beneficiaryCountry:Country) WHERE originatorCountry.code = beneficiaryCountry.code   AND originator.location <> beneficiary.location RETURN f.sar_id",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity) WITH DISTINCT n WHERE n.originator_bank_country = n.beneficiary_bank_country AND n.originator_bank_country != 'United Kingdom' RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.amount > 1000000 WITH e, count(f) AS filingCount RETURN e.name AS entityName, filingCount ORDER BY filingCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity {name: 'amount greater than 1000000'}) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing {originator_bank_country: 'Singapore'}) RETURN DISTINCT e.name AS EntityName",
+    "pred_cypher": "MATCH (n:Entity)-[r0:ORIGINATOR]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity {originator_bank_id: 'cimb-bank-berhad'}) WITH DISTINCT n WHERE n.originator_bank_country = 'Singapore' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE toFloat(f.beneficiary_lat) > toFloat(f.originator_lat) WITH count(f) AS totalFilings RETURN totalFilings",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity) WITH DISTINCT n WHERE n.beneficiary_lat > n.originator_lat RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country) RETURN c.name AS Country, sum(f.amount) AS TotalAmountTransferred ORDER BY TotalAmountTransferred DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:beneficiary_bank]-(m0:Entity) WITH n, r0 RETURN n.country ORDER BY n.amount DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank_country IS NOT NULL RETURN f.originator_bank_country AS Country, count(f) AS FilingsCount ORDER BY FilingsCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR|:BENEFITS]->(e:Entity) WITH f, COUNT(DISTINCT e) AS entityCount ORDER BY entityCount DESC LIMIT 3 RETURN f.sar_id AS filing_id, entityCount",
+    "pred_cypher": "MATCH (n:Filing)<-[r0:ORIGINATOR]-(m0:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(o:Entity) WITH o.name AS originator_bank, sum(f.amount) AS total_amount ORDER BY total_amount DESC LIMIT 10 RETURN originator_bank, total_amount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing) WITH n RETURN n.name ORDER BY n.amount DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.amount = 1000000 RETURN f ORDER BY f.amount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n WHERE n.amount = 1000000 RETURN n.name ORDER BY n.amount DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WHERE f.beneficiary_bank_country = \"United States\" WITH e, count(f) AS filingsCount ORDER BY filingsCount DESC LIMIT 5 RETURN e.name, filingsCount",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing)-[r1:CONCERNS]->(m1:Entity {name: 'beneficiary bank is located in the United States'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.begin >= datetime('2005-01-01T00:00:00Z') AND f.end <= datetime('2005-12-31T23:59:59Z') WITH f, duration.between(f.begin, f.end) AS duration ORDER BY duration ASC LIMIT 5 RETURN f.sar_id AS SAR_ID, f.begin AS Begin_Date, f.end AS End_Date, duration AS Duration",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity) WITH DISTINCT n WHERE n.begin_date_format = '2005-01-01' RETURN n.name ORDER BY n.duration ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:ORIGINATOR]->(f:Filing) WHERE e.country = 'CHN' RETURN e, count(f) AS filings_count ORDER BY filings_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'The Bank of New York Mellon Corp.'}) WITH DISTINCT n WHERE n.location = 'China' RETURN n.name ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country {tld: 'US'}) MATCH (e:Entity)-[:COUNTRY]->(c) MATCH (e)-[:FILED]->(f:Filing) RETURN count(DISTINCT f) AS totalFilings",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity) WITH DISTINCT n WHERE n.originator_bank_country = 'US' RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country {name: 'China'})<-[:COUNTRY]-(e:Entity)<-[:CONCERNS]-(f:Filing) RETURN f ORDER BY f.amount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:CONCERNS]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'China'}) WITH n, amount RETURN n.name ORDER BY amount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank = \"CIMB Bank Berhad\" AND f.amount > 500000 RETURN DISTINCT f.beneficiary_iso",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity {name: 'CIMB Bank Berhad'}) WITH DISTINCT n WHERE n.amount > 500000 RETURN DISTINCT n.beneficiary_iso",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.875,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.amount > 50000000 RETURN e.name AS beneficiary_entity LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:benefits]-(m0:Filing)-[r1:FILED]->(m1:Filing {amount > 500000000}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.beneficiary_bank_country = \"United Kingdom\" RETURN DISTINCT e.name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:beneficiary_bank]->(m1:Entity {beneficiary_bank_country: 'United Kingdom'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.originator_bank = \"CIMB Bank Berhad\" RETURN DISTINCT e",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:BENEFITS]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9375,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.amount > 1000000 AND f.originator_bank = \"CIMB Bank Berhad\" MATCH (e:Entity)-[:FILED]->(f) RETURN e.name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH DISTINCT n WHERE r0.amount > 1000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE abs(toFloat(f.originator_lng) - toFloat(f.beneficiary_lng)) <= 10 WITH DISTINCT f RETURN count(f) AS totalFilings",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)<-[r1:ORIGINATOR]-(m1:Entity) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country {name: 'United States'}) WHERE f.amount < 500000 RETURN count(f) AS NumberOfFilings",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity {name: 'United States'}) WITH DISTINCT n WHERE n.amount < 500000 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.beneficiary_bank_country = 'United Kingdom' WITH e, COUNT(f) AS num_filings ORDER BY num_filings DESC LIMIT 5 RETURN e.name AS entity_name, num_filings",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity {beneficiary_bank_country: 'United Kingdom'}) WITH n, count(DISTINCT n) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank_country = \"Singapore\" AND f.beneficiary_bank_country = \"United Kingdom\" RETURN avg(toFloat(f.beneficiary_lat)) AS average_latitude",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity {originator_bank_country: 'Singapore'}),(n:Filing)-[r1:beneficiary_bank]->(m1:Entity {beneficiary_bank_country: 'United Kingdom'}) WITH DISTINCT n RETURN avg(n.beneficiary_lat)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.originator_bank = 'The Bank of New York Mellon Corp.' RETURN e LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'The Bank of New York Mellon Corp.'}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.originator_bank_country STARTS WITH 'S' AND f.beneficiary_bank_country STARTS WITH 'U' RETURN sum(f.amount) AS total_amount",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)<-[r1:ORIGINATOR]-(m1:Entity)-[r2:FILED]->(m2:Filing) WITH DISTINCT n WHERE (m0.originator_bank_country IN [ 'Singapore' ] AND (m1.beneficiary_bank_country IN [ 'United Kingdom' ])) RETURN n.amount",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(o:Entity)-[:COUNTRY]->(originatorCountry),       (f)-[:BENEFITS]->(b:Entity)-[:COUNTRY]->(beneficiaryCountry) WHERE originatorCountry.code <> beneficiaryCountry.code WITH f RETURN avg(f.amount) AS avgAmount",
+    "pred_cypher": "MATCH (n:Filing)<-[r0:ORIGINATOR]-(m0:Entity)<-[r1:ORIGINATOR]-(m1:Entity) WITH DISTINCT n RETURN avg(n.amount)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WHERE f.beneficiary_bank = 'Barclays Bank Plc' WITH e, COUNT(f) AS num_filings ORDER BY num_filings DESC LIMIT 3 RETURN e.name AS entity_name, num_filings",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing)-[r1:CONCERNS]->(m1:Entity {beneficiary_bank: 'Barclays Bank Plc'}) WITH n RETURN n.name ORDER BY n.number DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WITH f.beneficiary_iso AS iso_code, COUNT(f) AS count RETURN iso_code ORDER BY count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:beneficiary_bank_id]-(m0:Filing)-[r1:beneficiary_bank]->(m1:Entity {name: 'Bank of New York Mellon Corp.'}) WITH DISTINCT n RETURN n.beneficiary_iso ORDER BY n.beneficiary_iso DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) RETURN f ORDER BY f.begin LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.begin_date ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE toFloat(f.beneficiary_lat) > 50 MATCH (f)-[:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country) RETURN DISTINCT c.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:benefits]-(m0:Filing)-[r1:beneficiary_lat]->(m1:Entity {name: 'country'}) WITH DISTINCT n WHERE n.beneficiary_lat > 50 RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity) WHERE f.originator_bank_country = 'Singapore' RETURN e",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'Singapore'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing)-[:CONCERNS]->(b:Entity)-[:COUNTRY]->(c:Country {name: 'Australia'}) WITH e, COUNT(f) AS num_filings ORDER BY num_filings DESC LIMIT 3 RETURN e.name AS entity_name, num_filings",
+    "pred_cypher": "MATCH (n:Entity)-[r0:FILED]->(m0:Filing)-[r1:CONCERNS]->(m1:Entity {name: 'bank in Australia'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:ORIGINATOR]->(f:Filing) WHERE f.begin >= datetime('2010-01-01T00:00:00Z') AND f.end <= datetime('2015-12-31T23:59:59Z') RETURN e.name, count(f) AS filings_count ORDER BY filings_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:ORIGINATOR]-(m0:Filing)-[r1:FILED]->(m1:Filing {begin_date: between '2010-01-01', '2015-01-01'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity) WHERE f.amount > 500000 RETURN e.name AS EntityName, e.location AS Location ORDER BY f.amount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity) WITH DISTINCT n RETURN n.name, n.location ORDER BY n.amount DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country {name: 'China'})<-[:COUNTRY]-(e:Entity)<-[:BENEFITS]-(f:Filing) RETURN f",
+    "pred_cypher": "MATCH (n:Filing)-[r0:BENEFITS]->(m0:Entity {name: 'China'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'United Kingdom' AND f.amount > 200000 RETURN count(f) AS number_of_filings",
+    "pred_cypher": "MATCH (n:Filing)-[r0:benefits]->(m0:Entity {beneficiary_bank_country: 'United Kingdom'}) WITH DISTINCT n WHERE n.amount > 200000 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing {sar_id: \"3297\"})-[:BENEFITS]->(e:Entity) RETURN e.name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:benefited_from]-(m0:Filing {sar_id: '3297'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country) WHERE f.begin.year = 2013 RETURN c.name AS Country, count(f) AS Filings ORDER BY Filings DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Country)<-[r0:Filing]-(m0:Entity)-[r1:BENEFITS]->(m1:Entity {name: 'The Bank of New York Mellon Corp.'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing) WITH e, count(f) AS numberOfFilings RETURN e.name AS entityName, numberOfFilings ORDER BY numberOfFilings DESC",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country) WHERE f.begin_date_format =~ '.*-01-.*' OR f.begin_date_format =~ '.*-02-.*' OR f.begin_date_format =~ '.*-03-.*' OR f.begin_date_format =~ '.*-04-.*' OR f.begin_date_format =~ '.*-05-.*' OR f.begin_date_format =~ '.*-06-.*' RETURN c.name AS country, COUNT(f) AS filings_count ORDER BY filings_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Country)<-[r0:beneficiary_bank_country]-(m0:Filing)-[r1:beneficiary_bank]->(m1:Entity) WITH DISTINCT n RETURN n.name ORDER BY count(DISTINCT m0) DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.beneficiary_bank_country = 'United Kingdom' AND f.originator_bank_country = 'Singapore' RETURN f ORDER BY f.amount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity {name: 'CIMB Bank Berhad'}),(n:Filing)-[r1:ORIGINATOR]->(m1:Entity {name: 'CIMB Bank Berhad'}) WITH DISTINCT n WHERE n.beneficiary_bank_country = 'United Kingdom' AND n.originator_bank_country = 'Singapore' RETURN n ORDER BY n.amount DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country)<-[:COUNTRY]-(e:Entity)<-[:BENEFITS]-(f:Filing) WITH c.name AS country, COUNT(DISTINCT e) AS beneficiary_bank_count ORDER BY beneficiary_bank_count DESC LIMIT 3 RETURN country, beneficiary_bank_count",
+    "pred_cypher": "MATCH (n:Country)<-[r0:ORIGINATOR_BANK]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity {name: 'Barclays Bank Plc'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:BENEFITS]->(e:Entity)-[:COUNTRY]->(c:Country) WITH c, sum(f.amount) AS totalAmount ORDER BY totalAmount DESC RETURN c.name AS countryName, totalAmount LIMIT 10",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:Filing]-(m0:Entity)<-[r1:BENEFITS]-(m1:Country) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(c:Country {name: 'Australia'}) RETURN f ORDER BY f.amount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity {name: 'Australia'}) WITH DISTINCT n RETURN n.name ORDER BY n.amount DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:ORIGINATOR]->(o:Entity)-[:COUNTRY]->(oc:Country),       (f:Filing)-[:BENEFITS]->(b:Entity)-[:COUNTRY]->(bc:Country) WHERE o.country <> b.country RETURN f.id, f.amount, f.originator_bank, f.beneficiary_bank ORDER BY f.id LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)-[r1:ORIGINATOR]->(m1:Entity) WITH DISTINCT n WHERE n.beneficiary_bank_country <> n.originator_bank_country RETURN n.id ORDER BY n.id LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (e:Entity)-[:FILED]->(f:Filing)-[:BENEFITS]->(:Entity)-[:COUNTRY]->(c:Country {name: \"United Kingdom\"}) WITH e, COUNT(f) AS transaction_count ORDER BY transaction_count DESC LIMIT 5 RETURN e.name AS entity_name, transaction_count",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing)-[r1:BENEFITS]->(m1:Entity {name: 'beneficiary in the United Kingdom'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing) WHERE f.amount > 100000 RETURN f ORDER BY f.begin ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Filing) WITH DISTINCT n RETURN n.name ORDER BY n.begin_date ASC, n.amount ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.6982471710672288,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (f:Filing)-[:CONCERNS]->(e:Entity) WHERE f.amount > 750000 RETURN e.name AS concerned_entity, f.amount AS filing_amount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:FILED]-(m0:Filing) WITH DISTINCT n WHERE n.amount > 750000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "fincen",
+    "gold_cypher": "MATCH (c:Country)<-[:COUNTRY]-(:Entity) WITH c.tld AS tld, count(*) AS frequency ORDER BY frequency DESC LIMIT 5 WITH collect(tld) AS topTlds MATCH (f:Filing)-[:ORIGINATOR]->(e:Entity)-[:COUNTRY]->(country:Country) WHERE country.tld IN topTlds RETURN sum(f.amount) AS total_amount",
+    "pred_cypher": "MATCH (n:Filing)-[r0:ORIGINATOR]->(m0:Entity)<-[r1:ORIGINATOR]-(m1:Entity)-[r2:ORIGINATOR]->(m2:Country)<-[r3:ORIGINATOR]-(m4:tld) WITH DISTINCT n RETURN n.amount",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  }
+]

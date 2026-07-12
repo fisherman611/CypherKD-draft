@@ -261,7 +261,7 @@
     },
     {
         "graph":  "nba",
-        "gold_cypher":  "MATCH (n:Team)\u003c-[r0:playsFor]-(m0:Player)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027Champion des champions franÃ§ais de L\\\u0027Ã‰quipe\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Team)\u003c-[r0:playsFor]-(m0:Player)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027Champion des champions franÃƒÂ§ais de L\\\u0027Ãƒâ€°quipe\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "pred_cypher":  "MATCH (n:Team)\u003c-[r0:playsFor]-(m0:Player)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027Champion des champions francais de L\\\u0027\\\u0027Equipe\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
@@ -1051,7 +1051,7 @@
     },
     {
         "graph":  "nba",
-        "gold_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Player)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027L\\\u0027Ã‰quipe Champion of Champions\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Player)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027L\\\u0027Ãƒâ€°quipe Champion of Champions\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Player)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027L\\\u0027\\\u0027\\\u0027\\\u0027quipe Champion of Champions\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
@@ -1241,8 +1241,8 @@
     },
     {
         "graph":  "nba",
-        "gold_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Player {name: \u0027JosÃ© CalderÃ³n\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Player {name: \u0027JosÃ© CalderÃ©n\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Player {name: \u0027JosÃƒÂ© CalderÃƒÂ³n\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Player {name: \u0027JosÃƒÂ© CalderÃƒÂ©n\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -1321,8 +1321,8 @@
     },
     {
         "graph":  "nba",
-        "gold_cypher":  "MATCH (n:Team)-[r0:hasHomeVenue]-\u003e(m0:Venue {name: \u0027Spectrum\u0027}),(n:Team)\u003c-[r1:playsFor]-(m1:Player {name: \u0027Toni KukoÄ\u0027}) WITH DISTINCT n RETURN n.name, n.head_coach",
-        "pred_cypher":  "MATCH (n:Team)-[r0:hasHomeVenue]-\u003e(m0:Venue {name: \u0027Spectrum\u0027}),(n:Team)\u003c-[r1:playsFor]-(m1:Player {name: \u0027Toni KukoÄ\u0027}) WITH DISTINCT n RETURN n.name, n.head_coach",
+        "gold_cypher":  "MATCH (n:Team)-[r0:hasHomeVenue]-\u003e(m0:Venue {name: \u0027Spectrum\u0027}),(n:Team)\u003c-[r1:playsFor]-(m1:Player {name: \u0027Toni KukoÃ„Â\u0027}) WITH DISTINCT n RETURN n.name, n.head_coach",
+        "pred_cypher":  "MATCH (n:Team)-[r0:hasHomeVenue]-\u003e(m0:Venue {name: \u0027Spectrum\u0027}),(n:Team)\u003c-[r1:playsFor]-(m1:Player {name: \u0027Toni KukoÃ„Â\u0027}) WITH DISTINCT n RETURN n.name, n.head_coach",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -2783,8 +2783,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:FlightAccident {name: \u0027Noar Linhas AÃ©reas Flight 4896\u0027}), (m0:FlightAccident {name: \u0027Air Moorea Flight 1121\u0027}) RETURN n.number_of_survivors - m0.number_of_survivors AS answer",
-        "pred_cypher":  "MATCH (n:FlightAccident {name: \u0027Noar Linhas AÃ©reas Flight 4896\u0027}), (m0:FlightAccident {name: \u0027Air Moorea Flight 1121\u0027}) RETURN n.number_of_survivors - m0.number_of_survivors AS answer",
+        "gold_cypher":  "MATCH (n:FlightAccident {name: \u0027Noar Linhas AÃƒÂ©reas Flight 4896\u0027}), (m0:FlightAccident {name: \u0027Air Moorea Flight 1121\u0027}) RETURN n.number_of_survivors - m0.number_of_survivors AS answer",
+        "pred_cypher":  "MATCH (n:FlightAccident {name: \u0027Noar Linhas AÃƒÂ©reas Flight 4896\u0027}), (m0:FlightAccident {name: \u0027Air Moorea Flight 1121\u0027}) RETURN n.number_of_survivors - m0.number_of_survivors AS answer",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -2903,8 +2903,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:Airport)\u003c-[r0:destinedFor]-(m0:FlightAccident {name: \u0027assassination of JuvÃ©nal Habyarimana and Cyprien Ntaryamira\u0027}) WITH DISTINCT n RETURN n.name, n.iata_code",
-        "pred_cypher":  "MATCH (n:Airport)\u003c-[r0:destinedFor]-(m0:FlightAccident)-[r1:operatedBy]-\u003e(m1:Operator {name: \u0027assassination of JuvÃ©nal Habyarimana and Cyprien Ntaryamira\u0027}) WITH DISTINCT n RETURN n.name, n.iata_code",
+        "gold_cypher":  "MATCH (n:Airport)\u003c-[r0:destinedFor]-(m0:FlightAccident {name: \u0027assassination of JuvÃƒÂ©nal Habyarimana and Cyprien Ntaryamira\u0027}) WITH DISTINCT n RETURN n.name, n.iata_code",
+        "pred_cypher":  "MATCH (n:Airport)\u003c-[r0:destinedFor]-(m0:FlightAccident)-[r1:operatedBy]-\u003e(m1:Operator {name: \u0027assassination of JuvÃƒÂ©nal Habyarimana and Cyprien Ntaryamira\u0027}) WITH DISTINCT n RETURN n.name, n.iata_code",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -3023,8 +3023,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Aeroparque Jorge Newbery\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Ingeniero AeronÃ¡utico Ambrosio L.V. Taravella International Airport\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Aeroparque Jorge Newbery\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Ingeniero AeronÃ¡utico Ambrosio L.V. Taravella International Airport\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Aeroparque Jorge Newbery\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Ingeniero AeronÃƒÂ¡utico Ambrosio L.V. Taravella International Airport\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Aeroparque Jorge Newbery\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Ingeniero AeronÃƒÂ¡utico Ambrosio L.V. Taravella International Airport\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -3093,8 +3093,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:involves]-\u003e(m0:AircraftModel {name: \u0027L-410 Turbolet\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:departsFrom]-\u003e(m1:Airport {name: \u0027RamÃ³n Villeda Morales International Airport\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:involves]-\u003e(m0:AircraftModel {name: \u0027L-410 Turbolet\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:departsFrom]-\u003e(m1:Airport {name: \u0027RamÃ¡n Villeda Morales International Airport\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:involves]-\u003e(m0:AircraftModel {name: \u0027L-410 Turbolet\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:departsFrom]-\u003e(m1:Airport {name: \u0027RamÃƒÂ³n Villeda Morales International Airport\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:involves]-\u003e(m0:AircraftModel {name: \u0027L-410 Turbolet\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:departsFrom]-\u003e(m1:Airport {name: \u0027RamÃƒÂ¡n Villeda Morales International Airport\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.8571428571428571,
@@ -3143,8 +3143,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport)\u003c-[r1:departsFrom]-(m1:FlightAccident {name: \u0027Austral LÃ­neas AÃ©reas Flight 046\u0027}) WITH DISTINCT n RETURN n.name, n.date",
-        "pred_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport)\u003c-[r1:departsFrom]-(m1:FlightAccident {name: \u0027Austral LÃ¡neas AÃ©reas Flight 046\u0027}) WITH DISTINCT n RETURN n.name, n.date",
+        "gold_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport)\u003c-[r1:departsFrom]-(m1:FlightAccident {name: \u0027Austral LÃƒÂ­neas AÃƒÂ©reas Flight 046\u0027}) WITH DISTINCT n RETURN n.name, n.date",
+        "pred_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport)\u003c-[r1:departsFrom]-(m1:FlightAccident {name: \u0027Austral LÃƒÂ¡neas AÃƒÂ©reas Flight 046\u0027}) WITH DISTINCT n RETURN n.name, n.date",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -3153,8 +3153,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:AircraftModel {name: \u0027Eurocopter AS350 Ã‰cureuil\u0027}), (m0:AircraftModel {name: \u0027Eurocopter AS332 Super Puma\u0027}) RETURN CASE WHEN n.first_flight \u003e m0.first_flight THEN n.name ELSE m0.name END AS answer",
-        "pred_cypher":  "MATCH (n:AircraftModel {name: \u0027Eurocopter AS350 Ã‰cureuil\u0027}), (m0:AircraftModel {name: \u0027Eurocopter AS332 Super Puma\u0027}) RETURN CASE WHEN n.first_flight \u003e m0.first_flight THEN n.name ELSE m0.name END AS answer",
+        "gold_cypher":  "MATCH (n:AircraftModel {name: \u0027Eurocopter AS350 Ãƒâ€°cureuil\u0027}), (m0:AircraftModel {name: \u0027Eurocopter AS332 Super Puma\u0027}) RETURN CASE WHEN n.first_flight \u003e m0.first_flight THEN n.name ELSE m0.name END AS answer",
+        "pred_cypher":  "MATCH (n:AircraftModel {name: \u0027Eurocopter AS350 Ãƒâ€°cureuil\u0027}), (m0:AircraftModel {name: \u0027Eurocopter AS332 Super Puma\u0027}) RETURN CASE WHEN n.first_flight \u003e m0.first_flight THEN n.name ELSE m0.name END AS answer",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -3343,8 +3343,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Gregorio LuperÃ³n International Airport\u0027}),(n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Frankfurt Airport\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Gregorio LuperÃ³n International Airport\u0027}),(n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Frankfurt Airport\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Gregorio LuperÃƒÂ³n International Airport\u0027}),(n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Frankfurt Airport\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Gregorio LuperÃƒÂ³n International Airport\u0027}),(n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Frankfurt Airport\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -3463,8 +3463,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Malatya ErhaÃ§ Airport\u0027}),(n:FlightAccident)-[r1:involves]-\u003e(m1:AircraftModel {name: \u0027McDonnell Douglas F-4 Phantom II\u0027}) WITH DISTINCT n RETURN n.name, n.flight_number",
-        "pred_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Malatya ErhaÄ‡ Airport\u0027}),(n:FlightAccident)-[r1:involves]-\u003e(m1:AircraftModel {name: \u0027 McDonnell Douglas F-4 Phantom II\u0027}) WITH DISTINCT n RETURN n.name, n.flight_number",
+        "gold_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Malatya ErhaÃƒÂ§ Airport\u0027}),(n:FlightAccident)-[r1:involves]-\u003e(m1:AircraftModel {name: \u0027McDonnell Douglas F-4 Phantom II\u0027}) WITH DISTINCT n RETURN n.name, n.flight_number",
+        "pred_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Malatya ErhaÃ„â€¡ Airport\u0027}),(n:FlightAccident)-[r1:involves]-\u003e(m1:AircraftModel {name: \u0027 McDonnell Douglas F-4 Phantom II\u0027}) WITH DISTINCT n RETURN n.name, n.flight_number",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -3503,8 +3503,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:FlightAccident)-[r0:operatedBy]-\u003e(m0:Operator {name: \u0027Korean Air\u0027}),(n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Mactanâ€“Cebu International Airport\u0027}) WITH DISTINCT n RETURN n.name, n.date",
-        "pred_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Korean Air\u0027}),(n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Mactanâ€“Cebu International Airport\u0027}) WITH DISTINCT n RETURN n.name, n.date",
+        "gold_cypher":  "MATCH (n:FlightAccident)-[r0:operatedBy]-\u003e(m0:Operator {name: \u0027Korean Air\u0027}),(n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027MactanÃ¢â‚¬â€œCebu International Airport\u0027}) WITH DISTINCT n RETURN n.name, n.date",
+        "pred_cypher":  "MATCH (n:FlightAccident)-[r0:departsFrom]-\u003e(m0:Airport {name: \u0027Korean Air\u0027}),(n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027MactanÃ¢â‚¬â€œCebu International Airport\u0027}) WITH DISTINCT n RETURN n.name, n.date",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -3553,8 +3553,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:Operator {name: \u0027LÃ­neas AÃ©reas Nacionales S. A.\u0027}) WITH DISTINCT n RETURN n.launch_year",
-        "pred_cypher":  "MATCH (n:Operator {name: \u0027LÃ¡ines AÃ©reas Nacionales S.A.\u0027}) WITH DISTINCT n RETURN n.launch_year",
+        "gold_cypher":  "MATCH (n:Operator {name: \u0027LÃƒÂ­neas AÃƒÂ©reas Nacionales S. A.\u0027}) WITH DISTINCT n RETURN n.launch_year",
+        "pred_cypher":  "MATCH (n:Operator {name: \u0027LÃƒÂ¡ines AÃƒÂ©reas Nacionales S.A.\u0027}) WITH DISTINCT n RETURN n.launch_year",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -3633,8 +3633,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:Airport)\u003c-[r0:destinedFor]-(m0:FlightAccident {name: \u0027assassination of JuvÃ©nal Habyarimana and Cyprien Ntaryamira\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Airport)\u003c-[r0:destinedFor]-(m0:FlightAccident {name: \u0027assassination of JuvÃ©nal Habyarimana and Cyprien Ntaryamira\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Airport)\u003c-[r0:destinedFor]-(m0:FlightAccident {name: \u0027assassination of JuvÃƒÂ©nal Habyarimana and Cyprien Ntaryamira\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Airport)\u003c-[r0:destinedFor]-(m0:FlightAccident {name: \u0027assassination of JuvÃƒÂ©nal Habyarimana and Cyprien Ntaryamira\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -3693,8 +3693,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:FlightAccident {name: \u0027Noar Linhas AÃ©reas Flight 4896\u0027}), (m0:FlightAccident {name: \u0027Air Moorea Flight 1121\u0027}) RETURN n.number_of_survivors = m0.number_of_survivors AS answer",
-        "pred_cypher":  "MATCH (n:FlightAccident {name: \u0027Do Noar Linhas AÃ©reas Flight 4896\u0027}), (m0:FlightAccident {name: \u0027Air Moorea Flight 1121\u0027}) RETURN n.number_of_survivors = m0.number_of_survivors AS answer",
+        "gold_cypher":  "MATCH (n:FlightAccident {name: \u0027Noar Linhas AÃƒÂ©reas Flight 4896\u0027}), (m0:FlightAccident {name: \u0027Air Moorea Flight 1121\u0027}) RETURN n.number_of_survivors = m0.number_of_survivors AS answer",
+        "pred_cypher":  "MATCH (n:FlightAccident {name: \u0027Do Noar Linhas AÃƒÂ©reas Flight 4896\u0027}), (m0:FlightAccident {name: \u0027Air Moorea Flight 1121\u0027}) RETURN n.number_of_survivors = m0.number_of_survivors AS answer",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -3845,8 +3845,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:involves]-\u003e(m0:AircraftModel {name: \u0027McDonnell Douglas DC-10\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Aeropuerto Internacional Benito JuÃ¡rez\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:involves]-\u003e(m0:AircraftModel {name: \u0027 McDonnell Douglas DC-10\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Aeropuerto Internacional Benito JuÃ¡rez\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:involves]-\u003e(m0:AircraftModel {name: \u0027McDonnell Douglas DC-10\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Aeropuerto Internacional Benito JuÃƒÂ¡rez\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "CALL { MATCH (n:FlightAccident)-[r0:involves]-\u003e(m0:AircraftModel {name: \u0027 McDonnell Douglas DC-10\u0027}) RETURN n, m0 as m UNION MATCH (n:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027Aeropuerto Internacional Benito JuÃƒÂ¡rez\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.25,
@@ -3905,8 +3905,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:AircraftModel)-[r0:manufacturedBy]-\u003e(m0:AircraftManufacturer {name: \u0027McDonnell Douglas\u0027}),(n:AircraftModel)\u003c-[r1:involves]-(m1:FlightAccident {name: \u0027Austral LÃ­neas AÃ©reas Flight 2553\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:AircraftModel)-[r0:manufacturedBy]-\u003e(m0:AircraftManufacturer {name: \u0027 McDonnell Douglas\u0027}),(n:AircraftModel)-[r1:involves]-\u003e(m1:FlightAccident {name: \u0027Austral LÃ¡neas AÃ©reas Flight 2553\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:AircraftModel)-[r0:manufacturedBy]-\u003e(m0:AircraftManufacturer {name: \u0027McDonnell Douglas\u0027}),(n:AircraftModel)\u003c-[r1:involves]-(m1:FlightAccident {name: \u0027Austral LÃƒÂ­neas AÃƒÂ©reas Flight 2553\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:AircraftModel)-[r0:manufacturedBy]-\u003e(m0:AircraftManufacturer {name: \u0027 McDonnell Douglas\u0027}),(n:AircraftModel)-[r1:involves]-\u003e(m1:FlightAccident {name: \u0027Austral LÃƒÂ¡neas AÃƒÂ©reas Flight 2553\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -3985,8 +3985,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:Airport)\u003c-[r0:departsFrom]-(m0:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027SimÃ³n BolÃ­var International Airport\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
-        "pred_cypher":  "MATCH (n:Airport)\u003c-[r0:departsFrom]-(m0:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027SimÃ³n BolÃ©var International Airport\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Airport)\u003c-[r0:departsFrom]-(m0:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027SimÃƒÂ³n BolÃƒÂ­var International Airport\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "pred_cypher":  "MATCH (n:Airport)\u003c-[r0:departsFrom]-(m0:FlightAccident)-[r1:destinedFor]-\u003e(m1:Airport {name: \u0027SimÃƒÂ³n BolÃƒÂ©var International Airport\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -4015,8 +4015,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:FlightAccident {name: \u0027British Airways Flight 268\u0027}), (m0:FlightAccident {name: \u0027Austral LÃ­neas AÃ©reas Flight 2553\u0027}) RETURN CASE WHEN n.date \u003e m0.date THEN n.name ELSE m0.name END AS answer",
-        "pred_cypher":  "MATCH (n:FlightAccident {name: \u0027British Airways Flight 268\u0027}), (m0:FlightAccident {name: \u0027Austral LÃ¡neas AÃ©reas Flight 2553\u0027}) RETURN CASE WHEN n.date \u003e m0.date THEN n.name ELSE m0.name END AS answer",
+        "gold_cypher":  "MATCH (n:FlightAccident {name: \u0027British Airways Flight 268\u0027}), (m0:FlightAccident {name: \u0027Austral LÃƒÂ­neas AÃƒÂ©reas Flight 2553\u0027}) RETURN CASE WHEN n.date \u003e m0.date THEN n.name ELSE m0.name END AS answer",
+        "pred_cypher":  "MATCH (n:FlightAccident {name: \u0027British Airways Flight 268\u0027}), (m0:FlightAccident {name: \u0027Austral LÃƒÂ¡neas AÃƒÂ©reas Flight 2553\u0027}) RETURN CASE WHEN n.date \u003e m0.date THEN n.name ELSE m0.name END AS answer",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -4125,8 +4125,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "MATCH (n:Operator {name: \u0027LÃ­neas AÃ©reas Nacionales S. A.\u0027}) WITH DISTINCT n RETURN n.country",
-        "pred_cypher":  "MATCH (n:Operator {name: \u0027LÃ¡lines AÃ©reas Nacionales S.A.\u0027}) WITH DISTINCT n RETURN n.country",
+        "gold_cypher":  "MATCH (n:Operator {name: \u0027LÃƒÂ­neas AÃƒÂ©reas Nacionales S. A.\u0027}) WITH DISTINCT n RETURN n.country",
+        "pred_cypher":  "MATCH (n:Operator {name: \u0027LÃƒÂ¡lines AÃƒÂ©reas Nacionales S.A.\u0027}) WITH DISTINCT n RETURN n.country",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -4345,8 +4345,8 @@
     },
     {
         "graph":  "flight_accident",
-        "gold_cypher":  "CALL { MATCH (n:AircraftModel)\u003c-[r0:involves]-(m0:FlightAccident {name: \u0027Cubana de AviaciÃ³n Flight 972\u0027}) RETURN n, m0 as m UNION MATCH (n:AircraftModel)\u003c-[r1:involves]-(m1:FlightAccident {name: \u0027Malaysian Airline System Flight 653\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
-        "pred_cypher":  "CALL { MATCH (n:AircraftModel)\u003c-[r0:involves]-(m0:FlightAccident {name: \u0027Cubana de AviÃ¡ion Flight 972\u0027}) RETURN n, m0 as m UNION MATCH (n:AircraftModel)\u003c-[r1:involves]-(m1:FlightAccident {name: \u0027Malaysian Airline System Flight 653\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "gold_cypher":  "CALL { MATCH (n:AircraftModel)\u003c-[r0:involves]-(m0:FlightAccident {name: \u0027Cubana de AviaciÃƒÂ³n Flight 972\u0027}) RETURN n, m0 as m UNION MATCH (n:AircraftModel)\u003c-[r1:involves]-(m1:FlightAccident {name: \u0027Malaysian Airline System Flight 653\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "pred_cypher":  "CALL { MATCH (n:AircraftModel)\u003c-[r0:involves]-(m0:FlightAccident {name: \u0027Cubana de AviÃƒÂ¡ion Flight 972\u0027}) RETURN n, m0 as m UNION MATCH (n:AircraftModel)\u003c-[r1:involves]-(m1:FlightAccident {name: \u0027Malaysian Airline System Flight 653\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.6666666666666666,
@@ -5076,7 +5076,7 @@
     {
         "graph":  "fictional_character",
         "gold_cypher":  "MATCH (n:Character)-[r1:diedIn]-\u003e(m1:Location {name: \u0027Chang\\\u0027an\u0027}) OPTIONAL MATCH (n:Character)-[r0:hasStudent]-\u003e(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
-        "pred_cypher":  "MATCH (n:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027ChangÃ¢n\u0027}),(n:Character)-[r0:hasStudent]-\u003e(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "pred_cypher":  "MATCH (n:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027ChangÃƒÂ¢n\u0027}),(n:Character)-[r0:hasStudent]-\u003e(m0:Character) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -5305,8 +5305,8 @@
     },
     {
         "graph":  "fictional_character",
-        "gold_cypher":  "MATCH (n:Character)\u003c-[r0:hasFather]-(m0:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027BrÃ¥kmakargatan universe\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
-        "pred_cypher":  "MATCH (n:Character)\u003c-[r0:hasFather]-(m0:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027BrÃ¦kmakargatan\u0027}) WITH n, m0, m1 RETURN n.name, m0.name",
+        "gold_cypher":  "MATCH (n:Character)\u003c-[r0:hasFather]-(m0:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027BrÃƒÂ¥kmakargatan universe\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "pred_cypher":  "MATCH (n:Character)\u003c-[r0:hasFather]-(m0:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027BrÃƒÂ¦kmakargatan\u0027}) WITH n, m0, m1 RETURN n.name, m0.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,
@@ -7055,8 +7055,8 @@
     },
     {
         "graph":  "fictional_character",
-        "gold_cypher":  "MATCH (n:Character)\u003c-[r0:killedBy]-(m0:Character {name: \u0027LÃ¼ Xiang\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Character)-[r0:killBy]-\u003e(m0:Character {name: \u0027LÃ¤u Xiang\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Character)\u003c-[r0:killedBy]-(m0:Character {name: \u0027LÃƒÂ¼ Xiang\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Character)-[r0:killBy]-\u003e(m0:Character {name: \u0027LÃƒÂ¤u Xiang\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -7216,7 +7216,7 @@
     {
         "graph":  "fictional_character",
         "gold_cypher":  "CALL { MATCH (n:Character)-[r0:diedIn]-\u003e(m0:Location {name: \u0027Chang\\\u0027an\u0027}) RETURN n, m0 as m UNION MATCH (n:Character)-[r1:hasStudent]-\u003e(m1:Character {name: \u0027Gu Yong\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
-        "pred_cypher":  "CALL { MATCH (n:Character)-[r0:bornIn]-\u003e(m0:Location {name: \u0027ChangÃ¢n\u0027}) RETURN n, m0 as m UNION MATCH (n:Character)-[r1:hasStudent]-\u003e(m1:Character {name: \u0027Gu Yong\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "pred_cypher":  "CALL { MATCH (n:Character)-[r0:bornIn]-\u003e(m0:Location {name: \u0027ChangÃƒÂ¢n\u0027}) RETURN n, m0 as m UNION MATCH (n:Character)-[r1:hasStudent]-\u003e(m1:Character {name: \u0027Gu Yong\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.15384615384615385,
@@ -7475,8 +7475,8 @@
     },
     {
         "graph":  "fictional_character",
-        "gold_cypher":  "MATCH (n:Character)-[r0:hasSpouse]-\u003e(m0:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027Ã…sa-Nisse universe\u0027}) WITH DISTINCT n RETURN count(DISTINCT n)",
-        "pred_cypher":  "MATCH (n:Character)-[r0:hasSpouse]-\u003e(m0:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027Ã…sa-Nisse\u0027}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "gold_cypher":  "MATCH (n:Character)-[r0:hasSpouse]-\u003e(m0:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027Ãƒâ€¦sa-Nisse universe\u0027}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "pred_cypher":  "MATCH (n:Character)-[r0:hasSpouse]-\u003e(m0:Character)-[r1:fromUniverse]-\u003e(m1:FictionalUniverse {name: \u0027Ãƒâ€¦sa-Nisse\u0027}) WITH DISTINCT n RETURN count(DISTINCT n)",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,
@@ -7876,7 +7876,7 @@
     {
         "graph":  "fictional_character",
         "gold_cypher":  "MATCH (n:Character)-[r0:diedIn]-\u003e(m0:Location {name: \u0027Chang\\\u0027an\u0027}),(n:Character)-[r1:hasStudent]-\u003e(m1:Character {name: \u0027Gu Yong\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Character)-[r0:bornIn]-\u003e(m0:Location {name: \u0027ChangÃ¢n\u0027}),(n:Character)-[r1:hasStudent]-\u003e(m1:Character {name: \u0027Gu Yong\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Character)-[r0:bornIn]-\u003e(m0:Location {name: \u0027ChangÃƒÂ¢n\u0027}),(n:Character)-[r1:hasStudent]-\u003e(m1:Character {name: \u0027Gu Yong\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -8575,8 +8575,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Company {name: \u0027Fresenius Kabi (United States)\u0027}), (m0:Company {name: \u0027Plaza \u0026 JanÃ©s\u0027}) RETURN CASE WHEN n.launch_year \u003e m0.launch_year THEN n.name ELSE m0.name END AS answer",
-        "pred_cypher":  "MATCH (n:Company {name: \u0027Fresenius Kabi (United States)\u0027}) OPTIONAL MATCH (m0:Company {name: \u0027Plaza \u0026 JanÃ©s\u0027}) RETURN CASE WHEN n.launch_year \u003e m0.launch_year THEN n.name ELSE m0.name END AS answer",
+        "gold_cypher":  "MATCH (n:Company {name: \u0027Fresenius Kabi (United States)\u0027}), (m0:Company {name: \u0027Plaza \u0026 JanÃƒÂ©s\u0027}) RETURN CASE WHEN n.launch_year \u003e m0.launch_year THEN n.name ELSE m0.name END AS answer",
+        "pred_cypher":  "MATCH (n:Company {name: \u0027Fresenius Kabi (United States)\u0027}) OPTIONAL MATCH (m0:Company {name: \u0027Plaza \u0026 JanÃƒÂ©s\u0027}) RETURN CASE WHEN n.launch_year \u003e m0.launch_year THEN n.name ELSE m0.name END AS answer",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -9577,8 +9577,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Company {name: \u0027Fresenius Kabi (United States)\u0027}), (m0:Company {name: \u0027Plaza \u0026 JanÃ©s\u0027}) RETURN n.launch_year - m0.launch_year AS answer",
-        "pred_cypher":  "MATCH (n:Company {name: \u0027Fresenius Kabi (United States)\u0027}), (m0:Company {name: \u0027Plaza \u0026 JanÃ©s\u0027}) RETURN n.launch_year - m0.launch_year AS answer",
+        "gold_cypher":  "MATCH (n:Company {name: \u0027Fresenius Kabi (United States)\u0027}), (m0:Company {name: \u0027Plaza \u0026 JanÃƒÂ©s\u0027}) RETURN n.launch_year - m0.launch_year AS answer",
+        "pred_cypher":  "MATCH (n:Company {name: \u0027Fresenius Kabi (United States)\u0027}), (m0:Company {name: \u0027Plaza \u0026 JanÃƒÂ©s\u0027}) RETURN n.launch_year - m0.launch_year AS answer",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -9857,8 +9857,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Company)-[r0:subsidiaryOf]-\u003e(m0:Company)\u003c-[r1:subsidiaryOf]-(m1:Company {name: \u0027Latvijas GÄze\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Company)-[r0:subsidiaryOf]-\u003e(m0:Company)\u003c-[r1:subsidiaryOf]-(m1:Company {name: \u0027Latvijas GÅ¡ze\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Company)-[r0:subsidiaryOf]-\u003e(m0:Company)\u003c-[r1:subsidiaryOf]-(m1:Company {name: \u0027Latvijas GÃ„Âze\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Company)-[r0:subsidiaryOf]-\u003e(m0:Company)\u003c-[r1:subsidiaryOf]-(m1:Company {name: \u0027Latvijas GÃ…Â¡ze\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -9897,8 +9897,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:foundedBy]-(m0:Company)-[r1:hasBoardMember]-\u003e(m1:Person {name: \u0027Roberto SetÃºbal\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
-        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company)\u003c-[r1:hasCEO]-(m1:Person {name: \u0027Roberto SetÃ©bal\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:foundedBy]-(m0:Company)-[r1:hasBoardMember]-\u003e(m1:Person {name: \u0027Roberto SetÃƒÂºbal\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company)\u003c-[r1:hasCEO]-(m1:Person {name: \u0027Roberto SetÃƒÂ©bal\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -10307,8 +10307,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company {name: \u0027SociÃ©tÃ© GÃ©nÃ©rale\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company {name: \u0027SocietÃ© GÃ©nrale\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company {name: \u0027SociÃƒÂ©tÃƒÂ© GÃƒÂ©nÃƒÂ©rale\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company {name: \u0027SocietÃƒÂ© GÃƒÂ©nrale\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -10327,8 +10327,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person {name: \u0027Dan Schulman\u0027}), (m0:Person {name: \u0027Ivo LukaÄoviÄ\u0027}) RETURN CASE WHEN n.date_of_birth \u003e m0.date_of_birth THEN n.name ELSE m0.name END AS answer",
-        "pred_cypher":  "MATCH (n:Person {name: \u0027Dan Schulman\u0027}), (m0:Person {name: \u0027Ivo LukaÄoviÄ‡\u0027}) RETURN CASE WHEN n.date_of_birth \u003e m0.date_of_birth THEN n.name ELSE m0.name END AS answer",
+        "gold_cypher":  "MATCH (n:Person {name: \u0027Dan Schulman\u0027}), (m0:Person {name: \u0027Ivo LukaÃ„ÂoviÃ„Â\u0027}) RETURN CASE WHEN n.date_of_birth \u003e m0.date_of_birth THEN n.name ELSE m0.name END AS answer",
+        "pred_cypher":  "MATCH (n:Person {name: \u0027Dan Schulman\u0027}), (m0:Person {name: \u0027Ivo LukaÃ„ÂoviÃ„â€¡\u0027}) RETURN CASE WHEN n.date_of_birth \u003e m0.date_of_birth THEN n.name ELSE m0.name END AS answer",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -10427,8 +10427,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Company)-[r0:foundedBy]-\u003e(m0:Person {name: \u0027JÃ©rÃ´me Hatt\u0027}) WITH DISTINCT n RETURN n.name, n.launch_year",
-        "pred_cypher":  "MATCH (n:Company)-[r0:foundBy]-\u003e(m0:Person {name: \u0027JÃ©rÃ©me Hatt\u0027}) WITH DISTINCT n RETURN n.name, n.launch_year",
+        "gold_cypher":  "MATCH (n:Company)-[r0:foundedBy]-\u003e(m0:Person {name: \u0027JÃƒÂ©rÃƒÂ´me Hatt\u0027}) WITH DISTINCT n RETURN n.name, n.launch_year",
+        "pred_cypher":  "MATCH (n:Company)-[r0:foundBy]-\u003e(m0:Person {name: \u0027JÃƒÂ©rÃƒÂ©me Hatt\u0027}) WITH DISTINCT n RETURN n.name, n.launch_year",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -10487,8 +10487,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person {name: \u0027Christine E. Seidman\u0027}), (m0:Person {name: \u0027Wojciech JasiÅ„ski\u0027}) RETURN n.gender = m0.gender AS answer",
-        "pred_cypher":  "MATCH (n:Person {name: \u0027Christine E. Seidman\u0027}), (m0:Person {name: \u0027Wojciech JasiÄˆ\u0027}) RETURN n.gender = m0.gender AS answer",
+        "gold_cypher":  "MATCH (n:Person {name: \u0027Christine E. Seidman\u0027}), (m0:Person {name: \u0027Wojciech JasiÃ…â€žski\u0027}) RETURN n.gender = m0.gender AS answer",
+        "pred_cypher":  "MATCH (n:Person {name: \u0027Christine E. Seidman\u0027}), (m0:Person {name: \u0027Wojciech JasiÃ„Ë†\u0027}) RETURN n.gender = m0.gender AS answer",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -10537,8 +10537,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person)\u003c-[r1:foundedBy]-(m1:Company {name: \u0027CourrÃ¨ges\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person)\u003c-[r1:foundBy]-(m1:Company {name: \u0027CourrÃ¨ges\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person)\u003c-[r1:foundedBy]-(m1:Company {name: \u0027CourrÃƒÂ¨ges\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person)\u003c-[r1:foundBy]-(m1:Company {name: \u0027CourrÃƒÂ¨ges\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -10757,8 +10757,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:foundedBy]-(m0:Company)-[r1:hasCEO]-\u003e(m1:Person {name: \u0027Jean-FranÃ§ois van Boxmeer\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:foundBy]-(m0:Company)-[r1:hasCEO]-\u003e(m1:Person {name: \u0027Jean-FranÃ§ois van Boxmeer\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:foundedBy]-(m0:Company)-[r1:hasCEO]-\u003e(m1:Person {name: \u0027Jean-FranÃƒÂ§ois van Boxmeer\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:foundBy]-(m0:Company)-[r1:hasCEO]-\u003e(m1:Person {name: \u0027Jean-FranÃƒÂ§ois van Boxmeer\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -10897,8 +10897,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company {name: \u0027SociÃ©tÃ© GÃ©nÃ©rale\u0027}) WITH DISTINCT n WHERE n.place_of_birth \u003c\u003e \u0027Saint-Dizier\u0027 RETURN n.name",
-        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company {name: \u0027SocietÃ© GÃ©nÃ©rale\u0027}) WITH DISTINCT n WHERE n.place_of_birth \u003c\u003e \u0027Saint-Dizier\u0027 RETURN n.name",
+        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company {name: \u0027SociÃƒÂ©tÃƒÂ© GÃƒÂ©nÃƒÂ©rale\u0027}) WITH DISTINCT n WHERE n.place_of_birth \u003c\u003e \u0027Saint-Dizier\u0027 RETURN n.name",
+        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company {name: \u0027SocietÃƒÂ© GÃƒÂ©nÃƒÂ©rale\u0027}) WITH DISTINCT n WHERE n.place_of_birth \u003c\u003e \u0027Saint-Dizier\u0027 RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -10927,8 +10927,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "CALL { MATCH (n:Company)-[r0:hasBoardMember]-\u003e(m0:Person {name: \u0027Andrej BabiÅ¡\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)-[r1:subsidiaryOf]-\u003e(m1:Company {name: \u0027Agrofert\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
-        "pred_cypher":  "CALL { MATCH (n:Company)-[r0:hasBoardMember]-\u003e(m0:Person {name: \u0027Andrej BabiÄ\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)\u003c-[r1:subsidiaryOf]-(m1:Company {name: \u0027Agrofert\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "gold_cypher":  "CALL { MATCH (n:Company)-[r0:hasBoardMember]-\u003e(m0:Person {name: \u0027Andrej BabiÃ…Â¡\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)-[r1:subsidiaryOf]-\u003e(m1:Company {name: \u0027Agrofert\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "pred_cypher":  "CALL { MATCH (n:Company)-[r0:hasBoardMember]-\u003e(m0:Person {name: \u0027Andrej BabiÃ„Â\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)\u003c-[r1:subsidiaryOf]-(m1:Company {name: \u0027Agrofert\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -11057,8 +11057,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person {name: \u0027Kurt Kokhauge Larsen\u0027}), (m0:Person {name: \u0027Pavel BaudiÅ¡\u0027}) RETURN CASE WHEN n.date_of_birth \u003e m0.date_of_birth THEN n.name ELSE m0.name END AS answer",
-        "pred_cypher":  "MATCH (n:Person {name: \u0027Kurt Kokhauge Larsen\u0027}), (m0:Person {name: \u0027Pavel BaudiÄ‡\u0027}) RETURN CASE WHEN n.date_of_birth \u003c m0.date_of_birth THEN n.name ELSE m0.name END AS answer",
+        "gold_cypher":  "MATCH (n:Person {name: \u0027Kurt Kokhauge Larsen\u0027}), (m0:Person {name: \u0027Pavel BaudiÃ…Â¡\u0027}) RETURN CASE WHEN n.date_of_birth \u003e m0.date_of_birth THEN n.name ELSE m0.name END AS answer",
+        "pred_cypher":  "MATCH (n:Person {name: \u0027Kurt Kokhauge Larsen\u0027}), (m0:Person {name: \u0027Pavel BaudiÃ„â€¡\u0027}) RETURN CASE WHEN n.date_of_birth \u003c m0.date_of_birth THEN n.name ELSE m0.name END AS answer",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -11367,7 +11367,7 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person)\u003c-[r1:hasCEO]-(m1:Company {name: \u0027McDonaldâ€™s\u0027}) OPTIONAL MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Person)\u003c-[r1:hasCEO]-(m1:Company {name: \u0027McDonaldÃ¢â‚¬â„¢s\u0027}) OPTIONAL MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "pred_cypher":  "MATCH (n:Person)\u003c-[r1:hasCEO]-(m1:Company {name: \u0027McDonald\\u2019s\u0027}) OPTIONAL MATCH (n:Person)\u003c-[r0:hasBoardMember]-(m0:Company) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  1.0,
@@ -11607,8 +11607,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person {name: \u0027BelÃ©n Garijo\u0027}),(n:Company)-[r1:foundedBy]-\u003e(m1:Person {name: \u0027Heinrich Emanuel Merck\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person {name: \u0027BelÃ©n Garijo\u0027}),(n:Company)-[r1:foundedBy]-\u003e(m1:Person {name: \u0027Heinrich Emanuel Merck\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person {name: \u0027BelÃƒÂ©n Garijo\u0027}),(n:Company)-[r1:foundedBy]-\u003e(m1:Person {name: \u0027Heinrich Emanuel Merck\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person {name: \u0027BelÃƒÂ©n Garijo\u0027}),(n:Company)-[r1:foundedBy]-\u003e(m1:Person {name: \u0027Heinrich Emanuel Merck\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -11627,8 +11627,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Company)-[r0:foundedBy]-\u003e(m0:Person {name: \u0027JÃ©rÃ´me Hatt\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Company)-[r0:foundBy]-\u003e(m0:Person {name: \u0027JÃ©rÃ©me Hatt\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Company)-[r0:foundedBy]-\u003e(m0:Person {name: \u0027JÃƒÂ©rÃƒÂ´me Hatt\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Company)-[r0:foundBy]-\u003e(m0:Person {name: \u0027JÃƒÂ©rÃƒÂ©me Hatt\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -11677,8 +11677,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "CALL { MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person {name: \u0027JiÅ™Ã­ PatÃ¡k\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)-[r1:basedIn]-\u003e(m1:Country {name: \u0027Czech Republic\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
-        "pred_cypher":  "CALL { MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person {name: \u0027JiÅ¡rÅŽ PatÄk\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)-[r1:basedIn]-\u003e(m1:Country {name: \u0027Czech Republic\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "gold_cypher":  "CALL { MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person {name: \u0027JiÃ…â„¢ÃƒÂ­ PatÃƒÂ¡k\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)-[r1:basedIn]-\u003e(m1:Country {name: \u0027Czech Republic\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "pred_cypher":  "CALL { MATCH (n:Company)-[r0:hasCEO]-\u003e(m0:Person {name: \u0027JiÃ…Â¡rÃ…Å½ PatÃ„Âk\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)-[r1:basedIn]-\u003e(m1:Country {name: \u0027Czech Republic\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.9999575929773971,
@@ -11687,8 +11687,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Company)-[r0:foundedBy]-\u003e(m0:Person {name: \u0027Juan JosÃ© MartÃ­nez GarcÃ­a\u0027}),(n:Company)-[r1:operatesIn]-\u003e(m1:Industry {name: \u0027computer security\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Company)-[r0:foundBy]-\u003e(m0:Person {name: \u0027Juan Jose MartÃ©nez Garcia\u0027}),(n:Company)-[r1:operatesIn]-\u003e(m1:Industry {name: \u0027computer security\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Company)-[r0:foundedBy]-\u003e(m0:Person {name: \u0027Juan JosÃƒÂ© MartÃƒÂ­nez GarcÃƒÂ­a\u0027}),(n:Company)-[r1:operatesIn]-\u003e(m1:Industry {name: \u0027computer security\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Company)-[r0:foundBy]-\u003e(m0:Person {name: \u0027Juan Jose MartÃƒÂ©nez Garcia\u0027}),(n:Company)-[r1:operatesIn]-\u003e(m1:Industry {name: \u0027computer security\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -11727,8 +11727,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:foundedBy]-(m0:Company)-[r1:hasBoardMember]-\u003e(m1:Person {name: \u0027Roberto SetÃºbal\u0027}) WITH DISTINCT n RETURN DISTINCT n.gender",
-        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:foundBy]-(m0:Company)-[r1:hasBoardMember]-\u003e(m1:Person {name: \u0027Roberto SetÃ©bal\u0027}) WITH DISTINCT n RETURN DISTINCT n.gender",
+        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:foundedBy]-(m0:Company)-[r1:hasBoardMember]-\u003e(m1:Person {name: \u0027Roberto SetÃƒÂºbal\u0027}) WITH DISTINCT n RETURN DISTINCT n.gender",
+        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:foundBy]-(m0:Company)-[r1:hasBoardMember]-\u003e(m1:Person {name: \u0027Roberto SetÃƒÂ©bal\u0027}) WITH DISTINCT n RETURN DISTINCT n.gender",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -11767,8 +11767,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:basedIn]-(m0:Company {name: \u0027Å koda Praha\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:basedIn]-(m0:Company {name: \u0027Å koda Praha\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:basedIn]-(m0:Company {name: \u0027Ã…Â koda Praha\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:basedIn]-(m0:Company {name: \u0027Ã…Â koda Praha\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -11787,8 +11787,8 @@
     },
     {
         "graph":  "company",
-        "gold_cypher":  "CALL { MATCH (n:Company)-[r0:hasBoardMember]-\u003e(m0:Person {name: \u0027Thomas Horton\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)\u003c-[r1:subsidiaryOf]-(m1:Company {name: \u0027Compagnia Generale di ElettricitÃ \u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
-        "pred_cypher":  "CALL { MATCH (n:Company)-[r0:hasBoardMember]-\u003e(m0:Person {name: \u0027Thomas Horton\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)-[r1:subsidiaryOf]-\u003e(m1:Company {name: \u0027Compagnia Generale di ElettricitÃ \u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "gold_cypher":  "CALL { MATCH (n:Company)-[r0:hasBoardMember]-\u003e(m0:Person {name: \u0027Thomas Horton\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)\u003c-[r1:subsidiaryOf]-(m1:Company {name: \u0027Compagnia Generale di ElettricitÃƒÂ \u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "pred_cypher":  "CALL { MATCH (n:Company)-[r0:hasBoardMember]-\u003e(m0:Person {name: \u0027Thomas Horton\u0027}) RETURN n, m0 as m UNION MATCH (n:Company)-[r1:subsidiaryOf]-\u003e(m1:Company {name: \u0027Compagnia Generale di ElettricitÃƒÂ \u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.75,
@@ -12117,8 +12117,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027Quebrada Pan de AzÃºcar basin\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:Mountain {name: \u0027Socompa\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027Quebrada Pan de AzÃ³ucar basin\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:Mountain {name: \u0027Socompa mountain\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027Quebrada Pan de AzÃƒÂºcar basin\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:Mountain {name: \u0027Socompa\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027Quebrada Pan de AzÃƒÂ³ucar basin\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:Mountain {name: \u0027Socompa mountain\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,
@@ -12187,8 +12187,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:Lake)-[r0:partOf]-\u003e(m0:DrainageBasin {name: \u0027LÃ©man basin\u0027}) WITH DISTINCT n RETURN n.name, n.vertical_depth_m",
-        "pred_cypher":  "MATCH (n:Lake)-[r0:partOf]-\u003e(m0:DrainageBasin {name: \u0027LÃ©man basin\u0027}) WITH DISTINCT n RETURN n.name, n.vertical_depth_m",
+        "gold_cypher":  "MATCH (n:Lake)-[r0:partOf]-\u003e(m0:DrainageBasin {name: \u0027LÃƒÂ©man basin\u0027}) WITH DISTINCT n RETURN n.name, n.vertical_depth_m",
+        "pred_cypher":  "MATCH (n:Lake)-[r0:partOf]-\u003e(m0:DrainageBasin {name: \u0027LÃƒÂ©man basin\u0027}) WITH DISTINCT n RETURN n.name, n.vertical_depth_m",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -12307,8 +12307,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:DrainageBasin {name: \u0027Abarkuhâ€“Sirjan Basin\u0027}), (m0:DrainageBasin {name: \u0027RhÃ´ne basin\u0027}) RETURN CASE WHEN n.area_km2 \u003e m0.area_km2 THEN n.name ELSE m0.name END AS answer",
-        "pred_cypher":  "MATCH (n:DrainageBasin {name: \u0027Abarkuhâ€“Sirjan Basin\u0027}), (m0:DrainageBasin {name: \u0027RhÃ©ne basin\u0027}) RETURN CASE WHEN n.area_km2 \u003e m0.area_km2 THEN n.name ELSE m0.name END AS answer",
+        "gold_cypher":  "MATCH (n:DrainageBasin {name: \u0027AbarkuhÃ¢â‚¬â€œSirjan Basin\u0027}), (m0:DrainageBasin {name: \u0027RhÃƒÂ´ne basin\u0027}) RETURN CASE WHEN n.area_km2 \u003e m0.area_km2 THEN n.name ELSE m0.name END AS answer",
+        "pred_cypher":  "MATCH (n:DrainageBasin {name: \u0027AbarkuhÃ¢â‚¬â€œSirjan Basin\u0027}), (m0:DrainageBasin {name: \u0027RhÃƒÂ©ne basin\u0027}) RETURN CASE WHEN n.area_km2 \u003e m0.area_km2 THEN n.name ELSE m0.name END AS answer",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -12457,8 +12457,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "CALL { MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:Lake {name: \u0027Lac la Ronge\u0027}) RETURN n, m0 as m UNION MATCH (n:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027RiviÃ¨re du LiÃ¨vre basin\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "CALL { MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027Lac la Ronge\u0027}) RETURN n, m0 as m UNION MATCH (n:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027Riviere du LiÃ¨vre basin\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "CALL { MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:Lake {name: \u0027Lac la Ronge\u0027}) RETURN n, m0 as m UNION MATCH (n:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027RiviÃƒÂ¨re du LiÃƒÂ¨vre basin\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "CALL { MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027Lac la Ronge\u0027}) RETURN n, m0 as m UNION MATCH (n:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027Riviere du LiÃƒÂ¨vre basin\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,
@@ -12517,8 +12517,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:River {name: \u0027GuamuÃ©s River\u0027}) WITH DISTINCT n RETURN n.discharge_m3_s",
-        "pred_cypher":  "MATCH (n:River {name: \u0027GuamuÃ©s River\u0027}) WITH DISTINCT n RETURN n.discharge_m3_s",
+        "gold_cypher":  "MATCH (n:River {name: \u0027GuamuÃƒÂ©s River\u0027}) WITH DISTINCT n RETURN n.discharge_m3_s",
+        "pred_cypher":  "MATCH (n:River {name: \u0027GuamuÃƒÂ©s River\u0027}) WITH DISTINCT n RETURN n.discharge_m3_s",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -12587,7 +12587,7 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "CALL { MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:Lake {name: \u0027Okanagan Lake\u0027}) RETURN n, m0 as m UNION MATCH (n:Country)\u003c-[r1:locatedIn]-(m1:Lake {name: \u0027Lake Michiganâ€“Huron\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "gold_cypher":  "CALL { MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:Lake {name: \u0027Okanagan Lake\u0027}) RETURN n, m0 as m UNION MATCH (n:Country)\u003c-[r1:locatedIn]-(m1:Lake {name: \u0027Lake MichiganÃ¢â‚¬â€œHuron\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "pred_cypher":  "CALL { MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:Lake {name: \u0027Okanagan Lake\u0027}) RETURN n, m0 as m UNION MATCH (n:Country)\u003c-[r1:locatedIn]-(m1:Lake {name: \u0027Lake Michigan-Huron\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  1.0,
@@ -12927,8 +12927,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:Country)-[r0:locatedIn]-\u003e(m0:Continent {name: \u0027South America\u0027}),(n:Country)\u003c-[r1:flowsThrough]-(m1:River {name: \u0027BaquiÃ¡ Preto River\u0027}) WITH DISTINCT n RETURN n.name, n.capital",
-        "pred_cypher":  "MATCH (n:Country)-[r0:locatedIn]-\u003e(m0:DrainageBasin)\u003c-[r1:flowsThrough]-(m1:River {name: \u0027BaquiÃ¡ Preto River\u0027}) WITH DISTINCT n WHERE n.name = \u0027South America\u0027 RETURN n.name, n.capital",
+        "gold_cypher":  "MATCH (n:Country)-[r0:locatedIn]-\u003e(m0:Continent {name: \u0027South America\u0027}),(n:Country)\u003c-[r1:flowsThrough]-(m1:River {name: \u0027BaquiÃƒÂ¡ Preto River\u0027}) WITH DISTINCT n RETURN n.name, n.capital",
+        "pred_cypher":  "MATCH (n:Country)-[r0:locatedIn]-\u003e(m0:DrainageBasin)\u003c-[r1:flowsThrough]-(m1:River {name: \u0027BaquiÃƒÂ¡ Preto River\u0027}) WITH DISTINCT n WHERE n.name = \u0027South America\u0027 RETURN n.name, n.capital",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -12997,8 +12997,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:River)-[r0:flowsInto]-\u003e(m0:River {name: \u0027Iguazu River\u0027}),(n:River)\u003c-[r1:flowsInto]-(m1:River {name: \u0027AmpÃ©re River\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:River)-[r0:flowsInto]-\u003e(m0:River {name: \u0027Iguazu River\u0027}),(n:River)-[r1:flowsInto]-\u003e(m1:River {name: \u0027AmpÃ©re River\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:River)-[r0:flowsInto]-\u003e(m0:River {name: \u0027Iguazu River\u0027}),(n:River)\u003c-[r1:flowsInto]-(m1:River {name: \u0027AmpÃƒÂ©re River\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:River)-[r0:flowsInto]-\u003e(m0:River {name: \u0027Iguazu River\u0027}),(n:River)-[r1:flowsInto]-\u003e(m1:River {name: \u0027AmpÃƒÂ©re River\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,
@@ -13177,8 +13177,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:DrainageBasin {name: \u0027Abarkuhâ€“Sirjan Basin\u0027}), (m0:DrainageBasin {name: \u0027RhÃ´ne basin\u0027}) RETURN n.area_km2 - m0.area_km2 AS answer",
-        "pred_cypher":  "MATCH (n:DrainageBasin {name: \u0027Abarkuhâ€“Sirjan Basin\u0027}), (m0:DrainageBasin {name: \u0027RhÃ©ne basin\u0027}) RETURN n.area_km2 - m0.area_km2 AS answer",
+        "gold_cypher":  "MATCH (n:DrainageBasin {name: \u0027AbarkuhÃ¢â‚¬â€œSirjan Basin\u0027}), (m0:DrainageBasin {name: \u0027RhÃƒÂ´ne basin\u0027}) RETURN n.area_km2 - m0.area_km2 AS answer",
+        "pred_cypher":  "MATCH (n:DrainageBasin {name: \u0027AbarkuhÃ¢â‚¬â€œSirjan Basin\u0027}), (m0:DrainageBasin {name: \u0027RhÃƒÂ©ne basin\u0027}) RETURN n.area_km2 - m0.area_km2 AS answer",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -13307,8 +13307,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:DrainageBasin)-[r0:locatedIn]-\u003e(m0:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027Siahkuhâ€“Zarrinâ€“Sorkh Basin\u0027}) WITH DISTINCT n RETURN n.name, n.area_km2",
-        "pred_cypher":  "MATCH (n:DrainageBasin)-[r0:locatedIn]-\u003e(m0:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027Siahkuhâ€“Zarrinâ€“Sorkh Basin\u0027}) WITH DISTINCT n RETURN n.name, n.area_km2",
+        "gold_cypher":  "MATCH (n:DrainageBasin)-[r0:locatedIn]-\u003e(m0:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027SiahkuhÃ¢â‚¬â€œZarrinÃ¢â‚¬â€œSorkh Basin\u0027}) WITH DISTINCT n RETURN n.name, n.area_km2",
+        "pred_cypher":  "MATCH (n:DrainageBasin)-[r0:locatedIn]-\u003e(m0:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027SiahkuhÃ¢â‚¬â€œZarrinÃ¢â‚¬â€œSorkh Basin\u0027}) WITH DISTINCT n RETURN n.name, n.area_km2",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -13377,8 +13377,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:flowsThrough]-(m0:River {name: \u0027Taygusa\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:Lake {name: \u0027JÃ¤nisjÃ¤rvi\u0027}) WITH DISTINCT n RETURN n.name, n.area_km2",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:flowsThrough]-(m0:River {name: \u0027Taygusa River\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:Lake {name: \u0027Lake JÃ¦nisjÃ¤ri\u0027}) WITH DISTINCT n RETURN n.name, n.area_km2",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:flowsThrough]-(m0:River {name: \u0027Taygusa\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:Lake {name: \u0027JÃƒÂ¤nisjÃƒÂ¤rvi\u0027}) WITH DISTINCT n RETURN n.name, n.area_km2",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:flowsThrough]-(m0:River {name: \u0027Taygusa River\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:Lake {name: \u0027Lake JÃƒÂ¦nisjÃƒÂ¤ri\u0027}) WITH DISTINCT n RETURN n.name, n.area_km2",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,
@@ -13517,8 +13517,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027LÃ©man basin\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027RhÃ´ne basin\u0027}) WITH DISTINCT n RETURN avg(n.area_km2)",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027LÃ©man basin\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027RhÃ©ne basin\u0027}) WITH DISTINCT n RETURN avg(n.area_km2)",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027LÃƒÂ©man basin\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027RhÃƒÂ´ne basin\u0027}) WITH DISTINCT n RETURN avg(n.area_km2)",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:locatedIn]-(m0:DrainageBasin {name: \u0027LÃƒÂ©man basin\u0027}),(n:Country)\u003c-[r1:locatedIn]-(m1:DrainageBasin {name: \u0027RhÃƒÂ©ne basin\u0027}) WITH DISTINCT n RETURN avg(n.area_km2)",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,
@@ -13767,8 +13767,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:Lake {name: \u0027Lake Pontchartrain\u0027}), (m0:Lake {name: \u0027Lake PÃ¡tzcuaro\u0027}) RETURN n.vertical_depth_m - m0.vertical_depth_m AS answer",
-        "pred_cypher":  "MATCH (n:Lake {name: \u0027Lake Pontchartrain\u0027}), (m0:Lake {name: \u0027Lake PÃ¡tzcuaro\u0027}) RETURN n.vertical_depth_m - m0.vertical_depth_m AS answer",
+        "gold_cypher":  "MATCH (n:Lake {name: \u0027Lake Pontchartrain\u0027}), (m0:Lake {name: \u0027Lake PÃƒÂ¡tzcuaro\u0027}) RETURN n.vertical_depth_m - m0.vertical_depth_m AS answer",
+        "pred_cypher":  "MATCH (n:Lake {name: \u0027Lake Pontchartrain\u0027}), (m0:Lake {name: \u0027Lake PÃƒÂ¡tzcuaro\u0027}) RETURN n.vertical_depth_m - m0.vertical_depth_m AS answer",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -13877,8 +13877,8 @@
     },
     {
         "graph":  "geography",
-        "gold_cypher":  "MATCH (n:Lake {name: \u0027Lake Pontchartrain\u0027}), (m0:Lake {name: \u0027Lake PÃ¡tzcuaro\u0027}) RETURN CASE WHEN n.vertical_depth_m \u003e m0.vertical_depth_m THEN n.name ELSE m0.name END AS answer",
-        "pred_cypher":  "MATCH (n:Lake {name: \u0027Lake Pontchartrain\u0027}), (m0:Lake {name: \u0027Lake PÃ¡tzcuaro\u0027}) RETURN CASE WHEN n.vertical_depth_m \u003e m0.vertical_depth_m THEN n.name ELSE m0.name END AS answer",
+        "gold_cypher":  "MATCH (n:Lake {name: \u0027Lake Pontchartrain\u0027}), (m0:Lake {name: \u0027Lake PÃƒÂ¡tzcuaro\u0027}) RETURN CASE WHEN n.vertical_depth_m \u003e m0.vertical_depth_m THEN n.name ELSE m0.name END AS answer",
+        "pred_cypher":  "MATCH (n:Lake {name: \u0027Lake Pontchartrain\u0027}), (m0:Lake {name: \u0027Lake PÃƒÂ¡tzcuaro\u0027}) RETURN CASE WHEN n.vertical_depth_m \u003e m0.vertical_depth_m THEN n.name ELSE m0.name END AS answer",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -15587,8 +15587,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:producedBy]-\u003e(m0:ProductionCompany {name: \u0027Biograf Jan SvÄ›rÃ¡k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027Martin Bohadlo\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:producedBy]-\u003e(m0:ProductionCompany {name: \u0027Biograf Jan SvÅ¡rÄk\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027Martin Bohadlo\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:producedBy]-\u003e(m0:ProductionCompany {name: \u0027Biograf Jan SvÃ„â€ºrÃƒÂ¡k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027Martin Bohadlo\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:producedBy]-\u003e(m0:ProductionCompany {name: \u0027Biograf Jan SvÃ…Â¡rÃ„Âk\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027Martin Bohadlo\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -15827,8 +15827,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "CALL { MATCH (n:Person)\u003c-[r0:directedBy]-(m0:Movie {name: \u0027Star Wars: Episode III â€“ Revenge of the Sith\u0027}) RETURN n, m0 as m UNION MATCH (n:Person)\u003c-[r1:writtenBy]-(m1:Movie {name: \u0027Star Wars: Episode II â€“ Attack of the Clones\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
-        "pred_cypher":  "CALL { MATCH (n:Person)\u003c-[r0:directedBy]-(m0:Movie {name: \u0027Star Wars: Episode III â€“ Revenge of the Sith\u0027}) RETURN n, m0 as m UNION MATCH (n:Person)\u003c-[r1:writtenBy]-(m1:Movie {name: \u0027Star Wars: Episode II â€“ Attack of the Clones\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "gold_cypher":  "CALL { MATCH (n:Person)\u003c-[r0:directedBy]-(m0:Movie {name: \u0027Star Wars: Episode III Ã¢â‚¬â€œ Revenge of the Sith\u0027}) RETURN n, m0 as m UNION MATCH (n:Person)\u003c-[r1:writtenBy]-(m1:Movie {name: \u0027Star Wars: Episode II Ã¢â‚¬â€œ Attack of the Clones\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "pred_cypher":  "CALL { MATCH (n:Person)\u003c-[r0:directedBy]-(m0:Movie {name: \u0027Star Wars: Episode III Ã¢â‚¬â€œ Revenge of the Sith\u0027}) RETURN n, m0 as m UNION MATCH (n:Person)\u003c-[r1:writtenBy]-(m1:Movie {name: \u0027Star Wars: Episode II Ã¢â‚¬â€œ Attack of the Clones\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -15897,8 +15897,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Award)\u003c-[r1:receivesAward]-(m1:Movie {name: \u0027CachÃ©\u0027}) OPTIONAL MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
-        "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie {name: \u0027CachÃ©\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Award)\u003c-[r1:receivesAward]-(m1:Movie {name: \u0027CachÃƒÂ©\u0027}) OPTIONAL MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie {name: \u0027CachÃƒÂ©\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0625,
@@ -16488,7 +16488,7 @@
     {
         "graph":  "movie",
         "gold_cypher":  "MATCH (n:Movie)-[r0:writtenBy]-\u003e(m0:Person {name: \u0027Josh Friedman\u0027}),(n:Movie)-[r1:hasGenre]-\u003e(m1:Genre {name: \u0027science fiction film\u0027}) WITH DISTINCT n WHERE \u0027Na\\\u0027vi\u0027 IN n.original_language RETURN n.name",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:writtenBy]-\u003e(m0:Person {name: \u0027Josh Friedman\u0027}),(n:Movie)-[r1:originatesFrom]-\u003e(m1:Country {name: \u0027NaÃ¼rvi\u0027}) WITH DISTINCT n WHERE \u0027science fiction\u0027 IN n.original_language RETURN n.name",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:writtenBy]-\u003e(m0:Person {name: \u0027Josh Friedman\u0027}),(n:Movie)-[r1:originatesFrom]-\u003e(m1:Country {name: \u0027NaÃƒÂ¼rvi\u0027}) WITH DISTINCT n WHERE \u0027science fiction\u0027 IN n.original_language RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -16537,8 +16537,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:originatesFrom]-(m0:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027YÅjirÅ Takita\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:originatesFrom]-(m0:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027YÅjirÅ Takita\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:originatesFrom]-(m0:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027YÃ…ÂjirÃ…Â Takita\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:originatesFrom]-(m0:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027YÃ…ÂjirÃ…Â Takita\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -16567,8 +16567,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:producedBy]-\u003e(m0:ProductionCompany {name: \u0027Regency Enterprises\u0027}),(n:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027Alejandro GonzÃ¡lez IÃ±Ã¡rritu\u0027}) WITH DISTINCT n RETURN n.name, n.original_language",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:producedBy]-\u003e(m0:ProductionCompany {name: \u0027Regency Enterprises\u0027}),(n:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027Alejandro GonzÃ¡lez IÃ©nÃ¡rritu\u0027}) WITH DISTINCT n RETURN n.name, n.original_language",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:producedBy]-\u003e(m0:ProductionCompany {name: \u0027Regency Enterprises\u0027}),(n:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027Alejandro GonzÃƒÂ¡lez IÃƒÂ±ÃƒÂ¡rritu\u0027}) WITH DISTINCT n RETURN n.name, n.original_language",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:producedBy]-\u003e(m0:ProductionCompany {name: \u0027Regency Enterprises\u0027}),(n:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027Alejandro GonzÃƒÂ¡lez IÃƒÂ©nÃƒÂ¡rritu\u0027}) WITH DISTINCT n RETURN n.name, n.original_language",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -16977,8 +16977,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:hasCastMember]-\u003e(m0:Person {name: \u0027Frank KÃ¶be\u0027}),(n:Movie)-[r1:writtenBy]-\u003e(m1:Person {name: \u0027Ronald Harwood\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
-        "pred_cypher":  "MATCH (n:Movie)\u003c-[r0:writtenBy]-(m0:Person {name: \u0027Frank Ã¶Ã¶bÃ¤\u0027}),(n:Movie)\u003c-[r1:producedBy]-(m1:Person {name: \u0027Ronald Harwood\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:hasCastMember]-\u003e(m0:Person {name: \u0027Frank KÃƒÂ¶be\u0027}),(n:Movie)-[r1:writtenBy]-\u003e(m1:Person {name: \u0027Ronald Harwood\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
+        "pred_cypher":  "MATCH (n:Movie)\u003c-[r0:writtenBy]-(m0:Person {name: \u0027Frank ÃƒÂ¶ÃƒÂ¶bÃƒÂ¤\u0027}),(n:Movie)\u003c-[r1:producedBy]-(m1:Person {name: \u0027Ronald Harwood\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -17679,8 +17679,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:writtenBy]-\u003e(m0:Person {name: \u0027ZdenÄ›k SvÄ›rÃ¡k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027Pavel Taussig\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:writtenBy]-\u003e(m0:Person {name: \u0027ZdenÄek SvÄÃ­k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027Pavel Taussig\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:writtenBy]-\u003e(m0:Person {name: \u0027ZdenÃ„â€ºk SvÃ„â€ºrÃƒÂ¡k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027Pavel Taussig\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:writtenBy]-\u003e(m0:Person {name: \u0027ZdenÃ„Âek SvÃ„ÂÃƒÂ­k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027Pavel Taussig\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -17699,8 +17699,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027CÃ©sar Award for Best Foreign Film\u0027}),(n:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027Peter Weir\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:directedBy]-\u003e(m0:Person {name: \u0027Peter Weir\u0027}),(n:Movie)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027CÃ©sar Award for Best Foreign Film\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027CÃƒÂ©sar Award for Best Foreign Film\u0027}),(n:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027Peter Weir\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:directedBy]-\u003e(m0:Person {name: \u0027Peter Weir\u0027}),(n:Movie)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027CÃƒÂ©sar Award for Best Foreign Film\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -17779,8 +17779,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie)-[r1:writtenBy]-\u003e(m1:Person {name: \u0027KundÅ Koyama\u0027}) WITH DISTINCT n RETURN count(DISTINCT n)",
-        "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie)-[r1:writtenBy]-\u003e(m1:Person {name: \u0027KundÅÃ±o Koyama\u0027}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "gold_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie)-[r1:writtenBy]-\u003e(m1:Person {name: \u0027KundÃ…Â Koyama\u0027}) WITH DISTINCT n RETURN count(DISTINCT n)",
+        "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie)-[r1:writtenBy]-\u003e(m1:Person {name: \u0027KundÃ…ÂÃƒÂ±o Koyama\u0027}) WITH DISTINCT n RETURN count(DISTINCT n)",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -18299,8 +18299,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:hasCastMember]-\u003e(m0:Person {name: \u0027Magali NoÃ«l\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:hasCastMember]-\u003e(m0:Person {name: \u0027Magali NoÃ©l\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:hasCastMember]-\u003e(m0:Person {name: \u0027Magali NoÃƒÂ«l\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:hasCastMember]-\u003e(m0:Person {name: \u0027Magali NoÃƒÂ©l\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -18419,8 +18419,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027GaudÃ­ a la millor actriu secundÃ ria\u0027}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027GaudÃ¡i Award for Best Supporting Actress\u0027}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027GaudÃƒÂ­ a la millor actriu secundÃƒÂ ria\u0027}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027GaudÃƒÂ¡i Award for Best Supporting Actress\u0027}) WITH DISTINCT n RETURN n.name, n.global_box_office_usd",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -18469,8 +18469,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:directedBy]-\u003e(m0:Person {name: \u0027Jan SvÄ›rÃ¡k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027BoÅ¾idara TurzonovovÃ¡\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:directedBy]-\u003e(m0:Person {name: \u0027Jan SvÅ¡Ä‡k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027BoÄida TurzonovÄ‡a\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:directedBy]-\u003e(m0:Person {name: \u0027Jan SvÃ„â€ºrÃƒÂ¡k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027BoÃ…Â¾idara TurzonovovÃƒÂ¡\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:directedBy]-\u003e(m0:Person {name: \u0027Jan SvÃ…Â¡Ã„â€¡k\u0027}),(n:Movie)-[r1:hasCastMember]-\u003e(m1:Person {name: \u0027BoÃ„Âida TurzonovÃ„â€¡a\u0027}) WITH DISTINCT n RETURN n.name, n.runtime_minute",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -18479,8 +18479,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie {name: \u0027CachÃ©\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie {name: \u0027CachÃ©\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie {name: \u0027CachÃƒÂ©\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Award)\u003c-[r0:receivesAward]-(m0:Movie {name: \u0027CachÃƒÂ©\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -18519,8 +18519,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "CALL { MATCH (n:Movie)-[r0:hasGenre]-\u003e(m0:Genre {name: \u0027science fiction film\u0027}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027Alfonso CuarÃ³n\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
-        "pred_cypher":  "CALL { MATCH (n:Movie)-[r0:hasGenre]-\u003e(m0:Genre {name: \u0027science fiction\u0027}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:producedBy]-\u003e(m1:Person {name: \u0027Alfonso CuarÃ±n\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "gold_cypher":  "CALL { MATCH (n:Movie)-[r0:hasGenre]-\u003e(m0:Genre {name: \u0027science fiction film\u0027}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:directedBy]-\u003e(m1:Person {name: \u0027Alfonso CuarÃƒÂ³n\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "pred_cypher":  "CALL { MATCH (n:Movie)-[r0:hasGenre]-\u003e(m0:Genre {name: \u0027science fiction\u0027}) RETURN n, m0 as m UNION MATCH (n:Movie)-[r1:producedBy]-\u003e(m1:Person {name: \u0027Alfonso CuarÃƒÂ±n\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0010698047606311847,
@@ -19109,8 +19109,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:directedBy]-(m0:Movie)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027CÃ©sar Award for Best Director\u0027}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
-        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:directedBy]-(m0:Movie)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027CÃ©sar Award for Best Director\u0027}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
+        "gold_cypher":  "MATCH (n:Person)\u003c-[r0:directedBy]-(m0:Movie)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027CÃƒÂ©sar Award for Best Director\u0027}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
+        "pred_cypher":  "MATCH (n:Person)\u003c-[r0:directedBy]-(m0:Movie)-[r1:receivesAward]-\u003e(m1:Award {name: \u0027CÃƒÂ©sar Award for Best Director\u0027}) WITH DISTINCT n RETURN n.name, n.place_of_birth",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -19389,8 +19389,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027Vancouver Film Critics Circle Award for Best Actress\u0027}),(n:Movie)-[r1:producedBy]-\u003e(m1:ProductionCompany {name: \u0027PathÃ©\u0027}) WITH DISTINCT n RETURN n.name, n.filming_location",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027Vancouver Film Critics Circle Award for Best Actress\u0027}),(n:Movie)-[r1:producedBy]-\u003e(m1:ProductionCompany {name: \u0027PathÃ©\u0027}) WITH DISTINCT n RETURN n.name, n.filming_location",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027Vancouver Film Critics Circle Award for Best Actress\u0027}),(n:Movie)-[r1:producedBy]-\u003e(m1:ProductionCompany {name: \u0027PathÃƒÂ©\u0027}) WITH DISTINCT n RETURN n.name, n.filming_location",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027Vancouver Film Critics Circle Award for Best Actress\u0027}),(n:Movie)-[r1:producedBy]-\u003e(m1:ProductionCompany {name: \u0027PathÃƒÂ©\u0027}) WITH DISTINCT n RETURN n.name, n.filming_location",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -19469,8 +19469,8 @@
     },
     {
         "graph":  "movie",
-        "gold_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027GaudÃ­ a la millor actriu secundÃ ria\u0027}) WITH DISTINCT n RETURN n.name, n.filming_location",
-        "pred_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027GaudÃ¡i Award for Best Supporting Actress\u0027}) WITH DISTINCT n RETURN n.name, n.filming_location",
+        "gold_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027GaudÃƒÂ­ a la millor actriu secundÃƒÂ ria\u0027}) WITH DISTINCT n RETURN n.name, n.filming_location",
+        "pred_cypher":  "MATCH (n:Movie)-[r0:receivesAward]-\u003e(m0:Award {name: \u0027GaudÃƒÂ¡i Award for Best Supporting Actress\u0027}) WITH DISTINCT n RETURN n.name, n.filming_location",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -19609,8 +19609,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Politician)\u003c-[r0:headedBy]-(m0:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027FranÃ§ois Mitterrand\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Politician)-[r0:leads]-\u003e(m0:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027FranÃ§ois Mitterrand\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Politician)\u003c-[r0:headedBy]-(m0:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027FranÃƒÂ§ois Mitterrand\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Politician)-[r0:leads]-\u003e(m0:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027FranÃƒÂ§ois Mitterrand\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -19709,8 +19709,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027Nicolas Sarkozy\u0027}),(n:PoliticalParty)-[r1:headedBy]-\u003e(m1:Politician {name: \u0027Alain JuppÃ©\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Nicolas Sarkozy\u0027}),(n:PoliticalParty)-[r1:hasHeadOfState]-\u003e(m1:Politician {name: \u0027Alain JuppÃ©\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027Nicolas Sarkozy\u0027}),(n:PoliticalParty)-[r1:headedBy]-\u003e(m1:Politician {name: \u0027Alain JuppÃƒÂ©\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Nicolas Sarkozy\u0027}),(n:PoliticalParty)-[r1:hasHeadOfState]-\u003e(m1:Politician {name: \u0027Alain JuppÃƒÂ©\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -19719,8 +19719,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "CALL { MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027FranÃ§ois Mitterrand\u0027}) RETURN n, m0 as m UNION MATCH (n:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027Guy Malandain\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "CALL { MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027FranÃ§ois Mitterrand\u0027}) RETURN n, m0 as m UNION MATCH (n:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027Guy Malandain\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "CALL { MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027FranÃƒÂ§ois Mitterrand\u0027}) RETURN n, m0 as m UNION MATCH (n:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027Guy Malandain\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "CALL { MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027FranÃƒÂ§ois Mitterrand\u0027}) RETURN n, m0 as m UNION MATCH (n:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027Guy Malandain\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -19829,8 +19829,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "CALL { MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027BjÃ¸rn Dahl\u0027}) RETURN n, m0 as m UNION MATCH (n:Position)\u003c-[r1:holdsPosition]-(m1:Politician {name: \u0027Martin Damm\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "CALL { MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027BjÃ¸n Dahl\u0027}) RETURN n, m0 as m UNION MATCH (n:Position)\u003c-[r1:holdsPosition]-(m1:Politician {name: \u0027Martin Damm\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "CALL { MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027BjÃƒÂ¸rn Dahl\u0027}) RETURN n, m0 as m UNION MATCH (n:Position)\u003c-[r1:holdsPosition]-(m1:Politician {name: \u0027Martin Damm\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "CALL { MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027BjÃƒÂ¸n Dahl\u0027}) RETURN n, m0 as m UNION MATCH (n:Position)\u003c-[r1:holdsPosition]-(m1:Politician {name: \u0027Martin Damm\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.75,
@@ -20029,8 +20029,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027GeneviÃ¨ve Darrieussecq\u0027}) WHERE r0.start_year IS NOT NULL AND r0.end_year IS NULL WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027GeneviÃ¨ve Darrieussecq\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027GeneviÃƒÂ¨ve Darrieussecq\u0027}) WHERE r0.start_year IS NOT NULL AND r0.end_year IS NULL WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027GeneviÃƒÂ¨ve Darrieussecq\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.5,
@@ -20159,8 +20159,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "CALL { MATCH (n:Politician)-[r0:memberOf]-\u003e(m0:PoliticalParty {name: \u0027PÃ©yi Guyane\u0027}) RETURN n, m0 as m UNION MATCH (n:Politician)\u003c-[r1:foundedBy]-(m1:PoliticalParty {name: \u0027PÃ©yi Guyane\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "CALL { MATCH (n:Politician)-[r0:memberOf]-\u003e(m0:PoliticalParty {name: \u0027PÃ©yi Guyane\u0027}) RETURN n, m0 as m UNION MATCH (n:Politician)-[r1:foundedBy]-\u003e(m1:PoliticalParty {name: \u0027PÃ©yi Guyane\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "CALL { MATCH (n:Politician)-[r0:memberOf]-\u003e(m0:PoliticalParty {name: \u0027PÃƒÂ©yi Guyane\u0027}) RETURN n, m0 as m UNION MATCH (n:Politician)\u003c-[r1:foundedBy]-(m1:PoliticalParty {name: \u0027PÃƒÂ©yi Guyane\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "CALL { MATCH (n:Politician)-[r0:memberOf]-\u003e(m0:PoliticalParty {name: \u0027PÃƒÂ©yi Guyane\u0027}) RETURN n, m0 as m UNION MATCH (n:Politician)-[r1:foundedBy]-\u003e(m1:PoliticalParty {name: \u0027PÃƒÂ©yi Guyane\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -20271,8 +20271,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Politician)\u003c-[r0:headedBy]-(m0:PoliticalParty)-[r1:headedBy]-\u003e(m1:Politician {name: \u0027Alain JuppÃ©\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
-        "pred_cypher":  "MATCH (n:Politician)-[r0:hasHeadOfParty]-\u003e(m0:PoliticalParty)\u003c-[r1:hasHeadOfParty]-(m1:Politician {name: \u0027Alain JuppÃ©\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Politician)\u003c-[r0:headedBy]-(m0:PoliticalParty)-[r1:headedBy]-\u003e(m1:Politician {name: \u0027Alain JuppÃƒÂ©\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "pred_cypher":  "MATCH (n:Politician)-[r0:hasHeadOfParty]-\u003e(m0:PoliticalParty)\u003c-[r1:hasHeadOfParty]-(m1:Politician {name: \u0027Alain JuppÃƒÂ©\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -20351,8 +20351,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027Lech KaczyÅ„ski\u0027}) WHERE r0.start_year \u003c= 2001 AND (r0.end_year \u003e= 2001 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:memberOf]-\u003e(m0:Politician {name: \u0027Lech KaczyÄ\u0027}) WITH DISTINCT n WHERE n.founding_date.year = 2001 RETURN n.name",
+        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027Lech KaczyÃ…â€žski\u0027}) WHERE r0.start_year \u003c= 2001 AND (r0.end_year \u003e= 2001 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:memberOf]-\u003e(m0:Politician {name: \u0027Lech KaczyÃ„Â\u0027}) WITH DISTINCT n WHERE n.founding_date.year = 2001 RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -20491,8 +20491,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GÃ©rald Darmanin\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GÃ©rald Darmanin\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GÃƒÂ©rald Darmanin\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GÃƒÂ©rald Darmanin\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -20623,8 +20623,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Politician)\u003c-[r0:headedBy]-(m0:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027CzesÅ‚aw Wycech\u0027}) WITH DISTINCT n RETURN n.name, n.gender",
-        "pred_cypher":  "MATCH (n:Politician)-[r0:leads]-\u003e(m0:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027CzesÅ‚law Wycech\u0027}) WITH DISTINCT n RETURN n.name, n.gender",
+        "gold_cypher":  "MATCH (n:Politician)\u003c-[r0:headedBy]-(m0:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027CzesÃ…â€šaw Wycech\u0027}) WITH DISTINCT n RETURN n.name, n.gender",
+        "pred_cypher":  "MATCH (n:Politician)-[r0:leads]-\u003e(m0:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027CzesÃ…â€šlaw Wycech\u0027}) WITH DISTINCT n RETURN n.name, n.gender",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,
@@ -20735,8 +20735,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027FranÃ§ois DelignÃ©\u0027}),(n:Position)\u003c-[r1:holdsPosition]-(m1:Politician {name: \u0027Gustave Alirol\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027FranÃ§ois DelignÃ©e\u0027}),(n:Position)\u003c-[r1:holdsPosition]-(m1:Politician {name: \u0027Gustave Alirol\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027FranÃƒÂ§ois DelignÃƒÂ©\u0027}),(n:Position)\u003c-[r1:holdsPosition]-(m1:Politician {name: \u0027Gustave Alirol\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027FranÃƒÂ§ois DelignÃƒÂ©e\u0027}),(n:Position)\u003c-[r1:holdsPosition]-(m1:Politician {name: \u0027Gustave Alirol\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -20845,8 +20845,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027AurÃ©lien VÃ©ron\u0027}) WHERE r0.start_year \u003c= 2008 AND (r0.end_year \u003e= 2008 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:memberOf]-\u003e(m0:Politician {name: \u0027AurÃ©lien VÃ©ron\u0027}) WITH DISTINCT n WHERE n.founding_date.year = 2008 RETURN n.name",
+        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027AurÃƒÂ©lien VÃƒÂ©ron\u0027}) WHERE r0.start_year \u003c= 2008 AND (r0.end_year \u003e= 2008 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:memberOf]-\u003e(m0:Politician {name: \u0027AurÃƒÂ©lien VÃƒÂ©ron\u0027}) WITH DISTINCT n WHERE n.founding_date.year = 2008 RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -21035,8 +21035,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027CuauhtÃ©moc CÃ¡rdenas SolÃ³rzano\u0027}),(n:PoliticalParty)-[r1:operatesIn]-\u003e(m1:Country {name: \u0027Mexico\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:foundBy]-\u003e(m0:Politician {name: \u0027CuauhtÃ©moc CÃ©rdenas SolÃ³rzano\u0027}) WITH DISTINCT n WHERE n.founding_date IS NOT NULL AND n.place_of_operation IN [\u0027Mexico\u0027] RETURN n.name",
+        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027CuauhtÃƒÂ©moc CÃƒÂ¡rdenas SolÃƒÂ³rzano\u0027}),(n:PoliticalParty)-[r1:operatesIn]-\u003e(m1:Country {name: \u0027Mexico\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:foundBy]-\u003e(m0:Politician {name: \u0027CuauhtÃƒÂ©moc CÃƒÂ©rdenas SolÃƒÂ³rzano\u0027}) WITH DISTINCT n WHERE n.founding_date IS NOT NULL AND n.place_of_operation IN [\u0027Mexico\u0027] RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -21155,8 +21155,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027Carlos RamÃ­rez MacGregor\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:foundedBy]-(m0:Politician {name: \u0027Carlos RamÃ­rez MacGregor\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027Carlos RamÃƒÂ­rez MacGregor\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:foundedBy]-(m0:Politician {name: \u0027Carlos RamÃƒÂ­rez MacGregor\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -21525,8 +21525,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Richard von WeizsÃ¤cker\u0027}),(n:Country)-[r1:hasHeadOfState]-\u003e(m1:Politician {name: \u0027Johannes Rau\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasHeadOfState]-(m0:Politician {name: \u0027Richard von WeizsÃŸcker\u0027}),(n:Country)\u003c-[r1:hasHeadOfState]-(m1:Politician {name: \u0027Johannes Rau\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Richard von WeizsÃƒÂ¤cker\u0027}),(n:Country)-[r1:hasHeadOfState]-\u003e(m1:Politician {name: \u0027Johannes Rau\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasHeadOfState]-(m0:Politician {name: \u0027Richard von WeizsÃƒÅ¸cker\u0027}),(n:Country)\u003c-[r1:hasHeadOfState]-(m1:Politician {name: \u0027Johannes Rau\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -21585,8 +21585,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GÃ©rald Darmanin\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
-        "pred_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GÃ©rald Darmanin\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
+        "gold_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GÃƒÂ©rald Darmanin\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
+        "pred_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GÃƒÂ©rald Darmanin\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -21645,7 +21645,7 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027Spain. Ministerio de Obras PÃºblicas y Transportes\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027Bulgaria\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027Spain. Ministerio de Obras PÃƒÂºblicas y Transportes\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027Bulgaria\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
         "pred_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027Spain Ministerio de Obras Publicas y Transportes\u0027}) WITH DISTINCT n WHERE n.official_language IS NOT NULL AND n.official_language IN [\u0027Spanish\u0027] AND (n.hasDiplomaticRelationWith (m1:Country {name: \u0027Bulgaria\u0027}) OR n.hasDiplomaticRelationWith (m2:Country {name: \u0027Bulgaria\u0027}) ) RETURN n.name, n.official_language",
         "metrics":  {
                         "execution_accuracy":  0.0,
@@ -21675,8 +21675,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Politician)-[r0:memberOf]-\u003e(m0:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027FranÃ§ois Dagnaud\u0027}) WITH DISTINCT n RETURN n.name, n.place_of_death",
-        "pred_cypher":  "MATCH (n:Politician)-[r0:memberOf]-\u003e(m0:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027FranÃ§ois Dagnaud\u0027}) WITH DISTINCT n RETURN n.name, n.place_of_death",
+        "gold_cypher":  "MATCH (n:Politician)-[r0:memberOf]-\u003e(m0:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027FranÃƒÂ§ois Dagnaud\u0027}) WITH DISTINCT n RETURN n.name, n.place_of_death",
+        "pred_cypher":  "MATCH (n:Politician)-[r0:memberOf]-\u003e(m0:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027FranÃƒÂ§ois Dagnaud\u0027}) WITH DISTINCT n RETURN n.name, n.place_of_death",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -21847,8 +21847,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Gitanas NausÄ—da\u0027}) WHERE r0.start_year IS NOT NULL AND r0.end_year IS NULL WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasHeadOfState]-(m0:Politician {name: \u0027Gitanas NausÃ©da\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Gitanas NausÃ„â€”da\u0027}) WHERE r0.start_year IS NOT NULL AND r0.end_year IS NULL WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasHeadOfState]-(m0:Politician {name: \u0027Gitanas NausÃƒÂ©da\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -21867,8 +21867,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfGovernment]-\u003e(m0:Politician {name: \u0027Gerhard SchrÃ¶der\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027United Kingdom\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
-        "pred_cypher":  "MATCH (n:Country)-[r0:hasHeadOfGovernment]-\u003e(m0:Politician {name: \u0027Gerhard SchÃ¶der\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027United Kingdom\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
+        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfGovernment]-\u003e(m0:Politician {name: \u0027Gerhard SchrÃƒÂ¶der\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027United Kingdom\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
+        "pred_cypher":  "MATCH (n:Country)-[r0:hasHeadOfGovernment]-\u003e(m0:Politician {name: \u0027Gerhard SchÃƒÂ¶der\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027United Kingdom\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -21927,8 +21927,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Gitanas NausÄ—da\u0027}) WHERE r0.start_year \u003c= 2019 AND (r0.end_year \u003e= 2019 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasHeadOfState]-(m0:Politician {name: \u0027Gitanas NausÃ©da\u0027}) WHERE r0.start_year \u003c= 2019 AND (r0.end_year \u003e= 2019 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Gitanas NausÃ„â€”da\u0027}) WHERE r0.start_year \u003c= 2019 AND (r0.end_year \u003e= 2019 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasHeadOfState]-(m0:Politician {name: \u0027Gitanas NausÃƒÂ©da\u0027}) WHERE r0.start_year \u003c= 2019 AND (r0.end_year \u003e= 2019 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -21967,8 +21967,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027AurÃ©lien VÃ©ron\u0027}),(n:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027AurÃ©lien VÃ©ron\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027AurÃ©lien VÃ©ron\u0027}),(n:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027AurÃ©lien VÃ©ron\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027AurÃƒÂ©lien VÃƒÂ©ron\u0027}),(n:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027AurÃƒÂ©lien VÃƒÂ©ron\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027AurÃƒÂ©lien VÃƒÂ©ron\u0027}),(n:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027AurÃƒÂ©lien VÃƒÂ©ron\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -21997,8 +21997,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "CALL { MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027Lech KaczyÅ„ski\u0027}) RETURN n, m0 as m UNION MATCH (n:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027Lech KaczyÅ„ski\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
-        "pred_cypher":  "CALL { MATCH (n:PoliticalParty)-[r0:memberOf]-\u003e(m0:Politician {name: \u0027Lech KaczyÄ\u0027}) RETURN n, m0 as m UNION MATCH (n:PoliticalParty)-[r1:hasHeadOfState]-\u003e(m1:Politician {name: \u0027Lech KaczyÄ\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "gold_cypher":  "CALL { MATCH (n:PoliticalParty)-[r0:headedBy]-\u003e(m0:Politician {name: \u0027Lech KaczyÃ…â€žski\u0027}) RETURN n, m0 as m UNION MATCH (n:PoliticalParty)-[r1:foundedBy]-\u003e(m1:Politician {name: \u0027Lech KaczyÃ…â€žski\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
+        "pred_cypher":  "CALL { MATCH (n:PoliticalParty)-[r0:memberOf]-\u003e(m0:Politician {name: \u0027Lech KaczyÃ„Â\u0027}) RETURN n, m0 as m UNION MATCH (n:PoliticalParty)-[r1:hasHeadOfState]-\u003e(m1:Politician {name: \u0027Lech KaczyÃ„Â\u0027}) RETURN n, m1 as m } WITH DISTINCT n RETURN count(n)",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -22067,8 +22067,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027MinistÃ¨re de la Marine\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027MinistÃ©re de la Marine\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027MinistÃƒÂ¨re de la Marine\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027MinistÃƒÂ©re de la Marine\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -22137,7 +22137,7 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician)\u003c-[r1:foundedBy]-(m1:PoliticalParty {name: \u0027Zimbabwe African National Union â€“ Ndonga\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician)\u003c-[r1:foundedBy]-(m1:PoliticalParty {name: \u0027Zimbabwe African National Union Ã¢â‚¬â€œ Ndonga\u0027}) WITH DISTINCT n RETURN n.name",
         "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician)-[r1:foundedBy]-\u003e(m1:PoliticalParty {name: \u0027Zimbabwe African National Union - Ndonga\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
@@ -22177,8 +22177,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfGovernment]-\u003e(m0:Politician {name: \u0027Anker JÃ¸rgensen\u0027}) WHERE r0.start_year \u003c= 1972 AND (r0.end_year \u003e= 1972 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027Anker JÃ¶rgensen\u0027}) WHERE r0.start_year \u003c= 1972 AND (r0.end_year \u003e= 1972 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfGovernment]-\u003e(m0:Politician {name: \u0027Anker JÃƒÂ¸rgensen\u0027}) WHERE r0.start_year \u003c= 1972 AND (r0.end_year \u003e= 1972 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027Anker JÃƒÂ¶rgensen\u0027}) WHERE r0.start_year \u003c= 1972 AND (r0.end_year \u003e= 1972 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -22537,7 +22537,7 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:InternationalOrganization)\u003c-[r0:memberOf]-(m0:Country)\u003c-[r1:operatesIn]-(m1:PoliticalParty {name: \u0027Zimbabwe African National Union â€“ Ndonga\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:InternationalOrganization)\u003c-[r0:memberOf]-(m0:Country)\u003c-[r1:operatesIn]-(m1:PoliticalParty {name: \u0027Zimbabwe African National Union Ã¢â‚¬â€œ Ndonga\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "pred_cypher":  "MATCH (n:InternationalOrganization)\u003c-[r0:belongsTo]-(m0:Country)\u003c-[r1:operatesIn]-(m1:PoliticalParty {name: \u0027Zimbabwe African National Union - Ndonga\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
@@ -22547,8 +22547,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r1:hasDiplomaticRelationWith]-(m1:Country {name: \u0027SÃ£o TomÃ© and PrÃ­ncipe\u0027}) OPTIONAL MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasDiplomaticRelationWith]-(m0:Country {name: \u0027SÃ£o TomÃ© e PrÃ©nico\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r1:hasDiplomaticRelationWith]-(m1:Country {name: \u0027SÃƒÂ£o TomÃƒÂ© and PrÃƒÂ­ncipe\u0027}) OPTIONAL MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasDiplomaticRelationWith]-(m0:Country {name: \u0027SÃƒÂ£o TomÃƒÂ© e PrÃƒÂ©nico\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -22577,8 +22577,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfGovernment]-\u003e(m0:Politician {name: \u0027Gerhard SchrÃ¶der\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027United Kingdom\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
-        "pred_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Gerhard SchÃ¶der\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027United Kingdom\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
+        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfGovernment]-\u003e(m0:Politician {name: \u0027Gerhard SchrÃƒÂ¶der\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027United Kingdom\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
+        "pred_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Gerhard SchÃƒÂ¶der\u0027}),(n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027United Kingdom\u0027}) WITH DISTINCT n RETURN n.name, n.official_language",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -22747,8 +22747,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027MinistÃ¨re de la Marine\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:InternationalOrganization {name: \u0027MinistÃ©re de la Marine\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
+        "gold_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:GovernmentOrganization {name: \u0027MinistÃƒÂ¨re de la Marine\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:belongsTo]-(m0:InternationalOrganization {name: \u0027MinistÃƒÂ©re de la Marine\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -22847,8 +22847,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:InternationalOrganization)\u003c-[r0:memberOf]-(m0:Country)\u003c-[r1:belongsTo]-(m1:GovernmentOrganization {name: \u0027DiputaciÃ³ d\\\u0027Alacant\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:InternationalOrganization)-[r0:memberOf]-\u003e(m0:Country)\u003c-[r1:belongsTo]-(m1:Country {name: \u0027DiputaciÃ  d\\\u0027Alacant\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:InternationalOrganization)\u003c-[r0:memberOf]-(m0:Country)\u003c-[r1:belongsTo]-(m1:GovernmentOrganization {name: \u0027DiputaciÃƒÂ³ d\\\u0027Alacant\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:InternationalOrganization)-[r0:memberOf]-\u003e(m0:Country)\u003c-[r1:belongsTo]-(m1:Country {name: \u0027DiputaciÃƒÂ  d\\\u0027Alacant\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -23017,8 +23017,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GaÃ«l Yanno\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
-        "pred_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GaÃ«l Yanno\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
+        "gold_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GaÃƒÂ«l Yanno\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
+        "pred_cypher":  "MATCH (n:PoliticalParty)\u003c-[r0:memberOf]-(m0:Politician {name: \u0027GaÃƒÂ«l Yanno\u0027}) WITH DISTINCT n RETURN n.name, n.founding_date",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -23057,8 +23057,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Richard von WeizsÃ¤cker\u0027}),(n:Country)-[r1:memberOf]-\u003e(m1:InternationalOrganization {name: \u0027Nuclear Suppliers Group\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasHeadOfState]-(m0:Politician {name: \u0027Richard von WeizsÃŸcker\u0027}) WITH DISTINCT n WHERE n.official_language = \u0027German\u0027 AND n.belongsTo = [nuclear Suppliers Group] RETURN n.name",
+        "gold_cypher":  "MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician {name: \u0027Richard von WeizsÃƒÂ¤cker\u0027}),(n:Country)-[r1:memberOf]-\u003e(m1:InternationalOrganization {name: \u0027Nuclear Suppliers Group\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Country)\u003c-[r0:hasHeadOfState]-(m0:Politician {name: \u0027Richard von WeizsÃƒÅ¸cker\u0027}) WITH DISTINCT n WHERE n.official_language = \u0027German\u0027 AND n.belongsTo = [nuclear Suppliers Group] RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -23067,8 +23067,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027SÃ£o TomÃ© and PrÃ­ncipe\u0027}) OPTIONAL MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
-        "pred_cypher":  "MATCH (n:Country)-[r0:hasDiplomaticRelationWith]-\u003e(m0:Country {name: \u0027SÃ£o TomÃ© e PrÃ©nico\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "gold_cypher":  "MATCH (n:Country)-[r1:hasDiplomaticRelationWith]-\u003e(m1:Country {name: \u0027SÃƒÂ£o TomÃƒÂ© and PrÃƒÂ­ncipe\u0027}) OPTIONAL MATCH (n:Country)-[r0:hasHeadOfState]-\u003e(m0:Politician) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+        "pred_cypher":  "MATCH (n:Country)-[r0:hasDiplomaticRelationWith]-\u003e(m0:Country {name: \u0027SÃƒÂ£o TomÃƒÂ© e PrÃƒÂ©nico\u0027}) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.0,
@@ -23137,8 +23137,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027FranÃ§ois-Gabriel Bertrand\u0027}) WHERE r0.start_year \u003c= 1863 AND (r0.end_year \u003e= 1863 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027FranÃ§ois-Gabriel Bertrand\u0027}) WHERE r0.start_year \u003c= 1863 AND (r0.end_year \u003e= 1863 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027FranÃƒÂ§ois-Gabriel Bertrand\u0027}) WHERE r0.start_year \u003c= 1863 AND (r0.end_year \u003e= 1863 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027FranÃƒÂ§ois-Gabriel Bertrand\u0027}) WHERE r0.start_year \u003c= 1863 AND (r0.end_year \u003e= 1863 OR r0.end_year IS NULL) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  1.0,
@@ -23357,8 +23357,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027Carlos MazÃ³n Guixot\u0027}) WHERE r0.start_year IS NOT NULL AND r0.end_year IS NULL WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027Carlos MazÃ³n Guixot\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027Carlos MazÃƒÂ³n Guixot\u0027}) WHERE r0.start_year IS NOT NULL AND r0.end_year IS NULL WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:Position)\u003c-[r0:holdsPosition]-(m0:Politician {name: \u0027Carlos MazÃƒÂ³n Guixot\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  0.0,
                         "psjs":  0.6666666666666666,
@@ -23397,8 +23397,8 @@
     },
     {
         "graph":  "politics",
-        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027FranÃ§ois Mitterrand\u0027}),(n:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027FranÃ§ois Dagnaud\u0027}) WITH DISTINCT n RETURN n.name",
-        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027FranÃ§ois Mitterrand\u0027}),(n:PoliticalParty)-[r1:memberOf]-\u003e(m1:Politician {name: \u0027FranÃ§ois Dagnaud\u0027}) WITH DISTINCT n RETURN n.name",
+        "gold_cypher":  "MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027FranÃƒÂ§ois Mitterrand\u0027}),(n:PoliticalParty)\u003c-[r1:memberOf]-(m1:Politician {name: \u0027FranÃƒÂ§ois Dagnaud\u0027}) WITH DISTINCT n RETURN n.name",
+        "pred_cypher":  "MATCH (n:PoliticalParty)-[r0:foundedBy]-\u003e(m0:Politician {name: \u0027FranÃƒÂ§ois Mitterrand\u0027}),(n:PoliticalParty)-[r1:memberOf]-\u003e(m1:Politician {name: \u0027FranÃƒÂ§ois Dagnaud\u0027}) WITH DISTINCT n RETURN n.name",
         "metrics":  {
                         "execution_accuracy":  1.0,
                         "psjs":  0.0,

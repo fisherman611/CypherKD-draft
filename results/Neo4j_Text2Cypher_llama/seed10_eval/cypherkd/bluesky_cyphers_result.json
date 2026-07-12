@@ -1,0 +1,392 @@
+[
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u1:User {label: \"inchristbl.bsky.social\"})-[:INTERACTED]->(u2:User) WHERE u2.area < 3 RETURN u2.label",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User {name: 'inchristbl.bsky.social'}) WITH DISTINCT n WHERE n.area < 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u1:User)-[:INTERACTED]->(u2:User) WHERE u2.y < -5000 RETURN u1 LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User)-[r1:INTERACTED]->(m1:User {name: 'y values less than -5000'}) WITH DISTINCT n RETURN n.name ORDER BY n.y ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.size < 2.0 RETURN u ORDER BY u.size DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n RETURN n.name ORDER BY n.size ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5036510659152169,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.size <> 2.51 AND u.area > 2 RETURN DISTINCT u.label",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n WHERE n.size <> 2.51 AND n.area > 2 RETURN n.label",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u1:User)-[:INTERACTED]->(u2:User) WHERE u2.area <> 1.77 RETURN DISTINCT u1.label",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User)-[r1:area]->(m1:User {name: 'other area'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.area <> 2.6 AND u.size < 3 RETURN count(u)",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User)-[r1:INTERACTED]->(m1:User {name: 'inchristbl.bsky.social'}) WITH DISTINCT n WHERE n.area <> 2.6 AND n.size < 3 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WITH avg(u.y) AS average_y MATCH (u:User) WHERE u.y < average_y AND u.size > 2 RETURN u.label",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User) WITH DISTINCT n WHERE n.y < (SELECT avg(n.y) FROM n:User) AND n.size > 2 RETURN n",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.area > 4 AND u.size < 3 RETURN u.label",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User) WITH DISTINCT n WHERE n.area > 4 AND n.size < 3 RETURN n.label",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.19086892488954343,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User {label: 'curvylliptic.bsky.social'})-[:INTERACTED]->(interactedUser:User) RETURN interactedUser",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User {name: 'curvylliptic.bsky.social'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u1:User)-[:INTERACTED]->(u2:User) WHERE u2.size <> 1.5 WITH u1.size AS interactingUserSize RETURN sum(interactingUserSize) AS totalSize",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User)-[r1:size]->(m1:User {name: 'other size'}) WITH DISTINCT n RETURN n.size",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User {color: '#FF4500'})<-[:INTERACTED]-(interactedUser:User) RETURN count(DISTINCT interactedUser)",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User)-[r1:color]->(m1:User {name: '#FF4500'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User {color: '#FF4500'})<-[:INTERACTED]-(other:User) WITH other LIMIT 5 WITH avg(other.y) AS average_y RETURN average_y",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User)-[r1:color]->(m1:Color {name: '#FF4500'}) WITH DISTINCT n RETURN avg(n.y) LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User)-[:INTERACTED]->(:User) WHERE u.area IS NOT NULL RETURN u ORDER BY u.area DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.area DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9093849546679735,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User)-[:INTERACTED]->(:User) WHERE u.color = '#FF4500' RETURN u",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User)-[r1:INTERACTED]->(m1:User {color: '#FF4500'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5584368151935719,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) RETURN u ORDER BY u.size DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n RETURN n.name ORDER BY n.size DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.label CONTAINS 'bsky.social' RETURN u ORDER BY u.size DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:label]->(m0:User)-[r1:INTERACTED]->(m1:User {name: 'bsky.social'}) WITH DISTINCT n RETURN n.name ORDER BY n.y DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.area < 2 AND u.size > 1 RETURN u.label",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User) WITH DISTINCT n WHERE n.area < 2 AND n.size > 1 RETURN n.label",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.382272757497174,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User)-[:INTERACTED]->(:User {label: 'vtcodes.dev'}) RETURN u.label AS UserLabel, u.area AS UserArea ORDER BY u.area DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User {name: 'vtcodes.dev'}) WITH DISTINCT n RETURN n.name ORDER BY n.area DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User {label: 'dwither.bsky.social'})-[:INTERACTED]->(interactedUser:User) RETURN interactedUser LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User {name: 'dwither.bsky.social'}) WITH DISTINCT n RETURN n.name ORDER BY n.y ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WITH avg(u.area) AS average_area MATCH (u:User) WHERE u.area > average_area RETURN min(u.y), u.key",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n RETURN n.key ORDER BY n.y ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.color <> '#FF7F50' AND u.size > 2 WITH count(*) AS numberOfUsers RETURN numberOfUsers",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User)-[r1:INTERACTED]->(m1:User {name: 'color'}) WITH DISTINCT n WHERE n.color <> '#FF7F50' AND n.size > 2 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.x < -5000 RETURN u ORDER BY u.x DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n WHERE n.x < -5000 RETURN n.name ORDER BY n.x DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) RETURN u.label AS user, (u.area + u.size) AS total ORDER BY total DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n RETURN n.name ORDER BY n.area + n.size DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u1:User)-[r:INTERACTED]->(u2:User) WHERE u1.color = \"#1E90FF\" RETURN u2.label AS user, COUNT(r) AS interactions ORDER BY interactions DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User)-[r1:color]->(m1:User {name: '#1E90FF'}) WITH DISTINCT n RETURN n.name ORDER BY n.y DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) RETURN u ORDER BY u.size DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n RETURN n.name ORDER BY n.size DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User)-[r:INTERACTED]->(v:User) WHERE v.size > 2 WITH u, COUNT(DISTINCT v) AS interactionCount RETURN u.label AS user, interactionCount ORDER BY interactionCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.size DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8961529037000735,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User)-[r:INTERACTED]->() WHERE u.color STARTS WITH '#3' WITH u, min(r.ogWeight) AS minOgWeight MATCH (u)-[r:INTERACTED]->() WHERE r.ogWeight = minOgWeight RETURN u.size",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User) WITH DISTINCT n RETURN n.size ORDER BY n.ogWeight ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User)-[r:INTERACTED]->(:User) RETURN u.label AS UserLabel, sum(r.ogWeight) AS TotalOgWeight ORDER BY TotalOgWeight DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.ogWeight DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE 1.5 < u.size < 2.5 RETURN u.key",
+    "pred_cypher": "MATCH (n:User)-[r0:has_key]->(m0:User)-[r1:has_size]->(m1:Float {name:'size'}) WITH DISTINCT n WHERE 1.5 <= n.size <= 2.5 RETURN n.key",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.color STARTS WITH '#4' WITH min(u.x) AS min_x MATCH (u:User {x: min_x}) RETURN u.size",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n WHERE n.x < n.size AND n.color STARTS WITH '#4' RETURN n.size ORDER BY n.x ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User {color: '#3CB371'}) RETURN u LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:has_color]->(m0:User)-[r1:has_color]->(m1:User {name: '#3CB371'}) WITH DISTINCT n RETURN n.name ORDER BY n.color DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User)-[:INTERACTED]->(:User) WITH u, MAX(u.area) AS maxArea ORDER BY maxArea DESC LIMIT 5 RETURN u.label AS UserLabel, u.area AS Area",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.area DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u1:User)-[:INTERACTED]->(u2:User) WHERE u2.y > 10000 RETURN DISTINCT u1.label",
+    "pred_cypher": "MATCH (n:User)<-[r0:INTERACTED]-(m0:User)-[r1:INTERACTED]->(m1:User {name: 'y-coordinate > 10000'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.key = '0' RETURN u.label",
+    "pred_cypher": "MATCH (n:User)-[r0:label]->(m0:User {key: '0'}) WITH DISTINCT n RETURN n.label",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.label CONTAINS 'social' AND u.area > 2.0 RETURN u ORDER BY u.area DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:hasLabel]->(m0:User)-[r1:hasArea]->(m1:Area {name:'social'}) WITH DISTINCT n RETURN n.name ORDER BY n.area DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.size < 1.82 RETURN avg(u.x)",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n WHERE n.size < 1.82 RETURN avg(n.x)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u1:User)-[:INTERACTED]->(u2:User) WHERE u1.size > 2 AND u2.size > 2 RETURN u1.label AS User, u1.size AS Size ORDER BY u1.size DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User)-[r1:INTERACTED]->(m1:User {name: 'George Clooney'}) WITH DISTINCT n WHERE n.size > 2 RETURN n.name ORDER BY n.size DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User)-[:INTERACTED]->(other:User {color: '#FF4500'}) RETURN u.label, count{(u)-[:INTERACTED]->(other)} AS interactions ORDER BY interactions DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:INTERACTED]->(m0:User)-[r1:INTERACTED]->(m1:User WITH DISTINCT n RETURN n.name ORDER BY n.color DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "bluesky",
+    "gold_cypher": "MATCH (u:User) WHERE u.label CONTAINS 'social' WITH avg(u.size) AS average_size RETURN average_size",
+    "pred_cypher": "MATCH (n:User)-[r0:label]->(m0:User)-[r1:label]->(m1:User {name:'social'}) WITH DISTINCT n RETURN avg(n.size)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  }
+]

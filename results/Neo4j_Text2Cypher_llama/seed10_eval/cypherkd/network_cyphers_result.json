@@ -1,0 +1,1092 @@
+[
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter)-[:CONTAINS]->(rack:Rack {zone: 3})-[:HOLDS]->(machine:Machine)-[:TYPE]->(type:Type) RETURN rack.name AS rackName, machine.name AS machineName, type.name AS typeName ORDER BY rack.name, machine.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack)-[r1:ZONE]->(m1:Zone {name: '3'}) WITH DISTINCT n RETURN n.name ORDER BY n.type ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'webserver'})-[:LISTENS]->(port:Port) RETURN COUNT(DISTINCT port.port) AS numberOfPorts",
+    "pred_cypher": "MATCH (n:Port)<-[r0:Interface]-(m0:Interface) WITH DISTINCT n RETURN count(DISTINCT n.port)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (zone:Zone {zone: 3})-[:ROUTES]->(interface:Interface) RETURN interface.ip",
+    "pred_cypher": "MATCH (n:Interface)-[r0:CONNECTS]->(m0:Network {name: 'zone 3'}) WITH DISTINCT n RETURN n.ip",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Rack {name: 'DC1-RCK-1-1'})-[:HOLDS]->(m:Machine)-[:RUNS]->(a:Application) RETURN a.name",
+    "pred_cypher": "MATCH (n:Application)-[r0:RUNS]->(m0:Machine {name: 'DC1-RCK-1-1'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (os:OS {name: 'RHEL'})-[:INSTANCE]->(version:Version) RETURN version.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Software {name: 'RHEL'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine)-[:TYPE]->(t:Type) RETURN t.type AS MachineType, t.cpu AS CPUPower ORDER BY t.cpu DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Machine) WITH DISTINCT n RETURN n.type, n.cpu ORDER BY n.cpu DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9992505620784412,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(rack:Rack)-[:HOLDS]->(switch:Switch),       (rack)-[:HOLDS]->(machine:Machine)-[:TYPE]->(type:Type {name: 's-2/4/5'}) RETURN DISTINCT rack.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Rack)-[r0:HOLDS]->(m0:Switch)-[r1:TYPE]->(m1:Type {name:'s-2/4/5'}) WITH DISTINCT n WHERE n.dataCenter = 'DC1' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(e:Egress) RETURN e.name AS EgressRouter",
+    "pred_cypher": "MATCH (n:Router)-[r0:CONTAINS]->(m0:DataCenter {name: 'DC1'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(r:Rack {zone: 3})-[:HOLDS]->(m:Machine)-[:RUNS]->(app:Application) RETURN DISTINCT app.name AS ApplicationType",
+    "pred_cypher": "MATCH (n:Type)<-[r0:TYPE]-(m0:Application)-[r1:RUNS]->(m1:Machine {name: 'zone 3 of DataCenter DC1'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software {name: 'RHEL'})-[:VERSION]->(v:Version) RETURN v.name",
+    "pred_cypher": "MATCH (n:Software)-[r0:DEPENDS_ON]->(m0:Version {name: 'RHEL'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Process {pid: 8966})-[:DEPENDS_ON]->(s:Service) RETURN s.name AS service_name, COUNT(*) AS dependency_count ORDER BY dependency_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Service)<-[r0:DEPENDS_ON]-(m0:Process {name: '8966'}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software {name: 'webapp'})-[:INSTANCE]->(a:Application) RETURN a.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Application)-[r0:TYPE]->(m0:Type {name: 'webapp'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(r:Router {zone: 1}) RETURN r.name",
+    "pred_cypher": "MATCH (n:Router)-[r0:CONTAINS]->(m0:DataCenter {name: 'DC1'}) WITH DISTINCT n WHERE n.zone = 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine)-[:RUNS]->(a:Application) WITH m, count(a) AS numApps RETURN avg(numApps)",
+    "pred_cypher": "MATCH (n:Machine)<-[r0:RACK]->(m0:Rack) WITH n, count(DISTINCT m0) AS num RETURN n.name, num",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Service {pid: 1234}) WITH s.name AS service_name MATCH (other:Service {name: service_name}) RETURN count(other)",
+    "pred_cypher": "MATCH (n:Service)-[r0:INSTANCE]->(m0:Service {name: 'Service'}),(n:Service)-[r1:INSTANCE]->(m1:Software {name: 'RHEL'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Port) WITH p ORDER BY p.port DESC LIMIT 1 MATCH (i:Interface)-[:EXPOSES]->(p) RETURN i.ip",
+    "pred_cypher": "MATCH (n:Interface)-[r0:EXPOSES]->(m0:Port) WITH DISTINCT n RETURN n.ip ORDER BY n.port DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8231575224368893,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software)-[:VERSION]->(v:Version {name: \"7.1\"}) WITH DISTINCT s RETURN count(s)",
+    "pred_cypher": "MATCH (n:Software)-[r0:VERSION]->(m0:Version {name: '7.1'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (e:Egress {name: 'DC1-RE'})-[:ROUTES]->(i:Interface) RETURN i LIMIT 3",
+    "pred_cypher": "MATCH (n:Interface)-[r0:ROUTES]->(m0:Egress {name: 'DC1-RE'}) WITH DISTINCT n RETURN n.name ORDER BY n.ip ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (egress:Egress {name: \"DC1-RE\"})-[:ROUTES]->(interface:Interface) RETURN interface",
+    "pred_cypher": "MATCH (n:Interface)-[r0:ROUTES]->(m0:Egress {name: 'DC1-RE'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH path=(interface:Interface)-[:EXPOSES]->(port:Port) RETURN path",
+    "pred_cypher": "",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(rack:Rack)-[:HOLDS]->(machine:Machine) MATCH (machine)-[:TYPE]->(type:Type {type: 'xs'}) MATCH (machine)-[:RUNS]->(app:Application) RETURN app.name",
+    "pred_cypher": "MATCH (n:Application)-[r0:TYPE]->(m0:Type {name: 'xs'}) WITH DISTINCT n WHERE n.DataCenter = 'DC1' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine {name: 'DC1-RCK-1-1-M-1'})-[:RUNS]->(a:Application) RETURN a.name",
+    "pred_cypher": "MATCH (n:Application)-[r0:RUNS]->(m0:Machine {name: 'DC1-RCK-1-1-M-1'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (software:Software {name: 'RHEL'})-[:VERSION]->(version:Version) WITH count(DISTINCT version) AS totalVersions RETURN totalVersions",
+    "pred_cypher": "MATCH (n:Version)-[r0:VERSION]->(m0:Software {name: 'RHEL'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Rack {rack: 1}) -[:HOLDS]->(s:Switch) -[:ROUTES]->(i:Interface) RETURN DISTINCT i.ip",
+    "pred_cypher": "MATCH (n:Interface)-[r0:CONNECTS]->(m0:Switch)-[r1:Rack {name: 'rack 1'}) WITH DISTINCT n RETURN n.ip",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter)-[:CONTAINS]->(r:Router) WITH dc, count(DISTINCT r.name) AS routerCount RETURN dc.name AS DataCenter, routerCount ORDER BY routerCount DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:DataCenter)-[r0:CONTAINS]->(m0:Router) WITH DISTINCT n RETURN n.name ORDER BY n.type DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (t:Type) WITH avg(t.disk) AS average_disk_size RETURN average_disk_size",
+    "pred_cypher": "MATCH (n:Type) WITH DISTINCT n RETURN avg(n.disk)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'logstash'})-[:DEPENDS_ON]->(dependency) RETURN dependency.name AS DependencyName",
+    "pred_cypher": "MATCH (n:Application {name: 'logstash'}) WITH DISTINCT n RETURN n.dependencies",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter)-[:CONTAINS]->(egress:Egress) RETURN egress.name",
+    "pred_cypher": "MATCH (n:Egress)-[r0:ROUTES]->(m0:Interface {name: 'DataCenter'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (n:Network {ip: '10.2'})-[:ROUTES]->(i:Interface) RETURN i.ip AS InterfaceIP",
+    "pred_cypher": "MATCH (n:Interface)-[r0:CONNECTS]->(m0:Network {ip: '10.2'}) WITH DISTINCT n RETURN n.ip",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.07692307692307693,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Router)-[:ROUTES]->(i:Interface {ip: '10.3.8.253'}) RETURN r.name AS RouterName",
+    "pred_cypher": "MATCH (n:Router)-[r0:CONNECTS]->(m0:Interface {ip: '10.3.8.253'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (rack:Rack {name: 'DC1-RCK-4-9'})-[:HOLDS]->(machine:Machine)-[:TYPE]->(type:Type {type: 'xl'}) RETURN machine.name, type.name, type.ram, type.cpu, type.disk LIMIT 3",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack {name: 'DC1-RCK-4-9'}),(n:Machine)-[r1:TYPE]->(m1:Type {name: 'xl'}) WITH DISTINCT n RETURN n.name ORDER BY n.id LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (z:Zone {zone: 3})-[:ROUTES]->(i:Interface)-[:CONNECTS]->(m:Machine)-[:TYPE]->(t:Type) RETURN t.type AS MachineType, t.name AS TypeName ORDER BY t.id LIMIT 5",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack)-[r1:ZONE]->(m1:Zone {name: '3'}) WITH DISTINCT n RETURN n.name ORDER BY n.type ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine {name: 'DC1-RCK-4-9-M-103'})-[:RUNS]->(s:Service) RETURN s LIMIT 3",
+    "pred_cypher": "MATCH (n:Machine)-[r0:RUNS]->(m0:Service {name: 'DC1-RCK-4-9-M-103'}) WITH DISTINCT n RETURN n.name ORDER BY n.startTime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software {name: 'RHEL'})-[:VERSION]->(v:Version) RETURN v.name",
+    "pred_cypher": "MATCH (n:Software {name: 'RHEL'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.25,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Service)-[:LISTENS]->(p:Port {port: 80}) RETURN s.name AS service_name LIMIT 3",
+    "pred_cypher": "MATCH (n:Service)-[r0:LISTENS]->(m0:Port {name: '80'}) WITH DISTINCT n RETURN n.name ORDER BY n.port DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine)-[:RUNS]->(s:Service)-[:LISTENS]->(p:Port {port: 80}) RETURN m.name AS machine_name",
+    "pred_cypher": "MATCH (n:Machine)-[r0:RUNS]->(m0:Service {name: 'port 80'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Router {name: 'DC1-R-1'})-[:ROUTES]->(i:Interface) RETURN i",
+    "pred_cypher": "MATCH (n:Interface)-[r0:CONNECTS]->(m0:Router {name: 'DC1-R-1'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Router)-[:ROUTES]->(i:Interface) WHERE i.ip STARTS WITH '10.2' RETURN r.name AS RouterName, i.ip AS InterfaceIP",
+    "pred_cypher": "MATCH (n:Router)-[r0:CONNECTS]->(m0:Interface)-[r1:EXPOSES]->(m1:Port {name: '10.2'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Switch)-[:ROUTES]->(i:Interface) WITH s, count(i) AS interfaceCount RETURN avg(interfaceCount) AS averageInterfacesPerSwitch",
+    "pred_cypher": "MATCH (n:Interface)-[r0:ROUTES]->(m0:Switch) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Router{name: 'DC1-R-2'})<-[:CONTAINS]-(dc:DataCenter) RETURN dc.name",
+    "pred_cypher": "MATCH (n:DataCenter)<-[r0:CONTAINS]-(m0:Router {name: 'DC1-R-2'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Process {pid: 8966})<-[:DEPENDS_ON]-(a:Application) RETURN a.name",
+    "pred_cypher": "MATCH (n:Application)-[r0:DEPENDS_ON]->(m0:Process {name: '8966'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter)-[:CONTAINS]->(er:Egress)-[:ROUTES]->(interface:Interface) WITH er, size(collect(interface)) AS numInterfaces RETURN avg(numInterfaces) AS averageInterfacesPerEgress",
+    "pred_cypher": "MATCH (n:Interface)-[r0:ROUTES]->(m0:Router)-[r1:ROUTES]->(m1:Interface {name: 'egress'}) WITH DISTINCT n RETURN avg(n.count)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Rack)-[:HOLDS]->(m:Machine) WHERE r.zone = 1 WITH r, count(m) as machineCount WHERE machineCount > 3 RETURN r.name",
+    "pred_cypher": "MATCH (n:Rack)-[r0:HOLDS]->(m0:Machine)-[r1:COUNT]->(m1:Machine {name: 'Zone 1'}) WITH DISTINCT n WHERE r0.zone > 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (n:Network {ip: '10.4'})-[:ROUTES]->(i:Interface)<-[:ROUTES]-(s:Switch {rack: 8}) RETURN s.ip",
+    "pred_cypher": "MATCH (n:Switch)-[r0:ROUTES]->(m0:Interface)-[r1:EXPOSES]->(m1:Port {name: '10.4'}) WITH DISTINCT n WHERE n.rack = 8 RETURN n.ip",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (z:Zone {size: 16}) RETURN z LIMIT 3",
+    "pred_cypher": "MATCH (n:Zone)-[r0:ROUTES]->(m0:Interface) WITH DISTINCT n WHERE n.size = 16 RETURN n.name ORDER BY n.zone ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09090909090909091,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Process {pid: 8966})<-[:DEPENDS_ON]-(a:Application) RETURN a.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Application)-[r0:DEPENDS_ON]->(m0:Process {pid: 8966}) WITH DISTINCT n RETURN n.name ORDER BY n.startTime ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'crm'}) CALL {     WITH app     MATCH (app)-[:DEPENDS_ON*]->(dependency)     RETURN DISTINCT dependency } RETURN count(dependency) AS TotalDependencies",
+    "pred_cypher": "MATCH (n:Application {name: 'crm'}) WITH DISTINCT n RETURN n.name, n.dependencies",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Process)-[:LISTENS]->(port:Port {port: 80}) RETURN p ORDER BY p.startTime DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Process)-[r0:LISTENS]->(m0:Port {name: '80'}) WITH DISTINCT n RETURN n.name ORDER BY n.startTime DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine {name: 'DC1-RCK-4-9-M-103'})-[:RUNS]->(a:Application) RETURN a.name",
+    "pred_cypher": "MATCH (n:Application)-[r0:RUNS]->(m0:Machine {name: 'DC1-RCK-4-9-M-103'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter)-[:CONTAINS]->(egress:Egress) RETURN count(egress)",
+    "pred_cypher": "MATCH (n:Egress)-[r0:ROUTES]->(m0:Interface)-[r1:EXPOSES]->(m1:Port {name: 'Egress'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (egress:Egress)-[:ROUTES]->(interface:Interface) RETURN interface.ip",
+    "pred_cypher": "MATCH (n:Interface)-[r0:CONNECTS]->(m0:Interface {name: 'Egress'}) WITH DISTINCT n RETURN n.ip",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Service)  WITH avg(s.startTime) AS averageStartTime RETURN averageStartTime",
+    "pred_cypher": "MATCH (n:Service) WITH DISTINCT n RETURN avg(n.startTime)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine)-[:RUNS]->(a:Application) WITH a, count(m) AS instances ORDER BY instances DESC LIMIT 3 RETURN a.name, instances",
+    "pred_cypher": "MATCH (n:Application)-[r0:RUNS]->(m0:Machine) WITH DISTINCT n RETURN count(DISTINCT n) ORDER BY count(DISTINCT n) DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Switch)-[:HOLDS]->(r:Rack {zone: 4}) RETURN s.ip AS SwitchIP ORDER BY s.ip LIMIT 5",
+    "pred_cypher": "MATCH (n:Switch)-[r0:ROUTES]->(m0:Interface {name:'switch'}),(n:Switch)-[r1:ROUTES]->(m1:Interface {name: 'IP 4'}) WITH DISTINCT n RETURN n.ip ORDER BY n.zone DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Port {port: 80})<-[:EXPOSES]-(i:Interface) RETURN i.ip ORDER BY i.ip LIMIT 3",
+    "pred_cypher": "MATCH (n:Interface)-[r0:EXPOSES]->(m0:Port {name: 'Port 80'}) WITH DISTINCT n RETURN n.ip ORDER BY n.ip DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (rack:Rack {name: 'DC1-RCK-1-1'})-[:HOLDS]->(machine:Machine) RETURN count(machine) AS numberOfMachines",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack {name: 'DC1-RCK-1-1'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Service {name: 'java'})<-[:DEPENDS_ON]-(a:Application) RETURN a.name AS applicationName",
+    "pred_cypher": "MATCH (n:Application)-[r0:DEPENDS_ON]->(m0:Service {name: 'java'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (v1:Version {name: '7.1'})<-[:PREVIOUS]-(v2:Version) RETURN v2.name",
+    "pred_cypher": "MATCH (n:Version)-[r0:PREVIOUS]->(m0:Version {name: '7.1'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (t:Type) WITH max(t.disk) AS maxDisk MATCH (t:Type)  WHERE t.disk = maxDisk RETURN t.name",
+    "pred_cypher": "MATCH (n:Type) WITH DISTINCT n RETURN n.name ORDER BY n.disk DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine)-[:RUNS]->(p:Process) WHERE p.startTime > 1606500000000 RETURN DISTINCT m.name",
+    "pred_cypher": "MATCH (n:Machine)<-[r0:RUNS]-(m0:Process) WITH DISTINCT n WHERE n.startTime > 1606500000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine)-[:RUNS]->(os:OS) WHERE os.startTime > 1605733619064 RETURN m.name ORDER BY os.startTime LIMIT 3",
+    "pred_cypher": "MATCH (n:Machine)-[r0:RUNS]->(m0:OS {name: 'RHEL'}) WITH DISTINCT n WHERE n.startTime > 1605733619064 RETURN n.name ORDER BY n.startTime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter)-[:CONTAINS]->(rack:Rack {zone: 4})-[:HOLDS]->(machine:Machine)-[:RUNS]->(app:Application) RETURN app.name, COUNT(app) AS app_count ORDER BY app_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack)-[r1:RUNS]->(m1:Application {name: 'webserver'}) WITH DISTINCT n RETURN n.name ORDER BY n.zone DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Rack)-[:HOLDS]->(m:Machine)-[:TYPE]->(t:Type) WHERE r.zone = 1 WITH r, count(DISTINCT t) AS typeCount WHERE typeCount > 1 RETURN r.name AS rackName",
+    "pred_cypher": "MATCH (n:Rack)-[r0:HOLDS]->(m0:Machine)-[r1:TYPE]->(m1:Type {name: 'xs'}) WITH DISTINCT n WHERE n.zone = 1 RETURN count(DISTINCT n.name) > 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (n:Network {ip: '10.2'})-[:ROUTES]->(i:Interface) RETURN count(i)",
+    "pred_cypher": "MATCH (n:Interface)-[r0:ROUTES]->(m0:Network {ip: '10.2'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s1:Software)-[:DEPENDS_ON]->(s2:Software)-[:VERSION]->(v:Version) WITH s2, size(collect(DISTINCT v)) AS versionCount ORDER BY versionCount DESC LIMIT 1 RETURN s2.name, versionCount",
+    "pred_cypher": "MATCH (n:Software)<-[r0:DEPENDS_ON]-(m0:Software) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.35714285714285715,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (m:Machine {name: 'DC1-RCK-1-1-M-1'})-[:RUNS]->(p:Process) RETURN p.name, p.startTime, p.pid ORDER BY p.startTime DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Process)-[r0:RUNS]->(m0:Machine {name: 'DC1-RCK-1-1-M-1'}) WITH DISTINCT n RETURN n.name ORDER BY n.startTime DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Port {port: 80})<-[:LISTENS]-(s:Service) RETURN s.name",
+    "pred_cypher": "MATCH (n:Service)-[r0:LISTENS]->(m0:Port {name: '80'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Rack {name: 'DC1-RCK-1-1'})-[:HOLDS]->(s:Switch) RETURN COUNT(DISTINCT s.ip) AS distinctSwitchTypes",
+    "pred_cypher": "MATCH (n:Switch)-[r0:HOLDS]->(m0:Rack {name: 'DC1-RCK-1-1'}) WITH DISTINCT n RETURN count(DISTINCT n.type)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software {name: 'RHEL'})-[:VERSION]->(v:Version) RETURN v.name AS Version",
+    "pred_cypher": "MATCH (n:Software {name: 'RHEL'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.25,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software {name: 'RHEL'})-[:VERSION]->(v:Version) WITH v WHERE exists((v)-[:PREVIOUS]->()) RETURN v.name",
+    "pred_cypher": "MATCH (n:Version)<-[r0:VERSION]-(m0:Software {name: 'RHEL'}) WITH DISTINCT n RETURN n.name, n.previous",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.75,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'webapp'})-[:LISTENS]->(port:Port) RETURN port.port",
+    "pred_cypher": "MATCH (n:Port)<-[r0:EXPOSED BY]-(m0:Application {name: 'webapp'}) WITH DISTINCT n RETURN n.port",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (n:Network {ip: '10.2'}) RETURN n.size",
+    "pred_cypher": "MATCH (n:Network)-[r0:ROUTES]->(m0:Interface {ip: '10.2'}) WITH DISTINCT n RETURN n.size",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (rack:Rack {name: 'DC1-RCK-1-1'})-[:HOLDS]->(machine:Machine)-[:RUNS]->(application:Application) RETURN application.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Application)-[r0:RUNS]->(m0:Machine {name: 'DC1-RCK-1-1'}) WITH DISTINCT n RETURN n.name ORDER BY n.startTime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'logstash'})<-[:RUNS]-(machine:Machine)<-[:HOLDS]-(rack:Rack) RETURN DISTINCT rack.name AS rack_name",
+    "pred_cypher": "MATCH (n:Rack)<-[r0:HOLDS]->(m0:Machine)-[r1:RUNS]->(m1:Application {name: 'logstash'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (a:Application) RETURN a.name AS application, a.pid AS pid ORDER BY pid DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Type)<-[r0:TYPE]-(m0:Application) WITH DISTINCT n RETURN n.name ORDER BY n.type DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Service {name: 'java'})<-[:DEPENDS_ON]-(p:Process)<-[:RUNS]-(m:Machine) RETURN m.name AS machine_name",
+    "pred_cypher": "MATCH (n:Machine)<-[r0:HOLDS]-(m0:Process)-[r1:DEPENDS_ON]->(m1:Service {name: 'java'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(r:Rack {zone: 4})-[:HOLDS]->(s:Switch) RETURN count(DISTINCT r) AS numberOfRacksWithSwitches",
+    "pred_cypher": "MATCH (n:Rack)-[r0:HOLDS]->(m0:Switch)-[r1:CONTAINS]->(m1:DataCenter {name: 'DC1'}) WITH DISTINCT n WHERE n.zone = 4 RETURN count(DISTINCT n.name)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(r:Router {zone: 1}) RETURN r.name ORDER BY r.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Router)-[r0:CONTAINS]->(m0:DataCenter)-[r1:CONTAINS]->(m1:Zone {name: 'zone 1'}) WITH DISTINCT n RETURN n.name ORDER BY n.zone ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Router {name: 'DC1-R-3'}) RETURN r.zone",
+    "pred_cypher": "MATCH (n:Zone)<-[r0:ROUTES]-(m0:Router {name: 'DC1-R-3'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'crm'})-[:LISTENS]->(port:Port) RETURN port.port AS Port",
+    "pred_cypher": "MATCH (n:Port)<-[r0:EXPOSED BY]-(m0:Application {name: 'crm'}) WITH DISTINCT n RETURN n.port",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(:Rack)-[:HOLDS]->(m:Machine)-[:RUNS]->(s:Service) MATCH (m)-[:TYPE]->(t:Type) RETURN s.name AS serviceName, t.ram AS ramUsage ORDER BY t.ram DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Service)-[r0:TYPE]->(m0:Type {name: 'RAM'}) WITH DISTINCT n RETURN n.name ORDER BY n.ram DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (router:Router {name: 'DC1-R-2'})-[:ROUTES]->(interface:Interface) RETURN count(interface) AS numberOfInterfaces",
+    "pred_cypher": "MATCH (n:Interface)<-[r0:CONNECTS]-(m0:DataCenter {name: 'DC1-R-2'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Process {pid: 8966})-[:DEPENDS_ON]->(s:Service) RETURN s.name",
+    "pred_cypher": "MATCH (n:Service)-[r0:DEPENDS_ON]->(m0:Process {name: '8966'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(rack:Rack {rack: 9})-[:HOLDS]->(machine:Machine) RETURN machine.name",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack {name: 'DC1-RCK-1-1'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'webapp'})-[:RUNS]->(machine:Machine)-[:TYPE]->(type:Type) RETURN sum(type.ram)",
+    "pred_cypher": "MATCH (n:Machine)-[r0:RUNS]->(m0:Application {name: 'webapp'}) WITH DISTINCT n RETURN n.ram",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (rack:Rack {rack: 5})-[:HOLDS]->(switch:Switch) RETURN switch.name",
+    "pred_cypher": "MATCH (n:Switch)-[r0:in Rack]->(m0:Rack {name: '5'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Rack)-[:HOLDS]->(m:Machine)-[:TYPE]->(t:Type) WHERE r.zone = 3 AND t.ram > 16 RETURN DISTINCT t.type AS machineType",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack)-[r1:HOLDS]->(m1:Zone {name: 'zone 3'}) WITH DISTINCT n WHERE n.ram > 16 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software {name: 'RHEL'})-[:DEPENDS_ON]->(dependency) RETURN s.name AS Software, dependency.name AS Dependency",
+    "pred_cypher": "MATCH (n:Software {name: 'RHEL'}) WITH DISTINCT n RETURN n.dependencies",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Process {name: 'webserver'})-[:RUNS]->(m:Machine)-[:ROUTES]->(i:Interface)-[:EXPOSES]->(port:Port),       (dc:DataCenter)-[:CONTAINS]->(m) RETURN i.ip AS InterfaceIP, dc.name AS DataCenterName, dc.location AS DataCenterLocation",
+    "pred_cypher": "MATCH (n:Interface)-[r0:EXPOSES]->(m0:Port {name: 'webserver'}) WITH DISTINCT n RETURN n.ip",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(router:Router) RETURN router.name",
+    "pred_cypher": "MATCH (n:Router)-[r0:CONTAINS]->(m0:DataCenter) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (z:Zone {size: 16})-[:ROUTES]->(i:Interface {ip: '10.3.10.254'}) RETURN z.zone AS ZoneNumber LIMIT 3",
+    "pred_cypher": "MATCH (n:Zone)-[r0:ROUTES]->(m0:Interface {ip: '10.3.10.254'}),(n:Zone)-[r1:ROUTES]->(m1:Interface {ip: '16'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Service {name: 'java'})-[:LISTENS]->(p:Port {port: 443}) RETURN s",
+    "pred_cypher": "MATCH (n:Service)-[r0:LISTENS]->(m0:Port {name: '443'}),(n:Service)-[r1:TYPE]->(m1:Type {name: 'java'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (z:Zone {zone: 2})-[:ROUTES]->(i:Interface)<-[:ROUTES]-(s:Switch) RETURN count(s) AS numberOfSwitches",
+    "pred_cypher": "MATCH (n:Switch)-[r0:CONNECTS]->(m0:Interface)-[r1:ZONE]->(m1:Zone {name: 'zone 2'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (t:Type {name: 'xl-16/256/625'})<-[:TYPE]-(m:Machine)-[:HOLDS]-(r:Rack) RETURN r.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Rack)<-[r0:HOLDS]-(m0:Machine)-[r1:TYPE]->(m1:Type {name: 'xl-16/256/625'}) WITH DISTINCT n RETURN n.name ORDER BY n.zone ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (i:Interface)-[:EXPOSES]->(p:Port {port: 443}) RETURN i.ip",
+    "pred_cypher": "MATCH (n:Interface)-[r0:EXPOSES]->(m0:Port {name: '443'}) WITH DISTINCT n RETURN n.ip",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software {name: \"RHEL\"})-[:VERSION]->(v:Version) WHERE NOT ()-[:PREVIOUS]->(v) RETURN v.name",
+    "pred_cypher": "MATCH (n:Software {name: 'RHEL'}) WITH DISTINCT n RETURN n.name ORDER BY n.version DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(:Rack)-[:HOLDS]->(:Machine)-[:TYPE]->(t:Type) RETURN MAX(t.ram) AS maxRamCapacity",
+    "pred_cypher": "MATCH (n:Type)-[r0:TYPE]->(m0:Machine {name: 'DataCenter DC1'}) WITH DISTINCT n RETURN max(n.ram)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'crm'})-[:DEPENDS_ON]->(dependency) RETURN dependency.name AS dependency_name",
+    "pred_cypher": "MATCH (n:Application {name: 'crm'}) WITH DISTINCT n RETURN n.dependencies",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3333333333333333,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application)-[:DEPENDS_ON]->(serv:Service {name: 'java'}) RETURN app.name, app.pid ORDER BY app.pid DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Application)-[r0:DEPENDS_ON]->(m0:Service {name: 'java'}) WITH DISTINCT n RETURN n.name ORDER BY n.pid DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (r:Rack {name: 'DC1-RCK-2-3'})-[:HOLDS]->(s:Switch) RETURN s",
+    "pred_cypher": "MATCH (n:Switch)-[r0:HOLDS]->(m0:Rack {name: 'DC1-RCK-2-3'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (a:Application) RETURN max(a.pid) AS max_pid",
+    "pred_cypher": "MATCH (n:Application) WITH DISTINCT n RETURN max(n.pid)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (zone:Zone {zone: 1})-[:ROUTES]->(interface:Interface) RETURN interface.ip AS ip, interface.name AS name",
+    "pred_cypher": "MATCH (n:Interface)-[r0:CONNECTS]->(m0:Zone {name: 'zone 1'}) WITH DISTINCT n RETURN n.name, n.ip",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (p:Process)-[:LISTENS]->(port:Port) RETURN p.name AS process_name, port.port AS port_number ORDER BY port_number DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Process)-[r0:LISTENS]->(m0:Port) WITH DISTINCT n RETURN n.name ORDER BY n.port DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (app:Application {name: 'logstash'})-[:DEPENDS_ON]->(service:Service) WITH service MATCH (process:Process)-[:DEPENDS_ON]->(service) RETURN DISTINCT process.name",
+    "pred_cypher": "MATCH (n:Process)-[r0:DEPENDS_ON]->(m0:Service)<-[r1:DEPENDS_ON]-(m1:Process {name: 'logstash'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (z:Zone {zone: 2})-[:ROUTES]->(:Interface)<-[:ROUTES]-(:Switch)<-[:HOLDS]-(r:Rack)-[:HOLDS]->(m:Machine)-[:TYPE]->(t:Type) RETURN DISTINCT t.type AS machineType LIMIT 3",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack)-[r1:CONTAINS]->(m1:DataCenter {name: 'zone 2'}) WITH DISTINCT n RETURN n.type",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (s:Software)-[:DEPENDS_ON]->(:Application {name: 'webserver'}) RETURN s.name AS software_name ORDER BY s.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Software)-[r0:DEPENDS_ON]->(m0:Software {name: 'webserver'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter)-[:CONTAINS]->(r:Router) RETURN dc.name AS DataCenterName, dc.location AS Location, r.name AS RouterName",
+    "pred_cypher": "MATCH (n:Router) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8333333333333334,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {location: 'Iceland, Rekjavik'}) RETURN dc.name",
+    "pred_cypher": "MATCH (n:DataCenter)-[r0:CONTAINS]->(m0:Rack)-[r1:CONTAINS]->(m1:Router {name: 'Iceland, Rekjavik'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "network",
+    "gold_cypher": "MATCH (dc:DataCenter {name: 'DC1'})-[:CONTAINS]->(rack:Rack {rack: 10})-[:HOLDS]->(machine:Machine) RETURN count(machine) AS numberOfMachines",
+    "pred_cypher": "MATCH (n:Machine)-[r0:HOLDS]->(m0:Rack {name: 'DC1-RCK-1-1'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  }
+]

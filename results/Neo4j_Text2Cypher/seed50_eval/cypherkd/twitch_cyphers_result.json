@@ -1,0 +1,1892 @@
+[
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (user:User)-[:VIP]->(stream:Stream) WITH user, count(DISTINCT stream) AS vip_stream_count WHERE vip_stream_count >= 3 MATCH (user)-[:MODERATOR]->(:Stream) RETURN count(DISTINCT user) AS vip_moderator_count",
+    "pred_cypher": "MATCH (n:User)-[r0:VIP]->(m0:Stream)-[r1:VIP]->(m1:Stream) WITH DISTINCT n WHERE count(DISTINCT m0) >= 3 AND count(DISTINCT m1) >= 1 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:CHATTER]->(s:Stream)-[:VIP]->(u) RETURN avg(u.followers)",
+    "pred_cypher": "MATCH (n:User)-[r0:CHATTER]->(m0:Stream)<-[r1:CHATTER]-(m1:User)-[r2:VIP]->(m2:Stream) WITH DISTINCT n RETURN avg(n.followers)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (rust_stream:Stream)-[:PLAYS]->(game:Game {name: \"Rust\"}) MATCH (rust_stream)-[:VIP]->(vip_user:User) MATCH (vip_user)-[:VIP]->(other_stream:Stream) MATCH (chatter_user:User)-[:CHATTER]->(other_stream) RETURN DISTINCT chatter_user.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:CHATTER]-(m0:Stream)-[r1:VIP]->(m1:Stream)<-[r2:VIP]-(m2:Stream {name: 'Rust'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:VIP]-(:User) RETURN s.name AS stream_name ORDER BY s.total_view_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.039566963506198705,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team) WHERE t.createdAt < datetime('2015-01-01T00:00:00Z') RETURN s.name AS streamName, s.url AS streamURL ORDER BY t.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n WHERE n.createdAt < date('2015-01-01') LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User {name: 'itsbigchase'}) MATCH (s:Stream) WHERE exists{(u)-[:MODERATOR]->(s)} AND exists{(u)-[:CHATTER]->(s)} RETURN s",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:MODERATOR]-(m0:User {name: 'itsbigchase'}) AND (n:Stream)<-[r1:CHATTER]-(m1:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WITH g, count(DISTINCT s) AS streamCount WHERE streamCount > 5 RETURN g.name AS Game, streamCount",
+    "pred_cypher": "MATCH (n:Game)-[r0:PLAYS]->(m0:Stream) WITH DISTINCT n WHERE count(DISTINCT m0) > 5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:MODERATOR]->(u:User) WHERE u.createdAt < datetime() - duration('P5Y') WITH s, u ORDER BY s.createdAt LIMIT 5 RETURN s.name AS stream, u.name AS moderator",
+    "pred_cypher": "MATCH (n:Stream)-[r0:MODERATOR]->(m0:User) WITH DISTINCT n WHERE n.createdAt.year >= 2018 AND (n.id IN [129004176, ...]) RETURN n.name ORDER BY n.createdAt ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream {name: \"dota2mc_ru\"})<-[:CHATTER]-(chatter:Stream) RETURN chatter.url",
+    "pred_cypher": "MATCH (n:User)-[r0:CHATTER]->(m0:Stream {name: 'dota2mc_ru'}) WITH DISTINCT n RETURN n.url",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.00030373396823530567,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:VIP]->(vipUser:User), (s)-[:MODERATOR]->(modUser:User) RETURN s.id AS StreamID, collect(DISTINCT vipUser.name) AS VIPUserNames, collect(DISTINCT modUser.name) AS ModeratorUserNames",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:VIP]-(m0:User) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.02105556717562574,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (stream)-[:CHATTER]->(chatter:User)-[:CHATTER]->(target_stream:Stream) MATCH (target_stream)-[:PLAYS]->(g:Game {name: 'Rust'}) WHERE target_stream.followers > 5000 MATCH (stream)-[:HAS_LANGUAGE]->(l:Language {name: 'ru'}) RETURN DISTINCT stream.name",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:Stream)-[r1:CHATTER]->(m1:User {name: 'itsbigchase'}) WITH DISTINCT n WHERE n.followers > 5000 AND n.has_language 'ru' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: 'en'}) RETURN s LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY n.createdAt ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:VIP]->(s:Stream) WITH u, count(s) AS vipCount ORDER BY vipCount DESC LIMIT 3 RETURN u.name, vipCount",
+    "pred_cypher": "MATCH (n:User)-[r0:VIP]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY num_of_streams DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) MATCH (s)-[:HAS_TEAM]->(:Team) RETURN g.name AS game, SUM(s.total_view_count) AS total_views ORDER BY total_views DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream)-[r1:HAS_TEAM]->(m1:Team {name: 'team'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:VIP]->(:User) WITH avg(s.total_view_count) AS average_view_count RETURN average_view_count",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:User) WITH DISTINCT n RETURN avg(n.total_view_count)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(:Game {name: 'Just Chatting'}),        (s)-[:HAS_TEAM]->(t:Team) WHERE s.total_view_count > 1000000 RETURN DISTINCT t.name",
+    "pred_cypher": "MATCH (n:Team)<-[r0:HAS_TEAM]-(m0:Stream)-[r1:PLAYS]->(m1:Game {name: 'Just Chatting'}) WITH DISTINCT n WHERE n.total_view_count > 1000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE count{(s)-[:VIP]->()} > 10 RETURN s",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:Stream) WITH DISTINCT n WHERE count(DISTINCT r0) > 10 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE l.name = \"en\" RETURN count(s)",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:MODERATOR]-(u:User)-[:VIP]->(s) RETURN s.name AS stream_name, u.name AS moderator_vip_name",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:MODERATOR]-(m0:User)-[r1:VIP]->(m1:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0056022408963585435,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (t:Team)<-[:HAS_TEAM]-(s:Stream) WHERE s.followers > 10000 RETURN t.name AS team_name ORDER BY t.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Team)<-[r0:HAS_TEAM]-(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9293134025842412,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:VIP]->(s:Stream) WITH u, COUNT(s) AS vip_stream_count ORDER BY vip_stream_count DESC LIMIT 3 RETURN u.name AS userName, vip_stream_count",
+    "pred_cypher": "MATCH (n:User)-[r0:VIP]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt < datetime('2015-01-01T00:00:00Z') AND s.followers > 10000 RETURN s",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.createdAt < date('2015-01-01') AND n.followers > 10000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (vip_stream:Stream)-[:VIP]->(vip:User) MATCH (vip)-[:CHATTER]->(ru_stream:Stream)-[:HAS_LANGUAGE]->(lang:Language) WHERE lang.name = 'ru' RETURN DISTINCT vip_stream.name",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:VIP]-(m0:User)<-[r1:CHATTER]-(m1:Stream)-[r2:HAS_LANGUAGE]->(m2:Language {name: 'Russian'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) RETURN s.name AS stream_name, s.followers AS follower_count ORDER BY follower_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WITH s, count(DISTINCT l) AS distinctLanguages ORDER BY distinctLanguages DESC LIMIT 3 RETURN s.id, s.name, distinctLanguages",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language) WITH DISTINCT n RETURN n.name ORDER BY n.distinct_languages DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team) WHERE s.createdAt < datetime('2018-01-01T00:00:00.000000Z') WITH t, count(s) AS streamCount WHERE streamCount > 10 RETURN t.name",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n WHERE n.createdAt < '2018' AND (m0.id IN [129004176, 5893]) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User {name: 'itsbigchase'})-[:CHATTER]->(s:Stream) RETURN s ORDER BY s.createdAt ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:User {name: 'itsbigchase'}) WITH DISTINCT n LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:MODERATOR]->(m) WITH s, size(collect(m)) AS moderatorCount MATCH (s)-[:PLAYS]->(g:Game) WITH g.name AS gameName, sum(moderatorCount) AS totalModeratorCount ORDER BY totalModeratorCount DESC LIMIT 3 RETURN gameName, totalModeratorCount",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:PLAYS]-(m0:Game) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.description CONTAINS 'community' MATCH (s)-[:VIP]->(u:User) RETURN DISTINCT u.name",
+    "pred_cypher": "MATCH (n:User)-[r0:VIP]->(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'community'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(:Team) WHERE s.followers > 10000 RETURN s.name, s.followers ORDER BY s.followers DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n WHERE n.followers > 10000 RETURN n.name ORDER BY n.followers DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WITH s, COUNT(DISTINCT g) AS uniqueGames ORDER BY uniqueGames DESC LIMIT 3 RETURN s.name AS streamName, uniqueGames",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:PLAYS]-(m0:Game) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:MODERATOR]-(m:User) WITH s, m ORDER BY s.followers ASC, count{(m)-[:MODERATOR]->(s)} DESC LIMIT 1 WITH s MATCH (s)<-[:MODERATOR]-(moderator:User) RETURN moderator.name AS moderator, moderator.followers AS followers ORDER BY followers DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.followers ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User) WHERE u.followers > 10000 MATCH (u)-[:VIP]->(s:Stream) WITH avg(s.total_view_count) AS average_view_count RETURN average_view_count",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:User)-[r1:CHATTER]->(m1:Stream {name: 'stream'}) WITH DISTINCT n RETURN avg(n.total_view_count)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WITH s, COUNT(l) AS languageCount ORDER BY languageCount DESC LIMIT 5 RETURN s.name AS streamName, languageCount",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream {name: \"maximilian_dood\"}) MATCH (s)-[:MODERATOR]->(u:User) RETURN count(DISTINCT u) AS total_moderators",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream {name: 'maximilian_dood'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.01818181818181818,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s1:Stream)-[:PLAYS]->(:Game {name: \"Rust\"}) WITH s1 MATCH (s1)<-[:CHATTER]-(u:User)-[:CHATTER]->(s2:Stream) WITH DISTINCT s2 ORDER BY s2.total_view_count DESC LIMIT 5 RETURN s2",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:Stream)-[r1:CHATTER]->(m1:User {name: 'Rust'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.url ENDS WITH 'itsbigchase' RETURN g.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game) WITH DISTINCT n WHERE n.url ends with 'itsbigchase' LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: 'en'}) WHERE s.total_view_count IS NOT NULL RETURN s ORDER BY s.total_view_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.9867803837953092,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(:Game {name: 'Rust'}) RETURN s.name AS stream, s.total_view_count AS views ORDER BY views DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Rust'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE l.name = \"ru\" WITH avg(s.followers) AS average_followers RETURN average_followers",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'ru'}) WITH DISTINCT n RETURN avg(n.followers)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:MODERATOR]->(u:User) WITH s, COUNT(DISTINCT u) AS moderator_count RETURN s.name AS stream_name, moderator_count ORDER BY moderator_count DESC LIMIT 10",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.distinct_moders DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2294798686711595,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WITH s, COUNT(DISTINCT g) AS distinctGames ORDER BY distinctGames DESC LIMIT 5 RETURN s.name AS streamName, distinctGames",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:PLAYS]-(m0:Game) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WITH s, count{(s)-[:CHATTER]->()} AS chatterCount ORDER BY chatterCount DESC LIMIT 5 RETURN s.id AS StreamID, s.name AS StreamName, chatterCount",
+    "pred_cypher": "MATCH (n:Stream)-[r0:CHATTER]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6094695006048039,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE l.name = 'en' AND s.total_view_count > 1000000 RETURN s.name AS stream_name, s.url AS stream_url, s.total_view_count AS total_views",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n WHERE n.total_view_count > 1000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE s.total_view_count > 1000000 RETURN count(distinct l) as num_languages",
+    "pred_cypher": "MATCH (n:Language)<-[r0:HAS_LANGUAGE]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n WHERE n.total_view_count > 1000000 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.followers >= 1000 AND s.followers <= 5000 RETURN s",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.followers BETWEEN 1000 AND 5000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:CHATTER]-(u:User)-[:MODERATOR]->(s) RETURN DISTINCT s",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:User)-[r1:MODERATOR]->(m1:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.013103813128230172,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:VIP]->(u:User) WITH s, count(DISTINCT u) AS vipCount WHERE vipCount > 3 RETURN s",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:User) WITH DISTINCT n WHERE count(DISTINCT m0) > 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE s.createdAt > datetime('2015-01-01') RETURN l.name AS language, count(*) AS count ORDER BY count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language) WITH DISTINCT n WHERE n.createdAt > '2015-01-01' RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream) WHERE s.description CONTAINS 'professional' RETURN u.name ORDER BY s.createdAt LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:MODERATOR]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'professional'}) WITH DISTINCT n RETURN n.name ORDER BY n.id ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.followers > 5000 RETURN g.name AS game, count(*) AS stream_count ORDER BY stream_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game) WITH DISTINCT n WHERE n.followers > 5000 RETURN n.name ORDER BY n.followers DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:CHATTER]-(u:User)-[:CHATTER]->(other:Stream)<-[:VIP]-(u) WITH s MATCH (s)-[:HAS_LANGUAGE]->(l:Language) RETURN DISTINCT l.name AS language",
+    "pred_cypher": "MATCH (n:Language)<-[r0:HAS_LANGUAGE]-(m0:Stream)-[r1:CHATTER]->(m1:Stream)-[r2:VIP]->(m3:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.19301765650080258,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE g.name IS NOT NULL WITH s, sum(s.total_view_count) AS game_views WHERE game_views > 100000 RETURN s.name AS stream_name, s.followers AS follower_count ORDER BY follower_count LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:PLAYS]-(m0:Game) WITH DISTINCT n RETURN n.name ORDER BY n.followers ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.total_view_count < s.followers RETURN count(s)",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.total_view_count < n.followers RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:CHATTER]->(u:User) WHERE u.followers < 1000 RETURN s",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:User) WITH DISTINCT n WHERE n.followers < 1000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0009870856296783745,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: 'en'}) WITH s MATCH (s)<-[:MODERATOR]-(u:User) RETURN avg(u.followers)",
+    "pred_cypher": "MATCH (n:User)<-[r0:MODERATOR]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n RETURN avg(n.followers)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.026344919194155412,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) MATCH (s)-[:CHATTER]->(c:User) MATCH (s)-[:VIP]->(v:User) WHERE c = v WITH DISTINCT c RETURN count(c) AS count",
+    "pred_cypher": "MATCH (n:User)-[r0:CHATTER]->(m0:Stream)<-[r1:CHATTER]-(m1:User)-[r2:VIP]->(m2:Stream) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.followers IS NOT NULL WITH s ORDER BY s.followers DESC LIMIT 1 MATCH (u:User)-[:VIP]->(s) RETURN u.name ORDER BY u.followers DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:VIP]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.11985164942416553,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:MODERATOR]->(u:User) WHERE u.name STARTS WITH 'c' RETURN s.description",
+    "pred_cypher": "MATCH (n:Stream)-[r0:MODERATOR]->(m0:User) WITH DISTINCT n WHERE m0.name LIKE 'c%' RETURN n.description",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) RETURN s.name AS stream, count(l) AS num_languages ORDER BY num_languages DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.url ENDS WITH 'itsbigchase' RETURN g.name ORDER BY s.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:PLAYS]-(m0:Game) WITH DISTINCT n WHERE n.url ends WITH 'itsbigchase' LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: 'en'}) WITH u, count(s) AS moderated_streams ORDER BY moderated_streams DESC LIMIT 5 RETURN u.name, moderated_streams",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY num_of_streams ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:VIP]->(u:User)-[:CHATTER]->(s) MATCH (s)-[:HAS_TEAM]->(t:Team) WHERE t.createdAt < datetime('2018-01-01T00:00:00Z') MATCH (s)-[:PLAYS]->(g:Game) RETURN DISTINCT g.name",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:PLAYS]-(m0:Game)<-[r1:VIP]-(m1:User)-[r2:CHATTER]->(m2:Stream) WITH DISTINCT n WHERE n HAS_TEAM IS NOT NULL AND n HAS_TEAM.createdAt < DATE_TIME '2018' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.createdAt IS NOT NULL RETURN g.name AS Game, s.createdAt AS StreamCreationDate ORDER BY s.createdAt ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.createdAt ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.9927910985738913,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE exists{(s)-[:MODERATOR]->()} RETURN sum(s.total_view_count) AS totalViewCountForModeratedStreams",
+    "pred_cypher": "MATCH (n:Stream)-[r0:MODERATOR]->(m0:Stream) WITH DISTINCT n RETURN sum(n.total_view_count)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.6664156626506024,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE s.total_view_count > 10000000 RETURN l.name AS language LIMIT 3",
+    "pred_cypher": "MATCH (n:Language)<-[r0:HAS_LANGUAGE]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'total_view_count'}) WITH DISTINCT n WHERE n.total_view_count > 10000000 RETURN count(DISTINCT n) LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(:Team) RETURN s.name AS stream_name, s.total_view_count AS view_count ORDER BY s.total_view_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team) WITH t, avg(s.followers) AS averageFollowers ORDER BY averageFollowers DESC LIMIT 5 RETURN t.name AS teamName, averageFollowers",
+    "pred_cypher": "MATCH (n:Team)<-[r0:HAS_TEAM]-(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(:Game {name: 'Dota 2'}) RETURN s.name AS stream, s.followers AS followers ORDER BY followers DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Dota 2'}) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:VIP]->(u:User) WITH s, COUNT(DISTINCT u) AS vip_count ORDER BY vip_count DESC LIMIT 3 RETURN s.name AS stream_name, vip_count",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(:Game {name: 'VALORANT'}) MATCH (s)-[:MODERATOR]->(m:User) RETURN m.name AS moderator ORDER BY m.name LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream)-[r1:PLAYS]->(m1:Game {name: 'VALORANT'}) WITH DISTINCT n RETURN n.name ORDER BY n.id ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.03617443012884044,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE l.name <> 'en' RETURN u LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:MODERATOR]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY n.id ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.006007208650380457,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) OPTIONAL MATCH (s)-[:MODERATOR]->(m:User) WITH s, count(m) AS moderatorCount RETURN s.name AS streamName, moderatorCount ORDER BY moderatorCount DESC LIMIT 10",
+    "pred_cypher": "MATCH (n:Stream)-[r0:MODERATOR]->(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2294798686711595,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:CHATTER]-(u:User) WITH s, COUNT(u) AS chatterCount ORDER BY chatterCount DESC LIMIT 5 RETURN s.name AS streamName, chatterCount",
+    "pred_cypher": "MATCH (n:Stream)-[r0:CHATTER]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:MODERATOR]->(m) WHERE exists{(m)-[:VIP]->(s)} RETURN s, m",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:MODERATOR]-(m0:User)-[r1:VIP]->(m1:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.011039710001647718,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game), (s)-[:CHATTER]->(:Stream) WITH g, count(*) AS count RETURN g.name AS game, count ORDER BY count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game)<-[r1:CHATTER]-(m1:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt > datetime() RETURN count(s)",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.createdAt > n.createdAt RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream)<-[:VIP]-(u) RETURN DISTINCT u.name",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream)<-[r1:MODERATOR]-(m1:Stream)-[r2:VIP]->(m2:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.001786511835640911,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s1:Stream)-[:VIP]->(vip:Stream|User) WHERE (vip)-[:PLAYS]->(:Game {name: \"Rust\"}) MATCH (s1)-[:HAS_LANGUAGE]->(:Language {name: \"en\"}) WITH avg(s1.total_view_count) AS avgViewCount RETURN avgViewCount",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:Stream)-[r1:PLAYS]->(m1:Game {name: 'Rust'}) WITH DISTINCT n RETURN avg(n.total_view_count)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8333333333333334,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE datetime(s.createdAt).dayOfWeek = 3 RETURN count(s)",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.createdAt.day = 'Wednesday' RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game {name: \"Rust\"}) RETURN avg(s.followers)",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_GAME]->(m0:Game {name: 'Rust'}) WITH DISTINCT n RETURN avg(n.followers)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: \"en\"}) WITH s, (toFloat(s.followers) / toFloat(s.total_view_count)) AS follower_to_view_ratio WITH avg(follower_to_view_ratio) AS averageRatio RETURN averageRatio",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n RETURN (n.followers / n.total_view_count) AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream) WHERE s.description CONTAINS 'Belarus' RETURN u.name, u.id LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream)-[r1:MODERATOR]->(m1:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0004734848484848485,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt < datetime('2018-01-01T00:00:00.000000Z') AND s.followers > 5000 RETURN s",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.createdAt < '2018-01-01' AND n.followers > 5000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game {name: 'Call of Duty: Warzone'}) RETURN s.description AS StreamDescription",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Call of Duty: Warzone'}) WITH DISTINCT n RETURN n.description",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:MODERATOR]->(u:User) WHERE s.name = u.name RETURN s LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:MODERATOR]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.id ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) RETURN s.name, s.createdAt ORDER BY s.createdAt DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.createdAt DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:CHATTER]->(u:User) WHERE exists {     MATCH (u)-[:MODERATOR]->(s) } RETURN s",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:User)-[r1:MODERATOR]->(m1:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.001424327513938062,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.total_view_count > 10000 RETURN g.name AS game, count(*) AS stream_count ORDER BY stream_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream) WITH DISTINCT n WHERE m0.total_view_count > 10000 RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:VIP]->(:User) MATCH (s)-[:PLAYS]->(g:Game) RETURN g.name AS game, count(*) AS frequency ORDER BY frequency DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream)-[r1:VIP]->(m1:Stream {name: 'stream'}) WITH DISTINCT n RETURN n.name ORDER BY count(DISTINCT m0) DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (t:Team)<-[:HAS_TEAM]-(s:Stream) RETURN t.name AS TeamName, count(s) AS NumberOfStreams",
+    "pred_cypher": "MATCH (n:Team)<-[r0:HAS_TEAM]-(m0:Stream) WITH DISTINCT n RETURN count(DISTINCT m0)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE s.total_view_count > 1000000 RETURN COUNT(DISTINCT l.name) AS numberOfLanguages",
+    "pred_cypher": "MATCH (n:Language)<-[r0:HAS_LANGUAGE]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n WHERE n.total_view_count > 1000000 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.description CONTAINS 'hilarious moments' RETURN g.name, count(s) AS streams_count ORDER BY streams_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game) WITH DISTINCT n WHERE 'hilarious moments' IN n.description RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream) WITH u, COUNT(s) AS streamCount WHERE streamCount > 1 RETURN u.name AS userName, streamCount ORDER BY streamCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream) WITH DISTINCT n WHERE count(DISTINCT m0) > 1 RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE l.name = 'ru' AND s.total_view_count < 10000 RETURN s ORDER BY s.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'ru'}) WITH DISTINCT n WHERE n.total_view_count < 10000 RETURN n.name ORDER BY n.total_view_count ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User {name: 'itsbigchase'})-[:VIP]->(s:Stream) RETURN s",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:User {name: 'itsbigchase'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream)-[:HAS_LANGUAGE]->(:Language {name: 'en'}) WITH u, count(s) AS num_moderated_streams ORDER BY num_moderated_streams DESC LIMIT 5 RETURN u.name AS user, num_moderated_streams",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY num_of_streams ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream) WITH u, count(s) AS moderated_streams ORDER BY moderated_streams DESC LIMIT 5 RETURN u.name, moderated_streams",
+    "pred_cypher": "MATCH (n:User)<-[r0:MODERATOR]-(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.03369788626963384,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WITH s, g ORDER BY s.followers DESC LIMIT 3 RETURN g.name AS game_name",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(:Game {name: 'Rust'}) WHERE s.followers >= 1000 AND s.followers <= 5000 RETURN s.name AS stream, s.followers AS followerCount",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Rust'}) WITH DISTINCT n WHERE n.followers BETWEEN 1000 AND 5000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:MODERATOR]-(m:User)-[:VIP]->(s) RETURN s.name AS stream, m.name AS moderator_and_vip",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:MODERATOR]-(m0:User)-[r1:VIP]->(m1:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0056022408963585435,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:MODERATOR]->(u:User {name: 'itsbigchase'}) RETURN s.name",
+    "pred_cypher": "MATCH (n:Stream)-[r0:MODERATOR]->(m0:User {name: 'itsbigchase'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.createdAt < datetime('2015-01-01T00:00:00Z') RETURN g.name AS game, COUNT(s) AS stream_count ORDER BY stream_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game) WITH DISTINCT n WHERE n.createdAt < date('2015-01-01') RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:CHATTER|MODERATOR|VIP]->(u) WITH s, COUNT(DISTINCT u) AS influence_count RETURN s.id, s.name, influence_count ORDER BY influence_count DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:User)-[r1:MODERATOR]->(m1:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.16243138849359626,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:CHATTER]->(c:Stream) WHERE c.createdAt < datetime('2017-01-01T00:00:00Z') RETURN s LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:User)-[r1:CHATTER]->(m1:Stream) WITH DISTINCT n WHERE n.createdAt < date '2017-01-01' RETURN n.name ORDER BY n.createdAt ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u1:User)-[:MODERATOR]->(u2:User) RETURN DISTINCT u1.name AS moderator_name",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:User) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s) WHERE s:Stream OR s:User WITH u, count(s) AS moderations RETURN u.name AS user, moderations ORDER BY moderations DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:MODERATOR]-(m0:Stream) WITH DISTINCT n RETURN n.name, count(DISTINCT m0) AS num",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.03369788626963384,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team) WHERE t.createdAt < datetime('2015-01-01T00:00:00Z') RETURN s.name, s.url LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n WHERE n.createdAt < date('2015-01-01') LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team) WHERE t.createdAt > datetime('2017-01-01') WITH s MATCH (s)-[:PLAYS]->(g:Game) RETURN DISTINCT g.name",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream)-[r1:HAS_TEAM]->(m1:Team {name: 'team created after 2017'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE date({year: 2020}) <= s.createdAt <= date({year: 2020, month: 12, day: 31}) WITH avg(s.total_view_count) AS average_view_count RETURN average_view_count",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.total_view_count < 2020 RETURN avg(n.total_view_count)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team {name: 'ESO Stream Team'}) RETURN s.name AS stream_name, s.url AS stream_url",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team {name: 'ESO Stream Team'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team) WITH s, t ORDER BY t.createdAt RETURN s LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n RETURN n.name ORDER BY n.createdAt ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (stream:Stream)<-[:CHATTER]-(chatter:User) MATCH (chatter)-[:VIP]->(other_stream:Stream) MATCH (stream)-[:PLAYS]->(game:Game)<-[:PLAYS]-(other_stream) WHERE id(stream) <> id(other_stream) RETURN DISTINCT stream.name",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:User)-[r1:VIP]->(m1:Stream)<-[r2:PLAYS]-(m2:Game) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game),       (s)-[:CHATTER]->(u:User)-[:VIP]->(s) WITH g.name AS gameName, COUNT(s) AS streamCount ORDER BY streamCount DESC LIMIT 3 RETURN gameName, streamCount",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:PLAYS]-(m0:Game)<-[r1:CHATTER]-(m1:User)-[r2:VIP]->(m2:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(:Team) RETURN s.name, s.total_view_count ORDER BY s.total_view_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game {name: 'Just Chatting'}) RETURN s.name AS stream_name, s.followers AS followers ORDER BY s.followers DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Just Chatting'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User) WHERE toLower(u.name) CONTAINS 'john' MATCH (u)-[:CHATTER]->(s:Stream) RETURN DISTINCT s",
+    "pred_cypher": "MATCH (n:Stream)-[r0:CHATTER]->(m0:User) WITH DISTINCT m0 WHERE 'john' IN m0.name RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:VIP]-(u:User) WHERE s.followers > 10000 AND EXISTS((s)-[:HAS_LANGUAGE]->(:Language {name: \"en\"})) WITH DISTINCT u MATCH (u)-[:CHATTER]->(stream:Stream)-[:PLAYS]->(g:Game) RETURN DISTINCT g.name",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n WHERE n.name IN ['Rust'] AND (m0:Stream)-[r0:VIP]->(m1:Stream) AND (m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) AND (m0:Stream)-[r0:VIP]->(m1:Stream) AND (m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) AND (m0:Stream)-[r0:VIP]->(m1:Stream) AND (m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'})",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game {name: 'Grand Theft Auto V'}),       (s)-[:HAS_LANGUAGE]->(l:Language {name: 'en'}) RETURN s.name AS StreamName",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Grand Theft Auto V'}) WITH DISTINCT n WHERE r0:HAS_LANGUAGE = (m0:Language {name: 'en'}) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE l.name = \"en\" MATCH (s)<-[:MODERATOR]-(u:User)-[:HAS_TEAM]->(:Team) MATCH (u)-[:VIP]->(otherStream:Stream)<-[:CHATTER]-(u) WITH DISTINCT s, s.total_view_count AS viewCount RETURN avg(viewCount) AS average_view_count",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}),(n:Stream)-[r1:MODERATOR]->(m1:User)-[r2:CHATTER]->(m2:Stream) WITH DISTINCT n RETURN avg(n.total_view_count)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:VIP]->(s:Stream) WITH u, count(DISTINCT s) AS streams_count WHERE streams_count >= 2 RETURN u.name, streams_count",
+    "pred_cypher": "MATCH (n:User)-[r0:VIP]->(m0:Stream)-[r1:VIP]->(m1:Stream) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.16675397241138468,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.description CONTAINS 'partnership' RETURN s",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team {name: 'partnership'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: 'en'}) RETURN s.name, s.total_view_count ORDER BY s.total_view_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'English'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE s.followers > 10000 RETURN l.name AS language, COUNT(s) AS stream_count ORDER BY stream_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Language)<-[r0:HAS_LANGUAGE]-(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8579779917469051,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE s.followers > 10000 RETURN l.name AS language, count(*) AS count ORDER BY count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language) WITH DISTINCT n WHERE n.followers > 10000 RETURN n.name ORDER BY n.followers DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game {name: 'Rust'}) WHERE s.followers > 10000 RETURN s.id, s.name, s.url, s.followers",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Rust'}) WITH DISTINCT n WHERE n.followers > 10000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream) WHERE s.total_view_count > 500000 RETURN u ORDER BY s.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8403410388489939,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.followers > 1000000 MATCH (s)-[:HAS_LANGUAGE]->(l:Language) WITH l, count(*) AS languageCount ORDER BY languageCount DESC RETURN l.name LIMIT 1",
+    "pred_cypher": "MATCH (n:Language)<-[r0:HAS_LANGUAGE]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.005813953488372093,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (t:Team)<-[:HAS_TEAM]-(s:Stream) WITH t, count(s) AS streamCount ORDER BY streamCount DESC LIMIT 3 RETURN t.name, streamCount",
+    "pred_cypher": "MATCH (n:Team)<-[r0:HAS_TEAM]-(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:VIP]->(u:User)-[:VIP]->(otherStream:Stream) WITH s, COUNT(DISTINCT otherStream) AS vipCount WHERE vipCount > 1 RETURN s.name AS streamName, s.url AS streamUrl, vipCount ORDER BY vipCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.createdAt ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3954104148278906,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE l.name = \"en\" RETURN avg(s.followers)",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n RETURN avg(n.followers)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:CHATTER]->(:User) WITH s, count(*) AS chatter_count WHERE chatter_count > 100 MATCH (s)-[:PLAYS]->(g:Game) RETURN DISTINCT g.name",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream) WITH DISTINCT n WHERE m0.total_view_count > 100 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5544694939303169,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WITH s, size([(s)<-[:MODERATOR]-(m) | m]) AS num_moderators ORDER BY num_moderators DESC LIMIT 3 RETURN s.name AS stream_name, num_moderators",
+    "pred_cypher": "MATCH (n:Stream)-[r0:MODERATOR]->(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2294798686711595,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) RETURN s ORDER BY s.createdAt ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.createdAt ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(:Game {name: 'Rust'}) RETURN s.name AS stream, s.followers AS followers ORDER BY followers DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Rust'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.followers > 500000 RETURN COUNT(DISTINCT g.name) AS unique_games",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream) WITH DISTINCT n WHERE m0.followers > 500000 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE l.name = \"en\" MATCH (s)-[:MODERATOR]->(m:User)-[:MODERATOR]->(s2:Stream)-[:HAS_LANGUAGE]->(l2:Language) WHERE l2.name = \"ru\" AND EXISTS ((s)-[:VIP]->()) WITH DISTINCT s RETURN avg(s.followers) AS average_followers",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}),(n:Stream)-[r1:MODERATOR]->(m1:Stream)-[r2:HAS_LANGUAGE]->(m2:Language {name: 'ru'}) WITH DISTINCT n RETURN avg(n.followers)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2857142857142857,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game {name: 'Dota 2'}) RETURN s.name AS stream_name, s.followers AS followers ORDER BY s.followers DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Dota 2'}) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream {name: 'summit1g'})<-[:CHATTER]-(u:User) RETURN u.name, count(*) AS messages ORDER BY messages DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:CHATTER]-(m0:Stream {name: 'summit1g'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt < datetime('2019-01-01T00:00:00.000000Z') MATCH (s)<-[:CHATTER]-(u:User)-[:VIP]->(s2:Stream)<-[:MODERATOR]-(u) RETURN DISTINCT s",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:Stream)-[r1:MODERATOR]->(m1:User)-[r2:VIP]->(m2:Stream) WITH DISTINCT n WHERE n.createdAt < '2019' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) RETURN s ORDER BY s.followers DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.followers DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt < datetime('2010-01-01T00:00:00Z') RETURN s.name, s.createdAt, s.url LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.createdAt < date('2010-01-01') RETURN n.name, n.id",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream {name: '9linda'})-[:PLAYS]->(g:Game) RETURN g.name",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream {name: '9linda'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (t:Team)<-[:HAS_TEAM]-(s:Stream)-[:HAS_LANGUAGE]->(l:Language) WITH t, COUNT(DISTINCT l) AS languageDiversity ORDER BY languageDiversity DESC WITH COLLECT(t)[0..3] AS topTeams UNWIND topTeams AS topTeam MATCH (topTeam)<-[:HAS_TEAM]-(s:Stream)-[:PLAYS]->(g:Game) RETURN topTeam.name AS TeamName, COLLECT(DISTINCT g.name) AS CommonGames",
+    "pred_cypher": "MATCH (n:Team)<-[r0:HAS_TEAM]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language) WITH DISTINCT n RETURN n.name, n.games",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream) WHERE s.followers > 1000000 RETURN u.name AS user, s.name AS stream ORDER BY s.followers DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream) WITH DISTINCT n WHERE m0.total_view_count > 1000000 RETURN n.name ORDER BY n.name ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.07030766054098699,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game), (s)-[:HAS_LANGUAGE]->(l:Language) WHERE s.createdAt <= datetime('2018-01-01T00:00:00Z') RETURN s.id AS StreamID, s.name AS StreamName, g.name AS Game, l.name AS Language ORDER BY s.createdAt LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language)<-[r1:HAS_LANGUAGE]-(m1:Stream)-[r2:PLAYS]->(m2:Game) WITH DISTINCT n WHERE (n.createdAt.year >= 2018) AND (n.createdAt.year <= 2021) AND (n.id IN [129004176, 5893, 129004177, 129004178, 129004179]) RETURN n.name ORDER BY n.createdAt ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt < datetime() - duration('P5Y') AND s.followers > 100000 RETURN s.name AS stream_name, s.createdAt AS created_at, s.followers AS follower_count ORDER BY s.createdAt LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Rust'}) WITH DISTINCT n WHERE n.createdAt.year >= 2012 AND n.followers >= 100000 AND n.total_view_count >= 1451487256 RETURN n.name ORDER BY n.createdAt DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.followers > 5000000 RETURN s",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.followers > 5000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:CHATTER]-(u:User) WHERE s.followers < 3000 RETURN s ORDER BY s.createdAt ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:CHATTER]-(m0:User) WITH DISTINCT n WHERE n.followers < 3000 RETURN DISTINCT n ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.total_view_count > 1000000 RETURN g.name, count(s) AS streams_count ORDER BY streams_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game) WITH DISTINCT n WHERE n.total_view_count >= 10000000 RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3276283618581907,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WITH s, COUNT(DISTINCT g) AS distinctGames ORDER BY distinctGames DESC LIMIT 3 RETURN s.name AS streamName, distinctGames",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream) WITH u, COUNT(s) AS moderatedStreams ORDER BY moderatedStreams DESC LIMIT 3 RETURN u.name AS userName, moderatedStreams",
+    "pred_cypher": "MATCH (n:User)<-[r0:MODERATOR]-(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.03369788626963384,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:CHATTER]-(u:User) WITH s, COUNT(u) AS chatterCount ORDER BY chatterCount DESC LIMIT 5 RETURN s.name AS streamName, chatterCount",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:VIP]->(s:Stream) WITH u, count(s) AS vip_count ORDER BY vip_count DESC LIMIT 5 RETURN u.name AS user, vip_count",
+    "pred_cypher": "MATCH (n:User)-[r0:VIP]->(m0:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.followers > 100000 MATCH (s)-[:MODERATOR]->(u:User) RETURN count(DISTINCT u) AS moderatorCount",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream) WITH DISTINCT n WHERE m0.followers > 100000 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.036300454423950815,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User {name: \"rajjix\"}) MATCH (u)-[:CHATTER]->(s:Stream) MATCH (s)-[:PLAYS]->(g:Game {name: \"Dota 2\"}) RETURN s.name",
+    "pred_cypher": "MATCH (n:Stream)-[r0:CHATTER]->(m0:Stream {name: 'rajjix'}),(n:Stream)-[r1:PLAYS]->(m1:Game {name: 'Dota 2'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team) WHERE t.createdAt > datetime('2015-01-01T00:00:00Z') RETURN s.name AS stream_name, t.name AS team_name, t.createdAt AS team_created_at ORDER BY t.createdAt LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n WHERE m0.name = 'ESO Stream Team' AND n.createdAt.year >= 2015 RETURN n.name ORDER BY n.name ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0017316017316017316,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE s.followers > 10000 RETURN DISTINCT l.name",
+    "pred_cypher": "MATCH (n:Language)<-[r0:HAS_LANGUAGE]-(m0:Stream) WITH DISTINCT n WHERE m0.followers > 10000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: 'en'}) RETURN s.name, s.followers ORDER BY s.followers DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt < datetime('2015-01-01T00:00:00Z') RETURN s.name ORDER BY s.createdAt LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.createdAt < date('2015-01-01') LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream {name: 'itsbigchase'})<-[:MODERATOR]-(u:User) RETURN count(u) AS numberOfModerators",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream {name: 'itsbigchase'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WHERE s.total_view_count > 10000000 RETURN DISTINCT l.name AS language",
+    "pred_cypher": "MATCH (n:Language)<-[r0:HAS_LANGUAGE]-(m0:Stream) WITH DISTINCT n WHERE n.name IS NOT NULL AND n.total_view_count > 10000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream {name: '9linda'}) RETURN u.name LIMIT 5",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream {name: '9linda'}) WITH DISTINCT n LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: \"en\"}) MATCH (s)-[:PLAYS]->(g:Game) RETURN DISTINCT g.name",
+    "pred_cypher": "MATCH (n:Game)<-[r0:PLAYS]-(m0:Stream)-[r1:HAS_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (t:Team)<-[:HAS_TEAM]-(s:Stream) WITH t, count(distinct s) as num_streams WHERE num_streams > 3 RETURN t.name as team_name, num_streams",
+    "pred_cypher": "MATCH (n:Team)<-[r0:HAS_TEAM]-(m0:Stream) WITH DISTINCT n WHERE count(DISTINCT m0) > 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.total_view_count > 1000000 RETURN s.name, s.followers, s.total_view_count ORDER BY s.followers ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.total_view_count > 1000000 AND (n.followers < 3) RETURN n.name ORDER BY n.total_view_count ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt >= datetime('2018-01-01') AND s.createdAt < datetime('2019-01-01') RETURN s ORDER BY s.createdAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.createdAt.year = 2018 RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.description CONTAINS 'channel' RETURN s.name, s.description LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'channel'}) WITH DISTINCT n RETURN n.name ORDER BY n.createdAt ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: 'ru'}) WHERE s.followers > 20000 RETURN s.name AS stream_name, s.followers",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'ru'}) WITH DISTINCT n WHERE n.followers > 20000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User) RETURN avg(u.followers) AS average_followers",
+    "pred_cypher": "MATCH (n:User)<-[r0:CHATTER]-(m0:Stream) WITH DISTINCT n WHERE n.total_view_count > 0 AND n.createdAt.year < 2018 RETURN avg(n.followers)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt > datetime('2015-01-01T00:00:00Z') AND exists {   (s)-[:CHATTER]->(:User) } RETURN s",
+    "pred_cypher": "MATCH (n:Stream)-[r0:CHATTER]->(m0:User) WITH DISTINCT n WHERE n.createdAt.year >= 2015 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 0.5671641791044776,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.createdAt >= datetime('2015-01-01') AND s.createdAt < datetime('2021-01-01')   AND s.followers > 100000 RETURN s",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.createdAt BETWEEN '2015-01-01' AND '2020-01-01' AND n.followers > 100000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language {name: 'en'}) RETURN s.name AS stream_name, s.url AS stream_url LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) RETURN s.url AS StreamURL ORDER BY s.total_view_count DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n RETURN n.url ORDER BY n.total_view_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE date(s.createdAt).month = 5 WITH s MATCH (s)-[:HAS_TEAM]->(t:Team) RETURN DISTINCT t.name",
+    "pred_cypher": "MATCH (n:Team)<-[r0:HAS_TEAM]-(m0:Stream) WITH DISTINCT n WHERE 'May' IN (m0.createdAt) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User {name: '9linda'})-[:VIP]->(s:Stream) RETURN s.id, s.createdAt, s.description, s.url, s.name, s.followers, s.total_view_count",
+    "pred_cypher": "MATCH (n:Stream)-[r0:VIP]->(m0:User {name: '9linda'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_LANGUAGE]->(l:Language) WITH s, count(distinct l) as numLanguages ORDER BY numLanguages DESC LIMIT 3 RETURN s.name as streamName, numLanguages",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_LANGUAGE]->(m0:Language) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WITH s, count{(s)-[:CHATTER]->()} AS chatterCount ORDER BY chatterCount DESC LIMIT 3 RETURN s.name AS StreamName, chatterCount",
+    "pred_cypher": "MATCH (n:Stream)-[r0:CHATTER]->(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6094695006048039,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(:Game {name: 'Rust'}) RETURN s.name AS stream_name, s.url AS stream_url LIMIT 5",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game {name: 'Rust'}) WITH DISTINCT n RETURN n.name LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:PLAYS]->(g:Game) WHERE s.followers > 500000 RETURN g.name, count(s) AS stream_count ORDER BY stream_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Stream)-[r0:PLAYS]->(m0:Game) WITH DISTINCT n WHERE n.followers > 500000 AND order by n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User)-[:MODERATOR]->(s:Stream) WHERE u.total_view_count > 1000000 RETURN s.name",
+    "pred_cypher": "MATCH (n:Stream)-[r0:MODERATOR]->(m0:User) WITH DISTINCT n WHERE n.total_view_count > 10000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.45523091423185674,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)<-[:MODERATOR]-(u:User) WITH s, COUNT(u) AS moderator_count ORDER BY moderator_count DESC LIMIT 3 RETURN s.name AS stream_name, moderator_count",
+    "pred_cypher": "MATCH (n:Stream)<-[r0:MODERATOR]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.total_view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream)-[:HAS_TEAM]->(t:Team) WHERE t.createdAt < datetime('2015-01-01T00:00:00Z') RETURN s",
+    "pred_cypher": "MATCH (n:Stream)-[r0:HAS_TEAM]->(m0:Team) WITH DISTINCT n WHERE m0.createdAt < date('2015-01-01') RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (u:User) WHERE exists{ (u)-[:MODERATOR]->(:Stream) }    AND exists{ (u)-[:VIP]->(:Stream) } RETURN u.name LIMIT 3",
+    "pred_cypher": "MATCH (n:User)-[r0:MODERATOR]->(m0:Stream)-[r1:MODERATOR]->(m1:User)-[r2:VIP]->(m2:Stream) WITH DISTINCT n RETURN n.name ORDER BY n.id ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09090909090909091,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "twitch",
+    "gold_cypher": "MATCH (s:Stream) WHERE s.total_view_count < 1000000 RETURN s.name AS stream_name, s.followers AS follower_count ORDER BY s.followers DESC LIMIT 10",
+    "pred_cypher": "MATCH (n:Stream) WITH DISTINCT n WHERE n.total_view_count < 10000000 AND (n.followers <= (SELECT max(followers) FROM (SELECT * FROM Node)<-[r0:Stream]>) } RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  }
+]

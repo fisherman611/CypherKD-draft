@@ -1,0 +1,902 @@
+[
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answer_count = 0 RETURN q LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.creation_date ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2806796727501573,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) RETURN q ORDER BY q.creation_date LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.creation_date ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer) RETURN a ORDER BY a.uuid ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n RETURN n.title ORDER BY n.creation_date ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer)-[:ANSWERED]->(q:Question) WHERE a.is_accepted = false RETURN a LIMIT 3",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n RETURN n.title ORDER BY n.score ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3714001986097319,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User {display_name: 'Anu'})-[:PROVIDED]->(a:Answer)-[:ANSWERED]->(q:Question) WITH avg(q.view_count) AS average_view_count RETURN average_view_count",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ANSWERED]-(m0:Question)<-[r1:ASKED]-(m1:User {display_name: 'Anu'}) WITH DISTINCT n RETURN avg(n.view_count)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:PROVIDED]->(a:Answer)-[:ANSWERED]->(q:Question)-[:TAGGED]->(:Tag {name: 'neo4j'}) WITH DISTINCT u MATCH (u)-[:COMMENTED]->(c:Comment) RETURN min(c.score)",
+    "pred_cypher": "MATCH (n:Comment)<-[r0:COMMENTED_ON]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'neo4j'}) WITH DISTINCT n RETURN min(n.score)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User {display_name: 'Adrien Lemaire'})-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) RETURN t.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)<-[r1:ASKED]-(m1:User {name: 'Adrien Lemaire'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answer_count > 1 RETURN q.title, q.link, q.creation_date ORDER BY q.creation_date DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.creation_date DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.1302706104468219,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:PROVIDED]->(a:Answer)-[:ANSWERED]->(q:Question) WHERE (u)-[:ASKED]->(q) RETURN DISTINCT u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answer_count > 2 RETURN q ORDER BY q.creation_date LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.answer_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.010069225928256766,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WITH q ORDER BY q.view_count DESC LIMIT 1 MATCH (u:User)-[:ASKED]->(q) RETURN u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.view_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question {title: 'Neo4j- APOC trigger fires without any reason'}) MATCH (u:User)-[:COMMENTED]->(:Comment)-[:COMMENTED_ON]->(q) RETURN count(DISTINCT u) AS NumberOfCommentingUsers",
+    "pred_cypher": "MATCH (n:User)<-[r0:COMMENTED_ON]-(m0:Question {title: 'Neo4j- APOC trigger fires without any reason'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer) WHERE a.score < 0 RETURN a.link, a.title, a.body_markdown, a.score, a.uuid",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n WHERE n.score < 0 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WITH q, size(collect(t)) AS tagCount ORDER BY tagCount DESC LIMIT 1 RETURN q.title",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.tag_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7694915254237288,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:PROVIDED]->(:Answer) WITH DISTINCT u MATCH (u)-[:COMMENTED]->(c:Comment) RETURN avg(c.score)",
+    "pred_cypher": "MATCH (n:Comment)-[r0:COMMENTED]->(m0:Question)<-[r1:PROVIDED]-(m1:Answer) WITH DISTINCT n RETURN avg(n.score)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag {name: 'neo4j'}) MATCH (a:Answer)-[:ANSWERED]->(q) RETURN a.link, a.title, a.body_markdown, a.uuid ORDER BY a.uuid DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Answer)<-[r0:ANSWERED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'neo4j'}) WITH DISTINCT n RETURN n.title ORDER BY n.creation_date DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WITH t, count(q) AS questionCount WHERE questionCount > 5 RETURN t.name AS tagName, questionCount",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question) WITH DISTINCT n WHERE count(DISTINCT m0) > 5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:ANSWERED]-(a:Answer) WHERE a.is_accepted = true RETURN q.title AS question_title, q.view_count AS view_count, q.link AS question_link ORDER BY q.view_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2803442028985507,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer {score: 6}) RETURN a.link",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n WHERE n.score = 6 RETURN n.link",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:PROVIDED]->(a:Answer)-[:ANSWERED]->(q:Question)-[:TAGGED]->(t:Tag {name: 'neo4j'}) RETURN DISTINCT u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'neo4j'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag)<-[:TAGGED]-(q:Question) WITH t, count(q) AS questionCount ORDER BY questionCount DESC RETURN t.name AS tagName, questionCount LIMIT 3",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.answer_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer) RETURN avg(a.score)",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n RETURN avg(n.score) AS answer",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)<-[:COMMENTED_ON]-(c:Comment) WITH q, COUNT(c) AS comment_count ORDER BY comment_count DESC LIMIT 3 MATCH (q)-[:TAGGED]->(t:Tag) RETURN t.name AS tag, COUNT(q) AS question_count ORDER BY question_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.score DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.15775787344698064,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag {name: \"graphenedb\"})<-[:TAGGED]-(q:Question) RETURN avg(q.answer_count) AS average_answer_count",
+    "pred_cypher": "MATCH (n:Question)-[r0:TAGGED]->(m0:Tag {name: 'graphenedb'}) WITH DISTINCT n RETURN avg(n.answer_count)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WITH q, t ORDER BY q.view_count DESC LIMIT 3 RETURN DISTINCT t.name AS tag_name",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:COMMENTED_ON]-(c:Comment) WITH q, COUNT(c) AS commentCount WHERE commentCount > 0 RETURN q.title AS questionTitle, q.view_count AS viewCount ORDER BY viewCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question)<-[r0:COMMENTED_ON]-(m0:Comment)-[r1:COMMENTED_ON]->(m1:Question) WITH DISTINCT n RETURN n.title ORDER BY n.view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag)<-[:TAGGED]-(q:Question) WHERE exists {   (q)<-[:COMMENTED_ON]-(:Comment) } RETURN t.name, count{(q)<-[:COMMENTED_ON]-(:Comment)} AS commentCount ORDER BY commentCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.score DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.38837772397094433,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer) WITH avg(a.score) AS average_score MATCH (u:User)-[:PROVIDED]->(a:Answer) WHERE a.score > average_score RETURN DISTINCT u.display_name",
+    "pred_cypher": "",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (c:Comment)-[:COMMENTED_ON]->(q:Question) WHERE c.score > 2 RETURN DISTINCT q",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.score > 2 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:PROVIDED]->(a:Answer {link: 'https://stackoverflow.com/a/69272967'}) RETURN u.display_name AS user_who_provided_answer",
+    "pred_cypher": "MATCH (n:User)<-[r0:PROVIDED]-(m0:Answer {link: 'https://stackoverflow.com/a/69272967'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:COMMENTED]->(c:Comment)-[:COMMENTED_ON]->(q:Question),       (u)-[:PROVIDED]->(a:Answer)-[:ANSWERED]->(q) RETURN q LIMIT 5",
+    "pred_cypher": "MATCH (n:Question)<-[r0:COMMENTED]-(m0:Comment)<-[r1:PROVIDED]-(m1:Answer) WITH DISTINCT n RETURN n.title ORDER BY n.creation_date LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag) OPTIONAL MATCH (t)-[:TAGGED]->(q:Question) WHERE q IS NULL RETURN t.name AS tag_name",
+    "pred_cypher": "MATCH (n:Tag) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer)-[:ANSWERED]->(q:Question) WITH q, a.score AS score ORDER BY score DESC LIMIT 3 RETURN q.title AS QuestionTitle",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ANSWERED]-(m0:Answer) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(asked_q:Question)-[:TAGGED]->(asked_tag:Tag) MATCH (u)-[:PROVIDED]->(provided_a:Answer)-[:ANSWERED]->(answered_q:Question)-[:TAGGED]->(answered_tag:Tag) WHERE asked_tag.name = answered_tag.name RETURN DISTINCT u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag)<-[r2:ASKED]-(m1:Question) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag {name: 'cypher'})<-[:TAGGED]-(q:Question)<-[:ANSWERED]-(a:Answer) WITH max(a.score) AS max_score MATCH (a:Answer {score: max_score})-[:PROVIDED]-(u:User) RETURN u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:PROVIDED]-(m0:Answer)-[r1:ANSWERED]->(m1:Question) WITH n ORDER BY n.score DESC LIMIT 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)<-[:ANSWERED]-(a:Answer)<-[:PROVIDED]-(u) WHERE q.accepted_answer_id = a.uuid RETURN q ORDER BY q.creation_date LIMIT 5",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User) WITH DISTINCT n RETURN n.title LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.048994515539305304,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (question:Question)<-[:ANSWERED]-(answer:Answer) WITH question, count(DISTINCT answer) AS answer_count WHERE answer_count > 1 RETURN question.title",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User) WITH DISTINCT n RETURN n.title ORDER BY n.answer_count DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2835524683701315,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.title CONTAINS 'update' RETURN q ORDER BY q.creation_date ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.title CONTAINS 'update' RETURN n.title LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (c:Comment) WHERE c.uuid = 122427099 RETURN c.score",
+    "pred_cypher": "MATCH (n:Comment {uuid: 122427099}) WITH DISTINCT n RETURN n.score",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WHERE q.title CONTAINS 'apoc not working' RETURN q, t",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.title = 'apoc not working' RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) MATCH (u)-[:PROVIDED]->(a:Answer) RETURN DISTINCT u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.name, n.uuid",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:COMMENTED]->(c:Comment) RETURN u.display_name, COUNT(c) AS comment_count ORDER BY comment_count DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:User)<-[r0:PROVIDED]-(m0:Answer)<-[r1:COMMENTED]->(m1:Comment) WITH n RETURN n.name ORDER BY n.score DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:PROVIDED]->(a:Answer)-[:ANSWERED]->(q:Question)-[:TAGGED]->(t:Tag {name: 'neo4j'}) RETURN u.display_name, COUNT(a) AS answer_count ORDER BY answer_count DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:User)<-[r0:PROVIDED]-(m0:Answer)-[r1:ANSWERED]->(m1:Question) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answer_count = 0 RETURN q.title, q.link, q.view_count ORDER BY q.view_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.view_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2806796727501573,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(:Question) WITH u MATCH (u)-[:COMMENTED]->(c:Comment) RETURN avg(c.score) AS average_score",
+    "pred_cypher": "MATCH (n:Comment)<-[r0:COMMENTED_ON]-(m0:Question) WITH DISTINCT n RETURN avg(n.score)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag {name: 'neo4j'})<-[:TAGGED]-(q:Question)<-[:ASKED]-(u:User) RETURN DISTINCT u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'neo4j'}) WITH DISTINCT n RETURN n.display_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) WHERE t.name = \"neo4j\" AND u.display_name STARTS WITH \"M\" RETURN u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'neo4j'}) WITH DISTINCT n WHERE n.display_name STARTS WITH 'M' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answer_count = 0 RETURN q ORDER BY q.creation_date ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.creation_date ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2806796727501573,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User {uuid: 16922964})-[:PROVIDED]->(a:Answer) RETURN a",
+    "pred_cypher": "MATCH (n:Answer) WHERE n.uuid = 16922964 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WITH q ORDER BY q.view_count DESC LIMIT 5 MATCH (u:User)-[:COMMENTED]->(c:Comment)-[:COMMENTED_ON]->(q) RETURN DISTINCT u.display_name AS user, q.title AS question_title, q.view_count AS views ORDER BY views DESC",
+    "pred_cypher": "MATCH (n:User)<-[r0:COMMENTED_ON]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag {name: 'cypher'}) MATCH (t)<-[:TAGGED]-(q:Question) MATCH (q)<-[:COMMENTED_ON]-(c:Comment) WITH avg(c.score) AS average_score RETURN average_score",
+    "pred_cypher": "MATCH (n:Comment)<-[r0:COMMENTED_ON]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'cypher'}) WITH DISTINCT n RETURN avg(n.score)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE NOT (()-[:COMMENTED_ON]->(q)) MATCH (u:User)-[:ASKED]->(q) RETURN DISTINCT u",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'no comments'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer) WITH a, a.score AS score ORDER BY score DESC LIMIT 1 RETURN a.body_markdown",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n RETURN n.body_markdown ORDER BY n.score DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)<-[:ANSWERED]-(a:Answer) WHERE a.score < -1 RETURN DISTINCT q.uuid",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.score < -1 RETURN n.uuid",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WITH q ORDER BY q.answer_count DESC LIMIT 3 MATCH (q)-[:TAGGED]->(t:Tag) RETURN q.title, q.answer_count, collect(t.name) AS tags",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.answer_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag {name: 'neo4j'})<-[:TAGGED]-(q:Question)<-[:ASKED]-(u:User) RETURN DISTINCT u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'neo4j'}) WITH DISTINCT n RETURN n.display_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User) WHERE u.display_name STARTS WITH \"A\" MATCH (u)-[:PROVIDED]->(a:Answer) MATCH (a)-[:ANSWERED]->(q:Question) MATCH (q)-[:TAGGED]->(t:Tag) RETURN DISTINCT t.name",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)<-[r1:ASKED]-(m1:User)-[r2:PROVIDED]->(m2:Answer) WITH DISTINCT n WHERE m1.display_name STARTS WITH 'A' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answer_count = 0 RETURN q ORDER BY q.view_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2806796727501573,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:PROVIDED]->(a:Answer) WITH u, count(a) AS provided_answer_count ORDER BY provided_answer_count DESC LIMIT 1 MATCH (u)-[:PROVIDED]->(answer:Answer)-[:ANSWERED]->(q:Question) MATCH (q)<-[:COMMENTED_ON]-(c:Comment)<-[:COMMENTED]-(commenter:User) MATCH (commenter)-[:COMMENTED]->(comment:Comment)-[:COMMENTED_ON]->(target_question:Question) WHERE target_question.view_count > 50 MATCH (target_question)<-[:ANSWERED]-(final_answer:Answer) RETURN final_answer.body_markdown",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User)<-[r1:COMMENTED_ON]-(m1:Comment)-[r2:PROVIDED]->(m2:Answer) WITH DISTINCT n WHERE n.view_count > 50 AND (m0.name = 'user1') RETURN n.body_markdown",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) WHERE q.creation_date >= 1609459200 AND q.creation_date < 1640995200 RETURN q ORDER BY q.creation_date ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Question) WHERE n.creation_date >= 1632249176 AND n.creation_date <= 2021 RETURN n.question ORDER BY n.creation_date ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer) WHERE NOT a.is_accepted WITH a ORDER BY a.score ASC RETURN a.link LIMIT 1",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n WHERE n.is_accepted = false RETURN n.link ORDER BY n.score ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)<-[:ANSWERED]-(a:Answer) WITH q, SUM(a.score) AS totalAnswerScore ORDER BY totalAnswerScore DESC LIMIT 3 RETURN q.title AS questionTitle, totalAnswerScore",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.38667117726657646,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (c:Comment)-[:COMMENTED_ON]->(q:Question) WHERE q.view_count > 100 RETURN c ORDER BY c.score DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Comment)-[r0:COMMENTED_ON]->(m0:Question) WITH DISTINCT n RETURN n.score ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.12770339855818744,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.answer_count > 3 AND NOT EXISTS {   (q)<-[:COMMENTED_ON]-(:Comment) } RETURN q.title",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.answer_count > 3 AND n.comments = [] RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User {display_name: 'schernichkin'})-[:ASKED]->(q:Question) RETURN q ORDER BY q.view_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User {display_name: 'schernichkin'}) WITH DISTINCT n RETURN n.title ORDER BY n.view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (c:Comment) WHERE c.link CONTAINS 'neomodel' RETURN c ORDER BY c.score DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Comment)-[r0:COMMENTED_ON]->(m0:Question) WITH DISTINCT n WHERE n.link CONTAINS 'neomodel' ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.75,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer) WHERE a.score = 1 AND a.is_accepted = true RETURN a",
+    "pred_cypher": "MATCH (n:Answer) WHERE n.is_accepted AND n.score = 1 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WITH max(q.view_count) AS max_views MATCH (q:Question) WHERE q.view_count = max_views MATCH (q)<-[:COMMENTED_ON]-(c:Comment) RETURN c.body_markdown",
+    "pred_cypher": "MATCH (n:Comment)<-[r0:COMMENTED_ON]-(m0:Question) WITH DISTINCT n RETURN n.body_markdown ORDER BY n.score DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer)-[:ANSWERED]->(:Question) RETURN a ORDER BY a.score DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5446215139442231,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u1:User)-[:PROVIDED]->(a:Answer)-[:ANSWERED]->(q:Question)-[:TAGGED]->(t:Tag {name: 'neo4j'}) WHERE u1.display_name ENDS WITH 'n' WITH DISTINCT q MATCH (u2:User)-[:ASKED]->(q) RETURN DISTINCT u2.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:TAGGED]->(m1:Tag {name: 'neo4j'}) WITH DISTINCT n RETURN n.display_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User {display_name: 'Anu'})-[:ASKED]->(q:Question)-[:TAGGED]->(t:Tag) RETURN t.name AS tag_name",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)<-[r1:ASKED]-(m1:User {name: 'Anu'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE NOT EXISTS ((q)-[:ANSWERED]->()) RETURN q",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title AS answer_title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User) WHERE NOT (u)-[:PROVIDED]->(:Answer) WITH u MATCH (u)-[:COMMENTED]->(c:Comment) RETURN avg(c.score) AS average_score",
+    "pred_cypher": "MATCH (n:Comment)-[r0:COMMENTED]->(m0:Question) WITH DISTINCT n WHERE NOT r0.parent IS NOT NULL RETURN avg(n.score) AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question {title: \"Why are non-unique indexes dropped and created when restarting the server?\"}) MATCH (u:User)-[:ASKED]->(q) RETURN u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question {title: 'Why are non-unique indexes dropped and created when restarting the server?'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)<-[:COMMENTED_ON]-(c:Comment) WITH q, COUNT(c) AS comment_count ORDER BY comment_count DESC LIMIT 3 RETURN q.title AS question_title, q.link AS question_link, comment_count",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.1829145728643216,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)<-[:COMMENTED_ON]-(c:Comment) WITH q, COUNT(c) AS comment_count ORDER BY comment_count DESC LIMIT 3 RETURN q.title AS question_title, q.link AS question_link, comment_count",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title ORDER BY n.score DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.1829145728643216,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question) WHERE q.view_count >= 50 AND q.view_count <= 100 RETURN q ORDER BY q.creation_date LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n WHERE n.view_count BETWEEN 50 AND 100 RETURN n.title ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (c:Comment) WHERE c.score > 1 RETURN c.body_markdown",
+    "pred_cypher": "MATCH (n:Comment) WITH DISTINCT n WHERE n.score > 1 RETURN n.body_markdown",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User {display_name: \"Nikhil Kulkarni\"})-[:PROVIDED]->(a:Answer)-[:ANSWERED]->(q:Question) WITH avg(q.view_count) AS average_view_count RETURN average_view_count",
+    "pred_cypher": "MATCH (n:Question)<-[r0:ASKED]-(m0:User {display_name: 'Nikhil Kulkarni'}) WITH DISTINCT n RETURN avg(n.view_count)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer) RETURN a.link ORDER BY a.score LIMIT 1",
+    "pred_cypher": "MATCH (n:Answer) WITH DISTINCT n RETURN n.link ORDER BY n.score ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag)<-[:TAGGED]-(q:Question) WHERE exists{(q)<-[:COMMENTED_ON]-(:Comment)} RETURN t.name, count(q) AS frequency ORDER BY frequency DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question)-[r1:COMMENTED_ON]->(m1:Comment) WITH DISTINCT n RETURN n.name ORDER BY n.score DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question) RETURN u.display_name, count(q) AS questions_asked ORDER BY questions_asked DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question) WITH DISTINCT n RETURN n.display_name ORDER BY n.score DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)<-[:ASKED]-(u:User) RETURN q.title AS question_title, q.view_count AS views, u.display_name AS user ORDER BY q.view_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Question) WITH DISTINCT n RETURN n.title, n.view_count, n.user_name AS user ORDER BY n.view_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5964714714714715,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:ANSWERED]-(a:Answer) WITH q, a ORDER BY q.view_count DESC LIMIT 3 WITH a ORDER BY a.score ASC LIMIT 3 RETURN a.link AS answer_link, a.score AS answer_score, a.body_markdown AS answer_body",
+    "pred_cypher": "MATCH (n:Answer)<-[r0:ANSWERED]-(m0:Question) WITH DISTINCT n RETURN n.score ORDER BY n.score ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (a:Answer {uuid: 69273049}) RETURN a.body_markdown",
+    "pred_cypher": "MATCH (n:Answer {uuid: 69273049}) WITH DISTINCT n RETURN n.body_markdown",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question {title: 'Neo.ClientError.Statement.ExternalResourceFailed error on loading CSV file from local'}) RETURN u.display_name AS asked_by",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question {title: 'Neo.ClientError.Statement.ExternalResourceFailed error on loading CSV file from local'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)-[:TAGGED]->(t:Tag) WITH t, COUNT(q) AS question_count ORDER BY question_count DESC LIMIT 3 RETURN t.name AS tag_name, question_count",
+    "pred_cypher": "MATCH (n:Tag)<-[r0:TAGGED]-(m0:Question) WITH DISTINCT n RETURN n.name ORDER BY n.score DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (t:Tag {name: \"neo4j\"})<-[:TAGGED]-(q:Question) WHERE q.view_count > 100 WITH distinct q MATCH (q)<-[:ANSWERED]-(a:Answer)<-[:PROVIDED]-(u:User) WITH distinct u MATCH (u)-[:COMMENTED]->(c:Comment)-[:COMMENTED_ON]->(q2:Question) WITH collect(c.score) AS comment_scores RETURN max(comment_scores) AS max_comment_score",
+    "pred_cypher": "MATCH (n:Comment)-[r0:COMMENTED_ON]->(m0:Question)<-[r1:TAGGED]-(m1:Tag {name: 'neo4j'}) WITH DISTINCT n WHERE n.score > 0 AND n.view_count > 100 RETURN max(n.score)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (u:User)-[:ASKED]->(q:Question)<-[:ANSWERED]-(a:Answer) WHERE exists((u)-[:PROVIDED]->(a)) RETURN DISTINCT u.display_name",
+    "pred_cypher": "MATCH (n:User)<-[r0:ASKED]-(m0:Question)-[r1:PROVIDED]->(m1:Answer) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "stackoverflow2",
+    "gold_cypher": "MATCH (q:Question)<-[:COMMENTED_ON]-(c:Comment) WHERE c.score = 3 RETURN q LIMIT 3",
+    "pred_cypher": "MATCH (n:Question)<-[r0:COMMENTED_ON]-(m0:Comment)-[r1:COMMENTED]->(m1:Question) WITH DISTINCT n WHERE n.score = 3 RETURN n.title ORDER BY n.title LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  }
+]

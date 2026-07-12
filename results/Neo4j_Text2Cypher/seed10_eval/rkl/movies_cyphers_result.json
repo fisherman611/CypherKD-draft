@@ -1,0 +1,2438 @@
+[
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.votes IS NOT NULL RETURN m.title, m.votes ORDER BY m.votes DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE r.summary = 'Pretty funny at times' RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:REVIEWED]->(m0:Review {summary: 'Pretty funny at times'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.votes > 100 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.votes > 100 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) WHERE m.tagline IS NOT NULL WITH p, count(DISTINCT m.tagline) AS distinctTaglines ORDER BY distinctTaglines DESC LIMIT 3 RETURN p.name, distinctTaglines",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Movie) WITH DISTINCT n WHERE m0.budget > 100_000_000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE p.name = 'Keanu Reeves' AND m.title = 'The Matrix' RETURN r.roles AS roles",
+    "pred_cypher": "MATCH (n:Person {name: 'Keanu Reeves'}), (m0:Movie {title: 'The Matrix'}) WITH DISTINCT n RETURN n.roles",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:WROTE]->(m:Movie) WHERE (p)-[:DIRECTED]->(m) RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)<-[r1:ACTED_IN]-(m1:Person)-[r2:DIRECTED]->(m2:Movie) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) WHERE m.votes > 200 WITH p, count(m) AS num_movies ORDER BY num_movies DESC LIMIT 5 RETURN p.name AS director, num_movies",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: 'Nancy Meyers'})-[:DIRECTED]->(m:Movie) MATCH (a:Person)-[:ACTED_IN]->(m) RETURN DISTINCT a.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)-[r1:DIRECTED]->(m1:Movie {name: 'Nancy Meyers'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) RETURN m.title AS movie, r.rating AS rating, r.summary AS review ORDER BY r.rating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) MATCH (p)-[:WROTE]->(m) RETURN m.title AS movie_title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:WROTE]-(m0:Person)<-[r1:DIRECTED]-(m1:Movie) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:ACTED_IN]-(p:Person) WHERE size(r.roles) = 3 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person)-[r1:ACTED_IN]->(m1:Movie {name: 'The Matrix'}) WITH DISTINCT n WHERE count(DISTINCT m0) = 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released = 2008 RETURN m.title, m.released ORDER BY m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.released = 2008 LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (:Person)-[r:REVIEWED]->(m:Movie) WHERE r.rating > 95 WITH size(split(r.summary, \" \")) AS words RETURN avg(words) AS average_word_count",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person) WITH DISTINCT n WHERE n.rating > 95 RETURN avg(n.summary.length)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (follower:Person)-[:FOLLOWS]->(keanu:Person {name: \"Keanu Reeves\"}) WHERE exists {     (follower)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(keanu) } RETURN follower",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)<-[r1:ACTED_IN]-(m1:Person {name: 'Keanu Reeves'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie)<-[:PRODUCED]-(p)-[:ACTED_IN]->(m) RETURN p.name, collect(m.title) AS movies ORDER BY size(movies) DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Movie)<-[r1:ACTED_IN]-(m1:Person),(n:Person)-[r2:PRODUCED]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Jeremy Allen White\"})-[:ACTED_IN]->(m:Movie) RETURN COUNT(m) AS movies_played",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person {name: 'jeremy allen white'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie)<-[:REVIEWED]-(p) RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Movie)<-[r1:REVIEWED]-(m1:Person)> WITH DISTINCT n RETURN n.name ORDER BY n.born ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE r.rating > 90 RETURN m.title, r.rating",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.rating > 90 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WITH m.released AS releaseYear, count(m) AS movieCount ORDER BY movieCount DESC RETURN releaseYear, movieCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN max(n.released) AS answer",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE r.summary = 'Fun, but a little far fetched' RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person {name: 'Keanu Reeves'}) WITH DISTINCT n WHERE n.reviews.summary = 'Fun, but a little far fetched' RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE r.summary CONTAINS 'Robin Williams' RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:REVIEWED]-(m0:Movie)-[r1:REVIEWED]->(m1:Movie {name: 'Robin Williams'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(:Movie), (p)-[:PRODUCED]->(:Movie) RETURN DISTINCT p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:PRODUCED]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie {title: 'Speed Racer'}) RETURN p.name, r.roles LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie {title: 'Speed Racer'}) WITH DISTINCT n RETURN n.name ORDER BY n.born ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie)<-[:PRODUCED]-(p) RETURN m.title AS MovieTitle LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED]->(m0:Person)<-[r1:DIRECTED]-(m1:Movie {name: 'The Matrix'}) WITH DISTINCT n RETURN n.title LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE r.summary CONTAINS 'coolest' RETURN DISTINCT m.title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Movie {name: 'The coolest football movie ever'}) WITH DISTINCT n RETURN n.title CONTAINS 'coolest'",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) WHERE m.tagline CONTAINS 'Speed' RETURN p.name, count(m) AS movies_produced ORDER BY movies_produced DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie)-[r1:tagline]->(m1:STRING {name: 'Speed'}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Laurence Fishburne\"})-[:PRODUCED]->(m:Movie) WHERE m.released >= 2001 RETURN m ORDER BY m.released ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED]-(m0:Person {name: 'Laurence Fishburne'}) WITH DISTINCT n WHERE n.released >= 1975 AND n.released <= 2012 RETURN n ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:WROTE]->(m:Movie)<-[r:REVIEWED]-() WITH p, avg(r.rating) AS average_rating RETURN p.name, average_rating ORDER BY average_rating DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Person)<-[r0:WROTE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:REVIEWED {summary: 'Silly, but fun'}]->(m:Movie) WITH p, count(m) AS movieCount ORDER BY movieCount DESC LIMIT 1 RETURN p.name AS personName, movieCount",
+    "pred_cypher": "MATCH (n:Person)<-[r0:REVIEWED]-(m0:Movie)-[r1:REVIEWED]->(m1:REVIEW {summary: 'Silly, but fun'}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline IS NOT NULL RETURN m.tagline AS Tagline, count(m) AS Frequency ORDER BY Frequency DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person) WHERE exists{ (p)-[:PRODUCED]->(:Movie) }   AND NOT exists{ (p)-[:ACTED_IN]->(:Movie) } RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie) WITH DISTINCT n WHERE NOT EXISTS (MATCH (n:Person)-[r1:ACTED_IN]->(m1:Movie)) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(p) RETURN p.name AS personName, m.title AS movieTitle",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)<-[r1:DIRECTED]-(m1:Person) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) WHERE m.tagline CONTAINS 'world' WITH p, COUNT(m) AS movieCount ORDER BY movieCount DESC LIMIT 1 RETURN p.name AS director, movieCount",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie)-[r1:tagline]->(m1:STRING {name: 'world'}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.votes IS NOT NULL RETURN m ORDER BY m.votes DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person) WHERE p.born = 1949 AND exists{ (p)-[:DIRECTED]->(:Movie) } RETURN p",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Movie) WITH DISTINCT n WHERE n.born = 1949 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) WHERE p.born > 1960 RETURN m LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED]-(m0:Person)-[r1:ACTED_IN]->(m1:Movie) WITH DISTINCT n WHERE n.released > 1960 AND n.released <= 2012 AND n.relevant LIMIT 5 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.votes > 2000 RETURN m.title, m.votes",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.votes > 2000 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WITH p, r.roles AS roles UNWIND roles AS role WITH p, COUNT(DISTINCT role) AS uniqueRolesCount RETURN p.name AS actor, uniqueRolesCount ORDER BY uniqueRolesCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:ACTED_IN]-(p:Person) RETURN m.title AS movie, size(r.roles) AS roleCount ORDER BY roleCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.roles DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p1:Person)-[:FOLLOWS]->(p2:Person) WHERE p1.born = p2.born RETURN p1, p2",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)<-[r1:FOLLOWS]-(m1:Person)-[r2:ACTED_IN]->(m2:Movie {title: 'The Matrix'}) WITH DISTINCT n WHERE n.born = m1.born RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie {title: 'Speed Racer'}) RETURN p.name AS reviewer, r.rating AS rating",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie {title: 'Speed Racer'}) WITH DISTINCT n RETURN n.name, n.rating",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie {title: \"Gone with the Wind\"}) RETURN m",
+    "pred_cypher": "MATCH (n:Movie {title: 'show movie gone with the wind'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) RETURN m.title AS movie, m.released AS year ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person {name: 'Keanu Reeves'}) WITH DISTINCT n RETURN n.title ORDER BY n.released ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.released ORDER BY m.released LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.released ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:WROTE]->(:Movie) RETURN p.name, p.born ORDER BY p.born DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)<-[r0:WROTE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.born ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (actor:Person)-[:ACTED_IN]->(:Movie) OPTIONAL MATCH (follower:Person)-[:FOLLOWS]->(actor) WITH actor, COUNT(follower) AS followerCount RETURN actor.name AS actorName, followerCount ORDER BY followerCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:FOLLOWS]->(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.FOLLOWS DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie {title: 'The Matrix'}) RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Movie {title: 'The Matrix'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[a:ACTED_IN]->(m:Movie)<-[r:REVIEWED]-(p) RETURN p.name, m.title, a.roles, r.summary, r.rating",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)<-[r1:REVIEWED]-(m1:Movie) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title AS title, m.released AS release_year, m.votes AS votes ORDER BY m.votes ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH ()-[r]-() RETURN r, type(r) ORDER BY id(r) DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Relationship) WITH DISTINCT n RETURN n ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released < 1980 RETURN m ORDER BY m.released DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.released < 1980 ORDER BY n.released ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[a:ACTED_IN]->(m:Movie) WITH p, sum(size(a.roles)) AS totalRoles ORDER BY totalRoles DESC LIMIT 3 RETURN p.name AS PersonName, totalRoles",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.roles.count() DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:REVIEWED]->(m:Movie) WHERE p.born > 1970 RETURN m ORDER BY m.released ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person)-[r1:REVIEWED]->(m1:Movie) WITH DISTINCT n WHERE n.released > 1970 RETURN n ORDER BY n.released ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.tagline CONTAINS 'limit' WITH p, count(m) AS movies_count WHERE movies_count > 3 RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:ACTED_IN]->(m1:Movie {tagline: 'limit'}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person) WHERE exists{(p)-[:PRODUCED]->(:Movie)} AND        exists{(p)-[:DIRECTED]->(:Movie)} AND        exists{(p)-[:ACTED_IN]->(:Movie)} WITH p, count{(p)-[:PRODUCED]->(:Movie)} AS producedCount,            count{(p)-[:DIRECTED]->(:Movie)} AS directedCount,            count{(p)-[:ACTED_IN]->(:Movie)} AS actedInCount RETURN p.name, producedCount, directedCount, actedInCount ORDER BY producedCount + directedCount + actedInCount DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie)-[r1:DIRECTED]->(m1:Movie) WITH DISTINCT n RETURN n.name ORDER BY num_of_movies DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:ACTED_IN]-(:Person) WITH m, size(r.roles) AS role_count ORDER BY role_count DESC LIMIT 3 RETURN m.title AS movie_title, role_count",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN n.title ORDER BY n.roles.size DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WITH p, count(m) AS movies_count WHERE movies_count > 1 WITH count(p) AS actors_with_multiple_movies MATCH (actor:Person)-[:ACTED_IN]->(:Movie) WITH actors_with_multiple_movies, count(DISTINCT actor) AS total_actors RETURN (actors_with_multiple_movies * 1.0) / total_actors * 100 AS percentage",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:ACTED_IN]->(m1:Person {name: 'actor'}) WITH DISTINCT n RETURN (count(DISTINCT n)/count(DISTINCT (m0:Movie))) * 100 AS percentage",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[:ACTED_IN]-(p:Person) WITH m, count(p) AS actorCount ORDER BY actorCount DESC LIMIT 3 MATCH (m)<-[r:ACTED_IN]-(p) RETURN m.title AS movieTitle, p.name AS actorName, r.roles AS roles",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:ACTED_IN]->(m1:Person {name: 'Keanu Reeves'}) WITH DISTINCT n RETURN n.role ORDER BY n.number_of_actors DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:REVIEWED]->(m:Movie) WITH p, count(m) AS reviewCount ORDER BY reviewCount DESC LIMIT 1 RETURN p.name AS reviewerName, reviewCount",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) WHERE p.born > 1960 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Person)-[r1:DIRECTED]->(m1:Movie {released >= 1960}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie {title: 'Speed Racer'}) RETURN p.name, r.roles",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie {title: 'Speed Racer'}) WITH DISTINCT n RETURN n.roles",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.votes ORDER BY m.votes LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[:ACTED_IN]-(p:Person) WITH m, count(DISTINCT p) AS actorCount ORDER BY actorCount DESC LIMIT 3 RETURN m.title AS movieTitle, actorCount",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN n.title ORDER BY n.number_of_actors DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE r.summary = 'Pretty funny at times' RETURN p.name ORDER BY r.rating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie {title: 'Pretty funny at times'}) WITH DISTINCT n LIMIT 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE r.summary CONTAINS 'funny' RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person)-[r1:REVIEWED]->(m1:Movie {summary: 'funny'}) WITH DISTINCT n RETURN n.title, n.votes, n.released ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.title CONTAINS 'The Matrix' WITH m MATCH (p:Person)-[r:REVIEWED]->(m) RETURN avg(r.rating)",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Movie {title: 'The Matrix'}) WITH DISTINCT n RETURN avg(n.rating)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) MATCH (p:Person)-[:DIRECTED]->(m) WHERE (p)-[:ACTED_IN]->(m) RETURN DISTINCT m.title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Person)-[r1:ACTED_IN]->(m1:Movie) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Joel Silver\"})-[:PRODUCED]->(m:Movie) RETURN m.title AS MovieTitle, m.released AS ReleaseYear",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED]-(m0:Person {name: 'Joel Silver'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN m.title AS Movie, r.roles AS Roles ORDER BY size(r.roles) DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN n.title, n.roles ORDER BY n.roles.count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WITH m, r, p ORDER BY r.rating DESC LIMIT 1 RETURN p.name AS reviewer, r.summary AS review_summary",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie) WITH DISTINCT n RETURN n.name, m0.summary ORDER BY m0.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WITH p, avg(r.rating) AS avg_rating ORDER BY avg_rating DESC LIMIT 3 RETURN p.name AS reviewer, avg_rating",
+    "pred_cypher": "MATCH (n:Person)<-[r0:REVIEWED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(:Movie) WITH p MATCH (p)-[:PRODUCED]->(:Movie) RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie)-[r1:DIRECTED]->(m1:Movie) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-() WHERE size(m.tagline) > 20 RETURN avg(r.rating) AS average_rating",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.tagline LENGTH > 20 RETURN avg(n.rating)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline CONTAINS 'Welcome' RETURN m.title, m.votes ORDER BY m.votes DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Movie {title: 'Welcome'}) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE m.released >= 1990 AND m.released <= 2000 AND r.rating > 80 RETURN DISTINCT m.title",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.released BETWEEN 1990 AND 2000 AND n.rating > 80 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) WHERE p.born > 1970 RETURN m.title AS MovieTitle, m.released AS ReleaseYear",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Person) WITH DISTINCT n WHERE n.born > 1970 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-() WHERE r.summary CONTAINS 'times' RETURN m.title AS movieTitle, m.votes AS movieVotes ORDER BY movieVotes LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Review {summary: 'times'}) WITH DISTINCT n RETURN n.title ORDER BY n.votes ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie {title: 'V for Vendetta'}) WHERE p.born > 1960 RETURN p.name, p.born ORDER BY p.born DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie {title: 'V for Vendetta'}) WITH DISTINCT n WHERE n.born > 1960 LIMIT 3 RETURN n.name ORDER BY n.born DESC",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released >= 2005 AND m.released <= 2010   AND m.tagline = 'Speed has no limits' RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Person {name: 'Keanu Reeves'}) WITH DISTINCT n WHERE n.released BETWEEN 2005 AND 2010 AND n.tagline = 'Speed has no limits' RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) WITH p, COUNT(m) AS directedMovies ORDER BY directedMovies DESC LIMIT 1 RETURN p.name AS director, directedMovies",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[:WROTE]-(p:Person) WHERE (p)-[:PRODUCED]->(m) RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED]-(m0:Person)-[r1:WROTE]->(m1:Movie) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE r.rating = 100 RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie) WITH DISTINCT n WHERE r0.rating = 100 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) MATCH (p)-[:DIRECTED]->(m2:Movie) WHERE m.title = m2.title RETURN m.title AS MovieTitle, p.name AS ProducerDirector",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED]-(m0:Person)<-[r1:DIRECTED]-(m1:Movie)-[r2:PRODUCED]->(m0:Person) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS person, m.title AS movie, size(r.roles) AS num_roles ORDER BY num_roles DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.roles DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE m.released < 2000 WITH p, count(r) AS reviews ORDER BY reviews DESC LIMIT 3 RETURN p.name AS PersonName, reviews AS NumberOfReviews",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie)-[r1:REVIEWED]->(m1:Movie {released < 2000}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Lana Wachowski\"})-[:DIRECTED]->(m:Movie) MATCH (producer:Person)-[:PRODUCED]->(m) RETURN DISTINCT producer.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie)-[r1:DIRECTED]->(m1:Person {name: 'Lana Wachowski'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) WITH m, count(p) AS producers_count WHERE producers_count > 1 RETURN m.title AS Movie, producers_count",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED]-(m0:Person) WITH DISTINCT n WHERE n.votes > 0 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.votes ORDER BY m.votes ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person) WHERE p.born > 1980 AND (   (p)-[:ACTED_IN]->(:Movie) OR   (p)-[:DIRECTED]->(:Movie) OR   (p)-[:PRODUCED]->(:Movie) ) RETURN p",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n WHERE n.born > 1980 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) WHERE exists {   (p)-[:DIRECTED]->(m) } AND exists {   (p)-[:WROTE]->(m) } RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:PRODUCED]->(m0:Movie)<-[r1:PRODUCED]-(m1:Person) WITH DISTINCT n RETURN n.name ORDER BY n.born ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.votes ORDER BY m.votes DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) RETURN m.title, p.born ORDER BY p.born ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.director ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE all(i IN range(2, toInteger(ceil(sqrt(m.released)))) WHERE m.released % i <> 0) RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n WHERE m0.released IS NOT NULL AND (m0.released % 2 = 0) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE r.rating > 90 WITH p, count(m) AS moviesReviewed ORDER BY moviesReviewed DESC LIMIT 1 RETURN p.name AS reviewer, moviesReviewed",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[:DIRECTED]-(d:Person) MATCH (m)<-[:WROTE]-(w:Person) WHERE d = w RETURN m.title, d.name",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Person)<-[r1:DIRECTED]-(m1:Movie) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[:DIRECTED]-(p:Person) WHERE m.title CONTAINS 'Give' RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Movie)-[r1:TITLE]->(m1:STRING {value: 'Give'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.released >= 1970 AND m.released < 1980 RETURN m.title AS movie, count(p) AS actor_count ORDER BY actor_count DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED]-(m0:Person)-[r1:ACTED_IN]->(m1:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 1 AND n.released >= 1970",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (director:Person)-[:DIRECTED]->(movie:Movie)<-[:ACTED_IN]-(actor:Person) WHERE director.born / 10 = actor.born / 10 RETURN DISTINCT actor.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:DIRECTED]->(m1:Movie)<-[r2:DIRECTED]-(m2:Person {name: 'unknown'}) WITH DISTINCT n WHERE n.born.year - 100 IN {1929, 1930, 1931, 1932, 1933, 1934, 1935, 1936, 1937, 1938, 1939, 1940, 1941, 1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996} RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE r.rating > 90 RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie) WITH DISTINCT n WHERE r0.rating > 90 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.released ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.released ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WITH p, COUNT(m) AS movieCount RETURN p.name AS actor, movieCount ORDER BY movieCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.movie_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (director:Person)-[:DIRECTED]->(movie:Movie) WHERE movie.released > 2000 WITH director, count(movie) AS movieCount, collect(movie.title) AS movies ORDER BY movieCount DESC LIMIT 1 RETURN director.name AS directorName, movies",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n WHERE m0.released > 2000 RETURN n.name, m0.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = \"Pearl Harbour\" RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie {title: 'Pearl Harbour'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (actor:Person)-[:ACTED_IN]->(m:Movie) WITH actor, count(m) AS moviesActed ORDER BY moviesActed DESC LIMIT 1 MATCH (actor)-[:ACTED_IN]->(m)<-[:DIRECTED]-(director:Person) WITH director, count(m) AS moviesDirected ORDER BY moviesDirected ASC LIMIT 1 RETURN director.name AS directorName, moviesDirected",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie)<-[r1:ACTED_IN]-(m1:Person)-[r2:ACTED_IN]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline CONTAINS 'journey' RETURN m LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Person) WITH DISTINCT n RETURN n.title ORDER BY n.tagline ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE p.born > 1980 WITH p, count(m) AS numMovies WHERE numMovies > 1 RETURN p.name AS actor, numMovies",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie) WITH DISTINCT n WHERE n.born > 1980 AND n.number_of_movies > 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[:REVIEWED {summary: 'An amazing journey'}]-(:Person) RETURN m",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person)-[r1:REVIEWED]->(m1:Movie {title: 'An amazing journey'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE r.summary = 'Fun, but a little far fetched' RETURN m.title, r.rating",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person {name: 'unknown'}) WITH DISTINCT n WHERE n.reviews.summary = 'Fun, but a little far fetched' RETURN n.title, n.votes",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person) WHERE p.born > 1970 AND exists{ (p)-[:ACTED_IN]->(:Movie) } RETURN p.name AS actor, p.born AS year_born",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n WHERE n.born > 1970 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie), (p)-[:PRODUCED]->(m) RETURN m.title AS MovieTitle, m.released AS ReleaseYear",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person)-[r1:PRODUCED]->(m1:Movie) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WITH p, count(m) AS movies_count WHERE movies_count > 1 WITH count(p) AS actors_more_than_one_movie MATCH (actor:Person)-[:ACTED_IN]->(:Movie) WITH count(DISTINCT actor) AS total_actors, actors_more_than_one_movie RETURN (actors_more_than_one_movie * 1.0) / total_actors * 100 AS percentage",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:ACTED_IN]->(m1:Person) WITH DISTINCT n RETURN (count(DISTINCT n) / count(DISTINCT m0)) * 100 AS percentage",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (:Person)-[r:REVIEWED]->(m:Movie) RETURN m.title AS movie, AVG(r.rating) AS average_rating ORDER BY average_rating ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie)<-[:WROTE]-(p) RETURN p.name AS person, m.title AS movie",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie)<-[r1:PRODUCED]-(n:Person) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (lilly:Person {name: 'Lilly Wachowski'})-[:DIRECTED]->(lillyMovies:Movie) MATCH (lana:Person {name: 'Lana Wachowski'})-[:DIRECTED]->(lanaMovies:Movie) MATCH (lillyMovies)<-[:ACTED_IN]-(lillyActors:Person) MATCH (lanaMovies)<-[:ACTED_IN]-(lanaActors:Person) WITH lillyActors, lanaActors WHERE id(lillyActors) = id(lanaActors) RETURN DISTINCT lillyActors.name AS actorName",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:DIRECTED]->(m1:Movie {name: 'Lilly Wachowski'}) WITH DISTINCT n WHERE n.name = 'Lana Wachowski' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.votes IS NOT NULL RETURN m ORDER BY m.votes ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE NOT EXISTS { (m)<-[:REVIEWED]-() } RETURN m.title LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:REVIEWED]->(m0:Person {name: ''}) WITH DISTINCT n RETURN n.title ORDER BY n.votes ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline IS NOT NULL RETURN m.title, m.tagline ORDER BY m.tagline DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.tagline CONTAINS 'journey' WITH p, count(m) AS movieCount ORDER BY movieCount DESC LIMIT 3 RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)-[r1:ACTED_IN]->(m1:Person {name: 'name'}) WITH DISTINCT n RETURN n.name, n.name, n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WITH p, count(DISTINCT r.roles) AS distinctRoles ORDER BY distinctRoles DESC LIMIT 3 RETURN p.name, distinctRoles",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY count(DISTINCT r0.roles) DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, size(m.title) AS length ORDER BY length DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN max(n.title)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie {title: \"V for Vendetta\"})<-[:DIRECTED]-(p:Person) RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Movie {title: 'V for Vendetta'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WITH m, avg(m.votes) AS average_votes MATCH (p:Person)-[:DIRECTED]->(m) WITH p, average_votes ORDER BY average_votes DESC RETURN p.name AS director_name, avg(average_votes) AS average_movie_votes LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.title CONTAINS \"Mail\" RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person {name: 'Mail'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.votes < 100 RETURN m.title ORDER BY m.votes LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.votes < 100 LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.released >= 1990 AND m.released < 2000 RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:RELAIED]->(m1:Movie {released: 1990}) WITH DISTINCT n RETURN n.name ORDER BY n.born ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) WHERE m.votes > 500 RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie)-[r1:ACTED_IN]->(m1:Person {name: 'Keanu Reeves'}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[ai:ACTED_IN]-(p:Person) RETURN m.title AS movie, collect(p.name) AS actors, size(ai.roles) AS numRoles ORDER BY numRoles DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Keanu Reeves\"})-[:FOLLOWS]->(followed:Person) WHERE followed.born >= 1960 AND followed.born < 1970 RETURN followed ORDER BY followed.born LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:FOLLOWS]-(m0:Person {name: 'Keanu Reeves'}) WITH DISTINCT n WHERE n.born >= 1920 AND n.born <= 1960 LIMIT 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[:ACTED_IN]-(p:Person) WITH m, count(p) AS actorCount WHERE actorCount > 3 RETURN m.title AS MovieTitle, actorCount",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n WHERE count(DISTINCT m0) > 3 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WITH p, r, m ORDER BY r.rating ASC LIMIT 1 RETURN p.name AS reviewer, m.title AS movie, r.rating AS rating",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY m0.votes ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.released = 2012 RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)-[r1:RELAIED]->(m1:Movie {released: 2012}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)<-[:FOLLOWS]-(follower:Person) WITH p, COUNT(follower) AS followerCount ORDER BY followerCount DESC LIMIT 5 RETURN p.name AS personName, followerCount",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.folowers DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) RETURN p.name AS director, m.title AS movie, m.released - p.born AS age_at_release ORDER BY age_at_release ASC LIMIT 1",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY m0.released DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WITH p, count(m) AS movies_reviewed WHERE movies_reviewed > 1 RETURN p LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:REVIEWED]-(m0:Movie)-[r1:REVIEWED]->(m1:Person {name: 'Keanu Reeves'}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE r.summary CONTAINS 'coolest' AND m.released > 2000 RETURN count(m)",
+    "pred_cypher": "MATCH (n:Movie)-[r0:REVIEWED]->(m0:Review {summary: 'The coolest football movie ever'}) WITH DISTINCT n WHERE n.released > 2000 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) RETURN p.name, COUNT(m) AS movies_count ORDER BY movies_count DESC LIMIT 10",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n RETURN n.name ORDER BY n.count(DISTINCT (m0:Movie)) DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie {released: 2003})<-[r:REVIEWED]-() WITH avg(r.rating) AS averageRating RETURN averageRating",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.released = 2003 RETURN avg(n.rating)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title CONTAINS 'Matrix' RETURN p.name AS person, m.title AS movie, r.roles AS roles",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie {title: 'Matrix'}) WITH DISTINCT n RETURN n.name, n.roles",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Keanu Reeves\"})-[:ACTED_IN]->(m:Movie) WITH min(m.released) AS oldestMovie MATCH (p:Person {name: \"Keanu Reeves\"})-[:ACTED_IN]->(m:Movie) WHERE m.released = oldestMovie RETURN m.title, m.released",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person {name: 'Keanu Reeves'}) WITH DISTINCT n RETURN n.title ORDER BY n.released ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person) RETURN p.name, p.born ORDER BY p.born ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n RETURN n.name ORDER BY n.born ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline CONTAINS 'Speed' RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person)-[r1:WROTE]->(m1:Movie {title: 'Speed'}) WITH DISTINCT n RETURN n.title, n.tagline",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(p) RETURN p.name, m.title",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)<-[r1:ACTED_IN]-(m1:Person)-[r2:DIRECTED]->(m2:Movie) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.released ORDER BY m.released ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.released ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.votes ORDER BY m.votes DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline CONTAINS 'football' RETURN m ORDER BY m.released DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Person {name: 'unknown'}) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: 'Keanu Reeves'})-[r:ACTED_IN]->(m:Movie) WITH p, collect(r.roles) AS rolesList UNWIND rolesList AS roles UNWIND roles AS role RETURN p.name, role, count(*) AS times_played ORDER BY times_played DESC",
+    "pred_cypher": "MATCH (n:Person {name: 'Keanu Reeves'}) WITH DISTINCT n RETURN DISTINCT n.roles",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie {tagline: 'Welcome to the Real World'}) RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:tagline]->(m0:STRING {name: 'Welcome to the Real World'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie)<-[:PRODUCED]-(p) RETURN m.title AS movie",
+    "pred_cypher": "MATCH (n:Movie)-[r0:DIRECTED]->(m0:Person)<-[r1:PRODUCED]-(m1:Movie {name: 'The Matrix'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WITH p, avg(r.rating) AS avg_rating RETURN p.name, avg_rating ORDER BY avg_rating DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE r.rating > 90 RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person) WITH DISTINCT n WHERE n.rating > 90 RETURN n.title, n.votes, n.released LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (director:Person {name: \"Nancy Meyers\"})-[:DIRECTED]->(movie:Movie) WITH movie ORDER BY movie.released LIMIT 3 MATCH (actor:Person)-[actedIn:ACTED_IN]->(movie) RETURN movie.title AS MovieTitle, actor.name AS ActorName, actedIn.roles AS Roles",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie)<-[r1:ACTED_IN]-(m1:Actor)-[r2:ACTED_IN]->(m2:Movie {name: 'first 3 movies directed by Nancy Meyers'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) WHERE m.tagline CONTAINS 'Speed' RETURN p.name AS producer, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie)-[r1:tagline]->(m1:STRING {name: 'Speed'}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m1:Movie) MATCH (p)-[:DIRECTED]->(m2:Movie) WHERE id(m1) < id(m2) WITH m1, m2, abs(avg(m1.rating) - avg(m2.rating)) AS rating_diff RETURN avg(rating_diff) AS average_rating_difference",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Person)<-[r1:DIRECTED]-(m1:Movie) WITH DISTINCT n RETURN avg(n.rating - n.rating)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.released >= 1990 AND m.released <= 2000 WITH p, count(m) AS movieCount ORDER BY movieCount DESC LIMIT 3 RETURN p.name AS actor, movieCount",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:ACTED_IN]->(m1:Movie {released between 1990 and 2000}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) RETURN p.name, count(m) AS movies_reviewed ORDER BY movies_reviewed DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Person)-[r0:REVIEWED]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.votes IS NOT NULL RETURN m.title, m.released, m.votes ORDER BY m.votes LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title AS Movie, m.votes AS Votes ORDER BY m.votes DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (d:Person)-[:DIRECTED]->(m:Movie) WHERE m.released > 2005 WITH d, count(m) AS num_movies ORDER BY num_movies DESC LIMIT 3 RETURN d.name AS director, num_movies",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie)-[r1:RELAUNCH]->(m1:Movie {released >= 2005}) WITH DISTINCT n RETURN n.name ORDER BY num(Movie) DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:FOLLOWS]->(actor:Person) WITH actor, count(p) AS followers ORDER BY followers DESC LIMIT 3 RETURN actor.name, followers",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n RETURN n.name ORDER BY n.follower_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE r.rating > 90 RETURN m.title AS MovieTitle LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person) WITH DISTINCT n WHERE n.rating > 90 RETURN n.title, n.title, n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie {title: 'Speed Racer'}) WITH m.released AS releaseYear MATCH (m:Movie) WHERE m.released = releaseYear RETURN avg(m.votes) AS averageVotes",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Movie {title: 'Speed Racer'}) WITH DISTINCT n RETURN avg(n.votes)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (d1:Person)-[:DIRECTED]->(m1:Movie)<-[:ACTED_IN]-(a:Person)-[:ACTED_IN]->(m2:Movie)<-[:DIRECTED]-(d2:Person) WHERE id(d1) < id(d2) WITH d1, d2, COUNT(DISTINCT a) AS common_actors ORDER BY common_actors DESC LIMIT 1 RETURN d1.name AS Director1, d2.name AS Director2, common_actors",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:DIRECTED]->(m1:Person) WITH DISTINCT n RETURN n.name, n.name AS pair ORDER BY count(DISTINCT m0) DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:WROTE]->(m:Movie) WHERE p.born < 1950 AND m.tagline CONTAINS 'journey' RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:WROTE]-(m0:Movie)-[r1:tagline]->(m1:STRING {name: 'journey'}) WITH DISTINCT n WHERE n.born < 1950 RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (d:Person)-[:DIRECTED]->(m:Movie) WITH d, min(m.votes) AS minVotes ORDER BY minVotes LIMIT 3 RETURN d.name AS director",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person) WHERE p.born < 1960 RETURN p.name",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n WHERE n.born < 1960 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WITH p, size(apoc.coll.toSet(collect(r.roles))) AS roleDiversity RETURN p.name AS actor, roleDiversity ORDER BY roleDiversity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:WROTE]->(m:Movie)<-[:DIRECTED]-(p) RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)<-[r1:DIRECTED]-(m1:Movie) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-() WHERE r.summary = \"A solid romp\" RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Movie {title: 'A solid romp'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie {title: \"Titanic\"}) RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie {title: 'Titanic'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person) WHERE p.born >= 1940 AND p.born <= 1960 RETURN p.name, p.born",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n WHERE n.born >= 1940 AND n.born <= 1960 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Nancy Meyers\"})-[:WROTE]->(m:Movie) RETURN m.title AS MovieTitle, m.released AS ReleaseYear ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person {name: 'Nancy Meyers'}),(n:Movie)<-[r1:WROTE]-(m1:Person {name: 'Nancy Meyers'}) WITH DISTINCT n RETURN n.title ORDER BY n.released ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) WHERE p.born > 1960 RETURN m.title AS MovieTitle, p.name AS DirectorName",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Person)-[r1:ACTED_IN]->(m1:Movie {released: 1975}) WITH DISTINCT n WHERE n.released > 1960 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) WHERE p.born > 1980 RETURN avg(r.rating) AS average_rating",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n WHERE n.born > 1980 RETURN avg(n.rating)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE p.born < 1950 AND m.tagline CONTAINS 'limits' RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:tagline]->(m1:STRING {name: 'limits'}) WITH DISTINCT n WHERE n.born < 1950 RETURN n.name, n.name, n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) WHERE m.votes < 100 RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie)-[r1:ACTED_IN]->(m1:Movie {votes < 100}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WITH p, count(DISTINCT m) AS movies_count ORDER BY movies_count DESC RETURN p.name, movies_count LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.number OF movies DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:ACTED_IN]-(p:Person) RETURN m.title AS movie, size(r.roles) AS numRoles ORDER BY numRoles DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.number_of_roles DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE NOT m.title CONTAINS 'a' RETURN m ORDER BY m.votes DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE 'a' NOT IN n.title RETURN n.title ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[:REVIEWED]-(r:Person) WITH m, count(r) AS reviewCount RETURN m.title AS movieTitle, reviewCount ORDER BY reviewCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (child:Person)-[:FOLLOWS]->(parent:Person) RETURN child.name AS ChildName, parent.name AS ParentName",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)<-[r1:ACTED_IN]-(m1:Person {name: 'daddy'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Laurence Fishburne\"})-[:ACTED_IN]->(m:Movie) WHERE m.released > 2000 RETURN m.title, m.released, [(p)-[r:ACTED_IN]->(m) | r.roles] AS roles",
+    "pred_cypher": "MATCH (n:Person {name: 'Laurence Fishburne'}) WITH DISTINCT n WHERE n.released > 2000 RETURN n.roles",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (:Person)-[r:REVIEWED]->(m:Movie) WHERE r.rating > 90 WITH avg(m.votes) AS average_votes RETURN average_votes",
+    "pred_cypher": "MATCH (n:Movie)-[r0:REVIEWED]->(m0:Person) WITH DISTINCT n WHERE n.rating > 90 RETURN avg(n.votes)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie)<-[r:REVIEWED]-() WHERE r.rating > 95 RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n WHERE r0.rating > 95 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:FOLLOWS]->(f:Person) WHERE p.born >= 1980 AND p.born < 1990 WITH f, COUNT(p) AS followers RETURN AVG(followers) AS average_followers",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n RETURN avg(n.FOLLOWS) AS answer WHERE n.born BETWEEN 1980 AND 1989",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (:Person)-[r:REVIEWED]->(m:Movie) WHERE r.summary CONTAINS 'funny' AND m.released > 2010 WITH avg(r.rating) AS averageRating RETURN averageRating",
+    "pred_cypher": "MATCH (n:Movie)-[r0:REVIEWED]->(m0:Review {summary: 'funny'}),(n:Movie)-[r1:REVIEWED]->(m1:Review {summary: 'something else'}) WITH DISTINCT n WHERE n.released > 2010 RETURN avg(n.rating)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) RETURN m ORDER BY m.released DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.released DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (:Person)-[r:REVIEWED]->(m:Movie) RETURN m.title AS movie, r.rating AS rating ORDER BY rating DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.votes DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WITH m, count(p) AS actorCount WHERE actorCount > 5 RETURN m.title, actorCount",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n WHERE count(DISTINCT m0) > 5 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p1:Person)-[r1:REVIEWED]->(m:Movie)<-[r2:REVIEWED]-(p2:Person) WHERE p1 <> p2 RETURN p1.name AS Reviewer1, p2.name AS Reviewer2, m.title AS Movie, r1.summary AS Review1, r2.summary AS Review2",
+    "pred_cypher": "MATCH (n:Person)<-[r0:REVIEWED]-(m0:Movie) WITH DISTINCT n RETURN n.name, n.summary",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (:Person)-[review:REVIEWED]->(:Movie) WITH max(review.rating) AS highestRating RETURN highestRating",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN max(n.votes)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released >= 2000 AND m.released < 2010 RETURN avg(m.votes) AS average_votes",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.released >= 1975 AND n.released <= 2012 RETURN avg(n.votes)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person {name: \"Joel Silver\"})-[:PRODUCED]->(m:Movie) RETURN sum(m.votes) AS total_votes",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED]-(m0:Person {name: 'Joel Silver'}) WITH DISTINCT n RETURN sum(n.votes)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)-[:DIRECTED]-(p:Person) WHERE m.votes > 1000 RETURN p.name AS Director, m.title AS MovieTitle",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n WHERE m0.votes > 1000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-(p:Person) WHERE r.summary = 'An amazing journey' RETURN m.title, count(r) AS reviews ORDER BY reviews DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:REVIEWED]-(m0:Person)-[r1:REVIEWED]->(m1:Movie {title: 'An amazing journey'}) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE p.born > 1970 AND m.released < 1990 RETURN p.name AS actor_name, p.born AS birth_year, m.title AS movie_title, m.released AS release_year ORDER BY p.born LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:released]->(m1:Integer {value: 1990}) WITH DISTINCT n WHERE n.born > 1970 RETURN n.name ORDER LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:DIRECTED]->(m:Movie) WHERE p.born < 1950 RETURN count(DISTINCT p)",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Movie) WITH DISTINCT n WHERE n.born < 1950 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (:Person)-[r:REVIEWED]->(:Movie) RETURN max(r.rating) AS highest_rating",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN max(n.votes)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (:Person {name: \"Tom Hanks\"})-[:DIRECTED]->(m:Movie) WHERE m.tagline CONTAINS \"love\" RETURN COUNT(m) AS MoviesWithLoveInTagline",
+    "pred_cypher": "MATCH (n:Movie)-[r0:DIRECTED]->(m0:Person {name: 'Tom Hanks'}) WITH DISTINCT n WHERE n.tagline LIKE '%love%' RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(p) RETURN p.name AS person_name, m.title AS movie_title",
+    "pred_cypher": "MATCH (n:Person)-[r0:ACTED_IN]->(m0:Movie)<-[r1:DIRECTED]-(m1:Person) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie)<-[r:REVIEWED]-() WHERE r.summary = \"A solid romp\" RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Movie {title: 'A solid romp'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (m:Movie {title: \"The Matrix Revolutions\"}) WITH m.released AS releaseYear MATCH (movies:Movie {released: releaseYear}) WITH avg(movies.votes) AS averageVotes RETURN averageVotes",
+    "pred_cypher": "MATCH (n:Movie)-[r0:RELAUNCH]->(m0:Movie {title: 'The Matrix Revolutions'}) WITH DISTINCT n RETURN avg(n.votes)",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "movies",
+    "gold_cypher": "MATCH (p:Person)-[:PRODUCED]->(m:Movie) RETURN p.name, p.born, count(m) AS movies_produced ORDER BY movies_produced DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)<-[r0:PRODUCED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.votes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  }
+]

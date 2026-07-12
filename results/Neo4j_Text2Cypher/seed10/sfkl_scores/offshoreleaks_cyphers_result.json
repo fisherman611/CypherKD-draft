@@ -1,0 +1,1164 @@
+[
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE EXISTS {     (e)-[:same_company_as]->(e2:Entity)     WHERE e.company_type IS NOT NULL AND e2.company_type IS NOT NULL AND e.company_type <> e2.company_type } RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:company_type]->(m0:Entity) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.country_codes = 'HKG' AND e.service_provider = 'Mossack Fonseca' RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:country_codes]->(m0:Node {name: 'HKG'}),(n:Entity)-[r1:service_provider]->(m1:Node {name: 'Mossack Fonseca'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.jurisdiction = 'SAM' AND e.struck_off_date CONTAINS '2013' RETURN e.name AS entity_name, e.struck_off_date AS struck_off_date",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Samoa'}) WITH DISTINCT n WHERE n.status IN ['struck off as of 2013'] RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)-[:registered_address]->(a:Address) WHERE a.countries = 'Hong Kong' RETURN e LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Hong Kong'}) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date = '15-FEB-2013' RETURN e.name AS entity_name, e.struck_off_date AS struck_off_date",
+    "pred_cypher": "MATCH (n:Entity)-[r0:struck_off_date]->(m0:struck_off_date {name: '15-FEB-2013'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[r:officer_of {link: \"shareholder of\"}]->(e:Entity {incorporation_date: \"10-JAN-2006\"}) RETURN o.name AS officer_name, e.name AS entity_name",
+    "pred_cypher": "MATCH (n:Officer)<-[r0:officer_of]-(m0:Entity)-[r1:same_as]->(m1:Entity {incorporation_date: '10-JAN-2006'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH ()- [r:same_name_as]->() RETURN DISTINCT r.sourceID",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_name_as]->(m0:Entity) WITH DISTINCT n RETURN n.sourceID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WITH e.service_provider AS service_provider, count(*) AS entity_count WITH avg(entity_count) AS average_entities RETURN average_entities",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:service_provider]-(m0:Entity) WITH DISTINCT n RETURN avg(n.entity_number)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address {countries: 'Samoa'})-[r]-() WITH DISTINCT r.link AS link RETURN link LIMIT 3",
+    "pred_cypher": "MATCH (n:Address)<-[r0:connected_to]-(m0:Entity {name: 'Addresses in \"Samoa\"'}) WITH DISTINCT n RETURN n.node_id LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)-[:registered_address]->(a:Address) WHERE e.countries = \"Hong Kong\" RETURN e.name, a.address",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Hong Kong'}) WITH DISTINCT n RETURN n.address",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.lastEditTimestamp = '1638311020926' RETURN e",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n WHERE n.lastEditTimestamp = '1638311020926' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {name: 'HOTFOCUS CO., LTD.'}) RETURN e.countries",
+    "pred_cypher": "MATCH (n:Entity {name: 'HOTFOCUS CO., LTD.'}) WITH DISTINCT n RETURN n.country_codes",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[:officer_of]->(e:Entity {incorporation_date: '06-JAN-2006'}) RETURN o.name AS OfficerName",
+    "pred_cypher": "MATCH (n:Officer)-[r0:officer_of]->(m0:Entity) WITH DISTINCT n WHERE m0.incorporation_date = '06-JAN-2006' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.lastEditTimestamp = '1638311020926' RETURN e.name, e.node_id, e.countries, e.ibcRUC, e.valid_until, e.country_codes, e.service_provider, e.address, e.inactivation_date, e.struck_off_date, e.status, e.jurisdiction_description, e.incorporation_date, e.original_name, e.jurisdiction, e.internal_id, e.sourceID, e.former_name, e.company_type, e.tax_stat_description, e.note, e.dorm_date, e.type, e.closed_date, e.company_number, e.comments, e.entity_number",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n WHERE n.lastEditTimestamp = '1638311020926' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WITH e.countries AS country, count(*) AS count ORDER BY count DESC LIMIT 3 RETURN country, count",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.countries DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary) -[:intermediary_of]-> (e:Entity) WHERE i.status = \"ACTIVE\" RETURN DISTINCT e.country_codes",
+    "pred_cypher": "MATCH (n:Entity)-[r0:intermediary_of]->(m0:Intermediary {name: 'name'}) WITH DISTINCT n RETURN DISTINCT n.country_codes",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {internal_id: '1001263'}) RETURN e.struck_off_date",
+    "pred_cypher": "MATCH (n:Entity {internal_id: '1001263'}) WITH DISTINCT n RETURN n.struck_off_date",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.former_name IS NOT NULL RETURN e.former_name AS FormerName, e.name AS CurrentName",
+    "pred_cypher": "MATCH (n:Entity)-[r0:former_name]->(m0:Entity) WITH DISTINCT n RETURN n.name, n.former_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address) WHERE a.jurisdiction_description = 'Samoa' WITH DISTINCT a MATCH (e:Entity)-[:registered_address]->(a) RETURN count(DISTINCT e)",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Samoa'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {jurisdiction: 'SAM'}) RETURN DISTINCT e.service_provider",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_name_as]->(m0:Other {name: 'service provider'}) WITH DISTINCT n WHERE n.jurisdiction = 'SAM' RETURN n.service_provider",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[:registered_address]->(a:Address) WHERE a.countries = 'Samoa' AND a.address CONTAINS 'Apia' RETURN o.name, o.node_id, a.address",
+    "pred_cypher": "MATCH (n:Officer)-[r0:connected_to]->(m0:Address {name: 'Apia, Samoa'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date IS NOT NULL RETURN e.country_codes",
+    "pred_cypher": "MATCH (n:Entity)-[r0:struck_off_date]->(m0:Date {name: 'struck off'}) WITH DISTINCT n RETURN n.country_codes",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 25N14} {gql_status_description: error: invalid transaction state - transaction termination client error. The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. Reason: The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout.}"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.status = 'Defaulted' RETURN e LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)-[r0:status]->(m0:Entity {name: 'Defaulted'}) WITH DISTINCT n RETURN n.name ORDER BY n.node_id ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer {name: \"MOSSFON SUBSCRIBERS LTD.\"})-[:officer_of]->(e:Entity) RETURN e.internal_id",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:connected_to]-(m0:Officer {name: 'MOSSFON SUBSCRIBERS LTD.'}) WITH DISTINCT n RETURN n.internal_id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.incorporation_date CONTAINS '2006' RETURN e.name AS entity_name, e.service_provider AS service_provider",
+    "pred_cypher": "MATCH (n:Entity)-[r0:incorporation_date]->(m0:Entity {incorporation_date: '2006'}) WITH DISTINCT n RETURN n.service_provider",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[:intermediary_of]->(e:Entity) RETURN o, e",
+    "pred_cypher": "MATCH (n:Officer)-[r0:intermediary_of]->(m0:Entity) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary {status: 'SUSPENDED'})-[:intermediary_of]->(e:Entity {countries: 'Hong Kong'}) RETURN e.name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:intermediary_of]->(m0:Intermediary {name: 'SUSPENDED'}),(n:Entity)-[r1:intermediary_of]->(m1:Intermediary {name: 'Hong Kong'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary {name: 'MICHAEL PAPAGEORGE, MR.'}) RETURN i.sourceID",
+    "pred_cypher": "MATCH (n:Intermediary {name: 'MICHAEL PAPAGEORGE, MR.'}) WITH DISTINCT n RETURN n.sourceID",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.incorporation_date IS NOT NULL RETURN e.name, e.incorporation_date ORDER BY e.incorporation_date DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.incorporation_date DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary) WHERE i.countries = \"South Africa\" AND i.status = \"ACTIVE\" RETURN i.name",
+    "pred_cypher": "MATCH (n:Intermediary)-[r0:intermediary_of]->(m0:Entity {name: 'intermediary in South Africa'}),(n:Intermediary)-[r1:registered_address]->(m1:Address {name: 'address in South Africa'}) WITH DISTINCT n WHERE n.status = 'ACTIVE' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e1:Entity)-[:registered_address]->(a:Address)<-[:registered_address]-(e2:Entity) WHERE e1.node_id <> e2.node_id RETURN e1, a, e2",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_as]->(m0:Entity)-[r1:same_as]->(m1:Address) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 25N14} {gql_status_description: error: invalid transaction state - transaction termination client error. The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. Reason: The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout.}"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)-[:registered_address]->(a:Address) WHERE a.countries = 'Hong Kong' RETURN e.name AS entity_name, a.address AS entity_address LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Hong Kong'}) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer {name: 'KIM SOO IN'})-[:officer_of]->(e:Entity) RETURN e.name AS entity_name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:connected_to]-(m0:Officer {name: 'KIM SOO IN'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date = '15-FEB-2013' RETURN e.name AS entity_name, e.struck_off_date AS struck_off_date",
+    "pred_cypher": "MATCH (n:Entity)-[r0:struck_off_date]->(m0:struck_off_date {name: '15-FEB-2013'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)<-[:officer_of]-(o:Officer) WHERE o.country_codes = 'WSM' MATCH (e)-[:registered_address]->(a:Address) WHERE a.country_codes = 'WSM' RETURN DISTINCT e",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:officer]-(m0:Officer)-[r1:registered_address]->(m1:Address {country_codes: 'WSM'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)-[r:officer_of]->(o:Officer) WHERE r.start_date <= '1999' RETURN e, r, o",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:connected_to]-(m0:Entity) WHERE r0.start_date.year >= 1999 RETURN n, m0 as m",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {name: 'TIANSHENG INDUSTRY AND TRADING CO., LTD.'})-[:officer_of]->(o:Officer) RETURN o",
+    "pred_cypher": "MATCH (n:Officer)-[r0:officer_of]->(m0:Entity {name: 'TIANSHENG INDUSTRY AND TRADING CO., LTD.'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[:registered_address]->(a:Address) WHERE a.countries = \"Bahamas\" RETURN o.name, a.address LIMIT 3",
+    "pred_cypher": "MATCH (n:Officer)-[r0:registered_address]->(m0:Address {name: 'ANNEX FREDERICK & SHIRLEY STS, P.O. BOX N-4805 NA'}),(n:Officer)-[r1:registered_address]->(m1:Address {name: 'ANNEX FREDERICK & SHIRLEY STS, P.O. BOX N-4805, NA'}) WITH DISTINCT n RETURN n.name, n.node_id ORDER BY n.node_id LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (entity:Entity)-[:registered_address]->(address:Address) WHERE address.countries = \"Hong Kong\" RETURN count(DISTINCT entity) AS numberOfEntities",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Hong Kong'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WITH e ORDER BY e.incorporation_date ASC RETURN e.original_name LIMIT 1",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n RETURN n.original_name ORDER BY n.incorporation_date ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer) WHERE o.sourceID = 'Panama Papers' AND o.note IS NOT NULL RETURN o.name",
+    "pred_cypher": "MATCH (n:Officer)-[r0:connected_to]->(m0:Entity {name: 'note on record in the Panama Papers'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)-[:same_as]->(:Entity) MATCH (e)-[:registered_address]->(:Address) RETURN DISTINCT e.name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_as]->(m0:Entity) OPTIONAL MATCH (n:Entity)-[r1:registered_address]->(m1:Address) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.290508574807806,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address {icij_id: 'F969D23B2EDF91CAEBE119A675B61AAB'}) RETURN a.address",
+    "pred_cypher": "MATCH (n:Address {icij_id: 'F969D23B2EDF91CAEBE119A675B61AAB'}) WITH DISTINCT n RETURN n.address",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.inactivation_date IS NOT NULL RETURN e ORDER BY e.inactivation_date DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.inactivation_date DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {name: \"TIANSHENG INDUSTRY AND TRADING CO., LTD.\"}) RETURN e.internal_id",
+    "pred_cypher": "MATCH (n:Entity {name: 'TIANSHENG INDUSTRY AND TRADING CO., LTD.'}) WITH DISTINCT n RETURN n.internal_id",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.incorporation_date CONTAINS '2006' RETURN e.name AS entity_name, e.incorporation_date AS incorporation_date",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n WHERE n.incorporation_date = '2006' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address) WHERE a.sourceID = 'Bahamas Leaks' RETURN a.address",
+    "pred_cypher": "MATCH (n:Address)<-[r0:same_as]-(m0:Entity {sourceID: 'Bahamas Leaks'}) WITH DISTINCT n RETURN n.address",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n, r, m",
+    "pred_cypher": "",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 25N14} {gql_status_description: error: invalid transaction state - transaction termination client error. The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. Reason: The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer) WHERE o.country_codes = 'KOR' RETURN o.name AS officer_name, o.country_codes AS country_code",
+    "pred_cypher": "MATCH (n:Officer)-[r0:country_codes]->(m0:country_codes {name: 'KOR'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {internal_id: \"1000914\"}) RETURN e.jurisdiction_description",
+    "pred_cypher": "MATCH (n:Entity {internal_id: '1000914'}) WITH DISTINCT n RETURN n.jurisdiction_description",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address {address: 'ORION HOUSE SERVICES (HK) LIMITED ROOM 1401; 14/F.'})<-[:registered_address]-(e:Entity) RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'ORION HOUSE SERVICES (HK) LIMITED ROOM 1401; 14/F.'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity), (o:Other) WHERE e.name = o.name AND e.countries CONTAINS \"Hong Kong\" RETURN e.node_id, e.name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_name_as]->(m0:Other)-[r1:registered_address]->(m1:Address {name: 'Hong Kong'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date < '2010' WITH e MATCH (e)-[r]->() RETURN DISTINCT r.sourceID UNION MATCH (e:Entity) WHERE e.struck_off_date < '2010' WITH e MATCH (e)<-[r]-() RETURN DISTINCT r.sourceID",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:connected_to]-(m0:Entity) WITH DISTINCT n WHERE n.struck_off_date < '2010' RETURN DISTINCT n.sourceID",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary)-[:intermediary_of]->(e:Entity) WHERE i.name CONTAINS 'LOYAL' RETURN DISTINCT e.countries",
+    "pred_cypher": "MATCH (n:Entity)-[r0:intermediary_of]->(m0:Intermediary {name: 'LOYAL'}) WITH DISTINCT n RETURN DISTINCT n.countries",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address) RETURN a.address, a.lastEditTimestamp ORDER BY a.lastEditTimestamp DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Address)<-[r0:connected_to]-(m0:Entity {name: 'address'}),(n:Address)<-[r1:connected_to]-(m1:Entity {name: 'address'}) WITH DISTINCT n RETURN n.name ORDER BY n.lastEditTimestamp DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[:registered_address]->(a:Address) WHERE a.address CONTAINS \"Apia\" AND a.countries = \"Samoa\" RETURN o.name AS OfficerName, a.address AS Address",
+    "pred_cypher": "MATCH (n:Officer)-[r0:connected_to]->(m0:Address)-[r1:same_as]->(m1:Address {name: 'Apia, Samoa'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Other {type: 'FOREIGN FORMED CORPORATION'}) RETURN e.name AS entity_name, e.incorporation_date AS incorporation_date, e.jurisdiction AS jurisdiction, e.jurisdiction_description AS jurisdiction_description",
+    "pred_cypher": "MATCH (n:Entity)-[r0:type]->(m0:Entity {name: 'FOREIGN FORMED CORPORATION'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[:officer_of]->(e:Entity) WITH o, COUNT(e) AS entityCount ORDER BY entityCount DESC LIMIT 3 RETURN o.name AS officerName, entityCount",
+    "pred_cypher": "MATCH (n:Officer)-[r0:connected_to]->(m0:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.number_of_entities DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer) WITH o.name AS officer_name, collect(DISTINCT o.icij_id) AS icij_ids, count(*) AS num_officers WHERE size(icij_ids) > 1 RETURN count(*) AS num_officer_name_conflicts",
+    "pred_cypher": "MATCH (n:Officer)-[r0:same_name_as]->(m0:Other)<-[r1:same_name_as]-(m1:Officer {name: 'KIM SOO IN'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Other) RETURN o ORDER BY o.lastEditTimestamp DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Other) WITH DISTINCT n RETURN n.name ORDER BY n.lastEditTimestamp DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address {address: \"ORION HOUSE SERVICES (HK) LIMITED ROOM 1401; 14/F.\"})-[:registered_address]-(e:Entity) RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:connected_to]->(m0:Entity {name: 'ORION HOUSE SERVICES (HK) LIMITED ROOM 1401; 14/F.'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.jurisdiction = 'SAM' RETURN e.name AS entity_name, e.jurisdiction_description AS jurisdiction_description",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_as]->(m0:Entity {name: 'TIANSHENG INDUSTRY AND TRADING CO., LTD.'}) WITH DISTINCT n WHERE n.jurisdiction = 'SAM' RETURN n.name, n.jurisdiction_description",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)-[:officer_of]->(o:Officer) WHERE e.status = 'Active' WITH e, count(o) AS officerCount WHERE officerCount > 1 RETURN e, officerCount",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:officer_of]-(m0:Officer)-[r1:officer_of]->(m1:Entity {name: 'KIM SOO IN'}) WITH DISTINCT n WHERE n.status = 'Active' AND (count(DISTINCT m0)) > 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary {status: 'ACTIVE'}) RETURN i",
+    "pred_cypher": "MATCH (n:Intermediary)-[r0:intermediary_of]->(m0:Entity {name: 'name'}),(n:Intermediary)-[r1:intermediary_of]->(m1:Entity {name: 'name'}) WITH DISTINCT n WHERE n.status = 'ACTIVE' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e1:Entity)-[:same_name_as]->(e2:Entity) RETURN e1.name AS EntityName1, e2.name AS EntityName2",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:same_name_as]-(m0:Entity) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary {name: 'LOYAL PORT LIMITED'})-[:intermediary_of]->(e:Entity) WITH e.jurisdiction_description AS targetJurisdiction MATCH (o:Officer)-[:officer_of]->(e2:Entity {jurisdiction_description: targetJurisdiction}) RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Officer)-[r0:officer_of]->(m0:Entity)<-[r1:intermediary_of]-(m1:Intermediary {name: 'LOYAL PORT LIMITED'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5714285714285714,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)-->(o:Officer)-[:officer_of]->(other:Other) RETURN DISTINCT e.jurisdiction",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:connected_to]-(m0:Entity)-[r1:officer_of]->(m1:Officer)-[r2:officer_of]->(m2:Other {name: 'Other'}) WITH DISTINCT n RETURN DISTINCT n.jurisdiction",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer {countries: \"South Korea\"}) RETURN o",
+    "pred_cypher": "MATCH (n:Officer)-[r0:officer_of]->(m0:Entity {name: 'South Korea'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e1:Entity {jurisdiction: 'SAM'})-[:registered_address]->(addr:Address) MATCH (e2:Entity)-[:registered_address]->(addr) WHERE e1 <> e2 RETURN DISTINCT e2.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address)<-[r1:same_as]-(m1:Entity {jurisdiction: 'SAM'}) WITH DISTINCT n RETURN n.name ORDER BY n.node_id LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date CONTAINS '2013' WITH count(DISTINCT e) AS count RETURN count",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n WHERE n.struck_off_date <= '2013' RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.02950999220985569,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity)-[:registered_address]->(a:Address) WHERE a.countries = \"Hong Kong\" RETURN e.name AS entity_name, a.address AS address",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:connected_to]-(m0:Address)-[r1:same_as]->(m1:Address {name: 'Hong Kong'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address {address: \"ORION HOUSE SERVICES (HK) LIMITED ROOM 1401; 14/F.\"})-[:similar]->(similarAddress:Address) RETURN similarAddress",
+    "pred_cypher": "MATCH (n:Address)<-[r0:similar]-(m0:Address {name: 'ORION HOUSE SERVICES (HK) LIMITED ROOM 1401; 14/F.'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.lastEditTimestamp IS NOT NULL RETURN e ORDER BY e.lastEditTimestamp DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.lastEditTimestamp DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary {name: \"MICHAEL PAPAGEORGE, MR.\"})-[:intermediary_of]->(e:Entity) RETURN e.name AS entity_name, e.status AS entity_status",
+    "pred_cypher": "MATCH (n:Entity)-[r0:intermediary_of]->(m0:Intermediary {name: 'MICHAEL PAPAGEORGE, MR.'}) WITH DISTINCT n RETURN n.name, n.status",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address) RETURN DISTINCT a.countries LIMIT 5",
+    "pred_cypher": "MATCH (n:Address) WITH DISTINCT n RETURN n.country ORDER BY n.node_id LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date IS NOT NULL RETURN e LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)-[r0:struck_off_date]->(m0:Entity) WITH DISTINCT n RETURN n.name ORDER BY n.struck_off_date ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer) WHERE o.note <> \"\" MATCH (e:Entity) WHERE e.struck_off_date IS NOT NULL MATCH (o)-[:officer_of]->(e) RETURN o.name",
+    "pred_cypher": "MATCH (n:Officer)-[r0:officer_of]->(m0:Entity {name: 'officer_of'}),(n:Officer)-[r1:note]->(m1:Node {name: ''}) WITH DISTINCT n WHERE n.note IS NOT NULL RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.incorporation_date =~ '..-JAN-2006' MATCH (e)-[:registered_address]->(a:Address) RETURN DISTINCT a.address",
+    "pred_cypher": "MATCH (n:Address)<-[r0:same_as]-(m0:Entity)-[r1:incorporation_date]->(m1:incorporation_date {name: '2006-01-01'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.jurisdiction_description = \"Samoa\" MATCH (e)-[:same_name_as]->(other) RETURN DISTINCT e.name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_name_as]->(m0:Entity)<-[r1:same_name_as]-(m1:Entity {jurisdiction_description: 'Samoa'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer) RETURN o.name, o.lastEditTimestamp ORDER BY o.lastEditTimestamp DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Officer) WITH DISTINCT n RETURN n.name ORDER BY n.lastEditTimestamp DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.note IS NOT NULL RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:note]->(m0:Entity) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity { service_provider: 'Mossack Fonseca' }) MATCH (e)-[:registered_address]->(a:Address { countries: 'Samoa' }) RETURN e.name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Samoa'}),(n:Entity)-[r1:service_provider]->(m1:Entity {name: 'Mossack Fonseca'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {type: 'FOREIGN FORMED CORPORATION'}) RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:type]->(m0:Entity {name: 'FOREIGN FORMED CORPORATION'}) WITH DISTINCT n RETURN n",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.sourceID = 'Bahamas Leaks' RETURN e",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:same_as]-(m0:Entity {name: 'Bahamas Leaks'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 25N14} {gql_status_description: error: invalid transaction state - transaction termination client error. The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. Reason: The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout.}"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.incorporation_date = '23-MAR-2006' RETURN e.name AS entity_name, e.incorporation_date AS incorporation_date",
+    "pred_cypher": "MATCH (n:Entity)-[r0:incorporation_date]->(m0:Entity {incorporation_date: '23-MAR-2006'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[:officer_of]->(e1:Entity)-[:same_as]->(e2:Entity)-[:registered_address]->(a:Address) WHERE a.countries = 'Hong Kong' RETURN DISTINCT o.name",
+    "pred_cypher": "MATCH (n:Officer)-[r0:officer_of]->(m0:Entity)<-[r1:same_as]-(m1:Entity)-[r2:registered_address]->(m2:Address {name: 'Hong Kong'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer {sourceID: \"Panama Papers\"}) RETURN count(o) AS officerCount",
+    "pred_cypher": "MATCH (n:Officer)-[r0:registered_address]->(m0:Address {sourceID: 'Panama Papers'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.4428582283482516,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (a:Address)<-[:registered_address]-(e:Entity) WITH a, COUNT(e) AS entityCount WHERE entityCount > 1 RETURN a.address AS Address, entityCount",
+    "pred_cypher": "MATCH (n:Address)<-[r0:same_as]-(m0:Entity)-[r1:registered_address]->(m1:Address) WITH DISTINCT n RETURN n.name ORDER BY n.address.length DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH ()-[r]->(a:Address) WITH collect(DISTINCT r.valid_until) AS valid_untils RETURN valid_untils[..3] AS first_3_valid_untils",
+    "pred_cypher": "MATCH (n:Entity)-[r0:connected_to]->(m0:Address) WITH DISTINCT n RETURN n.valid_until ORDER BY n.valid_until ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date STARTS WITH \"15-FEB-2013\" AND e.service_provider = \"Mossack Fonseca\" RETURN e.name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:service_provider]->(m0:Entity {name: 'Mossack Fonseca'}) WITH DISTINCT n WHERE n.struck_off_date = '15-FEB-2013' AND n.struck_off_date IN ['2013-02-15'] RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary) RETURN DISTINCT i.countries AS Countries",
+    "pred_cypher": "MATCH (n:Intermediary) WITH DISTINCT n RETURN DISTINCT n.countries",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.closed_date IS NOT NULL RETURN e.name AS entity_name, e.closed_date AS closed_date",
+    "pred_cypher": "MATCH (n:Entity)-[r0:closed_date]->(m0:Date) WITH DISTINCT n RETURN n.name, n.closed_date",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {service_provider: \"Mossack Fonseca\"}) WHERE e.company_number IS NOT NULL RETURN e.name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_company_as]->(m0:Entity {name: 'Mossack Fonseca'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date IS NOT NULL AND e.inactivation_date IS NOT NULL AND e.struck_off_date <> e.inactivation_date RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:inactivation_date]->(m0:Entity) WITH DISTINCT n WHERE n.inactivation_date <> n.struck_off_date RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 25N14} {gql_status_description: error: invalid transaction state - transaction termination client error. The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. Reason: The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout.}"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.status = 'Defaulted' AND e.former_name IS NOT NULL RETURN e.name AS entity_name, e.former_name AS former_name",
+    "pred_cypher": "MATCH (n:Entity)<-[r0:same_as]-(m0:Entity {name: 'Defaulted'}) WITH DISTINCT n RETURN n.former_name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Other) WHERE e.note CONTAINS 'Liquidation' RETURN e.name AS entity_name, e.note AS liquidation_note",
+    "pred_cypher": "MATCH (n:Entity)-[r0:note]->(m0:Entity {note: 'liquidation'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.company_type IS NOT NULL RETURN e",
+    "pred_cypher": "MATCH (n:Entity) WITH DISTINCT n RETURN n.name, n.company_type",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 25N14} {gql_status_description: error: invalid transaction state - transaction termination client error. The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. Reason: The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout.}"
+      },
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.jurisdiction_description = 'Samoa' AND e.service_provider = 'Mossack Fonseca' RETURN e.name AS entity_name, e.jurisdiction_description AS jurisdiction_description, e.service_provider AS service_provider",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_name_as]->(m0:Other {name: 'Mossack Fonseca'}),(n:Entity)-[r1:same_as]->(m1:Entity {jurisdiction_description: 'Samoa'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {internal_id: '1000896'}) RETURN e.address",
+    "pred_cypher": "MATCH (n:Entity {internal_id: '1000896'}) WITH DISTINCT n RETURN n.address",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (i:Intermediary)-[:intermediary_of]->(e:Entity) WITH i, COUNT(e) AS entityCount WHERE entityCount > 1 RETURN i.name AS intermediaryName",
+    "pred_cypher": "MATCH (n:Intermediary)-[r0:connected_to]->(m0:Entity) WITH DISTINCT n RETURN n.name ORDER BY count(DISTINCT m0) ASC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.jurisdiction = 'SAM' RETURN e.name AS entity_name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_as]->(m0:Entity {name: 'SAM'}) WITH DISTINCT n RETURN n.name, n.jurisdiction",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {country_codes: 'HKG'}) RETURN e.name, e.incorporation_date",
+    "pred_cypher": "MATCH (n:Entity)-[r0:country_codes]->(m0:Entity {country_codes: 'HKG'}) WITH DISTINCT n RETURN n.name, n.incorporation_date",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.jurisdiction = 'SAM' RETURN e.name AS entity_name, e.company_type AS company_type",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_as]->(m0:Entity {name: 'SAM'}) WITH DISTINCT n RETURN n.name, n.company_type",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.struck_off_date =~ '..-FEB-2014' RETURN e.name",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'struck_off_date: 15-FEB-2013'}),(n:Entity)-[r1:connected_to]->(m1:Entity {name: 'struck_off_date: 15-FEB-2013'}) WITH DISTINCT n WHERE r0.node_id MATCH (n:Entity) AND (r0.node_id MATCH (m0:Address {name: 'struck_off_date: 15-FEB-2013'}) OR (r1.node_id MATCH (m1:Entity {name: 'struck_off_date: 15-FEB-2013'}) AND (m1:Entity).struck_off_date = '15-FEB-2013')) RETURN n.name AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (entity1:Entity {service_provider: 'Mossack Fonseca'})-[:registered_address]->(address:Address) MATCH (address)<-[:registered_address]-(entity2:Entity) WITH DISTINCT entity2 RETURN count(entity2)",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address)<-[r1:same_as]-(m1:Entity {service_provider: 'Mossack Fonseca'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.inactivation_date = '18-FEB-2013' RETURN e.name AS entity_name, e.service_provider AS service_provider",
+    "pred_cypher": "MATCH (n:Entity)-[r0:inactivated]->(m0:Entity {inactivation_date: '18-FEB-2013'}) WITH DISTINCT n RETURN n.name, n.service_provider",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Other) WHERE o.type IS NOT NULL RETURN DISTINCT o.type",
+    "pred_cypher": "MATCH (n:Other)<-[r0:connected_to]-(m0:Entity) WITH DISTINCT n RETURN n.type",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.company_number STARTS WITH '240' RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_company_as]->(m0:Entity) WHERE r0.company_number LIKE '240%' WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer)-[r:officer_of]->(e:Entity) WHERE e.status = 'Changed agent' WITH o, count(*) AS relationshipCount ORDER BY relationshipCount DESC LIMIT 3 RETURN o.name, relationshipCount",
+    "pred_cypher": "MATCH (n:Officer)-[r0:officer_of]->(m0:Entity)<-[r1:intermediary_of]-(m1:Entity {status: 'Changed agent'}) WITH DISTINCT n RETURN n.name ORDER BY n.node_id DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.jurisdiction_description = \"Samoa\" RETURN e.country_codes",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Samoa'}) WITH DISTINCT n RETURN n.country_codes",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity) WHERE e.jurisdiction = 'SAM' AND e.struck_off_date IS NOT NULL WITH e, toInteger(right(e.struck_off_date, 4)) AS struck_off_year RETURN avg(struck_off_year)",
+    "pred_cypher": "MATCH (n:Entity)-[r0:registered_address]->(m0:Address {name: 'Samoa'}) WITH DISTINCT n RETURN avg(n.struck_off_date.year)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o1:Officer)-[:same_id_as]->(o2:Officer) RETURN o1, o2",
+    "pred_cypher": "MATCH (n:Officer)-[r0:similar]->(m0:Officer {name: 'probably_same_officer_as'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {country_codes: 'HKG'}) RETURN e",
+    "pred_cypher": "MATCH (n:Entity)-[r0:country_codes]->(m0:Country {name: 'HKG'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (o:Officer) WHERE o.country_codes = 'KOR' RETURN o.name",
+    "pred_cypher": "MATCH (n:Officer)-[r0:country_codes]->(m0:countries {name: 'KOR'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "offshoreleaks",
+    "gold_cypher": "MATCH (e:Entity {name: \"TIANSHENG INDUSTRY AND TRADING CO., LTD.\"}) WITH e.jurisdiction AS targetJurisdiction MATCH (other:Entity) WHERE other.jurisdiction = targetJurisdiction AND other.name <> \"TIANSHENG INDUSTRY AND TRADING CO., LTD.\" RETURN other.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Entity)-[r0:same_as]->(m0:Entity {name: 'TIANSHENG INDUSTRY AND TRADING CO., LTD.'}) WITH DISTINCT n RETURN n.name ORDER BY n.node_id LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  }
+]

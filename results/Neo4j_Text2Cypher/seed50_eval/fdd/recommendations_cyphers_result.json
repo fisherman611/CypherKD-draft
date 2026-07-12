@@ -1,0 +1,2486 @@
+[
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(p) RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3559795253606329,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Science Fiction'}) RETURN avg(m.budget)",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Science Fiction'}) WITH DISTINCT n RETURN avg(n.budget)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime < 90 AND exists((m)<-[:RATED]-()) RETURN m.title AS movie, m.revenue AS revenue ORDER BY revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}),(n:Movie)-[r1:DIRECTED]->(m1:Person {name: 'Omar Huffman'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie) WITH u, AVG(r.rating) AS avgRating ORDER BY avgRating DESC LIMIT 5 RETURN u.userId, u.name, avgRating",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.rating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE a.bornIn = 'France' RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie)-[r1:IMDB_RANK]->(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.name ORDER BY n.bornIn ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) UNWIND m.countries AS country WITH country, COUNT(DISTINCT m) AS movieCount ORDER BY movieCount DESC RETURN country, movieCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.count_of_countries DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:ACTED_IN]-(a:Actor) WITH m, COUNT(a) AS actorCount ORDER BY actorCount DESC LIMIT 3 RETURN m.title AS movieTitle, actorCount",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.number_of_associated_actors DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {bornIn: 'USA'})-[:DIRECTED]->(m:Movie) RETURN m.title LIMIT 5",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.bornIn ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Adventure'}) WITH a, count(m) AS movieCount ORDER BY movieCount DESC LIMIT 5 RETURN a.name AS actor, movieCount",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN n.name ORDER BY n.number_of_movies DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.imdbRating IS NOT NULL WITH g.name AS genre, avg(m.imdbRating) AS avgRating RETURN genre, avgRating ORDER BY avgRating ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9926735921268453,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year < 2000 RETURN m.title AS title, m.budget AS budget ORDER BY m.budget DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5696438356164384,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie) WHERE r.timestamp > 1451606400 RETURN m.title, m.year, r.rating ORDER BY r.timestamp DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.ratings DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year >= 2012 RETURN m.title, m.year, m.imdbVotes ORDER BY m.imdbVotes DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbVotes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE m.runtime > 180 WITH d, COUNT(m) AS movieCount ORDER BY movieCount DESC LIMIT 3 RETURN d.name AS directorName, movieCount",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WITH d, count(DISTINCT m.countries) AS numCountries WHERE numCountries > 3 RETURN d.name, numCountries ORDER BY numCountries DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (director:Person)-[:DIRECTED]->(movie:Movie) WHERE director.name =~ \"(?i).*\\\\b(Ms\\\\.|Miss|Mrs\\\\.|Madam|Madame|Mademoiselle|Frau|Fräulein|Señora|Señorita|Doña|Donna)\\\\b.*\" RETURN movie.title LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)-[r0:DIRECTED]->(m0:Director)-[r1:ACTED_IN]->(m1:Movie)-[r3:IMDBID]->(m2:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) RETURN m.title AS Movie, count(a) AS NumberOfActors ORDER BY NumberOfActors DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.number_of_actors DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre) WHERE a.bornIn = \"USA\" AND g.name = \"Comedy\" RETURN m.title AS MovieTitle, a.name AS ActorName",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Actor)-[r1:bornIn]->(m1:Country {name: 'USA'}) WITH DISTINCT n WHERE n.imdbRating IS NOT NULL AND n.genre = 'comedy' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH m, count(DISTINCT g) AS genreCount ORDER BY genreCount DESC LIMIT 5 RETURN m.title AS movieTitle, genreCount",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.budget < 50000000 RETURN a.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE 'USA' IN m.countries RETURN m.title, m.released ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN n.name ORDER BY n.year ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.1159203234985772,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (:Actor {name: \"Tom Hanks\"})-[:ACTED_IN]->(:Movie)<-[:DIRECTED]-(directors:Director) RETURN COUNT(DISTINCT directors) AS NumberOfDirectorsWorkedWithTomHanks",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Person {name: 'Tom Hanks'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor) WHERE a.tmdbId IS NOT NULL AND a.imdbId IS NULL RETURN a.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Actor)-[r0:tmdbId]->(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.tmdbId ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (actor:Actor)-[:ACTED_IN]->(movie:Movie) WHERE actor.born < date('1950-01-01') AND movie.imdbRating > 8.0 RETURN DISTINCT actor.name",
+    "pred_cypher": "MATCH (n:Actor)-[r0:ACTED_IN]->(m0:Movie) WITH DISTINCT n WHERE n.bornIn < 1950 AND n.imdbRating > 8.0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) UNWIND m.countries AS country WITH d, COUNT(DISTINCT country) AS countryCount RETURN d.name AS directorName, countryCount ORDER BY countryCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User {name: 'Omar Huffman'})-[:RATED]->(m:Movie) RETURN m.title AS MovieTitle, m.imdbRating AS IMDbRating ORDER BY m.imdbRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User {name: 'Omar Huffman'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.imdbRating IS NOT NULL WITH a, avg(m.imdbRating) AS avgRating, count(m) AS numMovies WHERE numMovies >= 3 RETURN a.name AS actor, avgRating ORDER BY avgRating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WITH a, collect(DISTINCT m.countries) AS countries WHERE size(countries) >= 3 RETURN a.name AS actorName",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:ACTED_IN]->(m1:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie)-[:IN_GENRE]->(g:Genre) WITH d, count(DISTINCT g) AS num_genres WHERE num_genres > 3 RETURN d.name AS director, num_genres ORDER BY num_genres DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WITH a, count(DISTINCT m.languages) AS numLanguages WHERE numLanguages > 3 RETURN a.name, numLanguages ORDER BY numLanguages DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC, n.languages DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:DIRECTED]-(d:Director) WHERE m.imdbRating > 8.0 RETURN DISTINCT d.name",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:RATED]->(m1:IMDBRating {name: '8.0'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE NOT 'English' IN m.languages RETURN m.title, m.revenue ORDER BY m.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}),(n:Movie)-[r1:IN_GENRE]->(m1:IMDB_ID {name: '1995-11-20'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[r:RATED]->() WHERE m.year >= 2000 AND r.rating < 5 RETURN m ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.year ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE a.born < date(\"1900-01-01\") RETURN m.title AS MovieTitle, m.year AS ReleaseYear ORDER BY m.year ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.bornIn ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 100000000 RETURN m.title, m.budget ORDER BY m.budget DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.032547945205479455,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title AS title, size(m.countries) AS countryCount ORDER BY countryCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'production'}) WITH DISTINCT n RETURN n.name ORDER BY n.countries DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE date(m.released) < a.born RETURN DISTINCT a.name",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.bornIn ASC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.runtime > 120 RETURN g.name AS Genre, count(m) AS MovieCount ORDER BY MovieCount DESC",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.runtime DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.18228540185893932,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director) WHERE d.born < date('1950-01-01') RETURN d ORDER BY d.born LIMIT 3",
+    "pred_cypher": "MATCH (n:Director) WITH DISTINCT n WHERE n.bornIn < date('1950-01-01') RETURN n.name ORDER BY n.bornIn ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u1:User)-[r1:RATED]->(m:Movie)<-[r2:RATED]-(u2:User) WHERE u1 <> u2 AND r1.rating <> r2.rating RETURN u1, u2, m",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie)<-[r1:RATED]-(m1:Movie) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: {neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 25N14} {gql_status_description: error: invalid transaction state - transaction termination client error. The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. Reason: The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout.}"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WITH a, collect(DISTINCT m.countries) AS countries WHERE size(countries) >= 3 RETURN a.name, countries",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:ACTED_IN]->(m1:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (g:Genre {name: 'Adventure'}) MATCH (g)<-[:IN_GENRE]-(m:Movie) WITH avg(m.imdbRating) AS averageRating RETURN averageRating",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN avg(n.imdbRating)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (actor:Actor)-[:ACTED_IN]->(movie:Movie) WHERE exists{ (actor)-[:DIRECTED]->(:Movie) } RETURN movie.title, actor.name",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Actor)-[r1:DIRECTED]->(m1:Movie) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7799947492780257,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie)-[:IN_GENRE]->(g:Genre) WITH d, count(DISTINCT g) AS genreCount WHERE genreCount > 3 RETURN d.name AS Director, genreCount ORDER BY genreCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'genres'}) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 100000000 UNWIND m.countries AS country WITH country, count(DISTINCT m) AS movieCount ORDER BY movieCount DESC RETURN country, movieCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN DISTINCT n_countries ORDER BY n.budget DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie) WITH m, avg(toInteger(u.userId)) AS avgUserId ORDER BY avgUserId ASC LIMIT 3 RETURN m.title AS MovieTitle, avgUserId AS AverageUserId",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.ratings ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH avg(m.imdbRating) AS averageRating RETURN averageRating",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN avg(n.imdbRating)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[r:ACTED_IN]->(m:Movie) WHERE m.year < 1980 WITH a, count(r) AS numRoles ORDER BY numRoles DESC LIMIT 5 RETURN a.name AS actor, numRoles",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.count_of_roles ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie) WITH u, avg(r.rating) AS avgRating ORDER BY avgRating DESC LIMIT 3 RETURN u.name AS userName, avgRating",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH m, size(m.languages) AS num_languages ORDER BY num_languages DESC RETURN m.title, num_languages LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.languages DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue > 500000000 RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'IMAX'}) WITH DISTINCT n WHERE n.revenue > 5000000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE count{(u:User)-[:RATED]->(m)} = 5 RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:RATED]->(m0:IMDBRating {def: '5'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH m ORDER BY m.revenue DESC LIMIT 3 RETURN m.title, m.revenue",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Action'}) WITH m ORDER BY m.revenue DESC LIMIT 1 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Action'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director) WHERE d.died > date('2000-01-01') RETURN d.name, d.died ORDER BY d.died LIMIT 3",
+    "pred_cypher": "MATCH (n:Director) WITH DISTINCT n WHERE n.died > 2000 RETURN n.name ORDER BY n.died DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue IS NOT NULL AND m.budget IS NOT NULL RETURN m.title, m.revenue, m.budget, (m.revenue - m.budget) AS profit ORDER BY profit DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:IN_GENRE]-(m0:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC, n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WITH d, m.year AS year, count(m) AS movies_count ORDER BY movies_count DESC RETURN d.name, year, movies_count LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.count_of_movies ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Sci-Fi'}) RETURN d",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Sci-Fi'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:RATED]-(u:User) WITH m, count(u) AS userCount WHERE userCount > 500000 RETURN m ORDER BY userCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.ratings DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE m.runtime < 90 WITH d, count(m) AS moviesDirected ORDER BY moviesDirected DESC LIMIT 5 RETURN d.name, moviesDirected",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WITH d, size(collect(distinct m.countries)) AS numCountries ORDER BY numCountries DESC LIMIT 3 RETURN d.name AS director, numCountries AS numberOfCountries",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE size(m.countries) > 5 RETURN m LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE count(DISTINCT n) > 5 RETURN n.name ORDER BY n.revenue ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue > 500000000 AND m.imdbRating > 8.0 RETURN m.title AS MovieTitle, m.revenue AS Revenue, m.imdbRating AS IMDbRating",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.revenue > 500e6 AND n.imdbRating > 8.0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year > 2000 AND m.imdbVotes IS NOT NULL RETURN m ORDER BY m.imdbVotes ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}),(n:Movie)-[r1:IN_GENRE]->(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbVotes ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Sci-Fi'}) WHERE m.revenue IS NOT NULL RETURN m.title, m.revenue ORDER BY m.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Sci-Fi'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7061790668348046,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE toLower(m.plot) CONTAINS \"shakespeare\" RETURN avg(m.imdbRating) AS average_rating",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Shakespearean play'}) WITH DISTINCT n RETURN avg(n.imdbRating)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.imdbRating > 7.0 RETURN m.title, m.budget, m.imdbRating ORDER BY m.budget ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IMDBRating]->(m0:Movie {name: 'toy story'}) WITH DISTINCT n RETURN n.name ORDER BY n.budget ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.imdbRating IS NOT NULL AND m.year = 2000 RETURN m.title AS title, m.imdbRating AS imdbRating, m.released AS released",
+    "pred_cypher": "MATCH (n:Movie)-[r0:RATED]->(m0:Rating {name: 'IMDb'}) WITH DISTINCT n WHERE n.year = 2000 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:RATED]-(u:User) WITH m, COUNT(u) AS ratingCount WHERE ratingCount = 5 RETURN m.title AS MovieTitle, ratingCount LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User) WITH DISTINCT n RETURN n.name, n.rating",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime > 180 RETURN m.title AS MovieTitle, m.runtime AS Runtime",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.runtime > 180 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 100000000 RETURN m.title ORDER BY m.imdbRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.032547945205479455,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director) WHERE d.bornIn = \"USA\" RETURN d.name, d.born, d.died, d.url, d.imdbId, d.tmdbId",
+    "pred_cypher": "MATCH (n:Director)-[r0:bornIn]->(m0:countries {name: 'USA'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE exists {   MATCH (a)-[:DIRECTED]->(m2:Movie) } RETURN DISTINCT a.name",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:DIRECTED]->(m1:Actor) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.revenue > 500000000 RETURN a.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH g, count(m) AS movieCount WHERE movieCount > 50 RETURN g.name AS Genre, movieCount ORDER BY movieCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.languages, size(m.languages) AS num_languages ORDER BY num_languages DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'spoken languages'}) WITH DISTINCT n RETURN n.name ORDER BY n.languages DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.languages IS NOT NULL RETURN m.title, size(m.languages) AS languageCount ORDER BY languageCount DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.countries DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie)-[:IN_GENRE]->(g:Genre) WHERE d.born > date(\"1980-01-01\") RETURN DISTINCT g.name ORDER BY g.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:DIRECTED]->(m1:Director) WITH DISTINCT n RETURN DISTINCT n ORDER BY n.bornIn ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released STARTS WITH '199' RETURN m.title, m.released, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN n.name ORDER BY n.year DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie {year: 2014})-[:IN_GENRE]->(g:Genre) WITH g.name AS genre, count(*) AS movieCount ORDER BY movieCount DESC RETURN genre LIMIT 1",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:MATCH WITH WHERE r1:MATCH WITH WHERE r1:MATCH WITH WHERE r1:MATCH WITH WHERE r1:MATCH IS '2014' WITH DISTINCT n RETURN n.name ORDER BY n.year DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE d.bornIn CONTAINS \"Nebraska\" RETURN m.title AS MovieTitle, m.imdbRating AS Rating ORDER BY Rating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:bornIn]->(m1:Country {name: 'Nebraska'}) WITH DISTINCT n RETURN n.name ORDER BY n.bornIn DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director) WHERE d.poster CONTAINS 'w440_and_h660_face' RETURN d.name, d.poster",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n WHERE 'w440_and_h660_face' IN n.poster RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH max(m.revenue) AS maxRevenue, collect(m) AS movie UNWIND movie AS highestRevenueMovie MATCH (highestRevenueMovie)<-[:DIRECTED]-(d:Director) RETURN d.name",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH avg(m.runtime) AS average_runtime MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE m.runtime > average_runtime RETURN DISTINCT d.name",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.runtime DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:DIRECTED]-(d:Director) WITH d, m ORDER BY m.imdbRating DESC WITH d, collect(m)[0..5] AS topMovies RETURN d.name AS director, [movie IN topMovies | movie.title] AS movies, [movie IN topMovies | movie.imdbRating] AS ratings",
+    "pred_cypher": "MATCH (n:Movie)-[r0:DIRECTED]->(m0:Director)<-[r1:DIRECTED]-(m1:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: '<' not supported between instances of 'float' and 'NoneType'"
+      },
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (actor:Actor)-[:ACTED_IN]->(movie:Movie) WITH actor, count(movie) AS movieCount ORDER BY movieCount DESC RETURN actor.name, movieCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.count_of_movies DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:ACTED_IN]-(a:Actor) WITH m, COUNT(a) AS actorCount ORDER BY actorCount DESC LIMIT 3 RETURN m.title AS MovieTitle, actorCount",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.revenue IS NOT NULL WITH g.name AS genre, avg(m.revenue) AS avgRevenue RETURN genre, avgRevenue ORDER BY avgRevenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5702569710224166,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:DIRECTED]-(d:Director) WHERE m.imdbRating > 8.0 RETURN DISTINCT d.name AS director",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n WHERE n.imdbRating > 8.0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[:RATED]->(m:Movie)-[:IN_GENRE]->(g:Genre) WITH u, count(DISTINCT g) AS numGenres ORDER BY numGenres DESC LIMIT 3 RETURN u.name AS user, numGenres",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre) WITH DISTINCT n RETURN n.name ORDER BY n.ratings DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (toyStory:Movie {title: 'Toy Story'}) WITH toyStory, toyStory.released AS toyStoryYear MATCH (otherMovies:Movie {released: toyStoryYear}) WITH otherMovies, toyStoryYear, [(otherMovies)-[:IN_GENRE]->(genres) | genres.name] AS genres RETURN otherMovies.title AS movieTitle, genres, toyStoryYear",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre)<-[r1:IN_GENRE]-(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.title, n.genre",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released >= '2011-01-01' AND m.budget IS NOT NULL RETURN m ORDER BY m.budget DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}),(n:Movie)-[r1:INGENRE]->(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[r:RATED]-() WITH m, count(*) AS ratingCount ORDER BY ratingCount DESC RETURN m.title AS movieTitle, ratingCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9935342465753425,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:RATED]-(u:User) WITH m, count(u) AS userCount WHERE userCount > 3 RETURN m",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.ratings DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (:Movie)-[:IN_GENRE]->(genre:Genre) WITH genre, count(*) AS movieCount ORDER BY movieCount DESC LIMIT 1 RETURN genre.name",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.runtime DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year >= 1990 AND m.year <= 1999 WITH sum(m.revenue) AS totalRevenue RETURN totalRevenue",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.year BETWEEN 1990 AND 1999 RETURN sum(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.plot CONTAINS 'love' RETURN m.title AS MovieTitle, m.plot AS Plot",
+    "pred_cypher": "MATCH (n:Movie)-[r0:plot]->(m0:STRING {name: 'love'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released >= '1990-01-01' AND m.released < '2000-01-01' AND m.revenue IS NOT NULL RETURN m ORDER BY m.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.year BETWEEN 1990 AND 2017 RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m1:Movie)-[:IN_GENRE]->(g1:Genre {name: 'Action'}),       (a)-[:ACTED_IN]->(m2:Movie)-[:IN_GENRE]->(g2:Genre {name: 'Romance'}) WITH a, COUNT(DISTINCT m1) + COUNT(DISTINCT m2) AS movieCount ORDER BY movieCount DESC LIMIT 3 RETURN a.name AS actorName, movieCount",
+    "pred_cypher": "MATCH (n:Actor)-[r0:ACTED_IN]->(m0:Movie {name: 'Action'}),(n:Actor)-[r1:ACTED_IN]->(m1:Movie {name: 'Romance'}) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE size(m.languages) > 1 RETURN m.title, m.languages LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'translation'}),(n:Movie)-[r1:IN_GENRE]->(m1:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.runtime DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year >= 2001 RETURN sum(m.revenue) AS totalRevenue",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN sum(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.budget ORDER BY m.budget DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH m, size(collect(g)) AS genreCount WHERE genreCount >= 3 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre)-[r1:IN_GENRE]->(m1:Genre) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year < 2000 AND m.budget IS NOT NULL RETURN m.title, m.budget, m.year ORDER BY m.budget DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.2593972602739726,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (actor:Actor)-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(director:Director) WHERE director.born < date('1950-01-01') RETURN DISTINCT actor.name",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:DIRECTED]->(m1:Director) WITH DISTINCT n WHERE n.bornIn < date('1950-01-01') RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.runtime < 80 RETURN g.name AS Genre",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n WHERE n.runtime < 80 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre) WHERE g.name IN ['Animation', 'Adventure'] WITH a, count(DISTINCT g) AS genreCount WHERE genreCount = 2 RETURN a.name",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie {name: 'Animation'}),(n:Actor)<-[r1:ACTED_IN]-(m1:Movie {name: 'Adventure'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE \"English\" IN m.languages AND m.runtime = 96 RETURN m.title AS MovieTitle, m.runtime AS Runtime, m.languages AS Languages",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.languages = 'English' AND n.runtime = 96 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE m.imdbRating IS NOT NULL WITH d, avg(m.imdbRating) AS avgRating ORDER BY avgRating DESC LIMIT 3 RETURN d.name AS Director, avgRating AS Average_IMDb_Rating",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie {title: 'Open Season'}) MATCH (m)<-[:DIRECTED]-(d:Director) WITH d MATCH (d)-[:DIRECTED]->(otherMovies:Movie) WITH avg(otherMovies.runtime) AS averageRuntime RETURN averageRuntime",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie {name: 'Open Season'}) WITH DISTINCT n RETURN avg(n.runtime)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime > 120 AND m.released > '2000-01-01' RETURN m.title, m.released, m.runtime",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}),(n:Movie)-[r1:INGENRE]->(m1:IMDBID {name: '862'}) WITH DISTINCT n WHERE n.runtime > 120 AND n.released > 1995 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Adventure'}) WITH a, count(m) AS movies_count ORDER BY movies_count DESC LIMIT 5 RETURN a.name, movies_count",
+    "pred_cypher": "MATCH (n:Actor)-[r0:ACTED_IN]->(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN n.name ORDER BY n.number_of_movies DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.released = \"1995-12-25\" WITH a, count(m) AS movieCount ORDER BY movieCount DESC LIMIT 5 RETURN a.name AS actorName, movieCount",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:released]->(m1:DATE {name: 'Christmas Day'}) WITH DISTINCT n RETURN n.name ORDER BY n.count_of_movies DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.budget > 50000000 RETURN a.name AS actorName, m.title AS movieTitle, m.budget AS movieBudget LIMIT 3",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 0 AND m.revenue > 0 WITH m, (toFloat(m.budget) / toFloat(m.revenue)) AS budget_to_revenue_ratio RETURN m.title AS movie_title, budget_to_revenue_ratio ORDER BY budget_to_revenue_ratio DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget + n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.4596164383561644,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 100000000 RETURN m ORDER BY m.budget DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.032547945205479455,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Comedy'}) RETURN u.name AS user, count(r) AS comedyRatings ORDER BY comedyRatings DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Comedy'}) WITH DISTINCT n RETURN n.name ORDER BY n.rating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.released ORDER BY m.released DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.timestamp DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:DIRECTED]-(d:Director) WHERE m.budget > 200000000 WITH d, avg(m.imdbRating) AS averageRating RETURN d.name AS directorName, averageRating ORDER BY averageRating DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:IMDBRating]->(m1:IMDBRating {name: '1'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.languages[0] <> 'English' AND m.imdbRating > 7 RETURN m.title, m.languages[0], m.imdbRating ORDER BY m.imdbRating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE NOT 'English' IN n.languages AND n.imdbRating > 7 RETURN n.name ORDER BY n.imdbRating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (g:Genre)<-[:IN_GENRE]-(m:Movie)<-[r:RATED]-(u:User) WITH g, m, count(DISTINCT u) AS userCount WHERE userCount >= 5 RETURN g.name AS genre ORDER BY userCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:RATED]->(m1:User) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m ORDER BY m.year ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.year ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Comedy'}) RETURN DISTINCT a.name",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Comedy'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {name: \"Steven Spielberg\"})-[:DIRECTED]->(m:Movie) UNWIND m.languages AS language WITH language, COUNT(*) AS count ORDER BY count DESC LIMIT 3 RETURN language, count",
+    "pred_cypher": "MATCH (n:Movie)-[r0:DIRECTED]->(m0:Director {name: 'Steven Spielberg'}) WITH DISTINCT n RETURN DISTINCT n.languages ORDER BY n.languages ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[r:ACTED_IN]->(m:Movie) WHERE r.role CONTAINS \"uncredited\" RETURN a.name, count(r) AS uncreditedRoles ORDER BY uncreditedRoles DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:RATED]->(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.name ORDER BY n.count_of_roles ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie) WITH u, COUNT(r) AS ratedMovies, AVG(r.rating) AS avgRating WHERE ratedMovies >= 20 RETURN u.name AS userName, avgRating ORDER BY avgRating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.imdbRating < 5 WITH g, avg(m.imdbRating) AS avgRating ORDER BY avgRating ASC RETURN g.name, avgRating LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.05992345544013122,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[:RATED]->(m:Movie)<-[:DIRECTED]-(d:Director) WHERE d.born > date('1960-01-01') RETURN DISTINCT u",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie)-[r1:DIRECTED]->(m1:Director) WITH DISTINCT n WHERE n.bornIn.year > 1960 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.runtime > 180 WITH a, count(m) AS movieCount ORDER BY movieCount DESC RETURN a.name AS actorName, movieCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.runtime DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year = 2014 AND m.revenue IS NOT NULL RETURN m.title, m.revenue ORDER BY m.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.year = 2014 RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH m, count(distinct g) as genreCount ORDER BY genreCount DESC LIMIT 3 RETURN m.title as movie, genreCount as numberOfGenres",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie) WITH u, avg(r.rating) AS avgRating ORDER BY avgRating DESC LIMIT 3 RETURN u.name AS user, avgRating",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (p:Person) WHERE exists{ (p)-[:ACTED_IN]->(:Movie) }    AND exists{ (p)-[:DIRECTED]->(:Movie) } RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:DIRECTED]->(m1:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year = 2000 RETURN avg(m.runtime) AS average_runtime",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.year = 2000 RETURN avg(n.runtime)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(a:Actor) WITH d, count(DISTINCT a) AS numActors ORDER BY numActors DESC LIMIT 3 RETURN d.name AS director, numActors",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WITH a, m ORDER BY m.revenue DESC WITH a, collect(m) AS movies, sum(m.revenue) AS totalRevenue ORDER BY totalRevenue DESC LIMIT 5 RETURN a.name AS actorName, totalRevenue, [movie IN movies | movie.title] AS movies",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.languages, size(m.languages) AS language_count ORDER BY language_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'spoken languages'}) WITH DISTINCT n RETURN n.name ORDER BY n.languages DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE 'English' IN m.languages AND m.budget > 50000000 RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.languages = 'English' AND n.budget > 500000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor) WHERE a.born < date('1900-01-01') RETURN a.name, a.born ORDER BY a.born LIMIT 5",
+    "pred_cypher": "MATCH (n:Actor) WITH DISTINCT n WHERE n.bornIn < 1900 RETURN n.name ORDER BY n.bornIn ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre) WITH a, count(DISTINCT g) AS genreCount ORDER BY genreCount DESC LIMIT 3 RETURN a.name, genreCount",
+    "pred_cypher": "MATCH (n:Person)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH g.name AS genreName, avg(m.runtime) AS averageRuntime RETURN genreName, averageRuntime",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre) WITH DISTINCT n RETURN avg(n.runtime)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title AS title, size(m.languages) AS numLanguages ORDER BY numLanguages DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.languages_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (g:Genre {name: 'Adventure'}) WITH g MATCH (g)<-[:IN_GENRE]-(m:Movie) WITH sum(m.revenue) AS totalRevenue RETURN totalRevenue",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN sum(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE m.year >= 1990 AND m.year < 2000 WITH d, count(m) AS moviesDirected ORDER BY moviesDirected DESC LIMIT 5 RETURN d.name, moviesDirected",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN n.name ORDER BY n.movieId DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {name: \"Harold Lloyd\"})-[:DIRECTED]->(m:Movie) MATCH (a:Actor)-[:ACTED_IN]->(m) RETURN DISTINCT a.name",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:DIRECTED]->(m1:Person {name: 'Harold Lloyd'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE d.bornIn = 'Burchard, Nebraska, USA' RETURN SUM(m.revenue) AS totalRevenue",
+    "pred_cypher": "MATCH (n:Movie)-[r0:DIRECTED]->(m0:Director)-[r1:bornIn]->(m1:Movie {name: 'Burchard, Nebraska, USA'}) WITH DISTINCT n RETURN sum(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director) RETURN DISTINCT d.name",
+    "pred_cypher": "MATCH (n:Director) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.plot CONTAINS 'twist' RETURN m.title, m.plot ORDER BY m.imdbRating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:DIRECTED]->(m0:Person {name: 'Seth Henson'}) WITH DISTINCT n RETURN n.name ORDER BY n.plot twist DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE a.bornIn = 'USA' WITH a, count(m) AS numMovies WHERE numMovies >= 2 RETURN a.name, a.bornIn, numMovies ORDER BY numMovies DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Actor)-[r0:ACTED_IN]->(m0:Movie)-[r1:ACTED_IN]->(m1:Movie) WITH DISTINCT n WHERE n.bornIn = 'USA' RETURN n.name ORDER BY n.bornIn DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE d.born > date(\"1970-01-01\") RETURN m.title AS MovieTitle, m.released AS ReleaseDate ORDER BY m.released DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n WHERE n.bornIn.year > 1970 RETURN DISTINCT n ORDER BY n.bornIn ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Sci-Fi'}) RETURN m.title AS title, m.imdbRating AS rating ORDER BY m.imdbRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Sci-Fi'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie {title: \"Toy Story\"})<-[:ACTED_IN]-(a:Actor) RETURN a.name",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:RATED]-(u:User) WITH m, COUNT(u) AS ratingCount WHERE ratingCount = 5 RETURN m.title AS movieTitle LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User) WITH DISTINCT n RETURN n.name, n.rated",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE m.imdbRating >= 6 WITH d, count(m) AS moviesCount ORDER BY moviesCount DESC LIMIT 5 RETURN d.name, moviesCount",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:IMDBRating]->(m1:IMDBRating {name: '6'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.plot CONTAINS 'army' RETURN DISTINCT g.name AS genre",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:plot]->(m1:plot {name: 'army'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE exists {   (m)<-[:ACTED_IN]-(a1:Actor {bornIn: 'USA'}) } AND exists {   (m)<-[:ACTED_IN]-(a2:Actor {bornIn: 'Japan'}) } RETURN m.title AS MovieTitle LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Person)-[r1:ACTED_IN]->(m1:Movie {name: 'American actor'}),(n:Movie)<-[r1:ACTED_IN]-(m1:Person)-[r3:ACTED_IN]->(m2:Movie {name: 'Japanese actor'}) WITH DISTINCT n RETURN n.name, n.runtime, n.imdbId",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH m, (m.revenue - m.budget) AS profit ORDER BY profit DESC RETURN m.title, profit LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget - n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released < \"1990-01-01\" AND m.imdbRating IS NOT NULL RETURN m ORDER BY m.imdbRating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n WHERE n.year < 1990 RETURN n.name ORDER BY n.imdbRating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.12256742915670878,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director) WHERE d.born IS NOT NULL RETURN d.name, d.born ORDER BY d.born DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Director) WITH DISTINCT n RETURN n.name ORDER BY n.born DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6949401124419458,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year >= 2000 AND m.year < 2010 RETURN m.title, m.year, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}),(n:Movie)-[r1:IN_GENRE]->(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.name ORDER BY n.year DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.plot CONTAINS 'war' RETURN m.title, m.plot ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'war'}) WITH DISTINCT n RETURN n.name ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.budget < 50000000 RETURN DISTINCT a.name",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n WHERE n.budget < 500000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WITH m, count(d) AS numDirectors ORDER BY numDirectors DESC RETURN m.title, numDirectors LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.directors_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE d.bornIn = \"France\" RETURN m.title AS MovieTitle, m.year AS ReleaseYear ORDER BY m.year LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:bornIn]->(m1:Country {name: 'France'}) WITH DISTINCT n RETURN n.name ORDER BY n.bornIn ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.imdbRating > 8.0 RETURN g.name AS genre, COUNT(m) AS movieCount ORDER BY movieCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:IMDBRating]->(m1:IMDBRating {name: '8.0'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue > m.budget RETURN m.title, m.revenue, m.budget ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.24337056454676698,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.imdbRating > 6.0 AND m.runtime IS NOT NULL RETURN m ORDER BY m.runtime ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(:Genre {name: 'Comedy'}) WITH m MATCH (a:Actor)-[:ACTED_IN]->(m)<-[r:RATED]-(:User) WITH a, avg(r.rating) AS average_rating ORDER BY average_rating DESC RETURN a.name AS actor_name, average_rating LIMIT 1",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Comedy'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.imdbRating IS NOT NULL RETURN m ORDER BY m.imdbRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.imdbRating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9926575342465753,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(p) RETURN m.title AS movie, p.name AS person",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Actor) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3559795253606329,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[:RATED]->(m:Movie)<-[:ACTED_IN]-(a:Actor) WITH u, count(distinct a) AS numActors ORDER BY numActors DESC LIMIT 3 RETURN u.name AS user, numActors",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.rating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year = 1995 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.year = 1995 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue < 1000 RETURN m.title, m.revenue ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.revenue < 1000 RETURN n.title ORDER BY n.revenue ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE \"France\" IN m.countries AND m.imdbRating > 8.0 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'French movie'}) WITH DISTINCT n WHERE n.imdbRating > 8.0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (p:Person) WHERE p.bornIn = 'France' AND exists{ (p)-[:DIRECTED]->(:Movie) } RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Actor)-[r0:DIRECTED]->(m0:Movie)-[r1:bornIn]->(m1:Country {name: 'France'}) WITH DISTINCT n RETURN n.name, n.bornIn",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH m ORDER BY m.imdbRating ASC LIMIT 1 WITH m.year AS lowestRatedYear MATCH (movie:Movie {year: lowestRatedYear}) RETURN movie.title",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:IN_GENRE]-(m0:Person)-[r1:ACTED_IN]->(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (g:Genre {name: 'Children'})<-[:IN_GENRE]-(m:Movie) WITH avg(m.imdbRating) AS average_rating RETURN average_rating",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Children'}) WITH DISTINCT n RETURN avg(n.imdbRating)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year >= 1990 AND m.year <= 2000 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.year BETWEEN 1990 AND 2000 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH max(m.imdbRating) AS maxRating MATCH (highestRated:Movie { imdbRating: maxRating }) WITH highestRated.year AS releaseYear MATCH (movie:Movie { year: releaseYear }) RETURN movie.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre)<-[r1:IN_GENRE]-(m1:Movie {imdbId: '1995-11-22'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (movie:Movie)-[:IN_GENRE]->(genre:Genre) WHERE movie.budget > 200000000 WITH genre.name AS genreName, count(DISTINCT movie) AS movieCount ORDER BY movieCount DESC RETURN genreName, movieCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.004811372334609076,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: \"Adventure\"}) WHERE m.revenue IS NOT NULL RETURN m ORDER BY m.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7280858676207513,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year < 2000 WITH avg(m.budget) AS averageBudget RETURN averageBudget",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.year < 2000 RETURN avg(n.budget)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie)-[:IN_GENRE]->(g:Genre) WHERE g.name = 'Comedy' WITH d, collect(m) AS comedyMovies WHERE exists {     MATCH (d)-[:DIRECTED]->(m2:Movie)-[:IN_GENRE]->(g2:Genre)     WHERE g2.name = 'Drama' } RETURN d, comedyMovies",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie)-[r1:DIRECTED]->(m1:Movie {name: 'comedy'}),(n:Director)<-[r1:DIRECTED]-(m1:Movie {name: 'drama'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Documentary'}) WITH max(m.imdbRating) AS maxRating MATCH (m:Movie)-[:IN_GENRE]->(:Genre {name: 'Documentary'}) WHERE m.imdbRating = maxRating RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'documentary'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue / m.budget > 3 RETURN m.title, m.revenue, m.budget ORDER BY m.revenue / m.budget DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:DIRECTED]->(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.revenue + n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.imdbRating > 6.0 RETURN m.title, m.runtime, m.imdbRating ORDER BY m.runtime ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:IN_GENRE]-(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor {name: \"Tom Cruise\"})-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre {name: \"War\"}) RETURN m.title AS MovieTitle, m.year AS ReleaseYear, m.imdbRating AS IMDbRating",
+    "pred_cypher": "MATCH (n:Movie {name: 'tomkrushu movie'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (g:Genre {name: 'Science Fiction'})<-[:IN_GENRE]-(m:Movie) WITH avg(m.budget) AS averageBudget RETURN averageBudget",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'science fiction'}) WITH DISTINCT n RETURN avg(n.budget)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year > 2010 RETURN m.title, m.released ORDER BY m.released LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.year > 2010 RETURN n.title ORDER BY n.year DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget < 10000000 UNWIND m.languages AS language WITH language, count(*) AS count ORDER BY count DESC RETURN language LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.budget < 100000000 RETURN DISTINCT n.languages ORDER BY n.languages ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3771626297577855,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE exists {     MATCH (a)-[:DIRECTED]->(:Movie) } RETURN DISTINCT m",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ACTED_IN]-(m0:Actor)-[r1:DIRECTED]->(m1:Movie) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7799947492780257,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released ENDS WITH \"-12-25\" RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Christmas Day'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) RETURN m.title AS movieTitle, m.released AS releaseDate, collect(g.name) AS genres ORDER BY m.released DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.timestamp DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9978130125751777,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {name: 'Steven Spielberg'})-[:DIRECTED]->(m:Movie)-[:IN_GENRE]->(g:Genre) RETURN g.name AS Genre, count(m) AS MoviesCount ORDER BY MoviesCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:DIRECTED]->(m1:Person {name: 'Steven Spielberg'}) WITH DISTINCT n RETURN n.name ORDER BY n.rating ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.budget < 50000000 RETURN a LIMIT 5",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor) WHERE a.born IS NOT NULL RETURN a.name, a.born ORDER BY a.born ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.bornIn ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7576895680891018,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (actor:Actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre) WHERE g.name = 'Comedy' WITH DISTINCT actor MATCH (actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre) WHERE g.name = 'Drama' WITH DISTINCT actor.name AS actorName RETURN actorName",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie {name: 'Comedy'}),(n:Actor)<-[r1:ACTED_IN]-(m1:Movie {name: 'Drama'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.imdbVotes ORDER BY m.imdbVotes DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbVotes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.plot CONTAINS 'family' RETURN m LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'family'}) WITH DISTINCT n RETURN n.name ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[r:RATED]-(u:User) WITH m, avg(r.rating) AS avgRating ORDER BY avgRating DESC LIMIT 5 RETURN m.title AS movie, avgRating",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.rating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) WHERE m.released ENDS WITH '-12-25' RETURN a.name, count(m) AS movies_count ORDER BY movies_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie)-[r1:RELEASED]->(m1:DATE {name: 'Christmas Day'}) WITH DISTINCT n RETURN n.name ORDER BY n.number_of_movies DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {bornIn: 'USA'})-[:DIRECTED]->(m:Movie) WITH m ORDER BY m.imdbRating ASC LIMIT 1 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:DIRECTED]->(m0:Director)-[r1:bornIn]->(m1:country {name: 'USA'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year >= 2000 AND m.year < 2010 RETURN m.title, m.year ORDER BY m.imdbRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.year DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor) WHERE a.tmdbId IS NOT NULL AND a.imdbId IS NOT NULL RETURN a.name, a.tmdbId, a.imdbId LIMIT 5",
+    "pred_cypher": "MATCH (n:Actor)-[r0:IMDBID]->(m0:Movie)-[r1:ACTED_IN]->(m1:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.tmdbId ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User {userId: \"1\"})-[:RATED]->(m:Movie) WITH collect(DISTINCT m.year) AS user_rated_movie_years MATCH (m2:Movie) WHERE m2.year IN user_rated_movie_years RETURN m2.title, m2.year",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User)-[r1:RATED]->(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget IS NOT NULL AND m.revenue IS NOT NULL RETURN m.title AS movie, toFloat(m.revenue) / m.budget AS revenueToBudgetRatio ORDER BY revenueToBudgetRatio DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.revenue + n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.4596164383561644,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released >= '2010' RETURN m.title, m.budget ORDER BY m.budget DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}),(n:Movie)-[r1:IN_GENRE]->(m1:TIME) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (actor:Actor)-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(director:Director) WHERE actor.bornIn = director.bornIn RETURN actor.name AS ActorName, movie.title AS MovieTitle, director.name AS DirectorName",
+    "pred_cypher": "MATCH (n:Actor)-[r0:ACTED_IN]->(m0:Movie)-[r1:DIRECTED]->(m1:Director)-[r2:bornIn]->(m2:Person) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year = 2014 RETURN m.title AS title, m.revenue AS revenue ORDER BY m.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n WHERE n.year = 2014 RETURN n.name ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.12053571428571429,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime < 90 AND m.imdbRating > 8.0 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.runtime < 90 AND n.imdbRating > 8.0 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released >= '2011' RETURN m.title, m.revenue ORDER BY m.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (:User)-[r:RATED]->(m:Movie) RETURN m.title AS title, AVG(r.rating) AS avgRating ORDER BY avgRating ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:DIRECTED]->(m:Movie) RETURN m.title AS MovieTitle, m.released AS ReleaseDate ORDER BY m.imdbRating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:DIRECTED]-(m0:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.runtime DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie {title: \"Jumanji\"}) MATCH (m)-[:IN_GENRE]->(g:Genre) RETURN g.name",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie {name: 'Jumanji'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:RATED]-(u:User) WITH m, count(u) AS userCount WHERE userCount > 1000 RETURN m",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User) WITH DISTINCT n RETURN n.name WHERE n.ratings > 1000",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE d.bornIn CONTAINS 'USA' WITH d, count(m) AS numMovies WHERE numMovies >= 3 RETURN d.name, numMovies ORDER BY numMovies DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Director)-[r0:DIRECTED]->(m0:Movie) WITH DISTINCT n WHERE n.bornIn IN [ 'USA' ] RETURN n.name ORDER LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.01963591736551442,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[r:ACTED_IN]->(m:Movie) WITH a, count(r) AS roles ORDER BY roles DESC LIMIT 3 RETURN a.name AS actorName, roles",
+    "pred_cypher": "MATCH (n:Actor)<-[r0:ACTED_IN]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.count_of_roles DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (g:Genre {name: 'Adventure'})<-[:IN_GENRE]-(m:Movie) WITH avg(m.imdbRating) AS avgRating RETURN avgRating",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n RETURN avg(n.imdbRating)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH m, COUNT(g) AS genreCount ORDER BY genreCount DESC LIMIT 5 RETURN m.title AS MovieTitle, genreCount",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie) RETURN a.name, count(m) AS movies_count ORDER BY movies_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6296326497329474,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) WHERE m.imdbRating < 4.0 RETURN DISTINCT d.name ORDER BY d.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[:RATED]-(u:User) WITH m, COUNT(u) AS ratingCount WHERE ratingCount = 5 RETURN m.title AS movieTitle, m.movieId AS movieId",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:IMDBRating {name: '5'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {name: 'Steven Spielberg'})-[:DIRECTED]->(m:Movie)-[:IN_GENRE]->(g:Genre) RETURN g.name AS genre, count(*) AS frequency ORDER BY frequency DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:DIRECTED]->(m1:Person {name: 'Steven Spielberg'}) WITH DISTINCT n RETURN n.name ORDER BY n.revenue ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year < 2000 RETURN m.title AS title, m.imdbVotes AS votes ORDER BY m.imdbVotes DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbVotes DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(a:Actor) WITH d, count(DISTINCT a) AS actors_count ORDER BY actors_count DESC RETURN d.name, actors_count LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.budget ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.imdbVotes ORDER BY m.imdbVotes DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:IN_GENRE]-(m0:Person) WITH DISTINCT n RETURN n.name ORDER BY n.imdbVotes DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {bornIn: 'Burchard, Nebraska, USA'})-[:DIRECTED]->(m:Movie) RETURN m.title AS MovieName",
+    "pred_cypher": "MATCH (n:Person)<-[r0:DIRECTED]-(m0:Movie)-[r1:bornIn]->(m1:Position {name: 'Burchard, Nebraska, USA'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released IS NOT NULL RETURN m ORDER BY m.released DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.releaseDate DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9907945205479453,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.year >= 1990 AND m.year < 2000 AND m.imdbRating > 7 RETURN m.title, m.year, m.imdbRating LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}),(n:Movie)-[r1:RATED]->(m1:Rating {name: '7'}) WITH DISTINCT n WHERE n.year <= 1990 AND n.imdbRating > 7 RETURN n.name, n.imdbRating",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE count{(u:User)-[:RATED]->(m)} = 3 RETURN m LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User) WITH DISTINCT n RETURN n.name ORDER BY n.rating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.07753928314675979,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime < 90 RETURN avg(m.imdbRating) AS averageImdbRating",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:IN_GENRE]-(m0:Genre {name: 'Adventure'}) WITH DISTINCT n WHERE n.runtime < 90 RETURN avg(n.imdbRating)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director)-[:DIRECTED]->(m:Movie) RETURN d.name AS director, count(m) AS moviesDirected ORDER BY moviesDirected DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Director)<-[r0:DIRECTED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.plot CONTAINS 'hero' RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ACTED_IN]->(m0:Person {name: 'hero'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {name: 'Anthony Stacchi'})-[:DIRECTED]->(m:Movie) RETURN m LIMIT 3",
+    "pred_cypher": "MATCH (n:Director {name: 'Anthony Stacchi'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WITH m, size(m.countries) AS countryCount ORDER BY countryCount DESC LIMIT 5 RETURN m.title AS title, countryCount",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.countries DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue > m.budget RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.revenue > n.budget RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime IS NOT NULL RETURN m ORDER BY m.runtime DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.runtime DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9930958904109589,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie)<-[r:RATED]-(:User) WITH m, avg(r.rating) AS avgRating, count(r) AS numRatings WHERE numRatings >= 10 RETURN m.title AS movieTitle, avgRating ORDER BY avgRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:RATED]->(m0:User)-[r1:RATED]->(m1:Movie {name: 'Toy Story'}) WITH DISTINCT n WHERE n.imdbRating >= 10 RETURN n.name ORDER BY n.imdbRating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (d:Director {name: \"Harold Lloyd\"})-[:DIRECTED]->(m:Movie)-[:IN_GENRE]->(g:Genre) RETURN g.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:DIRECTED]-(m0:User {name: 'Harold Lloyd'}) WITH DISTINCT n RETURN n.name ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie)-[:IN_GENRE]->(g:Genre) WITH u, collect(DISTINCT g.name) AS genresRated, count(DISTINCT g.name) AS genreCount MATCH (g2:Genre) WITH u, genresRated, genreCount, collect(DISTINCT g2.name) AS allGenres WHERE genreCount = size(allGenres) RETURN u.name AS userName, size(genresRated) AS genresRatedCount ORDER BY genresRatedCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre) WITH DISTINCT n RETURN n.name ORDER BY n.rating DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE size(m.countries) = 1 RETURN m.title, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'single-country language'}) WITH DISTINCT n RETURN n.name ORDER BY n.imdbRating DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.plot CONTAINS 'natural disaster' RETURN m.title, m.plot LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'natural disaster'}) WITH DISTINCT n RETURN n.name ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.released STARTS WITH '1995' RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Adventure'}) WITH DISTINCT n WHERE n.year = 1995 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.plot CONTAINS 'kingdom' RETURN m.title, m.plot",
+    "pred_cypher": "MATCH (n:Movie)-[r0:plot]->(m0:plot {name: 'kingdom'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE (m.revenue + m.budget) > 1000000000 RETURN m",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name WHERE n.revenue + n.budget > 10000000000",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.004821917808219178,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) UNWIND m.countries AS country WITH country, count(m) AS movieCount ORDER BY movieCount DESC LIMIT 5 RETURN country, movieCount",
+    "pred_cypher": "MATCH (n:Movie)-[r0:countries]->(m0:countries) WITH DISTINCT n RETURN n.name ORDER BY n.countries DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)-[:IN_GENRE]->(g:Genre) WITH a, count(distinct g) AS genreCount ORDER BY genreCount DESC LIMIT 5 RETURN a.name AS actor, genreCount AS numberOfGenres",
+    "pred_cypher": "MATCH (n:Actor) WITH DISTINCT n RETURN n.name ORDER BY n.number_of_genres ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6291196480221616,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "recommendations",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.countries IS NOT NULL RETURN m.title, size(m.countries) AS numCountries ORDER BY numCountries DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.countries DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9973698630136987,
+      "executable": 1.0
+    }
+  }
+]

@@ -233,7 +233,7 @@ def provenance_subgraph_jaccard_similarity(
     # logger.debug(f'PSJS cypher: {psjs_cypher}')
 
     try:
-        result = neo4j_connector.run_query(target_ps_cypher, timeout=None)
+        result = neo4j_connector.run_query(target_ps_cypher, timeout=timeout)
         target_ps = set(record["elemId1"] for record in result)
         result = neo4j_connector.run_query(pred_ps_cypher, timeout=timeout)
         pred_ps = set(record["elemId2"] for record in result)

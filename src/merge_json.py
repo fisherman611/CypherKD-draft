@@ -1,48 +1,62 @@
-import os
-import sys
-from pathlib import Path
-
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
+import argparse
 import json
-# with open(r"results/Cypherbench/ablation_spans/calculated_scores_wo_expression/company_cyphers_result.json", "r", encoding="utf-8") as f:
-#     company = json.load(f)
+from pathlib import Path
+from typing import Any
 
-# with open(r"results/Cypherbench/ablation_spans/calculated_scores_wo_expression/fictional_character_cyphers_result.json", "r", encoding="utf-8") as f:
-#     fictional_character = json.load(f)
-    
-# with open(r"results/Cypherbench/ablation_spans/calculated_scores_wo_expression/flight_accident_cyphers_result.json", "r", encoding="utf-8") as f:
-#     flight_accident = json.load(f)
-    
-# with open(r"results/Cypherbench/ablation_spans/calculated_scores_wo_expression/geography_cyphers_result.json", "r", encoding="utf-8") as f:
-#     geography = json.load(f)
-    
-# with open(r"results/Cypherbench/ablation_spans/calculated_scores_wo_expression/movie_cyphers_result.json", "r", encoding="utf-8") as f:
-#     movie = json.load(f)
-    
-# with open(r"results/Cypherbench/ablation_spans/calculated_scores_wo_expression/nba_cyphers_result.json", "r", encoding="utf-8") as f:
-#     nba = json.load(f)
-    
-# with open(r"results/Cypherbench/ablation_spans/calculated_scores_wo_expression/politics_cyphers_result.json", "r", encoding="utf-8") as f:
-#     politics = json.load(f)
 
-# test = company + fictional_character + flight_accident + geography + movie + nba + politics
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Merge all subset *_cyphers_result.json files in a directory"
+    )
+    parser.add_argument(
+        "--input-dir",
+        required=True,
+        type=Path,
+        help="Directory containing subset result JSON files",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Output JSON path (default: <input-dir>/test_result.json)",
+    )
+    return parser.parse_args()
 
-# with open(r"results/Cypherbench/ablation_spans/calculated_scores_wo_expression/test_result.json", "w", encoding="utf-8") as f:
-#     json.dump(test, f, ensure_ascii=False, indent=2)
 
-with open(r"results/Mind_the_query/ablation_spans/calculated_scores_wo_expression/bloom50_cyphers_result.json", "r", encoding="utf-8") as f:
-    bloom50 = json.load(f)
+def read_records(path: Path) -> list[dict[str, Any]]:
+    with path.open("r", encoding="utf-8-sig") as fin:
+        records = json.load(fin)
+    if not isinstance(records, list):
+        raise TypeError(f"Expected a JSON list in {path}, got {type(records).__name__}")
+    return records
 
-with open(r"results/Mind_the_query/ablation_spans/calculated_scores_wo_expression/healthcare_cyphers_result.json", "r", encoding="utf-8") as f:
-    healthcare = json.load(f)
 
-with open(r"results/Mind_the_query/ablation_spans/calculated_scores_wo_expression/wwc_cyphers_result.json", "r", encoding="utf-8") as f:
-    wwc = json.load(f)
+def main() -> None:
+    args = parse_args()
+    input_dir = args.input_dir.resolve()
+    if not input_dir.is_dir():
+        raise NotADirectoryError(f"Input directory does not exist: {input_dir}")
 
-test = bloom50 + healthcare + wwc
-with open(r"results/Mind_the_query/ablation_spans/calculated_scores_wo_expression/test_result.json", "w", encoding="utf-8") as f:
-    json.dump(test, f, ensure_ascii=False, indent=2)
+    input_files = sorted(input_dir.glob("*_cyphers_result.json"))
+    if not input_files:
+        raise FileNotFoundError(
+            f"No *_cyphers_result.json files found in {input_dir}"
+        )
+
+    merged: list[dict[str, Any]] = []
+    for path in input_files:
+        records = read_records(path)
+        merged.extend(records)
+        print(f"Loaded {len(records):>5} records from {path.name}")
+
+    output_path = (args.output or input_dir / "test_result.json").resolve()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8", newline="\n") as fout:
+        json.dump(merged, fout, ensure_ascii=False, indent=2)
+        fout.write("\n")
+
+    print(f"Merged {len(input_files)} files and {len(merged)} records into {output_path}")
+
+
+if __name__ == "__main__":
+    main()

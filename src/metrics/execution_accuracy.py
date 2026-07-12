@@ -57,7 +57,7 @@ def execution_accuracy(
     if pred_cypher == target_cypher:
         return 1.0
     t0 = time.time()
-    target_executed = neo4j_connector.run_query(target_cypher)
+    target_executed = neo4j_connector.run_query(target_cypher, timeout=timeout)
     target_seconds = time.time() - t0
     if target_seconds > timeout:
         logger.warning(

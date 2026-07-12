@@ -1,0 +1,2536 @@
+[
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH g, avg(m.revenue) AS avg_revenue ORDER BY avg_revenue ASC LIMIT 3 RETURN g.name AS genre, avg_revenue",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.average_vote ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany {name: 'Pixar Animation Studios'}) WHERE m.budget > 50000000 RETURN m.title ORDER BY m.release_date LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n WHERE n.budget > 5000000 RETURN n.title ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9473684210526315,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (pc:ProductionCompany)-[:PRODUCED_BY]-(m:Movie) WHERE m.revenue IS NOT NULL RETURN pc.name, sum(m.revenue) AS total_revenue ORDER BY total_revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[r:HAS_KEYWORD]->(k:Keyword) RETURN m.title AS movie, count(r) AS num_keywords ORDER BY num_keywords DESC LIMIT 10",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword) WITH DISTINCT n RETURN n.title ORDER BY n.average_vote DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) MATCH (m)-[:ORIGINAL_LANGUAGE]->(l:Language) WITH l, count(m) AS movieCount ORDER BY movieCount DESC RETURN l.name AS language, movieCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:ORIGINAL_LANGUAGE]-(m0:Language) WITH DISTINCT n RETURN n.original_language ORDER BY n.original_language DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person {name: \"Tom Hanks\"})-[:CAST_FOR]->(m:Movie) RETURN avg(m.budget)",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:CAST_FOR]-(m0:Person {name: 'Tom Hanks'}) WITH DISTINCT n RETURN avg(n.budget)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.revenue ORDER BY m.revenue DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.revenue ORDER BY n.revenue DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 100000000 RETURN count(m)",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN count(DISTINCT n) WHERE n.budget > 100000000",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0072634428719212905,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_IN_COUNTRY]->(c:Country) WITH m, count(c) AS countries_count WHERE countries_count > 1 RETURN m ORDER BY m.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline IS NOT NULL RETURN m.title, m.tagline ORDER BY size(m.tagline) DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.runtime DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.4490568529482975,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie {title: 'Toy Story'}), (other:Movie) WHERE other.runtime = m.runtime AND other <> m RETURN other.title, other.runtime",
+    "pred_cypher": "",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: \"Animation\"}) WITH avg(m.runtime) AS averageRuntime RETURN averageRuntime",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Animation'}) WITH DISTINCT n RETURN avg(n.runtime)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:ProductionCompany)<-[:PRODUCED_BY]-(m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language {id: 'en'}) RETURN p.name AS ProductionCompany, COUNT(m) AS FilmCount ORDER BY FilmCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie)-[r1:ORIGINAL_LANGUAGE]->(m1:Language {name: 'en'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.title =~ '.*[0-9].*' RETURN m",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title CONTAINS 'number'",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.04560561706248762,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE g.name = 'Music' RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'musical'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)<-[:CREW_FOR]-(crew:Person) WITH m, count(crew) AS crewCount ORDER BY crewCount DESC LIMIT 3 RETURN m.title AS movieTitle",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.crew_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.21574528520636885,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language) RETURN m.title, l.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title, n.original_language",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9978032599622161,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult)-[:PRODUCED_IN_COUNTRY]->(c:Country) RETURN c.name, count(a) AS adultFilmCount ORDER BY adultFilmCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Country)<-[r0:PRODUCED_IN_COUNTRY]-(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.015625,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (u:User {id: 1})-[r:RATED]->(m:Movie) RETURN m.title, r.rating, r.timestamp ORDER BY r.timestamp DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User {id: 1}) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany {name: 'Pixar Animation Studios'}) RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (c:ProductionCompany)-[:PRODUCED_BY]-(m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language) WITH c, count(distinct l) as numLangs WHERE numLangs > 1 RETURN c.name LIMIT 3",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie)-[r1:SPOKEN_IN_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.budget > 100000000 RETURN DISTINCT g.name AS genre_name",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.budget > 100000000 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(c:ProductionCompany {name: 'Pixar Animation Studios'}) RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (u:User {id: 1})-[:RATED]->(m:Movie) RETURN m.title AS MovieTitle",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User {id: 1}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (pc:ProductionCompany)<-[:PRODUCED_BY]-(m:Movie) WHERE m.budget > 100000000 RETURN pc.name AS production_company, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany) WITH DISTINCT n RETURN n.name ORDER BY n.movie_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.021255829085782454,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[r:CREW_FOR]->(m:Movie) WHERE r.job = 'Director' WITH p, count(m) AS films_directed ORDER BY films_directed DESC LIMIT 5 RETURN p.name AS Director, films_directed",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CREW_FOR]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget IS NOT NULL RETURN m.title, m.budget ORDER BY m.budget DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WITH m,       apoc.text.levenshteinDistance(m.original_title, m.title) AS title_difference ORDER BY title_difference ASC LIMIT 3 RETURN m.title AS final_title, m.original_title AS original_title, title_difference",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.original_title + n.title ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[cf:CREW_FOR]->(m:Movie) WHERE cf.job = 'Director' WITH p, count(m) AS movieCount WHERE movieCount > 1 RETURN p.name, movieCount",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CREW_FOR]-(m0:Movie)-[r1:RATED]->(m1:Movie {name: 'Academy Award for Best Director'}) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 2",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE a.budget < 50000 RETURN a.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Movie) WITH DISTINCT n WHERE n.budget < 50000 RETURN n.title ORDER BY n.budget ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie {title: 'Toy Story'})- [r:CREW_FOR {job: 'Producer'}] - () RETURN r.department",
+    "pred_cypher": "MATCH (n:Movie {title: 'Toy Story'}), (m0:CREW_FOR {name: 'CREW_FOR', job: 'Producer'}) WITH DISTINCT n RETURN n.department",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person {name: 'Christopher Nolan'})-[:CREW_FOR {job: 'Director'}]->(m:Movie) RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Christopher Nolan'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)<-[r:RATED]-(u:User) WHERE r.timestamp >= date('2015-01-01') RETURN m.title, m.id, r.rating, r.timestamp",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.release_date > DATE('2015-01-01') RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Comedy'}) MATCH (m)-[:PRODUCED_IN_COUNTRY]->(c:Country) WITH c, count(m) AS movie_count ORDER BY movie_count DESC RETURN c.name AS country_name, movie_count LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3063638213449995,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(:Genre {name: 'Comedy'}) RETURN m.title, m.popularity ORDER BY m.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Comedy'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (prodCompany:ProductionCompany {name: 'Pixar Animation Studios'}) MATCH (prodCompany)-[:PRODUCED_BY]->(movie:Movie) WITH avg(movie.budget) AS averageBudget RETURN averageBudget",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN avg(n.budget)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language) WHERE EXISTS {   (u:User)-[:RATED]->(m)   WHERE m.average_vote IS NOT NULL } RETURN l.name AS Language, AVG(m.average_vote) AS AverageRating ORDER BY AverageRating DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Language)<-[r0:ORIGINAL_LANGUAGE]-(m0:Movie) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.16743204939465184,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WHERE m.average_vote < 4 RETURN l.name, count(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Language)<-[r0:PRODUCED_IN_COUNTRY]-(m0:Country)<-[r1:SPOKEN_IN_LANGUAGE]-(m1:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime IS NOT NULL RETURN m.title, m.runtime ORDER BY m.runtime LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9943433187330795,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.popularity > 20 RETURN m ORDER BY m.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.00587678559637268,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WITH m, duration.inDays(date(m.release_date), date()) AS days_since_release RETURN m.title, m.release_date, days_since_release ORDER BY days_since_release DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.runtime DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Drama'}) WHERE m.runtime > 120 RETURN m.title, m.runtime",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Drama'}) WITH DISTINCT n WHERE n.runtime > 120 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(p:ProductionCompany) WITH p.name AS productionCompanyName, count(m) AS numMovies ORDER BY numMovies DESC RETURN productionCompanyName, numMovies LIMIT 1",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language {name: 'Spanish'}) RETURN m.original_title AS OriginalTitle",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ORIGINAL_LANGUAGE]->(m0:Language {name: 'Spanish'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language) RETURN m.title, l.name LIMIT 10",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title, n.overview, n.revenue, n.average_vote, n.status, n.original_language, n.runtime, n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9978032599622161,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE a.overview IS NOT NULL RETURN a.title, a.overview ORDER BY size(a.overview) DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Adult)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'controversy'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword) RETURN m.title, count(k) AS keyword_count ORDER BY keyword_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword) WITH DISTINCT n RETURN n.name ORDER BY n.average_vote DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.popularity > 15 RETURN m.title, m.popularity",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.popularity > 15 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword) WHERE m.budget > 200000000 RETURN k.name AS keyword, COUNT(*) AS frequency ORDER BY frequency DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Keyword)<-[r0:HAS_KEYWORD]-(m0:Movie)-[r1:HAS_KEYWORD]->(m1:Keyword {name: 'movie'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Animation'}) MATCH (p:Person)-[c:CAST_FOR]->(m) WHERE c.character IS NOT NULL RETURN DISTINCT p.name AS actor_name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'animated movie'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WHERE m.revenue > 100000000 RETURN l.name, COUNT(*) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ORIGINAL_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n WHERE n.revenue > 100000000 RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline CONTAINS 'love' RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'love'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.040190735694822885,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE a.budget > 0 AND a.revenue > 0 RETURN a.title, a.revenue, a.budget, (a.revenue / a.budget) AS efficiency ORDER BY efficiency DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Adult) WITH DISTINCT n RETURN n.title ORDER BY n.revenue / n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword) WHERE m.average_vote < 5 WITH k, count(*) as count ORDER BY count DESC LIMIT 3 RETURN k.name AS keyword, count",
+    "pred_cypher": "MATCH (n:Keyword)<-[r0:HAS_KEYWORD]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.24279109857389125,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue > m.budget RETURN m.title AS MovieTitle, m.revenue AS Revenue, m.budget AS Budget",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.revenue > n.budget RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (pc:ProductionCompany)-[:PRODUCED_BY]-(m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WITH pc, count(DISTINCT l) AS languages_count WHERE languages_count > 3 RETURN pc.name, languages_count ORDER BY languages_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie)-[r1:SPOKEN_IN_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget = 30000000 RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.budget = 3000000 RETURN n.title ORDER BY n.title ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:ProductionCompany {name: 'Lucasfilm'})<-[:PRODUCED_BY]-(m:Movie) RETURN m.title ORDER BY m.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Lucasfilm'}) WITH DISTINCT n RETURN n.title ORDER BY n.title ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Package) RETURN p ORDER BY p.price DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Package) WITH DISTINCT n RETURN n.name ORDER BY n.price DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(c:ProductionCompany {name: 'Pixar Animation Studios'}) RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:IN_GENRE]->(g:Genre) WHERE v.runtime < 30 RETURN g.name AS genre, COUNT(v) AS video_count ORDER BY video_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0004184975936388366,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE a.tagline CONTAINS 'love' RETURN a LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Movie) WITH DISTINCT n WHERE n.tagline = 'love' RETURN n.title ORDER BY n.vote_count ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (c:Collection) WHERE c.name = \"Toy Story Collection\" MATCH (c)<-[:IN_COLLECTION]-(m:Movie) WITH avg(m.revenue) AS averageRevenue RETURN averageRevenue",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_COLLECTION]->(m0:Collection {name: 'Toy Story Collection'}) WITH DISTINCT n RETURN avg(n.revenue)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword {name: 'jealousy'}) RETURN m.title AS MovieTitle",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'jealousy'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language) WITH l.name AS language, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 5 RETURN language, movie_count",
+    "pred_cypher": "MATCH (n:Language)<-[r0:ORIGINAL_LANGUAGE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:PRODUCED_BY]->(pc:ProductionCompany) WHERE v.revenue = 0 RETURN pc LIMIT 3",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Video)-[r1:PRODUCED_BY]->(m1:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_COLLECTION]->(c:Collection {name: \"Toy Story Collection\"}) RETURN m ORDER BY m.release_date LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_COLLECTION]->(m0:Collection {name: 'Toy Story Collection'}) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie), (p)-[:CAST_FOR]->(a:Adult) WITH p, count(DISTINCT m) AS moviesCount, count(DISTINCT a) AS adultCount WHERE moviesCount > 0 AND adultCount > 0 RETURN p.name LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie)-[r1:PRODUCED_IN_COUNTRY]->(m1:Country {name: 'United States of America'}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult)-[:ORIGINAL_LANGUAGE]->(l:Language) RETURN l.name AS Language, count(a) AS NumberOfAdultFilms ORDER BY NumberOfAdultFilms DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Language)<-[r0:ORIGINAL_LANGUAGE]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'adult film'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video) WHERE v.budget < 5000 RETURN v.title, v.budget LIMIT 3",
+    "pred_cypher": "MATCH (n:Video) WITH DISTINCT n WHERE n.budget < 5000 RETURN n.title ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE a.average_vote IS NOT NULL RETURN a.title, a.average_vote ORDER BY a.average_vote DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Adult) WITH DISTINCT n RETURN n.title ORDER BY n.average_vote DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.overview, size(split(m.overview, \" \")) AS word_count ORDER BY word_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) RETURN a.title ORDER BY a.popularity DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Adult) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany) WHERE m.runtime < 80 WITH pc, count(m) AS movies_count ORDER BY movies_count DESC LIMIT 3 RETURN pc.name, movies_count",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.09672123113115076,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE date(m.release_date).year = 1990 RETURN count(m)",
+    "pred_cypher": "MATCH (n:Movie) WHERE n.status = 'Released' AND n.release_date.year = 1990 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9929577464788732,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (s:Subscription) WHERE s.expiresAt >= datetime('2020-01-01T00:00:00Z') AND s.expiresAt < datetime('2021-01-01T00:00:00Z') RETURN s.id, s.expiresAt ORDER BY s.expiresAt LIMIT 3",
+    "pred_cypher": "MATCH (n:Subscription) WITH DISTINCT n WHERE n.expiresAt.year = 2020 RETURN n.id ORDER BY n.expiresAt ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": {
+        "error": "execution_accuracy failed: Unhashable type: <class 'neo4j.time.DateTime'>"
+      },
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.release_date >= date('1990-01-01') AND m.release_date < date('2000-01-01') AND m.budget IS NOT NULL RETURN m.title, m.budget ORDER BY m.budget DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country {name: 'United States of America'}),(n:Movie)-[r1:PRODUCED_IN_YEAR]->(m1:DATE {year: 1990}) WITH DISTINCT n RETURN n.title ORDER BY n.budget DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_COLLECTION]->(c:Collection {name: \"Toy Story Collection\"}) RETURN m.title AS MovieTitle",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_COLLECTION]->(m0:Collection {name: 'Toy Story Collection'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue IS NOT NULL AND m.release_date < date('1990-01-01') RETURN m ORDER BY m.revenue ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.revenue ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3451676094468778,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany {name: 'Pixar Animation Studios'}) WHERE m.budget > 50000000 RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n WHERE n.budget > 5000000 RETURN n.title ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9473684210526315,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword {name: 'jealousy'}) RETURN m.title AS MovieTitle LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'jealousy'}) WITH DISTINCT n RETURN n.title ORDER BY n.title ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_COLLECTION]->(c:Collection {backdrop_path: '/9FBwqcd9IRruEDUrTdcaafOMKUq.jpg'}) RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:backdrop_path]->(m0:backdrop_path {name: '/9FBwqcd9IRruEDUrTdcaafOMKUq.jpg'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.revenue > 100000000 RETURN g.name, count(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:RATED]->(m1:User {name: 'The Matrix'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.average_vote = 7.7 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title, n.average_vote AS answer WHERE answer = 7.7 RETURN n.title AS answer_value",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.01032289305130632,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany {name: 'Universal Pictures'}) RETURN m ORDER BY m.average_vote DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Universal Pictures'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video) RETURN v ORDER BY v.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Video) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) RETURN a.title, a.popularity ORDER BY a.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Adult) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime > 150 MATCH (p:Person)-[:CAST_FOR]->(m) RETURN DISTINCT p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie) WITH DISTINCT n WHERE n.runtime > 150 RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue = 0 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.revenue = 0 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (director:Person)-[:CREW_FOR {job: \"Director\"}]->(movie:Movie) MATCH (director)-[:CAST_FOR]->(acted_movie:Movie) RETURN DISTINCT movie.title AS DirectedMovies",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED_BY]-(m0:Person)<-[r1:CAST_FOR]-(m1:Movie) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline = 'What price would you put on your health?' RETURN m ORDER BY m.average_vote DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'What price would you put on your health?'}),(n:Movie)-[r1:IN_COLLECTION]->(m1:Collection {name: 'Toy Story Collection'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WHERE m.popularity > 10 RETURN l.name AS language, count(*) AS count ORDER BY count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Language)<-[r0:ORIGINAL_LANGUAGE]-(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.008017960230917255,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.release_date.year > 2010 RETURN m",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.release_date > date('2010') RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.8874135763670647,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.runtime ORDER BY m.runtime ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_IN_COUNTRY]->(c:Country {name: 'France'}) RETURN m.title LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'France'}) WITH DISTINCT n RETURN n.title LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany) WITH p, COUNT(DISTINCT pc) AS productionCompanyCount WHERE productionCompanyCount >= 5 MATCH (p)-[:CAST_FOR]->(m2:Movie) WITH p, m2 ORDER BY m2.release_date ASC WITH p, COLLECT(DISTINCT m2)[..3] AS firstThreeMovies RETURN p.name AS actor, firstThreeMovies LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CREW_FOR]-(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person {name: \"Tim Allen\"})-[:CAST_FOR]->(m:Movie {title: \"Crazy on the Outside\"}) RETURN m.title AS MovieTitle, p.name AS ActorName, m.id AS MovieID",
+    "pred_cypher": "MATCH (n:Person {name: 'Tim Allen'}), (m0:Movie {name: 'Crazy on the Outside'}) RETURN n.name AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult {tagline: 'Humiliation. Rape. Murder. You know the drill.'}) RETURN a LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Movie) WITH DISTINCT n WHERE n.tagline = 'Humiliation. Rape. Murder. You know the drill' RETURN n.title ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.popularity IS NOT NULL AND m.revenue IS NOT NULL RETURN m.title, m.popularity, m.revenue ORDER BY m.popularity DESC, m.revenue ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.status = 'Released' RETURN m.title, m.revenue ORDER BY m.revenue ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_COLLECTION]->(m0:Collection {name: 'Toy Story'}) WITH DISTINCT n RETURN n.title ORDER BY n.revenue ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video) WHERE v.runtime < 90 RETURN v.title, v.popularity ORDER BY v.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Video) WITH DISTINCT n RETURN n.title ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6451612903225806,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany) WITH m, count(pc) AS production_company_count WHERE production_company_count > 1 RETURN m.title AS movie_title, production_company_count",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany) WITH DISTINCT n RETURN n.title ORDER BY n.title ASC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Animation'}) WITH m ORDER BY m.revenue DESC LIMIT 3 RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Animation'}) WITH DISTINCT n RETURN n.title ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Science Fiction'}) RETURN m.title, m.popularity ORDER BY m.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Science Fiction'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WITH date(m.release_date).year AS releaseYear, count(m) AS movieCount RETURN releaseYear, movieCount ORDER BY releaseYear",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title, n.release_date, count(DISTINCT n.release_date) AS num RETURN num",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[r:CREW_FOR]->(m:Movie) WHERE r.job = 'Producer' RETURN p.name, count(r) AS credits ORDER BY credits DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:CREW_FOR]->(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.credit_id DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0018966714751295613,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:IN_GENRE]->(g:Genre) WITH g, count(v) AS videoCount ORDER BY videoCount DESC LIMIT 3 RETURN g.name AS genre, videoCount",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Video) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie) WHERE m.runtime > 180 RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CREW_FOR]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'movie'}) WITH DISTINCT n WHERE n.runtime > 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person {id: 63303}) RETURN p.name",
+    "pred_cypher": "MATCH (n:Person) WHERE n.id = 63303 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 100000000 MATCH (p:Person)-[:CAST_FOR]->(m) RETURN DISTINCT p.name",
+    "pred_cypher": "",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Package) RETURN p.name AS package, p.price AS price ORDER BY p.price DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Package) WITH DISTINCT n RETURN n.name ORDER BY n.price DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_COLLECTION]->(c:Collection {name: 'Toy Story Collection'}) WHERE m.runtime > 80 RETURN m.title, m.runtime ORDER BY m.runtime DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_COLLECTION]->(m0:Collection {name: 'Toy Story Collection'}) WITH DISTINCT n WHERE n.runtime > 80 RETURN n.title ORDER BY n.runtime DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.poster_path STARTS WITH '/rh' RETURN g.name AS genre, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:HAS_KEYWORD]->(m1:Keyword {name: 'rh'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Package)-[:PROVIDES_ACCESS_TO]->(g:Genre {name: 'Animation'}) RETURN p LIMIT 3",
+    "pred_cypher": "MATCH (n:Package)-[r0:PROVIDES_ACCESS_TO]->(m0:Genre {name: 'Animation'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie) WHERE (m)-[:IN_GENRE]->(:Genre {name: 'Comedy'})   AND (p)-[:CAST_FOR]->(:Movie)-[:IN_GENRE]->(:Genre {name: 'Drama'}) RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:CAST_FOR]->(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'comedy'}),(n:Person)-[r1:IN_GENRE]->(m1:Genre {name: 'drama'}) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie) WITH p, count(*) AS movieCount ORDER BY movieCount DESC LIMIT 3 RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_IN_COUNTRY]->(c:Country {name: 'United States of America'}) WHERE m.revenue > 50000000 RETURN m LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country {name: 'United States of America'}) WITH DISTINCT n WHERE n.revenue > 50000000 RETURN n.title LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video) WHERE v.revenue IS NOT NULL RETURN v ORDER BY v.revenue ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Video) WITH DISTINCT n RETURN n.title ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CREW_FOR {job: 'Director'}]->(m:Movie) WHERE m.budget > 150000000 RETURN p.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie) WITH DISTINCT n WHERE n.budget > 15000000 RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (pc:ProductionCompany)<-[:PRODUCED_BY]-(m:Movie) WITH pc, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 5 RETURN pc.name AS production_company, movie_count",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Animation'}) WHERE m.status = 'Released' RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Animation'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9906832298136646,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Package) RETURN p.name, p.duration ORDER BY p.duration DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Package) WITH DISTINCT n RETURN n.name ORDER BY n.duration DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language) RETURN l.name AS language, count(*) AS count ORDER BY count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Language)<-[r0:ORIGINAL_LANGUAGE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany {name: 'Pixar Animation Studios'}) WHERE m.runtime < 100 RETURN m.title, m.runtime ORDER BY m.runtime LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n WHERE n.runtime < 100 RETURN n.title, n.runtime",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:PRODUCED_IN_COUNTRY]->(c:Country) WITH v, count(DISTINCT c) AS countries_count ORDER BY countries_count DESC RETURN v.title, countries_count LIMIT 5",
+    "pred_cypher": "MATCH (n:Video)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult)-[:PRODUCED_BY]->(c:ProductionCompany) WHERE NOT EXISTS { (c)-[:PRODUCED_IN_COUNTRY]->(:Country {name: 'United States of America'}) } RETURN a.title AS Adult_Film, c.name AS Production_Company",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany) WITH DISTINCT n WHERE n.status = 'Released' AND n.Country <> 'US' RETURN n.title AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget = 50000000 RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.budget = 5000000 RETURN n.title ORDER BY n.title ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult)-[:IN_GENRE]->(g:Genre {name: 'Horror'}) RETURN a.title",
+    "pred_cypher": "MATCH (n:Adult)-[r0:IN_GENRE]->(m0:Genre {name: 'Horror'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany) WITH pc, avg(m.revenue) AS avg_revenue ORDER BY avg_revenue DESC LIMIT 3 RETURN pc.name, avg_revenue",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (u:User {id: 1})-[:RATED]->(m:Movie) RETURN m LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User {id: 1}) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language {name: 'Spanish'}) RETURN m.original_title AS OriginalTitle",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ORIGINAL_LANGUAGE]->(m0:Language {name: 'Spanish'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (l:Language)<-[:ORIGINAL_LANGUAGE]-(m:Movie) WITH l, count(m) AS movieCount WHERE movieCount > 10 RETURN l.name AS language ORDER BY movieCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Language)<-[r0:ORIGINAL_LANGUAGE]-(m0:Movie) WITH DISTINCT n WHERE n.name NOT IN ['Gaeilge', 'Kiswahili', 'Azłan'] RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:SPOKEN_IN_LANGUAGE]->(l:Language) RETURN l.name AS language, count(*) AS frequency ORDER BY frequency DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Video)<-[r0:PRODUCED_IN_COUNTRY]-(m0:Country {name: 'United States of America'}) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WITH m, count(DISTINCT l) AS language_count ORDER BY language_count DESC LIMIT 3 RETURN m.title AS movie_title, language_count",
+    "pred_cypher": "MATCH (n:Movie)-[r0:SPOKEN_IN_LANGUAGE]->(m0:Language) WITH DISTINCT n RETURN n.title, count(DISTINCT n.original_language) AS num RETURN n.title, num",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_IN_COUNTRY]->(c:Country) WHERE m.average_vote > 8.0 WITH c, count(m) AS movieCount ORDER BY movieCount DESC RETURN c.name AS countryName, movieCount",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.country ORDER BY n.vote_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.018896115310247846,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.budget > 200000000 RETURN g.name AS genre, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:IN_COLLECTION]->(m1:Collection {name: 'Toy Story Collection'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.06382978723404255,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.popularity ORDER BY m.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video {title: 'Jonah: A VeggieTales Movie'}) RETURN v.homepage",
+    "pred_cypher": "MATCH (n:Movie {title: 'Jonah: A VeggieTales Movie'}) WITH DISTINCT n RETURN n.homepage",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video) WHERE v.revenue = 0 RETURN v.title, v.popularity ORDER BY v.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Video) WITH DISTINCT n WHERE n.revenue = 0 RETURN n.title ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 50000000 RETURN m.title, m.budget",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.budget > 50000000 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.release_date < date('1990-01-01') RETURN m.title, m.revenue ORDER BY m.revenue ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.revenue ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.3451676094468778,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.vote_count > 5000 RETURN m.title AS title, m.vote_count AS vote_count",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title WHERE n.vote_count > 5000",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0022230537274668194,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WITH m, COUNT(l) AS language_count ORDER BY language_count DESC LIMIT 3 RETURN m.title AS MovieTitle, language_count AS NumberOfLanguages",
+    "pred_cypher": "MATCH (n:Movie)-[r0:SPOKEN_IN_LANGUAGE]->(m0:Language) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_COLLECTION]->(:Collection) RETURN m.title, m.revenue ORDER BY m.revenue DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_COLLECTION]->(m0:Collection) WITH DISTINCT n RETURN n.title ORDER BY n.revenue DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue IS NOT NULL RETURN m.title, m.revenue ORDER BY m.revenue DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie) WITH p, count(m) AS num_movies ORDER BY num_movies DESC LIMIT 5 RETURN p.name AS actor, num_movies",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)<-[:RATED]-(u:User) WITH v, count(u) AS userCount ORDER BY userCount DESC LIMIT 5 RETURN v.title, userCount",
+    "pred_cypher": "MATCH (n:Video)<-[r0:RATED]-(m0:User) WITH n, m0 ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (pc:ProductionCompany)<-[:PRODUCED_BY]-(m:Movie) WITH pc, SUM(m.budget) AS total_budget ORDER BY total_budget DESC LIMIT 3 RETURN pc.name AS production_company, total_budget",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.budget DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult)-[:PRODUCED_BY]->(pc:ProductionCompany),       (a)-[:PRODUCED_IN_COUNTRY]->(c:Country) WHERE c.name <> 'United States of America' RETURN a.title AS AdultFilmTitle, pc.name AS ProductionCompany, c.name AS Country",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany) WITH DISTINCT n WHERE n.status = 'Released' AND n.country <> 'US' RETURN n.title AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person {name: \"Tom Hanks\"})-[:CAST_FOR]->(m:Movie) RETURN m",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:CAST_FOR]-(m0:Person {name: 'Tom Hanks'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WITH l.name AS language, COUNT(a) AS film_count ORDER BY film_count DESC LIMIT 3 RETURN language, film_count",
+    "pred_cypher": "MATCH (n:Language)<-[r0:SPOKEN_IN_LANGUAGE]-(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.043478260869565216,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.imdb_id STARTS WITH 'tt' RETURN m.title ORDER BY m.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:imdb_id]->(m0:imdb_id {name: 'tt'}) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany {name: 'Pixar Animation Studios'}) MATCH (m)-[:ORIGINAL_LANGUAGE]->(l:Language) RETURN l.name, count(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9636363636363636,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany) WHERE m.runtime > 150 WITH pc, count(m) AS movies_count ORDER BY movies_count DESC LIMIT 5 RETURN pc.name, movies_count",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie)-[r1:HAS_KEYWORD]->(m1:Keyword {name: 'movie'}) WITH n, count(DISTINCT m0) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.release_date.year % 4 = 0 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.release_date.year % 4 = 0 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH g, count(m) AS movieCount ORDER BY movieCount DESC RETURN g.name AS genre, movieCount",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.vote_count ORDER BY m.vote_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WHERE m.status = 'In Production' RETURN l.name, count(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'movie'}),(n:Movie)-[r1:IN_COLLECTION]->(m1:Collection {name: 'Toy Story Collection'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE a.imdb_id STARTS WITH 'tt007' RETURN a.title, a.imdb_id ORDER BY a.imdb_id LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Adult {imdb_id: 'tt007'}) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(:Genre {name: 'Drama'}) WHERE m.budget < 10000000 RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Drama'}) WITH DISTINCT n WHERE n.budget < 10000000 RETURN n.title ORDER BY n.budget ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.vote_count > 1000 RETURN m.title, m.vote_count ORDER BY m.vote_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:RATED]-(m0:User)-[r1:RATED]->(m1:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE g.name = 'Horror' RETURN avg(m.runtime) AS average_runtime",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'horror'}) WITH DISTINCT n RETURN avg(n.runtime)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 100000 AND m.vote_count = 10 RETURN m.title, m.budget, m.vote_count LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:RATED]->(m0:User {name: 'user123'}),(n:Movie)-[r1:RATED]->(m1:User {name: 'user456'}) WITH DISTINCT n WHERE n.vote_count = 10 AND n.budget > 100000 RETURN n.title ORDER BY n.vote_count ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie {title: 'Toy Story'})<-[:CREW_FOR]-(p:Person) RETURN DISTINCT p.job AS job",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CREW_FOR]-(m0:Movie {title: 'Toy Story'}) WITH DISTINCT n RETURN DISTINCT n.job",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(c:ProductionCompany {name: 'Universal Pictures'}) RETURN m.title, m.popularity ORDER BY m.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Universal Pictures'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword {name: 'adventure'}) WHERE m.popularity > 15 RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'adventure'}) WITH DISTINCT n WHERE n.popularity > 15 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (timAllen:Person {name: \"Tim Allen\"})-[:CAST_FOR]->(m:Movie)<-[:CAST_FOR]-(coWorkers:Person) WHERE m.release_date >= date(\"2015-01-01\") AND m.release_date <= date(\"2015-12-31\") RETURN DISTINCT coWorkers.name",
+    "pred_cypher": "MATCH (n:Person)-[r0:CREW_FOR]->(m0:Movie {name: 'Tim Allen'}) WHERE r0.start_date <= '2015-01-01' AND (r0.end_date >= '2015-01-01' OR r0.end_date IS NULL) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_IN_COUNTRY]->(c:Country) WITH m, count(c) AS numCountries WHERE numCountries > 1 RETURN m.title AS movie, numCountries ORDER BY numCountries DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_IN_COUNTRY]->(c:Country) WITH m, count(c) AS num_countries WHERE num_countries > 1 RETURN m.title AS MovieTitle, num_countries",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 10",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.homepage IS NOT NULL RETURN m.title, m.homepage",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.17110910571610943,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WHERE m.release_date > date('2015-01-01') WITH m, count(l) AS languages_spoken ORDER BY languages_spoken DESC RETURN m.title, languages_spoken LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}),(n:Movie)-[r1:SPOKEN_IN_LANGUAGE]->(m1:Language {name: 'en'}) WITH DISTINCT n WHERE n.release_date > date('2015-01-01') RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:PRODUCED_IN_COUNTRY]->(c:Country) WITH v, count(c) AS countriesProducedIn ORDER BY countriesProducedIn DESC LIMIT 5 RETURN v.title, countriesProducedIn",
+    "pred_cypher": "MATCH (n:Video)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(c:ProductionCompany {name: 'Pixar Animation Studios'}) WHERE m.runtime < 100 RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n WHERE n.runtime < 100 RETURN n.title ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_BY]->(c:ProductionCompany {name: 'Pixar Animation Studios'}) WHERE m.runtime > 90 RETURN m.title, m.runtime ORDER BY m.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n WHERE n.runtime > 90 RETURN n.title ORDER BY n.runtime DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_IN_COUNTRY]->(c:Country) WHERE m.runtime > 120 RETURN c.name AS country, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.runtime DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.release_date < date('2000-01-01') AND m.popularity IS NOT NULL RETURN m ORDER BY m.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.status = 'Released' AND n.release_date < DATE('2000-01-01') RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9928364079033617,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:PRODUCED_BY]->(pc:ProductionCompany {name: 'Pixar Animation Studios'}) WHERE v.runtime < 50 RETURN v.title, v.runtime ORDER BY v.runtime ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Video)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n WHERE n.runtime < 50 RETURN n.title ORDER BY n.runtime ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (c:ProductionCompany)-[:PRODUCED_BY]-(m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Drama'}) RETURN c.name AS company, count(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Drama'}) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_COLLECTION]->(c:Collection) WITH m, count(c) AS num_collections WHERE num_collections > 1 RETURN m.title AS MovieTitle, num_collections ORDER BY num_collections DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_COLLECTION]->(m0:Collection) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CREW_FOR {job: 'Director'}]->(m:Movie) WITH p, avg(m.average_vote) AS avg_vote RETURN p.name AS director, avg_vote ORDER BY avg_vote DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CREW_FOR]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.average_vote DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Package)-[:PROVIDES_ACCESS_TO]->(g:Genre) WITH g, count(p) AS packagesCount ORDER BY packagesCount DESC RETURN g.name AS Genre, packagesCount LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:Package]-(m0:Package) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.budget > 50000000 WITH g, count(*) AS count ORDER BY count DESC LIMIT 3 RETURN g.name AS genre, count",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.022665457842248413,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language) WHERE l.id <> 'en' RETURN m.title AS MovieTitle, l.name AS OriginalLanguage",
+    "pred_cypher": "MATCH (n:Movie)-[r0:ORIGINAL_LANGUAGE]->(m0:Language {name: 'en'}) WITH DISTINCT n WHERE n.original_language <> 'en' RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.poster_path IS NOT NULL AND m.poster_path ENDS WITH '.jpg' RETURN m.title, m.poster_path ORDER BY m.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:poster_path]->(m0:STRING) WITH DISTINCT n WHERE m0 ends with '.jpg' RETURN n.title ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:ProductionCompany {name: 'Pixar Animation Studios'})<-[:PRODUCED_BY]-(m:Movie) WHERE m.budget > 100000000 RETURN m.title AS MovieTitle, m.budget AS Budget ORDER BY m.budget DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n WHERE n.budget > 10000000 RETURN n.title ORDER BY n.title ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.7894736842105263,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WITH g, count(m) as movie_count ORDER BY movie_count DESC LIMIT 5 RETURN g.name as genre, movie_count",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie) WHERE m.average_vote > 7.5 WITH p, count(m) AS movieCount WHERE movieCount >= 3 RETURN p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie) WITH DISTINCT n WHERE (n.vote_count >= 3 AND (n.average_vote > 7.5)) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (j:Movie {title: 'Jumanji'}) WITH j.release_date.year AS releaseYear MATCH (m:Movie) WHERE m.release_date.year = releaseYear RETURN count(m)",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.status = 'Released' AND n.original_title = 'Jumanji' RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.runtime ORDER BY m.runtime ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.runtime ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE m.popularity > 20 RETURN g.name AS genre ORDER BY m.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie) WITH DISTINCT n WHERE n.popularity > 20 RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WHERE m.poster_path CONTAINS '/9' RETURN l.name AS language, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: '/9'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) RETURN a.title, a.average_vote ORDER BY a.average_vote DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Adult) WITH DISTINCT n RETURN n.title ORDER BY n.average_vote DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie) RETURN p.name, count(m) AS movies_count ORDER BY movies_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Person) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: 'Fantasy'}) MATCH (p:Person)-[:CAST_FOR]->(m) RETURN DISTINCT p.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'fantasy'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE a.tagline CONTAINS 'sex' RETURN a.title, a.tagline LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Movie) WITH DISTINCT n WHERE n.tagline CONTAINS 'sex' RETURN n.title ORDER BY n.vote_count ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre {name: \"Animation\"}) WITH avg(m.vote_count) AS average_vote_count RETURN average_vote_count",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'Animation'}) WITH DISTINCT n RETURN avg(n.vote_count)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie {title: 'Toy Story'})-[:IN_GENRE]->(g:Genre) RETURN g.name AS genre",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie {title: 'Toy Story'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)<-[:CAST_FOR]-(p:Person) WITH m, COUNT(p) AS cast_count ORDER BY cast_count DESC LIMIT 3 RETURN m.title AS movie_title, cast_count",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.17098385872308627,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.budget > 100000000 AND m.release_date > date('2000-01-01') RETURN m",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.budget > 100000000 AND n.release_date > '2000-01-01' RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (g:Genre {name: 'Animation'})<-[:IN_GENRE]-(m:Movie)<-[:CAST_FOR]-(a:Person) RETURN DISTINCT a.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Animation'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword {name: 'based on novel'}) RETURN m.title AS MovieTitle LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'based on novel'}) WITH DISTINCT n RETURN n.title, n.name, n.revenue",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword) WITH m, count(k) AS keyword_count ORDER BY keyword_count DESC LIMIT 5 RETURN m.title AS MovieTitle, keyword_count",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_GENRE]->(g:Genre) WHERE g.id >= 15 AND g.id <= 50 RETURN m.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre) WITH DISTINCT n WHERE n.id BETWEEN 15 AND 50 RETURN n.title, n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[:CAST_FOR]->(m:Movie) WITH p, count(*) AS movie_count ORDER BY movie_count DESC RETURN p.name, movie_count LIMIT 5",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)<-[r:RATED]-(:User) RETURN m.title AS movie, count(r) AS num_ratings ORDER BY num_ratings DESC LIMIT 10",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.024297414485305927,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:SPOKEN_IN_LANGUAGE]->(l:Language) WITH m, count(l) AS languageCount ORDER BY languageCount DESC LIMIT 5 RETURN m.title AS movie, languageCount AS spokenLanguages",
+    "pred_cypher": "MATCH (n:Movie)-[r0:SPOKEN_IN_LANGUAGE]->(m0:Language) WITH DISTINCT n RETURN n.title ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) RETURN m.title, m.release_date ORDER BY m.release_date LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.release_date ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (u:User)-[r:RATED]->(m:Movie) WITH u, COUNT(r) AS ratingCount ORDER BY ratingCount DESC LIMIT 5 RETURN u.id AS userId, ratingCount",
+    "pred_cypher": "MATCH (n:User)<-[r0:RATED]-(m0:Movie) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)<-[r:CREW_FOR]-(p:Person) WITH m, r, p ORDER BY m.budget DESC LIMIT 1 WITH m, collect({job: r.job, person: p}) AS crew RETURN m.title AS movie, crew[0..2] AS crew_jobs",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CREW_FOR]-(m0:Movie) WITH DISTINCT n RETURN n.job ORDER BY n.job LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.tagline CONTAINS 'adventure' RETURN m ORDER BY m.average_vote DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'adventure'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.013333333333333334,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult)-[:PRODUCED_IN_COUNTRY]->(c:Country) RETURN c.name AS country, COUNT(a) AS numberOfAdultFilms ORDER BY numberOfAdultFilms DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH n, count(DISTINCT n) AS num RETURN n.name ORDER BY num DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:IN_GENRE]->(g:Genre) WHERE v.popularity > 5 RETURN g.name AS genre LIMIT 5",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Video)-[r1:RATED]->(m1:Movie {popularity: {value: 5 or higher}}) WITH DISTINCT n RETURN n.name LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword) RETURN m.title AS movie, count(k) AS keywordCount ORDER BY keywordCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Package)-[:PROVIDES_ACCESS_TO]->(g:Genre {name: 'Animation'}) RETURN p.name AS package",
+    "pred_cypher": "MATCH (n:Package)-[r0:PROVIDES_ACCESS_TO]->(m0:Genre {name: 'Animation'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:IN_COLLECTION]->(c:Collection {name: 'Toy Story Collection'}) RETURN m ORDER BY m.release_date DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_COLLECTION]->(m0:Collection {name: 'Toy Story Collection'}) WITH DISTINCT n RETURN n.title ORDER BY n.release_date DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (tom:Person { name: 'Tom Hanks' })-[:CAST_FOR]->(movie1:Movie)<-[:CAST_FOR]-(actor1:Person) WITH collect(actor1) AS actorsWhoWorkedWithTomHanks MATCH (peter:Person { name: 'Peter Cornwell' })-[:CAST_FOR]->(movie2:Movie)<-[:CAST_FOR]-(actor2:Person) WHERE actor2 IN actorsWhoWorkedWithTomHanks RETURN actor2.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie {name: 'Tom Hanks'}),(n:Person)<-[r1:CAST_FOR]-(m1:Movie {name: 'Peter Cornwell'}) WITH DISTINCT n RETURN n.name ORDER BY n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)<-[:RATED]-(u:User) WITH m, COUNT(u) AS rating_count WHERE rating_count = 5 RETURN m.title AS movie_title LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.vote_count = 5 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie {title: 'Waiting to Exhale'})-[:HAS_KEYWORD]->(k:Keyword) RETURN k.name ORDER BY k.id LIMIT 5",
+    "pred_cypher": "MATCH (n:Keyword)<-[r0:HAS_KEYWORD]-(m0:Movie {title: 'Waiting to Exhale'}) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video {title: 'Jonah: A VeggieTales Movie'})-[:IN_GENRE]->(g:Genre) RETURN g.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie {title: 'Jonah: A VeggieTales Movie'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:PRODUCED_IN_COUNTRY]->(c:Country) RETURN c.name AS Country, count(m) AS NumberOfMovies ORDER BY NumberOfMovies DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_IN_COUNTRY]->(m0:Country) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE count{(u:User)-[:RATED]->(a)} = 3 RETURN a ORDER BY a.average_vote DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:IN_GENRE]->(m0:Genre {name: 'adult'}) WITH DISTINCT n WHERE n.vote_count = 3 RETURN n.title ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person)-[r:CREW_FOR]->(m:Movie) WHERE r.job = \"Producer\" RETURN p.name, COUNT(r) AS producer_credits ORDER BY producer_credits DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Person)-[r0:CREW_FOR]->(m0:Movie)-[r1:PRODUCED_BY]->(m1:ProductionCompany {name: 'Pixar Animation Studios'}) WITH n ORDER BY n.credit_id DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0018966714751295613,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie {title: 'Father of the Bride Part II'})-[:IN_GENRE]->(g:Genre) RETURN g LIMIT 3",
+    "pred_cypher": "MATCH (n:Genre)<-[r0:IN_GENRE]-(m0:Movie {title: 'Father of the Bride Part II'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.release_date < date('1990-01-01') RETURN m.title LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.release_date < '1990-01-01' RETURN n.title ORDER BY n.release_date ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video) WHERE v.status = 'In Production' RETURN v LIMIT 3",
+    "pred_cypher": "MATCH (n:Video)-[r0:status]->(m0:status {name: 'In Production'}) WITH DISTINCT n RETURN n.title LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (g:Genre {name: 'Drama'})<-[:IN_GENRE]-(m:Movie)-[:PRODUCED_BY]->(pc:ProductionCompany) WITH pc, COUNT(m) AS movie_count ORDER BY movie_count DESC LIMIT 3 RETURN pc.name AS production_company, movie_count",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'Drama'}) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE a.runtime > 60 RETURN a ORDER BY a.id LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:Adult]->(m0:Movie) WITH DISTINCT n WHERE n.runtime > 60 RETURN n.title ORDER BY n.runtime DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime > 120 WITH avg(m.budget) AS average_budget RETURN average_budget",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.runtime > 120 RETURN avg(n.budget)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:Person {name: \"봉준호\"})-[:CREW_FOR {job: \"Director\"}]->(m:Movie) RETURN m.title AS MovieTitle",
+    "pred_cypher": "MATCH (n:Movie)<-[r0:PRODUCED_BY]-(m0:Person {name: '봉준호'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.status = 'Released' AND m.average_vote < 4 RETURN m.title, m.average_vote",
+    "pred_cypher": "MATCH (n:Movie)-[r0:status]->(m0:status {name: 'Released'}) WITH DISTINCT n RETURN n.title, n.average_vote < 4",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.status = 'Released' AND m.budget > 25000000 RETURN m",
+    "pred_cypher": "MATCH (n:Movie)-[r0:status]->(m0:status {name: 'Released'}) WITH DISTINCT n WHERE n.budget > 25000000 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (animationGenre:Genre { name: 'Animation' })<-[:IN_GENRE]-(animationMovie:Movie)<-[:CAST_FOR]-(animationActor:Person) WITH COLLECT(DISTINCT animationActor) AS animationActors MATCH (nonAnimationGenre:Genre)<-[:IN_GENRE]-(nonAnimationMovie:Movie)<-[:CAST_FOR]-(nonAnimationActor:Person) WHERE nonAnimationGenre.name <> 'Animation' WITH animationActors, COLLECT(DISTINCT nonAnimationActor) AS nonAnimationActors WITH apoc.coll.intersection(animationActors, nonAnimationActors) AS actorsInBoth UNWIND actorsInBoth AS actor RETURN actor.name",
+    "pred_cypher": "MATCH (n:Person)<-[r0:CAST_FOR]-(m0:Movie)-[r1:IN_GENRE]->(m1:Genre {name: 'animated movie'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.release_date >= date('1990-01-01') AND m.release_date < date('2000-01-01') RETURN m.title, m.vote_count ORDER BY m.vote_count DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}),(n:Movie)-[r1:PRODUCED_IN_COUNTRY]->(m1:Country {name: 'United States of America'}) WITH DISTINCT n WHERE n.release_date >= date('1990-01-01') AND n.release_date <= date('2000-12-31') RETURN n.title ORDER BY n.vote_count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0007043493572812115,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (company:ProductionCompany {name: 'Pixar Animation Studios'})-[:PRODUCED_BY]-(movie:Movie) RETURN movie.title, movie.average_vote ORDER BY movie.average_vote DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:ProductionCompany {name: 'Pixar Animation Studios'}) WITH DISTINCT n RETURN n.name ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE toLower(m.tagline) CONTAINS 'adventure' RETURN m.title, m.tagline ORDER BY m.popularity DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'adventure'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.02040816326530612,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword) WHERE m.budget < 1000000 RETURN k.name AS keyword, count(*) AS frequency ORDER BY frequency DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Keyword)<-[r0:HAS_KEYWORD]-(m0:Movie)-[r1:HAS_KEYWORD]->(m1:Keyword) WITH DISTINCT n RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.6876952893248428,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) WHERE NOT EXISTS {   (a)-[:PRODUCED_IN_COUNTRY]->(:Country) } RETURN a.title LIMIT 3",
+    "pred_cypher": "MATCH (n:Video)-[r0:Adult]->(m0:Adult) WITH DISTINCT n WHERE NOT n.PRODUCED_IN_COUNTRY RETURN n.title ORDER BY n.vote_count ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword {name: 'explosive'}) RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'explosive'}) WITH DISTINCT n RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE date(m.release_date).month = 12 RETURN m.title",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.release_date >= date('1995-12-30') RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.06346938064201317,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:SPOKEN_IN_LANGUAGE]->(l:Language {name: 'Azərbaycan'}) RETURN v LIMIT 5",
+    "pred_cypher": "MATCH (n:Video)-[r0:ORIGINAL_LANGUAGE]->(m0:Language {name: 'Azârbaycan'}) WITH DISTINCT n RETURN n.title LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.average_vote < 5 RETURN m.title, m.average_vote ORDER BY m.average_vote ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.average_vote ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.21750709836462484,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword) WITH m, COUNT(k) AS keyword_count ORDER BY keyword_count DESC LIMIT 1 RETURN m.title AS movie_title, keyword_count",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword) WITH n, count(DISTINCT m0) AS num RETURN n.title ORDER BY num DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:HAS_KEYWORD]->(k:Keyword {name: 'adventure'}) WHERE m.status = 'Released' RETURN m LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:HAS_KEYWORD]->(m0:Keyword {name: 'adventure'}) WITH DISTINCT n WHERE n.status = 'Released' RETURN n.title LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie)-[:ORIGINAL_LANGUAGE]->(l:Language) WHERE m.release_date < date('2000-01-01') AND l.id = 'en' RETURN m.title, m.release_date, m.average_vote ORDER BY m.average_vote DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Movie)-[r0:original_language]->(m0:Language {name: 'en'}) WITH DISTINCT n WHERE n.release_date < date('2000') RETURN n.title ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (d:Person {name: 'Steven Spielberg'})-[:CREW_FOR {job: 'Director'}]->(m:Movie) WITH avg(m.runtime) AS average_runtime RETURN average_runtime",
+    "pred_cypher": "MATCH (n:Movie)-[r0:PRODUCED_BY]->(m0:Person {name: 'Steven Spielberg'}) WITH DISTINCT n RETURN avg(n.runtime)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (a:Adult) RETURN a.title, a.poster_path ORDER BY a.popularity DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Adult)<-[r0:HAS_KEYWORD]-(m0:Keyword {name: 'provocative poster'}) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.overview IS NOT NULL RETURN m.title, size(split(m.overview, ' ')) AS word_count ORDER BY word_count DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.popularity DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.9790020469702639,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (v:Video)-[:HAS_KEYWORD]->(k:Keyword) WITH k, COUNT(v) AS video_count ORDER BY video_count DESC LIMIT 5 RETURN k.name AS keyword, video_count",
+    "pred_cypher": "MATCH (n:Keyword)<-[r0:HAS_KEYWORD]-(m0:Video) WITH DISTINCT n RETURN n.name ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.revenue IS NOT NULL RETURN m ORDER BY m.revenue ASC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title ORDER BY n.revenue DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.average_vote > 8.0 RETURN m.title, m.average_vote ORDER BY m.average_vote DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n WHERE n.vote_count > 0 AND n.average_vote > 8.0 RETURN n.title ORDER BY n.vote_count DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (l:Language)<-[:ORIGINAL_LANGUAGE]-(m:Movie) WITH l, count(m) AS movieCount WHERE movieCount > 10 RETURN l.id, l.name ORDER BY movieCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Language)<-[r0:ORIGINAL_LANGUAGE]-(m0:Movie) WITH DISTINCT n WHERE n.name NOT IN ['Gaeilge', 'Kiswahili', 'Azérbaycan'] RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (m:Movie) WHERE m.runtime > 120 RETURN m.title, m.runtime",
+    "pred_cypher": "MATCH (n:Movie) WITH DISTINCT n RETURN n.title WHERE n.runtime > 120 RETURN n.title",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.11011819602491581,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "neoflix",
+    "gold_cypher": "MATCH (p:ProductionCompany)<-[:PRODUCED_BY]-(m:Movie) WHERE m.runtime > 180 RETURN p.name AS ProductionCompany, COUNT(m) AS NumberOfMovies ORDER BY NumberOfMovies DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:ProductionCompany)<-[r0:PRODUCED_BY]-(m0:Movie) WITH DISTINCT n WHERE n.name = 'Pixar Animation Studios' AND m0.runtime > 180 RETURN n.name, n.name, n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  }
+]

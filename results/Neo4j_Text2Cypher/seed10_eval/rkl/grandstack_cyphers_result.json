@@ -1,0 +1,1822 @@
+[
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.date = date('2018-09-10') RETURN b",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WHERE r0.date = '2018-09-10' WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review) WITH r ORDER BY r.stars DESC, r.date ASC LIMIT 3 RETURN r.reviewId, r.text, r.stars, r.date",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN n ORDER BY n.stars DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Will'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business)-[:IN_CATEGORY]->(c:Category) RETURN DISTINCT c.name AS categories",
+    "pred_cypher": "MATCH (n:Category)<-[r0:IN_CATEGORY]-(m0:Business)<-[r1:WROTE]-(m1:User {name: 'Will'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE b.city = 'San Mateo' AND c.name = 'Coffee' RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Coffee'}) WITH DISTINCT n WHERE n.city = 'San Mateo' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE b.address CONTAINS 'Main St' RETURN DISTINCT u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business)-[r2:IN_CATEGORY]->(m2:Category {name: 'business'}) WITH DISTINCT n WHERE m1.address = 'Main St' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review) WITH r ORDER BY r.stars ASC LIMIT 1 RETURN r.text",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN n.text ORDER BY n.stars ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {city: 'Burlingame'})-[:REVIEWS]->(r:Review) WHERE r.text CONTAINS 'awesome' RETURN b LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE 'text' = 'awesome' AND 'n.businessId' IN ['b5', 'b3', 'b1'] RETURN n ORDER BY n.businessId ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Will'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b.name AS BusinessName, b.location AS Location",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.user.name = 'Will' RETURN n.name, n.location",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Jenny'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business {state: 'CA'}) RETURN b.name AS businessName",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.state = 'CA' AND n.name = 'Jenny' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Bob'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE r.stars < 4.5 RETURN b.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.stars < 4.5 AND n.user.name = 'Bob' RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WITH b, COUNT(r) AS reviewCount ORDER BY reviewCount DESC LIMIT 1 RETURN b.name AS businessName, reviewCount",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN n.name ORDER BY n.reviews DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.42857142857142855,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.stars < 4.0 RETURN COUNT(DISTINCT b) AS numberOfBusinesses",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.stars < 4.0 RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User) WHERE NOT exists{ (u)-[:WROTE]->(:Review) } RETURN u",
+    "pred_cypher": "MATCH (n:User)-[r0:WROTE]->(m0:Review) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(:Category), (r:Review)-[:REVIEWS]->(b) WHERE b.city = 'Burlingame' RETURN DISTINCT b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.address = 'Burlingame' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {address: '723 California Dr'})-[:REVIEWS]-(r:Review) RETURN b.name, b.businessId",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.address = '723 California Dr' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE u.name CONTAINS 'e' RETURN DISTINCT b",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE 'e' IN n.name RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: \"Ducky's Car Wash\"})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:IN_CATEGORY]->(m1:Category {name: 'Ducky\\'s Car Wash'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review)-[:REVIEWS]->(b:Business) WITH b, r ORDER BY r.stars ASC LIMIT 1 RETURN b.name AS businessName, r.stars AS lowestRating",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN n.name ORDER BY n.stars ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.42857142857142855,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WITH b.state AS state, count(b) AS businessCount ORDER BY businessCount DESC RETURN state, businessCount LIMIT 3",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN n.state ORDER BY n.count DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {address: '301 E Main St'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN COUNT(DISTINCT u) AS numberOfUsers",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: '301 E Main St'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review) WITH u, avg(r.stars) AS average_rating RETURN u.name, average_rating ORDER BY average_rating DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User) WITH DISTINCT n RETURN n.name ORDER BY n.stars DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.25,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (library:Business {name: 'Missoula Public Library'})-[:IN_CATEGORY]->(category:Category) MATCH (business:Business)-[:IN_CATEGORY]->(category) MATCH (business)<-[:REVIEWS]-(review:Review) MATCH (review)<-[:WROTE]-(user:User) RETURN DISTINCT user.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business)-[r2:IN_CATEGORY]->(m2:Category {name: 'Library'}) WITH DISTINCT n WHERE m2.name = 'Missoula Public Library' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review)-[:REVIEWS]->(b:Business) WHERE r.date.year = 2016 WITH b, count(r) AS reviewCount RETURN b.name AS businessName, reviewCount ORDER BY reviewCount DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.date = '2016' RETURN n.name ORDER BY n.stars DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE b.city = 'San Mateo' RETURN u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'San Mateo'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Angie'})-[:WROTE]->(:Review)-[:REVIEWS]->(b:Business) RETURN DISTINCT b.city",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'business'}) WITH DISTINCT n WHERE n.name = 'Angie' RETURN n.city",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE b.address = '723 California Dr' RETURN b.name AS businessName, c.name AS categoryName",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'California Dr'}) WITH DISTINCT n RETURN n.name, n.category",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Jenny'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.user = 'Jenny' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {address: '200 W Pine St'})<-[:REVIEWS]-(r:Review) RETURN r ORDER BY r.stars DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Review)<-[r0:REVIEWS]-(m0:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'business'}) WITH DISTINCT n RETURN n.name ORDER BY n.stars DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review)-[:REVIEWS]->(b:Business) WHERE r.stars < 4.0 RETURN r.reviewId AS reviewId, r.text AS reviewText, r.stars AS rating, b.name AS businessName",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n WHERE n.stars < 4 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review) WHERE r.text CONTAINS 'selection' RETURN r.reviewId, r.text",
+    "pred_cypher": "MATCH (n:Review)-[r0:REVIEWS]->(m0:Business)<-[r1:IN_CATEGORY]-(m1:Category {name: 'Library'}) WITH DISTINCT n WHERE 'selection' IN n.text RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]-(r:Review) WHERE r.date = date('2016-11-21') RETURN b.name, b.address, b.city, b.state",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) WITH DISTINCT n WHERE r0.date = '2016-11-21' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]-(r:Review) WITH b, avg(r.stars) AS averageRating WHERE averageRating >= 4 AND averageRating <= 4.5 RETURN b.name AS businessName, averageRating",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n WHERE n.stars BETWEEN 4 AND 4.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Will'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b.name AS businessName, r.date AS reviewDate",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.user = 'Will' RETURN n.name, n.date",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Angie'})-[:WROTE]->(r:Review) RETURN r",
+    "pred_cypher": "MATCH (n:Review)-[r0:WROTE]->(m0:User {name: 'Angie'}) WITH DISTINCT n RETURN n",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Jenny'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE r.date.year = 2016 RETURN b.name AS BusinessName, r.stars AS Stars, r.text AS ReviewText",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.date = '2016' AND n.user.name = 'Jenny' RETURN n.name, n.stars, n.text",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE NOT exists{(b)<-[:REVIEWS]-(:Review)} RETURN b LIMIT 5",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE NOT EXISTS (MATCH (n:Review) RETURN NULL) LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category)<-[:IN_CATEGORY]-(b2:Business) MATCH (review:Review)-[:REVIEWS]->(b2) WITH c, size(split(review.text, ' ')) AS numberOfWords WITH c, avg(numberOfWords) AS averageWordCount RETURN c.name AS category, averageWordCount",
+    "pred_cypher": "MATCH (n:Category)<-[r0:IN_CATEGORY]-(m0:Business)<-[r1:USER]->(m1:Review) WITH DISTINCT n RETURN avg(n.text.length) AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Will'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b.name AS businessName",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.name = 'Will' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {userId: 'u1'})-[wr:WROTE]->(r:Review) RETURN r",
+    "pred_cypher": "MATCH (n:Review)-[r0:WROTE]->(m0:User {name: 'Will'}),(n:Review)-[r1:REVIEWS]->(m1:Business {name: 'Missoula Public Library'}) WITH DISTINCT n WHERE n.userId = 'u1' RETURN n",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE b.city = 'Missoula' AND c.name = 'Beer' RETURN b",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Beer'}) WITH DISTINCT n WHERE n.city = 'Missoula' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review {reviewId: 'r2'})-[:REVIEWS]->(b:Business) RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'business'}),(n:Business)<-[r1:WROTE]-(m1:User {name: 'Will'}) WITH DISTINCT n WHERE n.reviewId = 'r2' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {city: 'San Mateo'})<-[:REVIEWS]-(r:Review) WITH b, avg(r.stars) AS avgRating, collect(r) AS reviews ORDER BY avgRating DESC LIMIT 1 RETURN b.name AS businessName, avgRating, reviews",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.city = 'San Mateo' RETURN n.name, count(DISTINCT r0:Review) AS num ORDER BY num DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review) WHERE r.date < date('2017-01-01') MATCH (u:User)-[:WROTE]->(r) RETURN DISTINCT u.name",
+    "pred_cypher": "MATCH (n:User)-[r0:WROTE]->(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Ninja Mike\\'s'}) WITH DISTINCT n WHERE r1.date < date('2017-01-01') RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Angie'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b.name AS businessName",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE 'Angie' IN [m0:User] RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review) WITH u, avg(r.stars) AS average_rating WHERE average_rating > 4.5 MATCH (u)-[:WROTE]->(r2:Review)-[:REVIEWS]->(b:Business) RETURN DISTINCT b.name",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.businessId IN [b5, b3, b1, b2, b4, b7, b6, b8, b9] AND (m0:Category {name: 'Library'}) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE r.date >= date('2016-01-01') AND r.date <= date('2016-12-31') RETURN r.reviewId AS reviewId, r.text AS text, r.stars AS stars, r.date AS date, u.name AS userName, b.name AS businessName ORDER BY r.stars DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n WHERE n.date = date('2016') LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(review:Review) WITH b, count(review) AS reviewCount RETURN b.name AS businessName, reviewCount ORDER BY reviewCount DESC",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN n.name ORDER BY n.reviews DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.42857142857142855,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(:Category),        (r:Review)-[:REVIEWS]->(b) WHERE b.address CONTAINS 'W Broadway St' RETURN b.name AS businessName, r.text AS reviewText, r.stars AS reviewStars, r.date AS reviewDate",
+    "pred_cypher": "MATCH (n:Review)<-[r0:WROTE]-(m0:User)<-[r1:WROTE]-(m1:Business)-[r2:IN_CATEGORY]->(m2:Category {name: 'business'}) WITH DISTINCT n WHERE n.business.address = '1151 W Broadway St' RETURN n.text",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'KettleHouse Brewing Co.'}) WITH b MATCH (b)<-[:REVIEWS]-(r:Review) WITH max(r.stars) AS max_stars MATCH (b)<-[:REVIEWS]-(r:Review) WHERE r.stars = max_stars RETURN r.date",
+    "pred_cypher": "MATCH (n:Review)-[r0:REVIEWS]->(m0:Business {name: 'KettleHouse Brewing Co.'}) WITH DISTINCT n RETURN n.date ORDER BY n.stars DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.text CONTAINS 'sandwich' RETURN b.name, b.address, b.city, b.state LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) OPTIONAL MATCH (n:Business)<-[r1:REVIEWS]-(m1:Review {text: 'sandwich'}) WITH DISTINCT n LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review) RETURN min(r.date) AS oldestReviewDate",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN n.date ORDER BY n.date ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business {name: 'Zootown Brew'}) RETURN u.name AS userName, r.stars AS starRating",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review {name: 'Zootown Brew'}) WITH DISTINCT n RETURN n.name, n.stars",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Neo4j'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN u.name LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Neo4j'}) WITH DISTINCT n RETURN n.name, n.userId",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.stars >= 3.5 RETURN DISTINCT b.name, b.address, b.city, b.state",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n WHERE n.stars >= 3.5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {city: \"Missoula\"})-[:IN_CATEGORY]->(c:Category) WITH c, count(b) AS businessCount ORDER BY businessCount DESC RETURN c.name AS category, businessCount LIMIT 1",
+    "pred_cypher": "MATCH (n:Category)<-[r0:IN_CATEGORY]-(m0:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'Missoula'}) WITH DISTINCT n RETURN n.name ORDER BY count(DISTINCT m0) DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) RETURN c.name, count(b) AS num_businesses ORDER BY num_businesses DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Category)<-[r0:IN_CATEGORY]-(m0:Business) WITH DISTINCT n RETURN n.name ORDER BY n.name DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.stars >= 4 WITH b, count(r) AS positiveReviews MATCH (b)<-[:REVIEWS]-(r2:Review) WHERE r2.stars <= 3 WITH b, positiveReviews, count(r2) AS negativeReviews WHERE positiveReviews > 0 AND negativeReviews > 0 RETURN b.name AS businessName, positiveReviews, negativeReviews ORDER BY positiveReviews DESC, negativeReviews DESC",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: \"Ducky's Car Wash\"})-[:IN_CATEGORY]->(c:Category) MATCH (b)<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN c.name AS Category, r AS Review, u.name AS User",
+    "pred_cypher": "MATCH (n:Category)<-[r0:IN_CATEGORY]-(m0:Business {name: 'Ducky\\'s Car Wash'}) WITH DISTINCT n RETURN n.name, n.reviews",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.businessId CONTAINS '2' MATCH (b)<-[:REVIEWS]-(r:Review) MATCH (r)<-[:WROTE]-(u:User) RETURN DISTINCT u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business)-[r2:businessId]->(m0:businessId: '2') WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]-(r:Review) WHERE b.city <> 'Missoula' WITH count(r) AS totalReviews RETURN totalReviews",
+    "pred_cypher": "MATCH (n:Review)<-[r0:REVIEWS]-(m0:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'business'}) WITH DISTINCT n WHERE n.location <> 'Missoula' RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {address: '1151 W Broadway St'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: '1151 W Broadway St'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review) WITH size(split(r.text, \" \")) AS wordsPerReview RETURN avg(wordsPerReview) AS averageWordCount",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN avg(n.text.length)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {city: 'San Mateo'}) RETURN b LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n LIMIT 3 RETURN n.name ORDER BY n.city ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {address: '313 N 1st St W'})<-[:REVIEWS]-(r:Review) RETURN r.text, r.stars ORDER BY r.stars DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Review)<-[r0:REVIEWS]-(m0:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'business'}) WITH DISTINCT n RETURN n.name ORDER BY n.stars DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]-(r:Review) WHERE b.city = 'Burlingame' AND r.stars >= 4.0 RETURN b.address",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'business'}) WITH DISTINCT n WHERE n.stars >= 4 AND n.city = 'Burlingame' RETURN n.address",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {state: 'CA'}) WHERE NOT EXISTS {   (b)<-[:REVIEWS]-(:Review) } RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.state = 'CA' AND n.businessId IS NOT NULL RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {state: 'MT'})-[:REVIEWS]->(r:Review) WHERE r.date.year = 2016 RETURN b.name, b.address, collect(r.reviewId) AS reviewIds",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'MT'}) WITH DISTINCT n WHERE r0.date = date('2016') RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review) WHERE r.text CONTAINS 'car wash' RETURN r",
+    "pred_cypher": "MATCH (n:Review)-[r0:REVIEWS]->(m0:Business {name: 'Ducky\\'s Car Wash'}) WITH DISTINCT n WHERE n.text = 'car wash' RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review)-[:REVIEWS]->(b:Business) WHERE r.text CONTAINS 'great' RETURN DISTINCT b.name",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE 'great' IN n.text RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Missoula Public Library'}) MATCH (b)<-[:REVIEWS]-(r:Review) WITH r ORDER BY r.stars ASC RETURN r.date LIMIT 1",
+    "pred_cypher": "MATCH (n:Review)-[r0:REVIEWS]->(m0:Business {name: 'Missoula Public Library'}) WITH DISTINCT n RETURN min(n.stars) AS answer",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review) RETURN u.name, r.date ORDER BY r.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Missoula Public Library'}) WITH DISTINCT n RETURN n.name ORDER BY n.userId DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.text CONTAINS 'car' RETURN b.name, COUNT(r) AS reviewCount ORDER BY reviewCount DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'car'}) WITH DISTINCT n RETURN n.name ORDER BY n.stars DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Angie'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.name = 'Ninja Mike\\'s' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE size(r.text) > 100 RETURN DISTINCT b.name",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE length(n.name) > 100 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]-(r:Review) WHERE b.address CONTAINS 'E Front St' WITH b, COUNT(r) AS reviewCount ORDER BY reviewCount DESC LIMIT 1 RETURN b.name AS businessName, reviewCount",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.address = '201 E Front St' RETURN n.name ORDER BY n.reviews DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) WITH b, count(DISTINCT u) AS userCount WHERE userCount > 1 RETURN b LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) OPTIONAL MATCH (n:Business)<-[r1:WROTE]-(m1:User) WITH DISTINCT n RETURN n.name ORDER BY n.businessId ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE r.text CONTAINS 'great selection' RETURN u, r, b LIMIT 3",
+    "pred_cypher": "MATCH (n:Review)-[r0:REVIEWS]->(m0:Business)<-[r1:IN_CATEGORY]-(m1:Category {name: 'Library'}) WITH DISTINCT n WHERE n.text = 'great selection' LIMIT 3 RETURN n",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Missoula Public Library'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN COUNT(DISTINCT u) AS numberOfUsers",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Missoula Public Library'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Zootown Brew'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN u.name AS userName",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review {name: 'Zootown Brew'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business)-[:IN_CATEGORY]->(c:Category) WITH u, collect(DISTINCT c.name) AS categories WHERE size(categories) > 1 RETURN u.name AS userName",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business)-[r2:IN_CATEGORY]->(m2:Category {name: 'library'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WITH date(r.date).year AS year, r.stars AS stars WITH year, avg(stars) AS averageRating RETURN year, averageRating",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) OPTIONAL MATCH (n:Business)<-[r1:IN_CATEGORY]-(m1:User {name: 'Will'}) WITH DISTINCT n RETURN avg(n.stars) FOR EACH year IN [1, 2, 3, 4, 5, 6, 7, 8, 9]",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u1:User)-[:WROTE]->(r1:Review)-[:REVIEWS]->(b1:Business)-[:IN_CATEGORY]->(c1:Category) MATCH (u2:User)-[:WROTE]->(r2:Review)-[:REVIEWS]->(b2:Business)-[:IN_CATEGORY]->(c2:Category) WHERE u1.userId <> u2.userId AND c1.name <> c2.name RETURN DISTINCT u1.name, u2.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business) WITH DISTINCT n WHERE NOT (m1:Category <> m0:Category) RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Will'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business {city: 'Missoula'}) RETURN b.name, b.address, b.city, b.state, b.businessId LIMIT 5",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.businessId IN ['b1', 'b2', 'b4', 'b7', 'b6'] AND n.user = 'Will' RETURN n ORDER BY n.name ASC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(:Category), (r:Review)-[:REVIEWS]->(b) WHERE b.address CONTAINS 'E Front St' WITH b, avg(r.stars) AS avgRating RETURN b.name AS businessName, avgRating ORDER BY avgRating DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.address = '201 E Front St' RETURN n.name ORDER BY n.stars DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.text CONTAINS 'breakfast' RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:Review]->(m0:Review {text: 'breakfast'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.name STARTS WITH 'Z' RETURN b LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.name LIKE 'Z%' LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.city = 'Missoula' AND b.address STARTS WITH '2' RETURN b.name, b.address",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.address LIKE '2%' AND n.city = 'Missoula' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE b.address CONTAINS 'W Broadway St' RETURN b.name AS BusinessName, c.name AS Category",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.address = '1151 W Broadway St' RETURN n.name, n.category",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'KettleHouse Brewing Co.'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN COUNT(DISTINCT u.userId) AS numberOfUsers",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'KettleHouse Brewing Co.'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {userId: 'u1'}) RETURN u.name",
+    "pred_cypher": "MATCH (n:User {name: 'u1'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Zootown Brew'}) WITH b.state AS zootownState MATCH (review:Review)-[:REVIEWS]->(business:Business) WHERE business.state = zootownState RETURN review",
+    "pred_cypher": "MATCH (n:Review)-[r0:REVIEWS]->(m0:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'business'}) WITH DISTINCT n WHERE n.state = 'MT' AND n.name = 'Zootown Brew' RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {city: 'San Mateo'})-[:REVIEWS]-(r:Review) WHERE r.date.month = 9 RETURN count(DISTINCT b) AS NumberOfBusinessesReviewedInSeptember",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.city = 'San Mateo' AND (n.date >= date('2015-08-29') OR n.date <= date('2018-09-10')) RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {city: 'San Mateo'})<-[:REVIEWS]-(r:Review) WHERE r.text CONTAINS 'car wash' RETURN b.name, b.address",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'car wash'}) WITH DISTINCT n WHERE n.city = 'San Mateo' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.city = 'Missoula' AND b.name CONTAINS 'Brewing' RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'business'}) WITH DISTINCT n WHERE n.name = 'Brewing' AND n.city = 'Missoula' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {businessId: 'b7'}) RETURN b.name",
+    "pred_cypher": "MATCH (n:Business {name: 'b7'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WITH b, r ORDER BY r.date ASC LIMIT 1 RETURN b.name AS businessName, b.address AS businessAddress",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN n.name, n.address ORDER BY n.review.date ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.42857142857142855,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE b.state = 'CA' RETURN r",
+    "pred_cypher": "MATCH (n:Review)<-[r0:WROTE]-(m0:User)-[r1:WROTE]->(m1:Review {name: 'reviews were written by users from ÁCA'}) WITH DISTINCT n RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WITH b, COUNT(DISTINCT c) AS categoryCount WHERE categoryCount >= 2 RETURN b.name AS businessName, categoryCount",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category) WITH DISTINCT n WHERE count(DISTINCT m0) >= 2 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE b.name = 'KettleHouse Brewing Co.' RETURN b, c",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'KettleHouse Brewing Co.'}) WITH DISTINCT n RETURN n.name, n.category",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review)-[:REVIEWS]->(b:Business) WHERE r.stars > 4 WITH r MATCH (u:User)-[:WROTE]->(r) RETURN DISTINCT u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business) WITH DISTINCT n WHERE m1.stars > 4 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category {name: 'Coffee'}) WHERE b.state = 'CA' MATCH (r:Review)-[:REVIEWS]->(b) RETURN b.name, b.address, r.stars",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Coffee'}) WITH DISTINCT n WHERE n.state = 'CA' RETURN n.name, n.stars",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (user:User)-[:WROTE]->(review:Review) WITH user, count(review) AS reviewCount RETURN user.name AS userName, reviewCount",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review)-[:WROTE]->(u:User) WHERE r.text CONTAINS 'comfortable places' RETURN b.name, b.address, b.city, b.state",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]->(r:Review) WHERE r.text CONTAINS 'IPA' RETURN b",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE 'IPA' IN n.text RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WITH b, r ORDER BY r.stars ASC LIMIT 1 RETURN r.text AS reviewText",
+    "pred_cypher": "MATCH (n:Review)<-[r0:REVIEWS]-(m0:Business) WITH DISTINCT n RETURN n.text ORDER BY n.stars ASC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {city: 'Missoula'})<-[:REVIEWS]-(r:Review {stars: 5.0}) WITH b, count(r) AS reviewCount, collect(r.text) AS reviewTexts ORDER BY reviewCount DESC LIMIT 1 RETURN b.name AS businessName, reviewTexts",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.city = 'Missoula' AND n.stars = 5 RETURN n.name, n.text",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE r.date >= date('2017-01-01') AND r.date <= date('2017-12-31') RETURN r.reviewId AS reviewId, r.text AS reviewText, r.stars AS stars, r.date AS reviewDate, u.name AS userName, b.name AS businessName",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n WHERE n.date = date('2017') RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review) WITH u.name AS userName, avg(r.stars) AS averageRating RETURN userName, averageRating",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review) WITH DISTINCT n RETURN avg(n.stars)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Will'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b.address",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.name = 'Will' RETURN n.address",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE r.date = date('2018-09-10') RETURN b.name AS businessName, u.name AS userName",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) WITH DISTINCT n WHERE r0.date = '2018-09-10' AND m0.name = 'library' RETURN n.name, m0.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.location.latitude > 46.87 RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'point location'}) WITH DISTINCT n WHERE n.location.latitude > 46.87 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.city = 'San Mateo' RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WHERE m0.city = 'San Mateo' WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Missoula Public Library'})-[:IN_CATEGORY]->(c:Category) RETURN c.name AS category",
+    "pred_cypher": "MATCH (n:Category)<-[r0:IN_CATEGORY]-(m0:Business {name: 'Missoula Public Library'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category {name: 'Breweries'}) WHERE b.city = 'Missoula' MATCH (r:Review)-[:REVIEWS]->(b) RETURN b.name AS BusinessName, r.text AS ReviewText",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Breweries'}) WITH DISTINCT n WHERE n.city = 'Missoula' RETURN n.name, n.text",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review) WITH u, AVG(r.stars) AS avg_stars ORDER BY avg_stars ASC LIMIT 3 RETURN u.name AS user, avg_stars",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Missoula Public Library'}) WITH DISTINCT n RETURN n.name ORDER BY n.stars ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE b.city = 'Burlingame' RETURN u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Burlingame'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]->(r:Review) WHERE r.text CONTAINS 'IPA selection' RETURN b LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'IPA selection'}) WITH DISTINCT n LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(:Category), (r:Review)-[:REVIEWS]->(b) WHERE b.address CONTAINS '5th Ave' RETURN b.name AS businessName, r.stars AS reviewStars",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n RETURN n.name, n.stars",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.name CONTAINS 'Market' RETURN b",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Market'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN r.date AS reviewDate, r.text AS reviewText, r.stars AS reviewStars, u.name AS userName, b.name AS businessName ORDER BY r.date DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN n.date DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.48,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b1:Business {name: 'Imagine Nation Brewing'})-[:IN_CATEGORY]->(c:Category) MATCH (b2:Business)-[:IN_CATEGORY]->(c) WHERE b1 <> b2 RETURN DISTINCT b2.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category)<-[r1:IN_CATEGORY]-(m1:Business {name: 'Imagine Nation Brewing'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.stars >= 4.0 RETURN DISTINCT b.name AS businessName",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.stars >= 4 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WITH b.city AS city, r.stars AS stars RETURN city, avg(stars) AS averageRating",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n RETURN avg(n.stars)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE b.state = 'CA' RETURN DISTINCT u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business)-[r2:IN_CATEGORY]->(m2:Category {name: 'Business'}) WITH DISTINCT n WHERE m2.state = 'CA' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]-(r:Review) WHERE r.text CONTAINS 'car wash' RETURN b.name, b.address",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'car wash'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WITH b, avg(r.stars) AS averageRating WHERE averageRating > 4.5 WITH b.city AS city, count(b) AS businessCount RETURN city, businessCount ORDER BY businessCount DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n WHERE n.stars > 4.5 RETURN n.city ORDER BY n.stars DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(:Category), (r:Review)-[:REVIEWS]->(b) WHERE b.city = 'Burlingame' RETURN b.name AS businessName, r.text AS reviewText, r.stars AS reviewStars, r.date AS reviewDate",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n RETURN n.name, n;",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WITH u, COUNT(DISTINCT b) AS businessCount WHERE businessCount > 1 RETURN u.name AS userName",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business) WITH DISTINCT n WHERE count(DISTINCT m1) > 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE b.address CONTAINS 'E Front St' RETURN u.name AS userName, b.name AS businessName",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'E Front St'}) WITH DISTINCT n RETURN n.name, m1.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE b.address CONTAINS 'E Front St' RETURN u.name LIMIT 3",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:IN_CATEGORY]->(m1:Category {name: 'Business'}) WITH DISTINCT n WHERE m1.name = 'E Front St' RETURN n.name, n.userId ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.text CONTAINS 'sandwich' AND r.text CONTAINS \"Farmer's Market\" RETURN b.name, b.address, b.city, b.state, b.businessId LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'sandwich'}),(n:Business)<-[r1:REVIEWS]-(m1:Review {text: 'Best breakfast sandwich at the Farmer\\'s Market.'}) WITH DISTINCT n RETURN n.name, n.businessId",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.date >= date('2018-01-01') AND r.date < date('2019-01-01') RETURN b.name, r.date ORDER BY r.date ASC LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE r0.date = date('2018') LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN r.date AS reviewDate, r.text AS reviewText, r.stars AS reviewStars, u.name AS userName, b.name AS businessName ORDER BY r.date DESC LIMIT 3",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN n.name ORDER BY n.date DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.48,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.stars = 5.0 RETURN b",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.stars = 5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review) WITH u, avg(size(r.text)) AS avgReviewLength RETURN u.name AS userName, avgReviewLength",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review) WITH DISTINCT n RETURN avg(n.stars)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Jenny'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b.name AS businessName",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.user = 'Jenny' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE b.address STARTS WITH '301' RETURN b.name AS businessName, c.name AS categoryName",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.address LIKE '301%' RETURN n.name, n.category",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Missoula Public Library'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN count(DISTINCT u) AS NumberOfUsers",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Missoula Public Library'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Bob'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN COUNT(DISTINCT b) AS numberOfBusinessesReviewed",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.name = 'Bob' RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) RETURN count(b)",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE r.text CONTAINS 'selection' RETURN r, u, b ORDER BY r.stars DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Review)-[r0:REVIEWS]->(m0:Business {name: 'selection'}) WITH DISTINCT n RETURN n ORDER BY n.stars DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.city = 'Missoula' AND b.businessId STARTS WITH 'b3' RETURN b.name, b.address, b.businessId",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.city = 'Missoula' AND n.businessId LIKE 'b3%' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Imagine Nation Brewing'})-[:IN_CATEGORY]->(c:Category) MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b2:Business) WHERE b2 IN [(b3:Business)-[:IN_CATEGORY]->(c) | b3] WITH u, avg(r.stars) AS averageRating WHERE averageRating > 3 RETURN u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business)-[r2:IN_CATEGORY]->(m2:Category {name: 'Library'}) WITH DISTINCT n WHERE n.stars > 3 AND m2.name = 'Imagine Nation Brewing' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {state: 'MT'}) RETURN b LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.state = 'MT' LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.14285714285714285,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User) WHERE u.name STARTS WITH 'W' MATCH (u)-[:WROTE]->(r:Review) MATCH (r)-[:REVIEWS]->(b:Business) WITH avg(r.stars) AS average_rating RETURN average_rating",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'business'}) WITH DISTINCT n WHERE n.name LIKE 'W%' RETURN avg(n.stars)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) MATCH (b)<-[:REVIEWS]-(review:Review) WHERE review.stars IN [4, 5] WITH b, count(DISTINCT review.stars) AS distinct_star_counts WHERE distinct_star_counts = 2 RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.stars = 4 AND n.stars = 5 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WITH b.state AS state, count(*) AS businessCount ORDER BY businessCount DESC LIMIT 1 RETURN state",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN n.state ORDER BY count(n) DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review)-[:REVIEWS]->(b:Business) WITH b.state AS state, avg(r.stars) AS averageRating ORDER BY averageRating DESC RETURN state, averageRating LIMIT 1",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN 'MT' AS state ORDER BY n.stars DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.5714285714285714,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {address: '716 N San Mateo Dr'}) RETURN b.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'business'}) WITH DISTINCT n WHERE n.address = '716 N San Mateo Dr' LIMIT 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {address: '200 W Pine St'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN u.name",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: '200 W Pine St'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {city: 'Missoula'})<-[:REVIEWS]-(r:Review) RETURN avg(r.stars) AS average_rating",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n RETURN avg(n.stars)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0625,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(:Category), (r:Review)-[:REVIEWS]->(b), (u:User)-[:WROTE]->(r) WHERE b.city = 'Burlingame' RETURN b.address AS businessAddress, r.text AS reviewText, u.name AS userName",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n RETURN n.name, n.address",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Angie'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN b.name AS BusinessName LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'library'}) WITH DISTINCT n WHERE n.user.name = 'Angie' AND n.review.count > 0 LIMIT 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE b.address CONTAINS 'Broadway St' RETURN DISTINCT c.name AS category",
+    "pred_cypher": "MATCH (n:Category)<-[r0:IN_CATEGORY]-(m0:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'Broadway St'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'KettleHouse Brewing Co.'})<-[:REVIEWS]-(r:Review) RETURN count(r) AS NumberOfReviews",
+    "pred_cypher": "MATCH (n:Review)-[r0:IN_CATEGORY]->(m0:Category {name: 'KettleHouse Brewing Co.'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(:Category), (r:Review)-[:REVIEWS]->(b) WHERE b.city = 'Burlingame' RETURN DISTINCT b.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.city = 'Burlingame' AND n.stars >= 3 RETURN n.name ORDER BY n.name ASC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:REVIEWS]->(r:Review) WITH b, count(r) AS reviewsCount ORDER BY reviewsCount DESC LIMIT 3 RETURN b.name AS BusinessName, b.address AS Address",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) OPTIONAL MATCH (n:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'Market on Front'}) OPTIONAL MATCH (n:Business)-[r2:IN_CATEGORY]->(m2:Category {name: 'Hanabi'}) WITH DISTINCT n RETURN n.name, n.address ORDER BY n.reviews DESC LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Market on Front'})<-[:REVIEWS]-(r:Review) RETURN r.text AS review, r.date AS date, r.stars AS stars",
+    "pred_cypher": "MATCH (n:Review)-[r0:REVIEWS]->(m0:Business {name: 'Market on Front'}) WITH DISTINCT n RETURN n.name, n.date, n.stars",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE b.address CONTAINS 'W Broadway St' RETURN b.name, b.address, c.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.address = '1151 W Broadway St' RETURN n.name, n.category",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review) RETURN r.reviewId, r.stars, r.text ORDER BY r.stars DESC",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN n.text ORDER BY n.stars DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'KettleHouse Brewing Co.'})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN count(DISTINCT u) AS NumberOfUsers",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'KettleHouse Brewing Co.'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review {stars: 5}) RETURN u LIMIT 5",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Missoula Public Library'}) WITH DISTINCT n LIMIT 5 RETURN n.name ORDER BY n.userId ASC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Angie'})-[:WROTE]->(r:Review) RETURN r",
+    "pred_cypher": "MATCH (n:Review)-[r0:WROTE]->(m0:User {name: 'Angie'}) WITH DISTINCT n RETURN n",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) RETURN r, u, b ORDER BY r.date DESC LIMIT 5",
+    "pred_cypher": "MATCH (n:Review) WITH DISTINCT n RETURN n.date ORDER BY n.date DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.48,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WHERE c.name = 'Beer' WITH b MATCH (b)-[:IN_CATEGORY]->(c2:Category) WHERE c2.name = 'Coffee' RETURN b",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Beer'}),(n:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'Coffee'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.name CONTAINS 'Brewing' MATCH (b)<-[:REVIEWS]-(r:Review) RETURN r.text, r.date ORDER BY r.date",
+    "pred_cypher": "MATCH (n:Review)-[r0:IN_CATEGORY]->(m0:Category {name: 'business'}) WITH DISTINCT n WHERE n.text LIKE '%Brewing%' RETURN n, n.date ORDER BY n.date ASC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: \"Ninja Mike's\"})<-[:REVIEWS]-(r:Review)<-[:WROTE]-(u:User) RETURN u.name AS userName",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:REVIEWS]->(m1:Business {name: 'Ninja Mike\\'s'}) WITH DISTINCT n RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category) WITH c.name AS CategoryName, COUNT(b) AS NumberOfBusinesses ORDER BY NumberOfBusinesses DESC LIMIT 5 RETURN CategoryName, NumberOfBusinesses",
+    "pred_cypher": "MATCH (n:Category)<-[r0:IN_CATEGORY]-(m0:Business) WITH DISTINCT n RETURN n.name ORDER BY count(DISTINCT m0) DESC LIMIT 5",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 1.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)-[:IN_CATEGORY]->(c:Category {name: 'Beer'}) RETURN b.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Beer'}) WITH DISTINCT n RETURN n.name LIMIT 3",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 1.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {city: 'Missoula'})-[:WROTE]->(r:Review) RETURN avg(r.stars) AS average_rating",
+    "pred_cypher": "MATCH (n:User)<-[r0:WROTE]-(m0:Review)-[r1:IN_CATEGORY]->(m1:Category {name: 'Library'}) WITH DISTINCT n RETURN avg(n.stars)",
+    "metrics": {
+      "execution_accuracy": 1.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.date.year = 2016 WITH b, avg(r.stars) AS average_rating ORDER BY average_rating DESC RETURN b.name, average_rating LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE r0.date = date('2016-01-01') RETURN n.name ORDER BY n.stars DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User)-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business) WHERE u.name STARTS WITH 'J' RETURN b.name AS businessName, b.address AS businessAddress, b.city AS businessCity, b.state AS businessState",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE n.name LIKE 'J%' RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (u:User {name: 'Will'})-[:WROTE]->(r:Review)-[:REVIEWS]->(b:Business {name: 'Missoula Public Library'}) RETURN r.text",
+    "pred_cypher": "MATCH (n:Review)<-[r0:WROTE]-(m0:User {name: 'Will'}),(n:Review)<-[r1:REVIEWS]-(m1:Business {name: 'Missoula Public Library'}) WITH DISTINCT n RETURN n.text",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (user:User)-[:WROTE]->(review:Review)-[:REVIEWS]->(business:Business) WITH business, count(DISTINCT user) AS numUsers WHERE numUsers > 1 RETURN business.name",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}) WITH DISTINCT n WHERE count(DISTINCT m0) > 1 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business) WHERE b.state = 'MT' RETURN b.address",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'business'}) WITH DISTINCT n WHERE n.state = 'MT' RETURN n.address",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Neo4j'})-[:REVIEWS]-(r:Review) RETURN count(r) AS NumberOfReviews",
+    "pred_cypher": "MATCH (n:Review)<-[r0:REVIEWS]-(m0:Business {name: 'Neo4j'}) WITH DISTINCT n RETURN count(DISTINCT n)",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {name: 'Zootown Brew'})-[:IN_CATEGORY]->(c:Category)<-[:IN_CATEGORY]-(otherBusiness:Business {state: b.state}) MATCH (review:Review)-[:REVIEWS]->(otherBusiness) RETURN review.text, review.date, review.stars, otherBusiness.name",
+    "pred_cypher": "MATCH (n:Review)<-[r0:REVIEWS]-(m0:Business)-[r1:IN_CATEGORY]->(m1:Category {name: 'business'}) WITH DISTINCT n WHERE n.business.state = 'Zootown Brew'.state RETURN n.id",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WHERE r.text CONTAINS 'world' AND r.text CONTAINS 'leading' WITH b, COUNT(r) AS reviewCount ORDER BY reviewCount DESC LIMIT 3 RETURN b.name AS businessName, reviewCount",
+    "pred_cypher": "MATCH (n:Business)<-[r0:IN_CATEGORY]-(m0:Category {name: 'Library'}),(n:Business)<-[r1:IN_CATEGORY]-(m1:Category {name: 'Review'}) WITH DISTINCT n WHERE n.name IN ['Missoula Public Library', 'Ninja Mike\\'s', 'KettleHouse Brewing Co.'] AND n.name IN ['world', 'leading'] RETURN n.name, n.businessId",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (r:Review)-[:REVIEWS]->(b:Business) WITH b, r ORDER BY r.date DESC WITH b, collect(r) AS reviews RETURN b.name, reviews[0].date AS mostRecentReviewDate ORDER BY mostRecentReviewDate DESC",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN n.name ORDER BY n.date DESC",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.42857142857142855,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business {state: 'MT'}) RETURN b.name LIMIT 3",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'Business'}) WITH DISTINCT n LIMIT 3 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 1.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(r:Review) WITH b, count(r) AS reviewsCount WHERE reviewsCount >= 2 RETURN b.name",
+    "pred_cypher": "MATCH (n:Business)-[r0:IN_CATEGORY]->(m0:Category {name: 'library'}) WITH DISTINCT n WHERE count(DISTINCT r0) >= 2 RETURN n.name",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.0,
+      "executable": 0.0
+    }
+  },
+  {
+    "graph": "grandstack",
+    "gold_cypher": "MATCH (b:Business)<-[:REVIEWS]-(review:Review) WITH b, count(review) AS reviewCount RETURN b.name AS businessName, reviewCount ORDER BY reviewCount DESC LIMIT 1",
+    "pred_cypher": "MATCH (n:Business) WITH DISTINCT n RETURN n.name ORDER BY n.reviews DESC LIMIT 1",
+    "metrics": {
+      "execution_accuracy": 0.0,
+      "psjs": 0.42857142857142855,
+      "executable": 1.0
+    }
+  }
+]
